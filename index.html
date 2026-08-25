@@ -176,8 +176,10 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 .qtext p{margin:.45em 0; max-width:none}
 .qopts{list-style:none; padding-left:0; margin:.6em 0 .2em}
 .qopts li{padding:6px 12px; border:1px solid var(--border); border-radius:7px; margin:6px 0; background:var(--muted-2); font-size:.95rem}
-.qopts li.correct{border-color:color-mix(in srgb,var(--brand) 45%,var(--border)); background:var(--brand-soft); font-weight:600}
-.qopts li.correct::before{content:"✓ "; color:var(--brand); font-weight:700}
+.qitem.revealed .qopts li.correct{border-color:color-mix(in srgb,var(--brand) 45%,var(--border)); background:var(--brand-soft); font-weight:600}
+.qitem.revealed .qopts li.correct::before{content:"✓ "; color:var(--brand); font-weight:700}
+.qitem:has(.ansd[open]) .qopts li.correct{border-color:color-mix(in srgb,var(--brand) 45%,var(--border)); background:var(--brand-soft); font-weight:600}
+.qitem:has(.ansd[open]) .qopts li.correct::before{content:"✓ "; color:var(--brand); font-weight:700}
 .ansd{border-top:1px solid var(--border); background:var(--muted-2)}
 .ansd>summary{padding:11px 17px; cursor:pointer; font-weight:600; font-size:.88rem; color:var(--brand); list-style:none}
 .ansd>summary::-webkit-details-marker{display:none}
@@ -1310,7 +1312,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </section>
 <section>
 <h2 id="pyq"><span class="num">18</span>Past papers, solved</h2>
-<p class="section-intro">Every question from all seven papers, written out exactly as it was set — you shouldn't need to open a single PDF. For the MCQs, all options are listed with the correct choice(s) marked ✓; the worked answer is one click away. The two surprise quizzes and Quiz&#160;1 sit on your current slides; the mid-sem and Quiz&#160;2 reach into later modules and are flagged.</p>
+<p class="section-intro">Every question from all seven papers, written out exactly as it was set — you shouldn't need to open a single PDF. For the MCQs, all options are listed so you can attempt them first — the correct choice(s) light up with a ✓ only when you reveal the answer. The two surprise quizzes and Quiz&#160;1 sit on your current slides; the mid-sem and Quiz&#160;2 reach into later modules and are flagged.</p>
 
 <h3>Surprise Quiz 1 (2024) — multiple choice, 30 marks</h3>
 
@@ -1323,7 +1325,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <li>C has an in-degree of 2 and an out-degree of 1.</li>
 <li>C has an in-degree of 1 and an out-degree of 0.</li>
 </ul></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Total out-degree over all nodes must equal total in-degree. A and B contribute out = 3, in = 2, so C must supply in = 2, out = 1 to balance. The two statements that contradict that (in&#160;1/out&#160;1 and in&#160;0/out&#160;2) are the <span class="verdict">wrong ones</span>.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Total out-degree over all nodes must equal total in-degree. A and B contribute out&#160;=&#160;3 and in&#160;=&#160;2, so balancing forces <math><mi>in</mi><mo>(</mo><mi>C</mi><mo>)</mo><mo>=</mo><mi>out</mi><mo>(</mo><mi>C</mi><mo>)</mo><mo>+</mo><mn>1</mn></math>. The options that satisfy this (in&#160;2/out&#160;1 and in&#160;1/out&#160;0) are possible; the two that violate it — <span class="verdict">in&#160;1/out&#160;1 and in&#160;0/out&#160;2</span> — are the wrong statements.</p></div></details>
 </div>
 
 <div class="qitem">
@@ -1479,7 +1481,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="qitem">
 <div class="qmeta"><span class="qtag mcq">Q17</span><span>reachability</span><span class="marks">2 marks</span></div>
 <div class="qtext"><p>Identify the node(s) that are reachable from node B through a directed path. <span class="small">(A / C / D / E / F)</span></p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>From B you can walk B→C→D→E→F→A, reaching <span class="verdict">C, D, E, F</span> (and A).</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Following arrows from B: B→C→D→E→F→A. So you reach <span class="verdict">C, D, E, F — and A too</span> (the cycle loops back to A). The scanned key lists C, D, E, F; strictly A is also reachable via the ring, so include it if the option is offered.</p></div></details>
 </div>
 
 <div class="qitem">
@@ -1513,7 +1515,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <li class="correct">A: 0.5, B: 0.5, C: 0.5, D: 0.5</li>
 <li>A: 0.6, B: 0.3, C: 0.6, D: 0.3</li>
 </ul></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The graph is symmetric enough that all four nodes map onto one another, so the dominant eigenvector gives every node the same score: <span class="verdict">0.5 each</span>. Pick the option that respects the symmetry.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The official key marks <span class="verdict">0.5 for every node</span>, so that is the expected exam answer. <strong>But double-check the maths:</strong> here A and C have degree 3 while B and D have degree 2, so the graph is <em>not</em> regular and the dominant eigenvector is <em>not</em> uniform. Using the symmetry A↔C, B↔D, write the eigenvector as <math><mo>(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>)</mo></math>. Then <math><mi>A</mi><mi mathvariant="bold">x</mi><mo>=</mo><mi>λ</mi><mi mathvariant="bold">x</mi></math> gives <math><mi>a</mi><mo>+</mo><mn>2</mn><mi>b</mi><mo>=</mo><mi>λ</mi><mi>a</mi></math> and <math><mn>2</mn><mi>a</mi><mo>=</mo><mi>λ</mi><mi>b</mi></math>, so <math><mn>2</mn><msup><mi>t</mi><mn>2</mn></msup><mo>−</mo><mi>t</mi><mo>−</mo><mn>2</mn><mo>=</mo><mn>0</mn></math> with <math><mi>t</mi><mo>=</mo><mi>a</mi><mo>/</mo><mi>b</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msqrt><mn>17</mn></msqrt></mrow><mn>4</mn></mfrac><mo>≈</mo><mn>1.28</mn></math>. So strictly the degree-3 nodes A and C score higher than B and D — the all-equal answer treats the graph as if it were regular.</p></div></details>
 </div>
 
 <div class="qitem">
@@ -1848,6 +1850,12 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
     },{rootMargin:'-8% 0px -80% 0px',threshold:0});
     document.querySelectorAll('main [id]').forEach(function(el){ if(map[el.id]) obs.observe(el); });
   }
+  // Reveal correct MCQ options only when the answer is opened (fallback for browsers without :has())
+  document.querySelectorAll('.qitem .ansd').forEach(function(d){
+    d.addEventListener('toggle',function(){
+      var qi=d.closest('.qitem'); if(qi) qi.classList.toggle('revealed', d.open);
+    });
+  });
 })();
 </script>
 <script>
