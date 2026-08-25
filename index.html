@@ -170,7 +170,7 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 </head>
 <body>
 
-<button class="themebtn" id="themebtn" aria-label="Toggle colour theme"><span aria-hidden="true">◐</span> Theme</button>
+<button class="themebtn" id="themebtn" aria-label="Switch colour theme (auto, light, dark)"><span class="ico" aria-hidden="true">◐</span> <span class="lbl">Auto</span></button>
 
 <div class="wrap">
 <aside class="toc" aria-label="Contents">
@@ -822,6 +822,24 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <p>The reason (derived step-by-step in §15) is that a small nudge <math><mi>η</mi></math> grows or shrinks like <math><mi>η</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>≈</mo><mi>η</mi><mo>(</mo><mn>0</mn><mo>)</mo><msup><mi>e</mi><mrow><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mspace width="0.15em"/><mi>t</mi></mrow></msup></math> — it only decays when the exponent is negative. If <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>=</mo><mn>0</mn></math> the test is inconclusive, and that borderline is precisely where <em>bifurcations</em> live (§12).</p>
 </div>
 
+<div class="card ex"><span class="tag">On the slides · flow on the line</span>
+<h4>Charging a capacitor (RC circuit)</h4>
+<p>A neat physical example of reading an equation as a phase line. For a resistor and capacitor charged by a battery of voltage <math><msub><mi>V</mi><mn>0</mn></msub></math>, Kirchhoff's law says <math><msub><mi>V</mi><mn>0</mn></msub><mo>−</mo><mfrac><mi>q</mi><mi>C</mi></mfrac><mo>=</mo><mi>i</mi><mi>R</mi></math>. Since the current is the rate of change of charge, <math><mi>i</mi><mo>=</mo><mfrac><mrow><mi>d</mi><mi>q</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></math>, this is a one-dimensional flow:</p>
+<div class="eq">
+<math display="block">
+<mover><mi>q</mi><mo>˙</mo></mover><mo>=</mo><mi>f</mi><mo>(</mo><mi>q</mi><mo>)</mo><mo>=</mo>
+<mfrac><msub><mi>V</mi><mn>0</mn></msub><mi>R</mi></mfrac><mo>−</mo><mfrac><mi>q</mi><mrow><mi>R</mi><mi>C</mi></mrow></mfrac>
+</math>
+</div>
+<ol class="steps">
+<li><strong>Fixed point:</strong> set <math><mi>f</mi><mo>(</mo><msup><mi>q</mi><mo>*</mo></msup><mo>)</mo><mo>=</mo><mn>0</mn></math> ⇒ <math><msup><mi>q</mi><mo>*</mo></msup><mo>=</mo><mi>C</mi><msub><mi>V</mi><mn>0</mn></msub></math> — the fully-charged state.</li>
+<li><strong>Stability:</strong> the slope is <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>q</mi><mo>)</mo><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mi>R</mi><mi>C</mi></mrow></mfrac><mo>&lt;</mo><mn>0</mn></math> everywhere, so <math><msup><mi>q</mi><mo>*</mo></msup></math> is <span class="verdict">stable</span> — the charge always heads toward <math><mi>C</mi><msub><mi>V</mi><mn>0</mn></msub></math> regardless of where it starts.</li>
+<li><strong>Solution over time</strong> (integrating the linear equation): the charge rises from 0 up to its maximum,
+<div class="eq" style="margin:10px 0 2px"><math display="block"><mi>q</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>C</mi><msub><mi>V</mi><mn>0</mn></msub><mo>(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>t</mi><mo>/</mo><mi>R</mi><mi>C</mi></mrow></msup><mo>)</mo></math></div>
+with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> and <math><mi>q</mi><mo>→</mo><mi>C</mi><msub><mi>V</mi><mn>0</mn></msub></math> as <math><mi>t</mi><mo>→</mo><mi>∞</mi></math>. The constant <math><mi>R</mi><mi>C</mi></math> is the time it takes to close most of the gap.</li>
+</ol>
+</div>
+
 <div class="card watch"><span class="tag">Continuous vs discrete — do not mix these up</span>
 <p>For a step-by-step <strong>iterated map</strong> <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math> the rule is <em>different</em>: a fixed point is stable when the <em>size</em> of the slope is below one, <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math> — not simply <math><msup><mi>f</mi><mo>′</mo></msup><mo>&lt;</mo><mn>0</mn></math>. So: continuous flow uses the <em>sign</em> of <math><msup><mi>f</mi><mo>′</mo></msup></math>; a discrete map compares the <em>magnitude</em> of <math><msup><mi>f</mi><mo>′</mo></msup></math> against 1. He has set the discrete version (the logistic map and <math><mi>cos</mi><mi>x</mi></math>) — see §15.</p>
 </div>
@@ -842,6 +860,27 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 </math>
 </div>
 <p>Each step is "new value = old value + step size × slope". Smaller <math><mi>h</mi></math> means a more accurate but slower march.</p>
+</div>
+
+<div class="card def"><span class="tag">On the slides · estimating a slope</span>
+<h4>Forward vs central difference</h4>
+<p>Both Euler's method and the demos need to estimate a derivative from nearby values. The obvious way is the <em class="term">forward difference</em> — rise over run using the point just ahead:</p>
+<div class="eq">
+<math display="block">
+<msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>≈</mo>
+<mfrac><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>)</mo><mo>−</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi>h</mi></mfrac>
+<mspace width="1.5em"/><mtext>(first order, error&#160;</mtext><mi>O</mi><mo>(</mo><mi>h</mi><mo>)</mo><mtext>)</mtext>
+</math>
+</div>
+<p>A sharper trick is the <em class="term">central difference</em>, which uses the points on <em>both</em> sides. Because you straddle <math><mi>x</mi></math> symmetrically, the leading <math><msup><mi>h</mi><mn>2</mn></msup></math> error terms from the two Taylor expansions cancel, leaving an error one order smaller:</p>
+<div class="eq boxed">
+<math display="block">
+<msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>≈</mo>
+<mfrac><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>)</mo><mo>−</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>−</mo><mi>h</mi><mo>)</mo></mrow><mrow><mn>2</mn><mi>h</mi></mrow></mfrac>
+<mspace width="1.5em"/><mtext>(second order, error&#160;</mtext><mi>O</mi><mo>(</mo><msup><mi>h</mi><mn>2</mn></msup><mo>)</mo><mtext>)</mtext>
+</math>
+</div>
+<p class="small">Same step size, smaller error — that is why central differences are preferred when you can look both ways. (At the very start of a simulation you only have the forward point, so Euler uses the forward version.)</p>
 </div>
 
 <h4>The two kinds of error (an MCQ topic)</h4>
@@ -1485,14 +1524,20 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <script>
 (function(){
   var btn=document.getElementById('themebtn');
-  function apply(t){ if(t==='dark'||t==='light') document.documentElement.setAttribute('data-theme',t); }
-  try{ apply(localStorage.getItem('dpcn-theme')); }catch(e){}
+  var ico=btn.querySelector('.ico'), lbl=btn.querySelector('.lbl');
+  var ICONS={auto:'◐',light:'☀',dark:'☾'}, ORDER=['auto','light','dark'];
+  function apply(mode){
+    if(mode==='light'||mode==='dark') document.documentElement.setAttribute('data-theme',mode);
+    else { document.documentElement.removeAttribute('data-theme'); mode='auto'; }
+    if(ico) ico.textContent=ICONS[mode];
+    if(lbl) lbl.textContent=mode.charAt(0).toUpperCase()+mode.slice(1);
+    return mode;
+  }
+  var saved='auto'; try{ saved=localStorage.getItem('dpcn-theme')||'auto'; }catch(e){}
+  var current=apply(saved);
   btn.addEventListener('click',function(){
-    var cur=document.documentElement.getAttribute('data-theme');
-    var sysDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;
-    var next = cur==='dark' ? 'light' : cur==='light' ? 'dark' : (sysDark?'light':'dark');
-    apply(next);
-    try{ localStorage.setItem('dpcn-theme',next); }catch(e){}
+    current=apply(ORDER[(ORDER.indexOf(current)+1)%ORDER.length]);
+    try{ current==='auto' ? localStorage.removeItem('dpcn-theme') : localStorage.setItem('dpcn-theme',current); }catch(e){}
   });
   var links=[].slice.call(document.querySelectorAll('#tocnav a'));
   var map={}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
