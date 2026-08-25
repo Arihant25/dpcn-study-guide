@@ -745,9 +745,9 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <h4>All-to-all network <math><msub><mi>K</mi><mi>N</mi></msub></math> — which statements are true?</h4>
 <ul>
 <li><strong>Symmetric</strong> — <span class="verdict">TRUE.</span> It is undirected, so <math><mi>A</mi><mo>=</mo><msup><mi>A</mi><mtext>T</mtext></msup></math>.</li>
-<li><strong>Diameter <math><mo>=</mo><mi>N</mi></strong> — <span class="verdict">FALSE.</span> The diameter is 1; every pair is directly linked.</li>
-<li><strong>Average path length <math><mo>=</mo><mn>1</mn></strong> — <span class="verdict">TRUE.</span> Every distance is exactly 1.</li>
-<li><strong>Average degree <math><mo>=</mo><mi>N</mi><mo>−</mo><mn>1</mn></strong> — <span class="verdict">TRUE.</span> Each node connects to all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> others.</li>
+<li><strong>Diameter <math><mo>=</mo><mi>N</mi></math></strong> — <span class="verdict">FALSE.</span> The diameter is 1; every pair is directly linked.</li>
+<li><strong>Average path length <math><mo>=</mo><mn>1</mn></math></strong> — <span class="verdict">TRUE.</span> Every distance is exactly 1.</li>
+<li><strong>Average degree <math><mo>=</mo><mi>N</mi><mo>−</mo><mn>1</mn></math></strong> — <span class="verdict">TRUE.</span> Each node connects to all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> others.</li>
 </ul>
 </div>
 
@@ -1418,7 +1418,7 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 
 <div class="pyq"><summary><span class="qtag proof">Set 1, Q3</span><span>For <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, derive the stable-fixed-point condition, then apply it to <math><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup></math> and <math><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>cos</mi><mi>x</mi></math>.</span><span class="chev">›</span></summary>
 <div class="ans">
-<p>The derivation (Proof 4, §15) gives the condition <span class="verdict"><math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></span>.</p>
+<p>The derivation (Proof 4, §15) gives the condition <span class="verdict"><math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math></span>.</p>
 <p><strong><math><mi>f</mi><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup></math>:</strong> fixed points <math><mi>x</mi><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup></math> ⇒ <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></math>; <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mn>2</mn><mi>x</mi></math>. So <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> is stable (<math><mo>|</mo><mn>0</mn><mo>|</mo><mo>&lt;</mo><mn>1</mn></math>) and <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn></math> is unstable (<math><mo>|</mo><mn>2</mn><mo>|</mo><mo>&gt;</mo><mn>1</mn></math>).</p>
 <p><strong><math><mi>f</mi><mo>=</mo><mi>cos</mi><mi>x</mi></math>:</strong> fixed point <math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>; <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mo>−</mo><mi>sin</mi><mi>x</mi></math>, and <math><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math> ⇒ stable.</p>
 </div></div>
