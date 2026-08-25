@@ -166,6 +166,27 @@ details.mtoc>summary{padding:12px; font-weight:600; cursor:pointer; list-style:n
 details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-decoration:none}
 .small{font-size:.86rem; color:var(--muted-fg)}
 .note-em{color:var(--brand); font-weight:600}
+
+/* verbatim past-paper question cards */
+.qitem{border:1px solid var(--border); border-radius:var(--radius); margin:16px 0; background:var(--card); box-shadow:var(--shadow-sm); overflow:hidden}
+.qmeta{display:flex; gap:9px; align-items:center; flex-wrap:wrap; padding:13px 17px 0; font-size:.72rem; color:var(--muted-fg); font-weight:600; letter-spacing:.02em}
+.qmeta .marks{margin-left:auto; font-weight:500}
+.qtext{padding:8px 17px 15px}
+.qtext>*:first-child{margin-top:0}
+.qtext p{margin:.45em 0; max-width:none}
+.qopts{list-style:none; padding-left:0; margin:.6em 0 .2em}
+.qopts li{padding:6px 12px; border:1px solid var(--border); border-radius:7px; margin:6px 0; background:var(--muted-2); font-size:.95rem}
+.qopts li.correct{border-color:color-mix(in srgb,var(--brand) 45%,var(--border)); background:var(--brand-soft); font-weight:600}
+.qopts li.correct::before{content:"✓ "; color:var(--brand); font-weight:700}
+.ansd{border-top:1px solid var(--border); background:var(--muted-2)}
+.ansd>summary{padding:11px 17px; cursor:pointer; font-weight:600; font-size:.88rem; color:var(--brand); list-style:none}
+.ansd>summary::-webkit-details-marker{display:none}
+.ansd>summary::before{content:"▸  "; font-size:.8em}
+.ansd[open]>summary::before{content:"▾  "; font-size:.8em}
+.ansd[open]>summary{border-bottom:1px solid var(--border)}
+.ansd .inner{padding:2px 17px 16px}
+.ansd .inner>*:first-child{margin-top:12px}
+.ansd .inner p{max-width:none}
 </style>
 </head>
 <body>
@@ -540,7 +561,7 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <p><strong>"Main difference between an Eulerian and a Hamiltonian path?"</strong> An Eulerian path is about covering every <em>edge</em> once (you're allowed to revisit nodes); a Hamiltonian path is about covering every <em>vertex</em> once (you're allowed to skip edges). And crucially, Eulerian has the clean odd-degree test above, whereas Hamiltonian has <em>no</em> simple criterion — deciding it is a genuinely hard problem, so you settle it by trying to construct one by hand.</p>
 </div>
 
-<div class="pyq">
+<details class="pyq">
 <summary><span class="qtag">Quiz 1</span><span>Graph with edges 6–4, 4–5, 4–3, 5–1, 5–2, 3–2, 2–1: is there a Hamiltonian path? An Eulerian trail or circuit? If not, how do you create an Eulerian trail?</span><span class="chev">›</span></summary>
 <div class="ans">
 <figure class="illus" style="box-shadow:none;border:none;padding:0;margin:6px 0 14px">
@@ -552,7 +573,7 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <p><strong>Hamiltonian path:</strong> try to string all six nodes together with no repeat, e.g. <math><mn>6</mn><mo>→</mo><mn>4</mn><mo>→</mo><mn>3</mn><mo>→</mo><mn>2</mn><mo>→</mo><mn>1</mn><mo>→</mo><mn>5</mn></math>. Check each step is a real edge: 6–4 ✓, 4–3 ✓, 3–2 ✓, 2–1 ✓, 1–5 ✓. All six visited once, so <span class="verdict">yes, a Hamiltonian path exists.</span></p>
 <p><strong>To create an Eulerian trail:</strong> you must cut the odd count from 4 down to 2. Add one edge between two of the odd nodes — say join 6 and 5, or 4 and 2 — which makes both of them even. Two odd nodes then remain, and an Eulerian trail exists that starts at one of them and ends at the other. (Equivalently, delete an edge that currently joins two odd nodes.)</p>
 </div>
-</div>
+</details>
 </section>
 <section>
 <h2 id="dist"><span class="num">6</span>Distance, shortest path, diameter &amp; BFS</h2>
@@ -940,13 +961,13 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </ol>
 </div>
 
-<div class="pyq">
+<details class="pyq">
 <summary><span class="qtag proof">Mid-sem</span><span>Classify <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></math> and <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mi>r</mi><mi>x</mi><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup></math>.</span><span class="chev">›</span></summary>
 <div class="ans">
 <p><strong>First equation.</strong> Factor: <math><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup><mo>=</mo><mi>x</mi><mo>(</mo><mi>r</mi><mo>−</mo><mi>x</mi><mo>)</mo></math>, so the fixed points are <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> and <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mi>r</mi></math>. They meet at <math><mi>r</mi><mo>=</mo><mn>0</mn></math>. The slope is <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mi>r</mi><mo>−</mo><mn>2</mn><mi>x</mi></math>, giving <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mi>r</mi></math> and <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>r</mi><mo>)</mo><mo>=</mo><mo>−</mo><mi>r</mi></math> — opposite signs, so the two branches trade stability as <math><mi>r</mi></math> passes 0. That is a <span class="verdict">transcritical bifurcation</span>. The role of <math><mi>r</mi></math> is a growth rate: for <math><mi>r</mi><mo>&gt;</mo><mn>0</mn></math> the non-zero state <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mi>r</mi></math> is the stable one.</p>
 <p><strong>Second equation.</strong> Fixed points solve <math><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>r</mi><mi>x</mi><mo>+</mo><mn>1</mn><mo>=</mo><mn>0</mn></math>, so <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mfrac><mrow><mo>−</mo><mi>r</mi><mo>±</mo><msqrt><mrow><msup><mi>r</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn></mrow></msqrt></mrow><mn>2</mn></mfrac></math>. Real solutions need <math><msup><mi>r</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mo>≥</mo><mn>0</mn></math>, i.e. <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>≥</mo><mn>2</mn></math>. So there are no fixed points for <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>&lt;</mo><mn>2</mn></math>, one doubled point at <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>=</mo><mn>2</mn></math>, and two for <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>&gt;</mo><mn>2</mn></math>. A pair of equilibria is created out of nothing as <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow></math> crosses 2 — <span class="verdict">saddle-node bifurcations at <math><mi>r</mi><mo>=</mo><mo>+</mo><mn>2</mn></math> and <math><mi>r</mi><mo>=</mo><mo>−</mo><mn>2</mn></math></span>.</p>
 </div>
-</div>
+</details>
 </section>
 <section>
 <h2 id="bistable"><span class="num">13</span>Bistability &amp; hysteresis (Spruce Budworm)</h2>
@@ -1263,260 +1284,537 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <h2 id="selftest"><span class="num">17</span>Final self-test</h2>
 <p class="section-intro">Cover the answers and try each cold. If these feel routine, you are ready. Every one mirrors a real past-paper question.</p>
 
-<div class="pyq"><summary><span class="qtag mcq">MCQ</span><span>In a directed network, node A has out-degree 2 and node B has out-degree 1. Given the edges A→B, A→C, B→C, what are C's in-degree and out-degree?</span><span class="chev">›</span></summary>
-<div class="ans"><p>Out-degrees: A sends to B and C (2), B sends to C (1), C sends to nobody (0). In-degrees: A receives 0, B receives 1 (from A), C receives 2 (from A and B). So <span class="verdict">C has in-degree 2 and out-degree 0.</span> Check: total out <math><mo>=</mo><mn>3</mn></math> equals total in <math><mo>=</mo><mn>3</mn></math>. ✓</p></div></div>
+<details class="pyq"><summary><span class="qtag mcq">MCQ</span><span>In a directed network, node A has out-degree 2 and node B has out-degree 1. Given the edges A→B, A→C, B→C, what are C's in-degree and out-degree?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Out-degrees: A sends to B and C (2), B sends to C (1), C sends to nobody (0). In-degrees: A receives 0, B receives 1 (from A), C receives 2 (from A and B). So <span class="verdict">C has in-degree 2 and out-degree 0.</span> Check: total out <math><mo>=</mo><mn>3</mn></math> equals total in <math><mo>=</mo><mn>3</mn></math>. ✓</p></div></details>
 
-<div class="pyq"><summary><span class="qtag">Calc</span><span>A graph has degree sequence (2, 2, 3, 3, 3, 1). Is there an Euler circuit? An Euler trail? How many edges does it have?</span><span class="chev">›</span></summary>
-<div class="ans"><p>The odd degrees are the three 3's and the single 1 — <strong>four</strong> odd-degree nodes. Four is more than two, so <span class="verdict">no Euler trail and no Euler circuit.</span> Edges: by handshaking, <math><mi>L</mi><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub></mrow><mn>2</mn></mfrac><mo>=</mo><mfrac><mn>14</mn><mn>2</mn></mfrac><mo>=</mo><mn>7</mn></math>.</p></div></div>
+<details class="pyq"><summary><span class="qtag">Calc</span><span>A graph has degree sequence (2, 2, 3, 3, 3, 1). Is there an Euler circuit? An Euler trail? How many edges does it have?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The odd degrees are the three 3's and the single 1 — <strong>four</strong> odd-degree nodes. Four is more than two, so <span class="verdict">no Euler trail and no Euler circuit.</span> Edges: by handshaking, <math><mi>L</mi><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub></mrow><mn>2</mn></mfrac><mo>=</mo><mfrac><mn>14</mn><mn>2</mn></mfrac><mo>=</mo><mn>7</mn></math>.</p></div></details>
 
-<div class="pyq"><summary><span class="qtag proof">Proof</span><span>Show the number of closed 2-step walks at node <math><mi>i</mi></math> equals its degree, and hence <math><mi>tr</mi><mo>(</mo><msup><mi>A</mi><mn>2</mn></msup><mo>)</mo><mo>=</mo><mn>2</mn><mi>L</mi></math>.</span><span class="chev">›</span></summary>
-<div class="ans"><p><math><msub><mrow><mo>(</mo><msup><mi>A</mi><mn>2</mn></msup><mo>)</mo></mrow><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><msub><mi>A</mi><mrow><mi>k</mi><mi>i</mi></mrow></msub></math>. For a binary undirected graph <math><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><msub><mi>A</mi><mrow><mi>k</mi><mi>i</mi></mrow></msub><mo>=</mo><msubsup><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow><mn>2</mn></msubsup><mo>=</mo><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></math>, so the sum is just <math><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>=</mo><msub><mi>k</mi><mi>i</mi></msub></math> (a closed 2-walk is "out along an edge and straight back"). Summing over all nodes, <math><mi>tr</mi><mo>(</mo><msup><mi>A</mi><mn>2</mn></msup><mo>)</mo><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi></math>. <span class="verdict">∎</span></p></div></div>
+<details class="pyq"><summary><span class="qtag proof">Proof</span><span>Show the number of closed 2-step walks at node <math><mi>i</mi></math> equals its degree, and hence <math><mi>tr</mi><mo>(</mo><msup><mi>A</mi><mn>2</mn></msup><mo>)</mo><mo>=</mo><mn>2</mn><mi>L</mi></math>.</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><msub><mrow><mo>(</mo><msup><mi>A</mi><mn>2</mn></msup><mo>)</mo></mrow><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><msub><mi>A</mi><mrow><mi>k</mi><mi>i</mi></mrow></msub></math>. For a binary undirected graph <math><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><msub><mi>A</mi><mrow><mi>k</mi><mi>i</mi></mrow></msub><mo>=</mo><msubsup><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow><mn>2</mn></msubsup><mo>=</mo><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></math>, so the sum is just <math><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>=</mo><msub><mi>k</mi><mi>i</mi></msub></math> (a closed 2-walk is "out along an edge and straight back"). Summing over all nodes, <math><mi>tr</mi><mo>(</mo><msup><mi>A</mi><mn>2</mn></msup><mo>)</mo><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi></math>. <span class="verdict">∎</span></p></div></details>
 
-<div class="pyq"><summary><span class="qtag">Calc</span><span>Compute the local clustering coefficient of a node with 4 neighbours, among which 3 links exist.</span><span class="chev">›</span></summary>
-<div class="ans"><p><math><mi>k</mi><mo>=</mo><mn>4</mn></math>, so possible neighbour links <math><mo>=</mo><mfrac><mrow><mn>4</mn><mo>·</mo><mn>3</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>6</mn></math>, and <math><mi>e</mi><mo>=</mo><mn>3</mn></math> are present. So <math><mi>C</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mo>·</mo><mn>3</mn></mrow><mrow><mn>4</mn><mo>·</mo><mn>3</mn></mrow></mfrac><mo>=</mo><mfrac><mn>6</mn><mn>12</mn></mfrac><mo>=</mo><mn>0.5</mn></math>. <span class="verdict"><math><mi>C</mi><mo>=</mo><mn>0.5</mn></math>.</span></p></div></div>
+<details class="pyq"><summary><span class="qtag">Calc</span><span>Compute the local clustering coefficient of a node with 4 neighbours, among which 3 links exist.</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mi>k</mi><mo>=</mo><mn>4</mn></math>, so possible neighbour links <math><mo>=</mo><mfrac><mrow><mn>4</mn><mo>·</mo><mn>3</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>6</mn></math>, and <math><mi>e</mi><mo>=</mo><mn>3</mn></math> are present. So <math><mi>C</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mo>·</mo><mn>3</mn></mrow><mrow><mn>4</mn><mo>·</mo><mn>3</mn></mrow></mfrac><mo>=</mo><mfrac><mn>6</mn><mn>12</mn></mfrac><mo>=</mo><mn>0.5</mn></math>. <span class="verdict"><math><mi>C</mi><mo>=</mo><mn>0.5</mn></math>.</span></p></div></details>
 
-<div class="pyq"><summary><span class="qtag proof">Proof</span><span>For the map <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>cos</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, find the fixed point and its stability.</span><span class="chev">›</span></summary>
-<div class="ans"><p>The fixed point solves <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mi>cos</mi><msup><mi>x</mi><mo>*</mo></msup></math>, giving <math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>. The derivative is <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mo>−</mo><mi>sin</mi><mi>x</mi></math>, so <math><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>=</mo><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math> ⇒ <span class="verdict">stable</span>. (This is why hitting "cos" repeatedly on a calculator always converges to ≈ 0.739.)</p></div></div>
+<details class="pyq"><summary><span class="qtag proof">Proof</span><span>For the map <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>cos</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, find the fixed point and its stability.</span><span class="chev">›</span></summary>
+<div class="ans"><p>The fixed point solves <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mi>cos</mi><msup><mi>x</mi><mo>*</mo></msup></math>, giving <math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>. The derivative is <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mo>−</mo><mi>sin</mi><mi>x</mi></math>, so <math><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>=</mo><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math> ⇒ <span class="verdict">stable</span>. (This is why hitting "cos" repeatedly on a calculator always converges to ≈ 0.739.)</p></div></details>
 
-<div class="pyq"><summary><span class="qtag proof">Classify</span><span>What bifurcation does <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>r</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></math> undergo as <math><mi>r</mi></math> passes 0?</span><span class="chev">›</span></summary>
-<div class="ans"><p>Fixed points are <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mo>±</mo><msqrt><mi>r</mi></msqrt></math>: two of them for <math><mi>r</mi><mo>&gt;</mo><mn>0</mn></math> (the <math><mo>+</mo></math> branch stable because <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mo>−</mo><mn>2</mn><mi>x</mi><mo>&lt;</mo><mn>0</mn></math> there, the <math><mo>−</mo></math> branch unstable), colliding at <math><mi>r</mi><mo>=</mo><mn>0</mn></math>, and none for <math><mi>r</mi><mo>&lt;</mo><mn>0</mn></math>. <span class="verdict">Saddle-node (fold) bifurcation</span> — a pair created/destroyed.</p></div></div>
+<details class="pyq"><summary><span class="qtag proof">Classify</span><span>What bifurcation does <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>r</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></math> undergo as <math><mi>r</mi></math> passes 0?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Fixed points are <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mo>±</mo><msqrt><mi>r</mi></msqrt></math>: two of them for <math><mi>r</mi><mo>&gt;</mo><mn>0</mn></math> (the <math><mo>+</mo></math> branch stable because <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mo>−</mo><mn>2</mn><mi>x</mi><mo>&lt;</mo><mn>0</mn></math> there, the <math><mo>−</mo></math> branch unstable), colliding at <math><mi>r</mi><mo>=</mo><mn>0</mn></math>, and none for <math><mi>r</mi><mo>&lt;</mo><mn>0</mn></math>. <span class="verdict">Saddle-node (fold) bifurcation</span> — a pair created/destroyed.</p></div></details>
 
-<div class="pyq"><summary><span class="qtag">Concept</span><span>An SIS disease has <math><mi>β</mi><mo>=</mo><mn>0.2</mn></math> and <math><mi>γ</mi><mo>=</mo><mn>0.5</mn></math>. Does it spread? What is the endemic level?</span><span class="chev">›</span></summary>
-<div class="ans"><p><math><msub><mi>R</mi><mn>0</mn></msub><mo>=</mo><mi>β</mi><mo>/</mo><mi>γ</mi><mo>=</mo><mn>0.4</mn><mo>&lt;</mo><mn>1</mn></math> ⇒ <span class="verdict">it dies out.</span> The formula gives <math><msup><mi>i</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mo>/</mo><mn>0.4</mn><mo>=</mo><mo>−</mo><mn>1.5</mn></math>, which is negative and hence non-physical — confirming that the only sensible steady state is <math><msup><mi>i</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math>. Disease spreads only when <math><mi>β</mi><mo>&gt;</mo><mi>γ</mi></math>.</p></div></div>
+<details class="pyq"><summary><span class="qtag">Concept</span><span>An SIS disease has <math><mi>β</mi><mo>=</mo><mn>0.2</mn></math> and <math><mi>γ</mi><mo>=</mo><mn>0.5</mn></math>. Does it spread? What is the endemic level?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><msub><mi>R</mi><mn>0</mn></msub><mo>=</mo><mi>β</mi><mo>/</mo><mi>γ</mi><mo>=</mo><mn>0.4</mn><mo>&lt;</mo><mn>1</mn></math> ⇒ <span class="verdict">it dies out.</span> The formula gives <math><msup><mi>i</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mo>/</mo><mn>0.4</mn><mo>=</mo><mo>−</mo><mn>1.5</mn></math>, which is negative and hence non-physical — confirming that the only sensible steady state is <math><msup><mi>i</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math>. Disease spreads only when <math><mi>β</mi><mo>&gt;</mo><mi>γ</mi></math>.</p></div></details>
 
-<div class="pyq"><summary><span class="qtag">Calc</span><span>A graph on 6 nodes has 3 connected components. What is the nullity of its Laplacian?</span><span class="chev">›</span></summary>
-<div class="ans"><p>The nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> equals the number of connected components. <span class="verdict">Nullity = 3</span> — the eigenvalue 0 appears with multiplicity 3.</p></div></div>
+<details class="pyq"><summary><span class="qtag">Calc</span><span>A graph on 6 nodes has 3 connected components. What is the nullity of its Laplacian?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> equals the number of connected components. <span class="verdict">Nullity = 3</span> — the eigenvalue 0 appears with multiplicity 3.</p></div></details>
 </section>
 <section>
 <h2 id="pyq"><span class="num">18</span>Past papers, solved</h2>
-<p class="section-intro">Every question from all seven papers in the PYQ folder, worked out. The two surprise quizzes and Quiz&#160;1 sit squarely on your current slides. The mid-sem and Quiz&#160;2 reach into later modules (Kuramoto, Hopf, Lorenz, scale-free/BA) — those are solved too, and flagged where they go beyond the current slides.</p>
+<p class="section-intro">Every question from all seven papers, written out exactly as it was set — you shouldn't need to open a single PDF. For the MCQs, all options are listed with the correct choice(s) marked ✓; the worked answer is one click away. The two surprise quizzes and Quiz&#160;1 sit on your current slides; the mid-sem and Quiz&#160;2 reach into later modules and are flagged.</p>
 
-<h3>Surprise Quiz 1 (2024) — MCQ</h3>
-<p class="small">Conceptual multiple-choice. Watch for the negated wording ("which is <em>wrong</em>", "what <em>cannot</em> be said").</p>
+<h3>Surprise Quiz 1 (2024) — multiple choice, 30 marks</h3>
 
-<div class="pyq"><summary><span class="qtag mcq">Q1</span><span>A directed network has A (in 1, out 2) and B (in 1, out 1). Which statement about C is wrong?</span><span class="chev">›</span></summary>
-<div class="ans"><p>Total out-degree across all nodes must equal total in-degree. Out so far: A gives 2, B gives 1. In so far: A gets 1, B gets 1. With three nodes the numbers must balance, which forces C to have in-degree 2 and out-degree 1. So the <span class="verdict">wrong statements are "C has in 1, out 1" and "C has in 0, out 2"</span> — they break the balance.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q1</span><span>directed degree</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>In a directed network with nodes A, B, and C, where A has an in-degree of 1 and an out-degree of 2, and B has an in-degree of 1 and an out-degree of 1, which of these are <strong>wrong</strong> about node C?</p>
+<ul class="qopts">
+<li class="correct">C has an in-degree of 1 and an out-degree of 1.</li>
+<li class="correct">C has an in-degree of 0 and an out-degree of 2.</li>
+<li>C has an in-degree of 2 and an out-degree of 1.</li>
+<li>C has an in-degree of 1 and an out-degree of 0.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Total out-degree over all nodes must equal total in-degree. A and B contribute out = 3, in = 2, so C must supply in = 2, out = 1 to balance. The two statements that contradict that (in&#160;1/out&#160;1 and in&#160;0/out&#160;2) are the <span class="verdict">wrong ones</span>.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q2–Q5</span><span>Which centrality is defined by… direct connections / shortest paths through a node / important neighbours / closeness to all?</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>These four match one-to-one — memorise the mapping:</p>
-<ul>
-<li>counts <strong>direct connections</strong> → <span class="verdict">Degree</span></li>
-<li><strong>shortest paths passing through</strong> a node → <span class="verdict">Betweenness</span></li>
-<li>important if connected to <strong>other important</strong> nodes → <span class="verdict">Eigenvector</span></li>
-<li>important if <strong>close to many</strong> others → <span class="verdict">Closeness</span></li>
-</ul>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q2</span><span>centrality</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Which centrality measure considers the number of direct connections a node has in a network?</p>
+<ul class="qopts"><li class="correct">Degree centrality</li><li>Closeness centrality</li><li>Betweenness centrality</li><li>Eigenvector centrality</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">Degree centrality</span> — it literally counts direct links.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q6–Q8</span><span>Citation / co-authorship interpretations of in- and out-degree.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Q6</strong> — a researcher with in-degree 10, out-degree 8 in a co-authorship network: the impossible reading is <span class="verdict">"has not collaborated with anyone"</span> (any positive degree means collaboration).</p>
-<p><strong>Q7</strong> — high out-degree in a citation network: it <span class="verdict">cites many works → likely a book or comprehensive review</span>, not a highly-cited article.</p>
-<p><strong>Q8</strong> — high in-degree <em>and</em> high out-degree: what <em>cannot</em> be said is that it is an <span class="verdict">isolated node with no influence</span> — the opposite is true.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q3</span><span>centrality</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Which centrality measure takes into account the shortest paths that pass through a node in a network?</p>
+<ul class="qopts"><li>Degree centrality</li><li>Eigenvector centrality</li><li>Closeness centrality</li><li class="correct">Betweenness centrality</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">Betweenness centrality</span> — it counts how many shortest paths run through the node.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q9–Q12</span><span>Adjacency-matrix properties (undirected, disconnected, directed, rank).</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Q9 (undirected, no loops):</strong> true statements — it is <em>symmetric</em>, it is <em>square of order n</em>, and its <em>diagonal is all zero</em>. ("Entry is always 1 if connected" is only true for unweighted graphs, so it is not universally true.)</p>
-<p><strong>Q10 (two components):</strong> the adjacency matrix of <em>each component is separate</em> — the matrix is block-diagonal with no cross entries.</p>
-<p><strong>Q11 (unweighted directed):</strong> the <em>column sums give in-degrees</em>, and an edge <math><mi>i</mi><mo>→</mo><mi>j</mi></math> puts a 1 at entry <math><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo></math>. It need not be symmetric or invertible.</p>
-<p><strong>Q12 (rank, connected):</strong> the <span class="verdict">rank could be less than n</span> — being connected does not force full rank.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q4</span><span>centrality</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>What centrality measure is based on the concept that a node is important if it is connected to other nodes that are also important?</p>
+<ul class="qopts"><li>Closeness centrality</li><li>Betweenness centrality</li><li class="correct">Eigenvector centrality</li><li>Degree centrality</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">Eigenvector centrality</span> — a node's score is built from its neighbours' scores.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q13–Q14</span><span>Euler path vs circuit criteria.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Q13:</strong> an Euler path becomes an Euler circuit exactly when <span class="verdict">no node has odd degree</span> (0 odd nodes). If there are exactly 2 odd nodes you get a path but not a circuit.</p>
-<p><strong>Q14 (criteria for an Euler path in an undirected graph):</strong> the graph must be <em>connected</em>, and it must have <em>either all even degrees, or exactly two odd-degree nodes</em>. "Must be acyclic" is false.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q5</span><span>centrality</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Which centrality measure is based on the idea that a node is important if it is close to many other nodes in a network?</p>
+<ul class="qopts"><li>Betweenness centrality</li><li class="correct">Closeness centrality</li><li>Degree centrality</li><li>Eigenvector centrality</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">Closeness centrality</span> — the reciprocal of total distance to everyone else.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q15–Q18</span><span>Directed graph A→B→C→D→E→F→A, plus A→C and C→E: cycles, out-degree, reachability, shortest path.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Q15 — nodes in a directed cycle:</strong> the ring <math><mi>A</mi><mo>→</mo><mi>B</mi><mo>→</mo><mi>C</mi><mo>→</mo><mi>D</mi><mo>→</mo><mi>E</mi><mo>→</mo><mi>F</mi><mo>→</mo><mi>A</mi></math> puts <span class="verdict">all six nodes A–F</span> on a cycle.</p>
-<p><strong>Q16 — highest out-degree:</strong> most nodes send one arrow, but A sends two (to B and C) and C sends two (to D and E). <span class="verdict">A and C</span>, out-degree 2. <span class="small">(The scanned key marks C and E; A and C are the genuine degree-2 senders — trust the counting.)</span></p>
-<p><strong>Q17 — reachable from B:</strong> following arrows from B you reach <span class="verdict">C, D, E, F</span> (and back to A), i.e. everything except B itself via the listed answer C, D, E, F.</p>
-<p><strong>Q18 — shortest directed path A→E:</strong> the shortcut <math><mi>A</mi><mo>→</mo><mi>C</mi><mo>→</mo><mi>E</mi></math> is length 2, but the marked answer counts the ring route <math><mi>A</mi><mo>→</mo><mi>B</mi><mo>→</mo><mi>C</mi><mo>→</mo><mi>D</mi><mo>→</mo><mi>E</mi></math> = <span class="verdict">4</span>. If the shortcut edges A→C and C→E are allowed, the true shortest length is 2 — read the graph carefully on the day.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q6</span><span>co-authorship</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>If a researcher has an in-degree of 10 and an out-degree of 8 in a co-authorship network, what <strong>cannot</strong> be the possible interpretations?</p>
+<ul class="qopts">
+<li>The researcher has collaborated with 10 other researchers.</li>
+<li>The researcher has been a co-author for 8 papers.</li>
+<li class="correct">The researcher has not collaborated with anyone.</li>
+<li>The researcher has both collaborated with 10 researchers and been a co-author for 8 papers.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Any positive degree means collaboration happened, so <span class="verdict">"has not collaborated with anyone" is impossible</span>.</p></div></details>
+</div>
 
-<h3>Surprise Quiz 2 (2024) — MCQ</h3>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q7</span><span>citation network</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>In a citation network, a node has a high out-degree. What conclusions can be drawn about this node?</p>
+<ul class="qopts">
+<li>It is likely an influential research article.</li>
+<li class="correct">It is likely a source that cites many other works.</li>
+<li>It is likely a node with high in-degree.</li>
+<li class="correct">It is likely a book or a comprehensive review.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>High out-degree = cites many works, which is characteristic of a review or book. High <em>in</em>-degree (being cited) is the marker of influence, and that isn't implied here.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q1</span><span>Node A has neighbours B, C, D; B and C are not connected. Minimum local clustering coefficient of A?</span><span class="chev">›</span></summary>
-<div class="ans"><p><math><msub><mi>k</mi><mi>A</mi></msub><mo>=</mo><mn>3</mn></math>, so 3 possible neighbour-links. With B–C missing, the smallest the options allow is one link present, giving <math><msub><mi>C</mi><mi>A</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mo>·</mo><mn>1</mn></mrow><mrow><mn>3</mn><mo>·</mo><mn>2</mn></mrow></mfrac><mo>=</mo></math> <span class="verdict"><math><mfrac><mn>1</mn><mn>3</mn></mfrac></math></span>.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q8</span><span>citation network</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Consider a citation network where a particular node has both high in-degree and high out-degree. What <strong>cannot</strong> be said about this node?</p>
+<ul class="qopts">
+<li>It is likely an influential research article.</li>
+<li>It is likely a central node that is frequently cited and cites other works.</li>
+<li class="correct">It is likely an isolated node with no significant influence.</li>
+<li>It is likely a book or a comprehensive review.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>High in- and out-degree is the opposite of isolated, so <span class="verdict">"isolated node with no influence" cannot be said</span>.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Q2</span><span>Eigenvector centrality of the graph with adjacency matrix [[0,1,1,1],[1,0,1,0],[1,1,0,1],[1,0,1,0]].</span><span class="chev">›</span></summary>
-<div class="ans"><p>A links to B, C, D; B links to A, C; C links to A, B, D; D links to A, C. Nodes A and C are structurally identical, and so are B and D — and in fact all four map onto each other, so the eigenvector must give them all the same score. <span class="verdict">A : 0.5, B : 0.5, C : 0.5, D : 0.5.</span> Reason: pick the option that respects the graph's symmetry.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q9</span><span>adjacency matrix</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>For an undirected graph with n vertices with no loops, which statements are true regarding the adjacency matrix?</p>
+<ul class="qopts">
+<li class="correct">The adjacency matrix is always symmetric.</li>
+<li>If two vertices are connected, the corresponding entry in the adjacency matrix is always 1.</li>
+<li class="correct">The adjacency matrix is a square matrix of order n.</li>
+<li class="correct">The diagonal elements of the adjacency matrix are always zero.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Symmetric, square of order n, and zero-diagonal (no loops) are all true. "Entry is always 1" only holds for <em>unweighted</em> graphs, so it isn't universally true.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q3</span><span>What do centrality measures indicate?</span><span class="chev">›</span></summary>
-<div class="ans"><p>They identify <span class="verdict">the most critical nodes in an infrastructure (e.g. the internet), the most influential person in a social network, and the top disease-spreaders.</span> ("Number of pizzas" and "number of eigenvectors a node has" are distractors.)</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q10</span><span>components</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Consider a disconnected graph with two connected components. What can be said about the adjacency matrix of this graph?</p>
+<ul class="qopts">
+<li>The adjacency matrix will have non-zero entries in the off-diagonal positions corresponding to edges between the components.</li>
+<li>The adjacency matrix will be singular.</li>
+<li>The adjacency matrix will have all zero entries.</li>
+<li class="correct">The adjacency matrix of each connected component is separate.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>With the nodes grouped by component, the matrix is <span class="verdict">block-diagonal — each component's block is separate</span>, with zeros between blocks (there are no edges <em>between</em> components, so the first option is false).</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q4–Q7</span><span>Which real-life scenarios suit a bipartite graph? (Social, e-commerce, biological, transport.)</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>Bipartite fits whenever you relate <strong>two different types</strong> of entity. Correct picks:</p>
-<ul>
-<li><strong>Social:</strong> users–movies watched; papers–authors. (Friendships between individuals is single-type → not bipartite.)</li>
-<li><strong>E-commerce:</strong> buyers–sellers; customers–products purchased.</li>
-<li><strong>Biological:</strong> individuals–shared genetic traits; genes–pathways. (Species–ecosystems as phrased is the odd one out.)</li>
-<li><strong>Transport:</strong> airports–airlines; train stations–routes.</li>
-</ul>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q11</span><span>adjacency matrix</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>In an unweighted directed graph, what is true about the adjacency matrix?</p>
+<ul class="qopts">
+<li class="correct">The sum of the elements in each column represents the in-degree of the corresponding vertex.</li>
+<li>The adjacency matrix is always invertible.</li>
+<li>The adjacency matrix is always symmetric.</li>
+<li class="correct">If there is an edge from vertex i to vertex j, the (i, j) entry in the adjacency matrix is 1.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Column sums give in-degrees, and an edge <math><mi>i</mi><mo>→</mo><mi>j</mi></math> sets entry <math><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo><mo>=</mo><mn>1</mn></math>. A directed matrix is generally neither symmetric nor invertible.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q8–Q9</span><span>From a 6-node graph: which edges to remove for a spanning tree, and which properties do NOT define a spanning tree?</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Q8:</strong> a spanning tree of 6 nodes needs <math><mn>6</mn><mo>−</mo><mn>1</mn><mo>=</mo><mn>5</mn></math> edges. The given graph has more, so remove edges lying on cycles until none remain: <span class="verdict">remove BC, CD, and EF</span> (one per independent cycle, keeping everything connected).</p>
-<p><strong>Q9 — which does NOT define a spanning tree:</strong> <span class="verdict">"must contain a cycle"</span> is the false one (a tree is acyclic). The genuine defining properties are: covers all vertices, connected, acyclic, and has <math><mo>|</mo><mi>V</mi><mo>|</mo><mo>−</mo><mn>1</mn></math> edges.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q12</span><span>rank</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>If a graph has n vertices and is connected, what can be true about the rank of its adjacency matrix?</p>
+<ul class="qopts">
+<li>The rank is greater than n.</li>
+<li>The rank is always less than n.</li>
+<li>The rank is always equal to n.</li>
+<li class="correct">The rank could be less than n.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Being connected does not force full rank — the matrix can be singular — so the rank <span class="verdict">could be less than n</span> (it is never more than n).</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q10–Q12</span><span>From an adjacency matrix: number of connected components, identify them, and nullity of the Laplacian.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>The matrix (A–E) links A–B, A–C, C–D, B–E, C–E… tracing reachability splits the five nodes into groups. <strong>Q10:</strong> <span class="verdict">3 components.</span> <strong>Q11:</strong> <span class="verdict">{A, B, C}, {D}, {E}</span> (as marked). <strong>Q12:</strong> the nullity of the Laplacian equals the number of components, so <span class="verdict">nullity = 3</span>.</p>
-<p class="small">The takeaway you can reuse: components = nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> = how many times 0 is an eigenvalue.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q13</span><span>Euler</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>In a connected graph, when does the existence of an Euler path imply the existence of an Euler circuit?</p>
+<ul class="qopts">
+<li>The graph has all nodes with an odd degree.</li>
+<li>The graph is acyclic.</li>
+<li class="correct">The graph has no nodes with an odd degree.</li>
+<li>The graph has exactly two nodes with an odd degree.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>An Euler <em>circuit</em> exists exactly when there are <span class="verdict">no odd-degree nodes</span>. With exactly two odd nodes you only get a path (trail), not a circuit — so a path implies a circuit only in the zero-odd case.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag mcq">Q13–Q17</span><span>SIR and predator–prey concept questions.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Q13 — SIR infectious period:</strong> assumed <span class="verdict">constant for all individuals</span> (constant recovery rate <math><mi>γ</mi></math>).</p>
-<p><strong>Q14 — susceptibles over time:</strong> they <span class="verdict">decrease exponentially</span> (there is no route back into S).</p>
-<p><strong>Q15 — at an SIR steady point:</strong> the <span class="verdict">sum of the three rates of change is zero</span> (population conserved).</p>
-<p><strong>Q16 — predator–prey started above carrying capacity:</strong> the system <span class="verdict">oscillates between high and low levels</span>, it does not simply settle.</p>
-<p><strong>Q17 — equilibrium factors:</strong> correct statements — a higher predation rate lowers the predators' steady point; a higher prey birth-rate raises it; a competing species does affect stability. ("Always stabilises at carrying capacity" is false.)</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q14</span><span>Euler</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>What are the possible criteria for the existence of an Euler path in an undirected graph?</p>
+<ul class="qopts">
+<li class="correct">All nodes must have an even degree.</li>
+<li class="correct">The graph must have exactly two nodes with an odd degree.</li>
+<li>The graph must be acyclic.</li>
+<li class="correct">The graph must be connected.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>An Euler path needs the graph to be connected and to have either all-even degrees (0 odd) or exactly two odd-degree nodes. Being acyclic is irrelevant.</p></div></details>
+</div>
 
-<h3>Quiz 1 (2024, Sets II &amp; IV) — written, 20 marks</h3>
+<p class="small" style="margin-top:18px">Questions 15–18 all refer to this directed graph: edges A→B, B→C, C→D, D→E, E→F, F→A, A→C, C→E.</p>
 
-<div class="pyq"><summary><span class="qtag">Q · star graph</span><span>For a star graph with N = 5, what is the average path length and the diameter?</span><span class="chev">›</span></summary>
-<div class="ans"><p>10 pairs total. Four hub–leaf pairs at distance 1, six leaf–leaf pairs at distance 2. Sum <math><mo>=</mo><mn>4</mn><mo>+</mo><mn>12</mn><mo>=</mo><mn>16</mn></math>, so <span class="verdict"><math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>=</mo><mn>1.6</mn></math> and diameter <math><mo>=</mo><mn>2</mn></math></span> (see §9 for the full working).</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q15</span><span>cycles</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Identify all nodes that are part of a directed cycle in the graph. <span class="small">(A / B / C / D / E / F)</span></p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The ring <math><mi>A</mi><mo>→</mo><mi>B</mi><mo>→</mo><mi>C</mi><mo>→</mo><mi>D</mi><mo>→</mo><mi>E</mi><mo>→</mo><mi>F</mi><mo>→</mo><mi>A</mi></math> puts <span class="verdict">all six nodes A–F</span> on a cycle.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q · clustering</span><span>Calculate the clustering coefficients of nodes X and Y in the drawn graph, and rank their degree / betweenness / closeness.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>Method (the figure varies by set, so apply the recipe): for each of X and Y, list its neighbours, count links <em>among those neighbours only</em>, and divide by <math><mfrac><mrow><mi>k</mi><mo>(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math>. In these figures Y is the higher-degree central node and X is a peripheral one, which makes the true/false part fall out:</p>
-<ul>
-<li>"Degree of Y &gt; X" — <span class="verdict">true</span> (Y is the hub).</li>
-<li>"Betweenness of X &gt; Y" — <span class="verdict">false</span>; the central node Y lies on more shortest paths.</li>
-<li>"Closeness of X &lt; Y" — <span class="verdict">true</span>; Y is nearer everyone, so it has higher closeness.</li>
-</ul>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q16</span><span>out-degree</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Determine the node(s) with the highest out-degree in the graph. <span class="small">(A / B / C / D / E / F)</span></p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>A sends to B and C, and C sends to D and E — both out-degree 2; everyone else sends one arrow. So <span class="verdict">A and C</span>. <span class="small">(The scanned key marked C and E; by the listed edges the degree-2 senders are A and C — count the arrows on the day.)</span></p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q · complete graph</span><span>For an all-to-all network on N nodes, which are true: symmetric / diameter N / avg path length 1 / avg degree N−1?</span><span class="chev">›</span></summary>
-<div class="ans"><p><span class="verdict">Symmetric ✓, diameter = N ✗ (it is 1), average path length = 1 ✓, average degree = N−1 ✓.</span> One line each: undirected ⇒ symmetric; every pair adjacent ⇒ all distances 1 ⇒ diameter and mean path both reflect that; each node touches all others ⇒ degree N−1.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q17</span><span>reachability</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Identify the node(s) that are reachable from node B through a directed path. <span class="small">(A / C / D / E / F)</span></p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>From B you can walk B→C→D→E→F→A, reaching <span class="verdict">C, D, E, F</span> (and A).</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q · in/out-degree</span><span>Write the in-degree and out-degree sequence of the given directed adjacency matrix.</span><span class="chev">›</span></summary>
-<div class="ans"><p>Out-degree = add each <em>row</em>; in-degree = add each <em>column</em>. For the Set II matrix <math><mo>[</mo><mn>0100</mn><mo>;</mo><mn>1011</mn><mo>;</mo><mn>0100</mn><mo>;</mo><mn>1101</mn><mo>]</mo></math> this gives out-sequence <span class="verdict">(1, 3, 1, 3)</span> and in-sequence <span class="verdict">(2, 3, 1, 2)</span> (fully worked in §2). Always check both sequences sum to the same total.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q18</span><span>shortest path</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Determine the length of the shortest directed path from node A to node E. <span class="small">(numeric answer)</span></p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Using the shortcut edges, <math><mi>A</mi><mo>→</mo><mi>C</mi><mo>→</mo><mi>E</mi></math> has length <span class="verdict">2</span>. <span class="small">(The scanned key gives 4 via the ring A→B→C→D→E; if the A→C and C→E shortcuts count, 2 is shorter — read which edges are allowed.)</span></p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q · Euler vs Hamilton</span><span>Difference between an Eulerian and a Hamiltonian path? For the given graph, does a Hamiltonian / Euler path / Euler cycle exist, and how would you make an Euler path?</span><span class="chev">›</span></summary>
-<div class="ans"><p>Eulerian = every <em>edge</em> once; Hamiltonian = every <em>vertex</em> once. For the six-node figure the degrees give four odd-degree nodes, so no Euler trail or circuit exists, but a Hamiltonian path does. To create an Euler trail, add (or remove) one edge between two odd-degree nodes to cut the odd count to 2. Full working is the collapsible box in §5.</p></div></div>
+<h3>Surprise Quiz 2 (2024) — multiple choice, 25 marks</h3>
 
-<div class="pyq"><summary><span class="qtag">Q · betweenness &amp; closeness</span><span>Calculate the node betweenness and closeness of X and Y on the given path graph.</span><span class="chev">›</span></summary>
-<div class="ans"><p>On a line of <math><mi>N</mi></math> nodes, a node in position <math><mi>i</mi></math> has betweenness <math><mo>(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>N</mi><mo>−</mo><mi>i</mi><mo>)</mo></math> and closeness <math><mn>1</mn><mo>/</mo><munder><mo>∑</mo><mi>j</mi></munder><mi>d</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo></math>. The endpoint X gets betweenness 0 and low closeness; the interior Y gets positive betweenness and higher closeness. See the worked five-node line in §8.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q1</span><span>clustering</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>In a social network, node A has neighbors B, C, and D. If B and C are not connected to each other, what is the minimum possible local clustering coefficient for node A?</p>
+<ul class="qopts"><li>0</li><li>1</li><li>2/3</li><li>1/2</li><li class="correct">1/3</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><math><msub><mi>k</mi><mi>A</mi></msub><mo>=</mo><mn>3</mn></math> ⇒ 3 possible neighbour-links; with B–C absent the fewest the options allow is one present link, so <math><msub><mi>C</mi><mi>A</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mo>·</mo><mn>1</mn></mrow><mrow><mn>3</mn><mo>·</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>3</mn></mfrac></math>.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag">Q · ER relation</span><span>Given the connection probability p, what is the relationship between p, the average degree ⟨k⟩, and N?</span><span class="chev">›</span></summary>
-<div class="ans"><p><span class="verdict"><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></span>. Reason: a node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners and each becomes a link with probability <math><mi>p</mi></math>, so the expected degree is probability × opportunities.</p></div></div>
-</section>
-<section>
-<div class="card watch"><span class="tag">Heads up</span><p>Everything below is from the <strong>mid-sem and Quiz 2</strong>. It uses topics that come <em>after</em> your current slides — Kuramoto oscillators, the Hopf/limit-cycle bifurcation, scale-free/BA graphs, and the Lorenz system. Solved here in full so the paper is complete; skip to whatever your quiz actually covers.</p></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q2</span><span>eigenvector centrality</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Consider a network with nodes A, B, C, and D, and the following adjacency matrix. Calculate the eigenvector centrality for each node.</p>
+<div class="eq" style="margin:8px 0"><math display="block"><mrow><mo>[</mo><mtable>
+<mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr>
+<mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd></mtr>
+<mtr><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd></mtr>
+<mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd></mtr>
+</mtable><mo>]</mo></mrow></math></div>
+<ul class="qopts">
+<li>A: 0.6, B: 0.3, C: 0.6, D: 0.3</li>
+<li>A: 0.4, B: 0.2, C: 0.4, D: 0.2</li>
+<li>A: 0.8, B: 0.6, C: 0.8, D: 0.6</li>
+<li class="correct">A: 0.5, B: 0.5, C: 0.5, D: 0.5</li>
+<li>A: 0.6, B: 0.3, C: 0.6, D: 0.3</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The graph is symmetric enough that all four nodes map onto one another, so the dominant eigenvector gives every node the same score: <span class="verdict">0.5 each</span>. Pick the option that respects the symmetry.</p></div></details>
+</div>
 
-<h3>Mid-sem (2024)</h3>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q3</span><span>centrality</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>What do centrality measures indicate?</p>
+<ul class="qopts">
+<li>The number of pizzas a person can have</li>
+<li>Number of eigenvectors a node can have</li>
+<li class="correct">The most critical nodes in an infrastructure like the internet</li>
+<li class="correct">The most influential person in a social network</li>
+<li class="correct">The highest spreaders of a disease</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Centralities pick out important nodes — critical infrastructure, influential people, top spreaders.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Q1</span><span>Two coupled oscillators <math><msub><mover><mi>θ</mi><mo>˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mi>sin</mi><mo>(</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>)</mo></math>, similarly for oscillator 2. Find the critical coupling for a common frequency, and that frequency. Can they lock at <math><mi>k</mi><mo>=</mo><mn>2</mn></math>, <math><msub><mi>ω</mi><mn>1</mn></msub><mo>=</mo><mn>2</mn></math>, <math><msub><mi>ω</mi><mn>2</mn></msub><mo>=</mo><mn>10</mn></math>?</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Track the phase difference.</strong> Let <math><mi>φ</mi><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub></math>. Subtracting the two equations, and using <math><mi>sin</mi><mo>(</mo><mo>−</mo><mi>φ</mi><mo>)</mo><mo>=</mo><mo>−</mo><mi>sin</mi><mi>φ</mi></math>:</p>
-<div class="eq"><math display="block"><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>)</mo><mo>−</mo><mo>(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo>)</mo><mi>sin</mi><mi>φ</mi></math></div>
-<p><strong>Locking</strong> means <math><mi>φ</mi></math> stops changing, <math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>, so <math><mi>sin</mi><mi>φ</mi><mo>=</mo><mfrac><mrow><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>. A sine can only equal something with magnitude ≤ 1, so a locked state exists only if</p>
-<div class="eq boxed"><math display="block"><mrow><mo>|</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>|</mo></mrow><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mspace width="1.4em"/><mo>⟹</mo><mspace width="1.4em"/><msub><mi>k</mi><mtext>c</mtext></msub><mo>=</mo><mrow><mo>|</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>|</mo></mrow></math></div>
-<p><strong>Common frequency.</strong> At lock both run at the same <math><mi>Ω</mi></math>. Combining the two equations (weighting to cancel the sine term) gives the coupling-weighted average of the natural frequencies:</p>
-<div class="eq"><math display="block"><mi>Ω</mi><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math></div>
-<p><strong>The numbers.</strong> With <math><msub><mi>k</mi><mn>1</mn></msub><mo>=</mo><msub><mi>k</mi><mn>2</mn></msub><mo>=</mo><mn>2</mn></math> the coupling sum is 4, but <math><mrow><mo>|</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>|</mo></mrow><mo>=</mo><mn>8</mn></math>. Since <math><mn>8</mn><mo>&gt;</mo><mn>4</mn></math>, <span class="verdict">they cannot lock</span> — the required <math><mi>sin</mi><mi>φ</mi><mo>=</mo><mn>2</mn></math> is impossible. (Had they locked, the frequency would be <math><mi>Ω</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mo>·</mo><mn>2</mn><mo>+</mo><mn>2</mn><mo>·</mo><mn>10</mn></mrow><mn>4</mn></mfrac><mo>=</mo><mn>6</mn></math>, the simple average because the couplings are equal.)</p>
-</div></div>
+<p class="small" style="margin-top:18px">Questions 4–7: "Consider real-life scenarios involving relationships between two distinct sets of entities. Identify examples where a bipartite graph model is suitable. Choose all correct options."</p>
 
-<div class="pyq"><summary><span class="qtag proof">Q2</span><span>For <math><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><msup><mrow><mo>|</mo><mi>z</mi><mo>|</mo></mrow><mn>2</mn></msup><mo>)</mo><mi>z</mi></math> with <math><mi>z</mi><mo>=</mo><mi>x</mi><mo>+</mo><mi>i</mi><mi>y</mi></math>: transform to polar <math><mo>(</mo><mi>r</mi><mo>,</mo><mi>θ</mi><mo>)</mo></math> and find the condition for a stable limit cycle.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Go polar.</strong> Write <math><mi>z</mi><mo>=</mo><mi>r</mi><msup><mi>e</mi><mrow><mi>i</mi><mi>θ</mi></mrow></msup></math>, so <math><msup><mrow><mo>|</mo><mi>z</mi><mo>|</mo></mrow><mn>2</mn></msup><mo>=</mo><msup><mi>r</mi><mn>2</mn></msup></math> and <math><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><mover><mi>r</mi><mo>˙</mo></mover><mo>+</mo><mi>i</mi><mi>r</mi><mover><mi>θ</mi><mo>˙</mo></mover><mo>)</mo><msup><mi>e</mi><mrow><mi>i</mi><mi>θ</mi></mrow></msup></math>. Substitute and cancel <math><msup><mi>e</mi><mrow><mi>i</mi><mi>θ</mi></mrow></msup></math>:</p>
-<div class="eq"><math display="block"><mover><mi>r</mi><mo>˙</mo></mover><mo>+</mo><mi>i</mi><mi>r</mi><mover><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><mi>μ</mi><mo>−</mo><msup><mi>r</mi><mn>2</mn></msup><mo>)</mo><mi>r</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mi>r</mi></math></div>
-<p>Match the real and imaginary parts separately:</p>
-<div class="eq boxed"><math display="block"><mover><mi>r</mi><mo>˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn>3</mn></msup><mspace width="2em"/><mover><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mi>ω</mi></math></div>
-<p><strong>Read off the answer.</strong> The angle just rotates at constant rate <math><mi>ω</mi></math>. The radius obeys <math><mover><mi>r</mi><mo>˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn>3</mn></msup></math> — exactly the supercritical pitchfork from §12. For <math><mi>μ</mi><mo>&gt;</mo><mn>0</mn></math> there is a stable radius <math><mi>r</mi><mo>=</mo><msqrt><mi>μ</mi></msqrt></math>: the trajectory settles onto a circle of that radius while spinning at rate <math><mi>ω</mi></math> — a <span class="verdict">stable limit cycle, which exists for <math><mi>μ</mi><mo>&gt;</mo><mn>0</mn></math></span>. This appearance of a cycle as <math><mi>μ</mi></math> crosses 0 is a <strong>Hopf bifurcation</strong>.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q4</span><span>bipartite · social networks</span><span class="marks">2 marks</span></div>
+<div class="qtext"><ul class="qopts">
+<li>Modeling friendships between individuals.</li>
+<li class="correct">Representing interactions between users and movies they have watched.</li>
+<li>Describing relationships between employees and the projects they are working on.</li>
+<li class="correct">Capturing connections between research papers and the authors who contributed to them.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Bipartite needs <em>two distinct types</em>. Users–movies and papers–authors qualify; friendships are single-type.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Q3</span><span>Classify the bifurcations of <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></math> and <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mi>r</mi><mi>x</mi><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup></math>.</span><span class="chev">›</span></summary>
-<div class="ans"><p>Transcritical for the first (branches <math><mn>0</mn></math> and <math><mi>r</mi></math> cross and swap stability); saddle-node at <math><mi>r</mi><mo>=</mo><mo>±</mo><mn>2</mn></math> for the second (a pair of fixed points appears once <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>≥</mo><mn>2</mn></math>). Both are fully worked in the collapsible box in §12.</p></div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q5</span><span>bipartite · e-commerce</span><span class="marks">2 marks</span></div>
+<div class="qtext"><ul class="qopts">
+<li class="correct">Describing the interactions between buyers and sellers in an online marketplace.</li>
+<li>Mapping connections between users and the articles they have read on a news website.</li>
+<li class="correct">Analyzing the relationship between customers and products they have purchased.</li>
+<li>Representing collaborations between musicians and the albums they have released.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Buyers–sellers and customers–products are the two-type relations marked correct on the key.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Q4</span><span>SIS model <math><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>β</mi><mi>S</mi><mi>I</mi><mo>−</mo><mi>γ</mi><mi>I</mi></math>, <math><mi>S</mi><mo>+</mo><mi>I</mi><mo>=</mo><mn>1</mn></math>. Solve for <math><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo></math>, find the endemic equilibrium, and the no-spread condition.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>Put <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>I</mi></math> to get the logistic equation <math><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo>)</mo><mi>I</mi><mo>−</mo><mi>β</mi><msup><mi>I</mi><mn>2</mn></msup></math>. Solving it (Proof 5, §15) gives</p>
-<div class="eq"><math display="block"><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>K</mi><mrow><mn>1</mn><mo>+</mo><mo>(</mo><mfrac><mrow><mi>K</mi><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub></mrow><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo>)</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo>)</mo><mi>t</mi></mrow></msup></mrow></mfrac><mo>,</mo><mspace width="1em"/><mi>K</mi><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mi>γ</mi><mi>β</mi></mfrac></math></div>
-<p><span class="verdict">Endemic equilibrium</span> <math><msup><mi>I</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mo>/</mo><msub><mi>R</mi><mn>0</mn></msub></math>. The <span class="verdict">disease does not spread when <math><mi>β</mi><mo>&lt;</mo><mi>γ</mi></math></span> (<math><msub><mi>R</mi><mn>0</mn></msub><mo>&lt;</mo><mn>1</mn></math>): then <math><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>→</mo><mn>0</mn></math>.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q6</span><span>bipartite · biological</span><span class="marks">2 marks</span></div>
+<div class="qtext"><ul class="qopts">
+<li class="correct">Representing connections between individuals in a population based on shared genetic traits.</li>
+<li>Describing the relationships between proteins and the biochemical reactions they are involved in.</li>
+<li>Modeling interactions between species and the ecosystems they inhabit.</li>
+<li class="correct">Capturing relationships between genes and the biological pathways they participate in.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Individuals–traits and genes–pathways are the pairs marked correct.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Q5</span><span>Network SIS <math><msub><mover><mi>i</mi><mo>˙</mo></mover><mi>k</mi></msub><mo>=</mo><mo>−</mo><mi>γ</mi><msub><mi>i</mi><mi>k</mi></msub><mo>+</mo><mi>β</mi><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>i</mi><mi>k</mi></msub><mo>)</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>A</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><msub><mi>i</mi><mi>j</mi></msub></math>. How does the network affect the early infection, and when does the disease not spread?</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>At the very start every <math><msub><mi>i</mi><mi>k</mi></msub></math> is tiny, so <math><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>i</mi><mi>k</mi></msub><mo>)</mo><mo>≈</mo><mn>1</mn></math> and the equation becomes linear: <math><mover><mi mathvariant="bold">i</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><mi>β</mi><mi>A</mi><mo>−</mo><mi>γ</mi><mi>I</mi><mo>)</mo><mi mathvariant="bold">i</mi></math>. The fastest-growing direction is set by the largest eigenvalue of <math><mi>A</mi></math>, so the infection grows at rate <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>−</mo><mi>γ</mi></math>. Hence the network influences spreading entirely through <math><msub><mi>λ</mi><mtext>max</mtext></msub></math>, and the <span class="verdict">disease dies out when <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>&lt;</mo><mi>γ</mi></math></span>, i.e. below the threshold <math><mo>(</mo><mi>β</mi><mo>/</mo><mi>γ</mi><msub><mo>)</mo><mtext>c</mtext></msub><mo>=</mo><mn>1</mn><mo>/</mo><msub><mi>λ</mi><mtext>max</mtext></msub></math> (see §14).</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q7</span><span>bipartite · transport</span><span class="marks">2 marks</span></div>
+<div class="qtext"><ul class="qopts">
+<li>Representing interactions between cities and the highways that connect them.</li>
+<li class="correct">Analyzing connections between airports and the airlines that operate flights.</li>
+<li class="correct">Mapping relationships between train stations and the routes of trains.</li>
+<li>Describing collaborations between car manufacturers and the suppliers of automotive components.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Airports–airlines and stations–routes are the two-type relations.</p></div></details>
+</div>
 
-<h3>Quiz 2 (2024) — power laws, ER, discrete maps, Lorenz</h3>
+<p class="small" style="margin-top:18px">Questions 8–9 refer to an undirected 6-node graph (adjacency over A–F given on the paper).</p>
 
-<div class="pyq"><summary><span class="qtag proof">Set 1, Q1</span><span>Power-law degree distribution <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math>: find the normalisation constant <math><mi>C</mi></math> and the condition for it to be finite. Then find the first and second moments and when they diverge.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Normalisation.</strong> Probabilities must sum to 1: <math><mi>C</mi><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></munderover><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup><mo>=</mo><mn>1</mn></math>, so <math><mi>C</mi><mo>=</mo><mn>1</mn><mo>/</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></munderover><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math> (this sum is the Riemann zeta function <math><mi>ζ</mi><mo>(</mo><mi>γ</mi><mo>)</mo></math>). The sum <math><mo>∑</mo><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math> only converges — so <math><mi>C</mi></math> is finite — when <span class="verdict"><math><mi>γ</mi><mo>&gt;</mo><mn>1</mn></math></span>.</p>
-<p><strong>Moments.</strong> The <math><mi>n</mi></math>-th moment is <math><munder><mo>∑</mo><mi>k</mi></munder><msup><mi>k</mi><mi>n</mi></msup><msub><mi>p</mi><mi>k</mi></msub><mo>∝</mo><munder><mo>∑</mo><mi>k</mi></munder><msup><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mi>γ</mi></mrow></msup></math>, which converges only when the exponent <math><mi>n</mi><mo>−</mo><mi>γ</mi><mo>&lt;</mo><mo>−</mo><mn>1</mn></math>, i.e. <math><mi>γ</mi><mo>&gt;</mo><mi>n</mi><mo>+</mo><mn>1</mn></math>. So:</p>
-<ul>
-<li>First moment <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> is finite only if <math><mi>γ</mi><mo>&gt;</mo><mn>2</mn></math> — it <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>2</mn></math></span>.</li>
-<li>Second moment <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math> is finite only if <math><mi>γ</mi><mo>&gt;</mo><mn>3</mn></math> — it <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>3</mn></math></span>.</li>
-</ul>
-<p>Real scale-free networks usually have <math><mn>2</mn><mo>&lt;</mo><mi>γ</mi><mo>&lt;</mo><mn>3</mn></math>, so the mean degree is finite but the variance blows up — the source of "hubs".</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q8</span><span>spanning tree</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Select the edges that need to be removed to transform the given graph into a spanning tree. Choose all correct options.</p>
+<ul class="qopts">
+<li class="correct">Remove edge BC.</li>
+<li>Remove edge AC.</li>
+<li class="correct">Remove edge CD.</li>
+<li class="correct">Remove edge EF.</li>
+<li>Remove edge BE.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>A 6-node spanning tree needs <math><mn>5</mn></math> edges. Remove one edge from each cycle — <span class="verdict">BC, CD and EF</span> — keeping the graph connected.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Set 1, Q2</span><span>Prove that in an Erdős–Rényi graph a giant connected component appears once the mean degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math>.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>Let <math><mi>S</mi></math> be the fraction of nodes in the giant component, and <math><mi>u</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>S</mi></math> the chance a random node is <em>not</em> in it. A node is outside the giant component only if none of its links lead into it. For the Poisson degree distribution of an ER graph this self-consistency condition reduces to</p>
-<div class="eq"><math display="block"><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math></div>
-<p><math><mi>S</mi><mo>=</mo><mn>0</mn></math> always solves this. To see when a <em>positive</em> solution also appears, expand the right side for small <math><mi>S</mi></math>: <math><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup><mo>≈</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msup><mrow><mo>(</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><mo>…</mo></math>. A non-zero solution branches off from 0 only when the initial slope of the right side exceeds 1, i.e. when <span class="verdict"><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></span>. Intuitively: follow the links outward from a node; if each node leads on average to more than one new node (<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math>), the exploration never dies out and a giant component forms. ∎</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q9</span><span>spanning tree</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Select the characteristics that do <strong>NOT</strong> define a spanning tree.</p>
+<ul class="qopts">
+<li>The resulting tree must cover all vertices in the original graph.</li>
+<li class="correct">The resulting tree must have a cycle.</li>
+<li>The resulting tree must be acyclic.</li>
+<li>The resulting tree must have |V| − 1 edges where |V| is the number of vertices in the original graph.</li>
+<li>The resulting tree must be connected.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>A tree is acyclic, so <span class="verdict">"must have a cycle" is the characteristic that does NOT define a spanning tree</span>. The others all do.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Set 1, Q3</span><span>For <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, derive the stable-fixed-point condition, then apply it to <math><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup></math> and <math><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>cos</mi><mi>x</mi></math>.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>The derivation (Proof 4, §15) gives the condition <span class="verdict"><math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math></span>.</p>
-<p><strong><math><mi>f</mi><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup></math>:</strong> fixed points <math><mi>x</mi><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup></math> ⇒ <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></math>; <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mn>2</mn><mi>x</mi></math>. So <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> is stable (<math><mo>|</mo><mn>0</mn><mo>|</mo><mo>&lt;</mo><mn>1</mn></math>) and <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn></math> is unstable (<math><mo>|</mo><mn>2</mn><mo>|</mo><mo>&gt;</mo><mn>1</mn></math>).</p>
-<p><strong><math><mi>f</mi><mo>=</mo><mi>cos</mi><mi>x</mi></math>:</strong> fixed point <math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>; <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mo>−</mo><mi>sin</mi><mi>x</mi></math>, and <math><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math> ⇒ stable.</p>
-</div></div>
+<p class="small" style="margin-top:18px">Questions 10–12 refer to an undirected graph on A–E given by its adjacency matrix.</p>
 
-<div class="pyq"><summary><span class="qtag proof">Set 2, Q1</span><span>Ingredients of a BA graph, and prove the growth rate <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>∝</mo><msup><mi>t</mi><mrow><mo>−</mo><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Two ingredients.</strong> (1) <em>Growth</em> — start small and add one new node at a time. (2) <em>Preferential attachment</em> — a new node links to an existing node <math><mi>i</mi></math> with probability proportional to <math><mi>i</mi></math>'s current degree, <math><mi>Π</mi><mo>(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>)</mo><mo>=</mo><mfrac><msub><mi>k</mi><mi>i</mi></msub><mrow><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub></mrow></mfrac></math> ("rich get richer").</p>
-<p><strong>Derivation.</strong> Each new node brings <math><mi>m</mi></math> links, so node <math><mi>i</mi></math> gains links at rate <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>m</mi><mspace width="0.15em"/><mi>Π</mi><mo>(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>)</mo><mo>=</mo><mi>m</mi><mfrac><msub><mi>k</mi><mi>i</mi></msub><mrow><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub></mrow></mfrac></math>. After <math><mi>t</mi></math> nodes have been added there are <math><mi>m</mi><mi>t</mi></math> links, so the degrees sum to <math><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub><mo>=</mo><mn>2</mn><mi>m</mi><mi>t</mi></math>. Therefore</p>
-<div class="eq"><math display="block"><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>m</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mn>2</mn><mi>m</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><msub><mi>k</mi><mi>i</mi></msub><mrow><mn>2</mn><mi>t</mi></mrow></mfrac></math></div>
-<p>Solving <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><msub><mi>k</mi><mi>i</mi></msub></mfrac><mo>=</mo><mfrac><mrow><mi>d</mi><mi>t</mi></mrow><mrow><mn>2</mn><mi>t</mi></mrow></mfrac></math> gives <math><msub><mi>k</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>m</mi><msup><mrow><mo>(</mo><mi>t</mi><mo>/</mo><msub><mi>t</mi><mi>i</mi></msub><mo>)</mo></mrow><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>, where <math><msub><mi>t</mi><mi>i</mi></msub></math> is when node <math><mi>i</mi></math> was born. Differentiating, <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>∝</mo><msup><mi>t</mi><mrow><mo>−</mo><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>, so <span class="verdict"><math><mi>β</mi><mo>=</mo><mo>−</mo><mn>1</mn><mo>/</mo><mn>2</mn></math></span>. ∎</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q10</span><span>components</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Determine the number of connected components. <span class="small">(numeric)</span></p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">3.</span></p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Set 2, Q2</span><span>Prove the ER degree distribution is Poisson for small <math><mi>p</mi></math> and large <math><mi>N</mi></math>. Give the average degree and second moment.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>A node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible links, each present independently with probability <math><mi>p</mi></math>, so its degree is <em>binomial</em>: <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mo>(</mo><mfrac linethickness="0"><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mi>k</mi></mfrac><mo>)</mo><msup><mi>p</mi><mi>k</mi></msup><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn><mo>−</mo><mi>k</mi></mrow></msup></math>. Take <math><mi>N</mi><mo>→</mo><mi>∞</mi></math> and <math><mi>p</mi><mo>→</mo><mn>0</mn></math> while holding the mean <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>=</mo><mi>c</mi></math> fixed — the standard limit under which the binomial becomes Poisson:</p>
-<div class="eq"><math display="block"><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>c</mi></mrow></msup><mfrac><msup><mi>c</mi><mi>k</mi></msup><mrow><mi>k</mi><mo>!</mo></mrow></mfrac></math></div>
-<p>For a Poisson distribution the <span class="verdict">average degree is <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>c</mi></math></span>, and since its variance also equals <math><mi>c</mi></math>, the <span class="verdict">second moment is <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo><mo>=</mo><mtext>var</mtext><mo>+</mo><msup><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow><mn>2</mn></msup><mo>=</mo><mi>c</mi><mo>+</mo><msup><mi>c</mi><mn>2</mn></msup></math></span>. ∎</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q11</span><span>components</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>Identify the connected components in the graph.</p>
+<ul class="qopts"><li class="correct">{A, B, C}</li><li class="correct">{D}</li><li class="correct">{E}</li><li>{D, E}</li><li>{A, C}</li><li>{A}</li><li>{C, D}</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">{A, B, C}, {D}, {E}</span> — three separate groups.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Set 2, Q3</span><span>Discrete-map stability condition, applied to the logistic map <math><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><mi>r</mi><msub><mi>x</mi><mi>n</mi></msub><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p>Condition: <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math>. <strong>Fixed points:</strong> <math><mi>x</mi><mo>=</mo><mi>r</mi><mi>x</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo>)</mo></math> gives <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> or <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mn>1</mn><mi>r</mi></mfrac></math>. <strong>Derivative:</strong> <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>r</mi><mo>(</mo><mn>1</mn><mo>−</mo><mn>2</mn><mi>x</mi><mo>)</mo></math>.</p>
-<ul>
-<li>At <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math>: <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mi>r</mi></math> ⇒ <span class="verdict">stable for <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>&lt;</mo><mn>1</mn></math></span>.</li>
-<li>At <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mo>/</mo><mi>r</mi></math>: <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></math> ⇒ <span class="verdict">stable for <math><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></math></span>.</li>
-</ul>
-<p>Beyond <math><mi>r</mi><mo>=</mo><mn>3</mn></math> this fixed point loses stability and the famous period-doubling route to chaos begins.</p>
-</div></div>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q12</span><span>Laplacian</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>What is the nullity of the Laplacian matrix for the above graph? <span class="small">(numeric)</span></p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">3</span> — the nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> equals the number of connected components.</p></div></details>
+</div>
 
-<div class="pyq"><summary><span class="qtag proof">Set 2, Q4</span><span>Find the fixed points of the Lorenz system and construct its Jacobian. <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>σ</mi><mo>(</mo><mi>y</mi><mo>−</mo><mi>x</mi><mo>)</mo></math>, <math><mover><mi>y</mi><mo>˙</mo></mover><mo>=</mo><mi>ρ</mi><mi>x</mi><mo>−</mo><mi>y</mi><mo>−</mo><mi>x</mi><mi>z</mi></math>, <math><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mo>−</mo><mi>β</mi><mi>z</mi><mo>+</mo><mi>x</mi><mi>y</mi></math>.</span><span class="chev">›</span></summary>
-<div class="ans">
-<p><strong>Fixed points.</strong> From <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>: <math><mi>y</mi><mo>=</mo><mi>x</mi></math>. From <math><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>: <math><mi>z</mi><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>/</mo><mi>β</mi></math>. Put both into <math><mover><mi>y</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>: <math><mi>x</mi><mo>(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup><mo>/</mo><mi>β</mi><mo>)</mo><mo>=</mo><mn>0</mn></math>. So either <math><mi>x</mi><mo>=</mo><mn>0</mn></math> (the origin) or <math><msup><mi>x</mi><mn>2</mn></msup><mo>=</mo><mi>β</mi><mo>(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></math>. The three fixed points (for <math><mi>ρ</mi><mo>&gt;</mo><mn>1</mn></math>) are:</p>
-<div class="eq"><math display="block"><mo>(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>)</mo><mspace width="1em"/><mtext>and</mtext><mspace width="1em"/><mo>(</mo><mo>±</mo><msqrt><mrow><mi>β</mi><mo>(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msqrt><mo>,</mo><mo>±</mo><msqrt><mrow><mi>β</mi><mo>(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msqrt><mo>,</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></div>
-<p><strong>Jacobian</strong> (partial derivatives of the three right-hand sides with respect to <math><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi></math>):</p>
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q13</span><span>SIR</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>What is the primary assumption about the infectious period in the SIR model?</p>
+<ul class="qopts"><li class="correct">It is constant for all individuals.</li><li>It varies for each individual.</li><li>It increases as the infection progresses.</li><li>It decreases as the infection progresses.</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>A constant recovery rate <math><mi>γ</mi></math> means the infectious period is <span class="verdict">constant for all individuals</span>.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q14</span><span>SIR</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>What happens to the number of susceptible individuals over time in an SIR model as the epidemic progresses?</p>
+<ul class="qopts"><li class="correct">It decreases exponentially.</li><li>It increases exponentially.</li><li>It remains constant.</li><li>It fluctuates randomly.</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>There is no route back into S, so susceptibles <span class="verdict">decrease exponentially</span>.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q15</span><span>SIR</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>For an SIR model, at a steady point:</p>
+<ul class="qopts"><li>The transmission rate (<math><mi>β</mi></math>) is always 0</li><li>The recovery rate (<math><mi>γ</mi></math>) is always 0</li><li class="correct">The sum of the rates of change of the three compartments is zero.</li><li>The basic reproduction number (<math><msub><mi>R</mi><mn>0</mn></msub></math>) is always 0</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Population is conserved, so <math><mfrac><mrow><mi>d</mi><mi>s</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>+</mo><mfrac><mrow><mi>d</mi><mi>i</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>+</mo><mfrac><mrow><mi>d</mi><mi>r</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mn>0</mn></math> always.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q16</span><span>predator–prey</span><span class="marks">1 mark</span></div>
+<div class="qtext"><p>For a predator-prey model, if the prey population is initially at a higher level than its carrying capacity, the system will likely:</p>
+<ul class="qopts"><li>Stabilize at the carrying capacity of the prey.</li><li>Experience a predator population crash.</li><li class="correct">Oscillate between high and low population levels.</li><li>Lead to the extinction of both predator and prey populations.</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Lotka–Volterra dynamics <span class="verdict">oscillate</span> rather than settle.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag mcq">Q17</span><span>predator–prey</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>In a predator-prey model, the steady points (equilibrium points) of the system are affected by various factors. Identify the correct statements.</p>
+<ul class="qopts">
+<li class="correct">If the predation rate increases, the predator population's steady point decreases.</li>
+<li>The system always stabilizes at the carrying capacity of the prey.</li>
+<li class="correct">An increase in the prey's reproductive rate leads to higher predator population at steady points.</li>
+<li class="correct">The presence of a competing species has no impact on the stability of the steady points.</li>
+</ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The first and third follow from how the equilibrium formulas depend on the parameters. <span class="small">(The key also marks the "competing species has no impact" option; treat that one cautiously — biologically a competitor usually does affect stability.)</span></p></div></details>
+</div>
+
+<h3>Quiz 1 (2024, Set II) — written, 20 marks</h3>
+<p class="small">Reminder printed on the paper: "Select the right option(s) and provide a one-line reasoning for why EACH of the options were correct or incorrect. Only attempting the options will NOT fetch any marks."</p>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q1</span><span>clustering + centrality</span><span class="marks">2 + 1 marks</span></div>
+<div class="qtext"><p>For the graph given in Figure 1, calculate the clustering coefficients of the nodes labelled X and Y. In reference to this graph, which statements are correct? &nbsp;(a)&#160;Degree of Y is greater than X. &nbsp;(b)&#160;Node betweenness of X is greater than Y. &nbsp;(c)&#160;Closeness centrality of X is smaller than Y.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>For each of X, Y: list its neighbours, count links among those neighbours only, divide by <math><mfrac><mrow><mi>k</mi><mo>(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> (method in §7). Y is the higher-degree central node, so: (a)&#160;<span class="verdict">true</span> (Y is the hub); (b)&#160;<span class="verdict">false</span> — the central Y lies on more shortest paths, so its betweenness is higher; (c)&#160;<span class="verdict">true</span> — Y is nearer everyone, so X's closeness is smaller.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q2</span><span>star graph</span><span class="marks">2 + 1 marks</span></div>
+<div class="qtext"><p>For a star graph with N = 5 nodes, what is the average path length of the graph? What is the diameter of the graph?</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>10 pairs: four hub–leaf at distance 1, six leaf–leaf at distance 2 ⇒ sum 16 ⇒ <span class="verdict">average path length 1.6</span>, <span class="verdict">diameter 2</span> (full working in §9).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q3</span><span>complete graph</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>For an all-to-all connected network (binary, undirected, without self-loops) with number of nodes N, which of the following is/are true? &nbsp;(a)&#160;Network is symmetric. &nbsp;(b)&#160;Diameter of the network is N. &nbsp;(c)&#160;Average path length of the network is 1. &nbsp;(d)&#160;Average degree of the network N−1.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>(a)&#160;<span class="verdict">true</span> (undirected ⇒ symmetric); (b)&#160;<span class="verdict">false</span> (diameter is 1); (c)&#160;<span class="verdict">true</span> (every pair adjacent); (d)&#160;<span class="verdict">true</span> (each node touches all others).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q4</span><span>in/out-degree</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Adjacency matrix of a directed graph can be written as the matrix below. Write the in-degree and out-degree sequence of this graph.</p>
+<div class="eq" style="margin:8px 0"><math display="block"><mi>A</mi><mo>=</mo><mrow><mo>[</mo><mtable>
+<mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr>
+<mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr>
+<mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr>
+<mtr><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd></mtr>
+</mtable><mo>]</mo></mrow></math></div></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Out-degree = row sums = <span class="verdict">(1, 3, 1, 3)</span>; in-degree = column sums = <span class="verdict">(2, 3, 1, 2)</span>. Both total 9 (full working in §2).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q5</span><span>Euler vs Hamilton</span><span class="marks">1 + 1 + 2 marks</span></div>
+<div class="qtext"><p>What is the main difference between a Eulerian path and a Hamiltonian path of a graph? In the graph given in Figure 2, is there any Hamiltonian path / Eulerian path / Eulerian cycle? Justify your answer. If not, how can you make an Eulerian path?</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Eulerian = every <em>edge</em> once; Hamiltonian = every <em>vertex</em> once. For the Figure-2 graph the degrees give four odd-degree nodes, so no Euler trail/circuit exists, but a Hamiltonian path does; add one edge between two odd nodes to make an Euler trail possible (full working in the §5 box).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q6</span><span>betweenness + closeness</span><span class="marks">2 + 2 marks</span></div>
+<div class="qtext"><p>Calculate the (a) node betweenness and (b) closeness of nodes labelled X and Y in the graph in Figure 3 <span class="small">(a 5-node path)</span>.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>On a line, a node in position <math><mi>i</mi></math> has betweenness <math><mo>(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>N</mi><mo>−</mo><mi>i</mi><mo>)</mo></math> and closeness <math><mn>1</mn><mo>/</mo><munder><mo>∑</mo><mi>j</mi></munder><mi>d</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo></math>. An endpoint scores 0 betweenness and low closeness; an interior node scores higher on both (worked five-node line in §8).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag">Q7</span><span>Erdős–Rényi</span><span class="marks">2 marks</span></div>
+<div class="qtext"><p>Given a probability (denoted by p) representing the likelihood of a connection between two nodes or the ratio of existing links to the total potential edges, what is the relationship between p, the average degree ⟨K⟩, and the number of nodes N?</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict"><math><mo>⟨</mo><mi>K</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></span> — each node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, each realised with probability <math><mi>p</mi></math>.</p></div></details>
+</div>
+
+<p class="small">Set IV poses the same seven questions in a different order; its adjacency-matrix question uses <math><mrow><mo>[</mo><mtable columnspacing="0.4em" rowspacing="0.1em"><mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr></mtable><mo>]</mo></mrow></math> — same method: out = row sums (1,2,3,2), in = column sums (2,2,2,2).</p>
+
+<h3>Mid-semester (2024) — 5 questions × 7 marks</h3>
+<div class="card watch"><span class="tag">Heads up</span><p>Questions 1, 2 and 5 use topics that come <em>after</em> your current slides (Kuramoto oscillators, the Hopf/limit-cycle bifurcation, network SIS). Solved in full for completeness.</p></div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q1</span><span>coupled oscillators (Kuramoto)</span><span class="marks">3 + 4 marks</span></div>
+<div class="qtext"><p>The equations of motion of two coupled phase oscillators are</p>
+<div class="eq" style="margin:8px 0"><math display="block"><msub><mover><mi>θ</mi><mo>˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mi>sin</mi><mo>(</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>)</mo><mo>,</mo><mspace width="1.2em"/><msub><mover><mi>θ</mi><mo>˙</mo></mover><mn>2</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mi>sin</mi><mo>(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>)</mo></math></div>
+<p>where <math><msub><mi>θ</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub></math>, <math><msub><mi>ω</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub></math> and <math><msub><mi>k</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub></math> are phase, natural frequency and coupling strength. (a)&#160;Calculate the critical coupling strength at which both oscillators will follow a common frequency. (b)&#160;Calculate the common frequency. Also explain whether one can obtain a common (and stable) frequency at <math><msub><mi>k</mi><mn>1</mn></msub><mo>=</mo><msub><mi>k</mi><mn>2</mn></msub><mo>=</mo><mi>k</mi><mo>=</mo><mn>2</mn></math> and <math><msub><mi>ω</mi><mn>1</mn></msub><mo>=</mo><mn>2</mn></math>, <math><msub><mi>ω</mi><mn>2</mn></msub><mo>=</mo><mn>10</mn></math>.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner">
+<p>Let <math><mi>φ</mi><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub></math>. Subtracting: <math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>)</mo><mo>−</mo><mo>(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo>)</mo><mi>sin</mi><mi>φ</mi></math>. Locking (<math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>) needs <math><mi>sin</mi><mi>φ</mi><mo>=</mo><mfrac><mrow><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>, which is only possible if <span class="verdict"><math><mrow><mo>|</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>|</mo></mrow><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></math></span>. Common frequency <math><mi>Ω</mi><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>. With the given numbers <math><mrow><mo>|</mo><mn>2</mn><mo>−</mo><mn>10</mn><mo>|</mo></mrow><mo>=</mo><mn>8</mn><mo>&gt;</mo><mn>4</mn></math>, so <span class="verdict">they cannot lock</span> (full working in the §12 note area and here).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q2</span><span>Hopf / limit cycle</span><span class="marks">3 + 4 marks</span></div>
+<div class="qtext"><p>Assume the motion of a particle is captured by <math><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><msup><mrow><mo>|</mo><mi>z</mi><mo>|</mo></mrow><mn>2</mn></msup><mo>)</mo><mi>z</mi></math>, where <math><mi>z</mi><mo>=</mo><mi>x</mi><mo>+</mo><mi>i</mi><mi>y</mi></math>. (a)&#160;Transform this equation into the <math><mo>(</mo><mi>r</mi><mo>,</mo><mi>θ</mi><mo>)</mo></math> plane. (b)&#160;Find the condition in which the system will reveal a stable limit cycle. Explain it with proper bifurcation analysis.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Writing <math><mi>z</mi><mo>=</mo><mi>r</mi><msup><mi>e</mi><mrow><mi>i</mi><mi>θ</mi></mrow></msup></math> and matching real/imaginary parts gives <math><mover><mi>r</mi><mo>˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn>3</mn></msup></math> and <math><mover><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mi>ω</mi></math>. The radius is a supercritical pitchfork: a <span class="verdict">stable limit cycle of radius <math><msqrt><mi>μ</mi></msqrt></math> exists for <math><mi>μ</mi><mo>&gt;</mo><mn>0</mn></math></span> (a Hopf bifurcation at <math><mi>μ</mi><mo>=</mo><mn>0</mn></math>). Full step-by-step in §18 &gt; mid-sem earlier draft &amp; §12.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q3</span><span>bifurcation classification</span><span class="marks">3.5 + 3.5 marks</span></div>
+<div class="qtext"><p>(a)&#160;A system is described by <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></math>, where <math><mi>r</mi></math> is the parameter. Describe the role of <math><mi>r</mi></math>. What type of bifurcation do you expect? (b)&#160;Another system is described by <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mi>r</mi><mi>x</mi><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup></math>. Describe the bifurcations obtained by varying <math><mi>r</mi></math>.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>(a)&#160;<span class="verdict">transcritical</span> — branches <math><mn>0</mn></math> and <math><mi>r</mi></math> cross and swap stability at <math><mi>r</mi><mo>=</mo><mn>0</mn></math>. (b)&#160;<span class="verdict">saddle-node at <math><mi>r</mi><mo>=</mo><mo>±</mo><mn>2</mn></math></span> — a pair of fixed points appears once <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>≥</mo><mn>2</mn></math>. Both fully worked in the §12 box.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q4</span><span>SIS model</span><span class="marks">4 + 1.5 + 1.5 marks</span></div>
+<div class="qtext"><p>An epidemic model (Susceptible–Infected–Susceptible) is described by <math><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>β</mi><mi>S</mi><mi>I</mi><mo>−</mo><mi>γ</mi><mi>I</mi></math> with <math><mi>S</mi><mo>+</mo><mi>I</mi><mo>=</mo><mn>1</mn></math>. (a)&#160;Solve this model and find the solution <math><mi>I</mi></math> as a function of time, <math><mi>β</mi></math> and <math><mi>γ</mi></math>. (b)&#160;What will be the endemic equilibrium (<math><msup><mi>I</mi><mo>*</mo></msup></math> at <math><mi>t</mi><mo>→</mo><mi>∞</mi></math>)? (c)&#160;Explain in which condition the disease will not spread.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Logistic solution <math><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>K</mi><mrow><mn>1</mn><mo>+</mo><mo>(</mo><mfrac><mrow><mi>K</mi><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub></mrow><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo>)</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo>)</mo><mi>t</mi></mrow></msup></mrow></mfrac></math> with <math><mi>K</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi></math>; endemic <math><msup><mi>I</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi></math>; no spread when <math><mi>β</mi><mo>&lt;</mo><mi>γ</mi></math>. Full derivation is Proof&#160;5 in §15.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q5</span><span>network SIS</span><span class="marks">3.5 + 3.5 marks</span></div>
+<div class="qtext"><p>Let the SIS model on a network be <math><msub><mover><mi>i</mi><mo>˙</mo></mover><mi>k</mi></msub><mo>=</mo><mo>−</mo><mi>γ</mi><msub><mi>i</mi><mi>k</mi></msub><mo>+</mo><mi>β</mi><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>i</mi><mi>k</mi></msub><mo>)</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>A</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><msub><mi>i</mi><mi>j</mi></msub></math>, where <math><msub><mi>i</mi><mi>k</mi></msub></math> is the infected density at node <math><mi>k</mi></math>, <math><mi>A</mi></math> is the adjacency matrix and <math><mi>N</mi></math> the number of nodes. (a)&#160;Explain how the network affects the infection at the initial stage (<math><mi>t</mi><mo>≈</mo><mn>0</mn></math>). (b)&#160;Explain in which case the disease will not spread.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Linearising for small <math><msub><mi>i</mi><mi>k</mi></msub></math> gives growth rate <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>−</mo><mi>γ</mi></math>, so the network acts through its largest adjacency eigenvalue; the disease dies out when <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>&lt;</mo><mi>γ</mi></math>, i.e. below the threshold <math><mn>1</mn><mo>/</mo><msub><mi>λ</mi><mtext>max</mtext></msub></math> (see §14).</p></div></details>
+</div>
+
+<h3>Quiz 2 (2024, Set 1)</h3>
+<div class="card watch"><span class="tag">Heads up</span><p>Quiz 2 covers scale-free / Erdős–Rényi degree distributions and discrete maps — later-module material, included for completeness.</p></div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q1a</span><span>power law · normalisation</span><span class="marks">3 marks</span></div>
+<div class="qtext"><p>Assume the degree distribution of a network (symmetric and binary) follows a power law <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math>. Calculate the normalization constant <math><mi>C</mi></math>. Find the condition such that you can obtain a finite <math><mi>C</mi></math>.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><math><mi>C</mi><mo>=</mo><mn>1</mn><mo>/</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></munderover><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup><mo>=</mo><mn>1</mn><mo>/</mo><mi>ζ</mi><mo>(</mo><mi>γ</mi><mo>)</mo></math>; finite only when the sum converges, i.e. <span class="verdict"><math><mi>γ</mi><mo>&gt;</mo><mn>1</mn></math></span> (full working in the earlier §18 draft &amp; below).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q1b</span><span>power law · moments</span><span class="marks">4 marks</span></div>
+<div class="qtext"><p>Assume the degree distribution follows <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math>. Find the first moment (<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) and the second moment (<math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math>). Explain in which cases these moments will diverge.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The <math><mi>n</mi></math>-th moment <math><mo>∝</mo><mo>∑</mo><msup><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mi>γ</mi></mrow></msup></math> converges only when <math><mi>γ</mi><mo>&gt;</mo><mi>n</mi><mo>+</mo><mn>1</mn></math>. So <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>2</mn></math></span> and <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math> <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>3</mn></math></span>.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q2</span><span>Erdős–Rényi giant component</span><span class="marks">5 marks</span></div>
+<div class="qtext"><p>Prove that, in an Erdős–Rényi graph, a giant connected component (GCC) will pop up if the mean degree (<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) is greater than 1.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The giant-component fraction satisfies <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution branches off from <math><mi>S</mi><mo>=</mo><mn>0</mn></math> only when the slope of the right side at 0 exceeds 1, i.e. <span class="verdict"><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></span> — each node must lead on average to more than one new node for the exploration to survive (full argument in the earlier §18 draft).</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q3</span><span>discrete-map stability</span><span class="marks">2 + 3 marks</span></div>
+<div class="qtext"><p>If <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, find the condition (show the derivation) where the system will show a stable fixed point (<math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><msup><mi>x</mi><mo>*</mo></msup></math>). Then for (i)&#160;<math><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><msubsup><mi>x</mi><mi>n</mi><mn>2</mn></msubsup></math> and (ii)&#160;<math><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><mi>cos</mi><msub><mi>x</mi><mi>n</mi></msub></math>, find the fixed points and stability conditions.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Condition <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math> (Proof&#160;4, §15). (i)&#160;<math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> stable, <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn></math> unstable. (ii)&#160;<math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>, stable since <math><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math>.</p></div></details>
+</div>
+
+<h3>Quiz 2 (2024, Set 2)</h3>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q1</span><span>BA graph</span><span class="marks">2 + 2 marks</span></div>
+<div class="qtext"><p>Explain the basic ingredients required for generating a BA graph. Prove that the rate at which an existing node <math><mi>i</mi></math> acquires links (<math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></math>) as new nodes connect to it is proportional to <math><msup><mi>t</mi><mi>β</mi></msup></math>, where <math><mi>β</mi><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></math>, <math><mi>k</mi></math> is the degree, and <math><mi>t</mi></math> is time.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Ingredients: <em>growth</em> (add one node at a time) and <em>preferential attachment</em> (<math><mi>Π</mi><mo>(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>)</mo><mo>=</mo><msub><mi>k</mi><mi>i</mi></msub><mo>/</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub></math>). With <math><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub><mo>=</mo><mn>2</mn><mi>m</mi><mi>t</mi></math>, <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><msub><mi>k</mi><mi>i</mi></msub><mrow><mn>2</mn><mi>t</mi></mrow></mfrac></math> ⇒ <math><msub><mi>k</mi><mi>i</mi></msub><mo>∝</mo><msup><mi>t</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math> ⇒ <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>∝</mo><msup><mi>t</mi><mrow><mo>−</mo><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>. Full derivation in the earlier §18 draft.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q2</span><span>ER Poisson</span><span class="marks">3 + 1 marks</span></div>
+<div class="qtext"><p>Prove that, in an Erdős–Rényi network, the degree distribution follows a Poisson distribution if the connection probability is very small and the number of nodes is extremely large. What will be the average degree and the second moment?</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The degree is binomial <math><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>p</mi><mo>)</mo></math>; taking <math><mi>N</mi><mo>→</mo><mi>∞</mi></math>, <math><mi>p</mi><mo>→</mo><mn>0</mn></math> with <math><mi>c</mi><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> fixed gives <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>c</mi></mrow></msup><msup><mi>c</mi><mi>k</mi></msup><mo>/</mo><mi>k</mi><mo>!</mo></math>. Average degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>c</mi></math>; second moment <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo><mo>=</mo><mi>c</mi><mo>+</mo><msup><mi>c</mi><mn>2</mn></msup></math>.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q3</span><span>logistic map</span><span class="marks">2 + 3 marks</span></div>
+<div class="qtext"><p>If <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, find the condition where the system shows a stable fixed point. If <math><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><mi>r</mi><msub><mi>x</mi><mi>n</mi></msub><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, find the fixed points and stability conditions. [Eigenvalue analysis is not required.]</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Condition <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math>. Fixed points <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> (stable for <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>&lt;</mo><mn>1</mn></math>) and <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mn>1</mn><mi>r</mi></mfrac></math> (stable for <math><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></math>), from <math><msup><mi>f</mi><mo>′</mo></msup><mo>=</mo><mi>r</mi><mo>(</mo><mn>1</mn><mo>−</mo><mn>2</mn><mi>x</mi><mo>)</mo></math>.</p></div></details>
+</div>
+
+<div class="qitem">
+<div class="qmeta"><span class="qtag proof">Q4</span><span>Lorenz system</span><span class="marks">4 marks</span></div>
+<div class="qtext"><p>Find the fixed points of the Lorenz oscillator and construct the associated Jacobian.</p>
+<div class="eq" style="margin:8px 0"><math display="block"><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>σ</mi><mo>(</mo><mi>y</mi><mo>−</mo><mi>x</mi><mo>)</mo><mo>,</mo><mspace width="1em"/><mover><mi>y</mi><mo>˙</mo></mover><mo>=</mo><mi>ρ</mi><mi>x</mi><mo>−</mo><mi>y</mi><mo>−</mo><mi>x</mi><mi>z</mi><mo>,</mo><mspace width="1em"/><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mo>−</mo><mi>β</mi><mi>z</mi><mo>+</mo><mi>x</mi><mi>y</mi></math></div></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Fixed points: the origin <math><mo>(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>)</mo></math> and, for <math><mi>ρ</mi><mo>&gt;</mo><mn>1</mn></math>, <math><mo>(</mo><mo>±</mo><msqrt><mrow><mi>β</mi><mo>(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msqrt><mo>,</mo><mo>±</mo><msqrt><mrow><mi>β</mi><mo>(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msqrt><mo>,</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>)</mo></math>. Jacobian</p>
 <div class="eq"><math display="block"><mi>J</mi><mo>=</mo><mrow><mo>[</mo><mtable>
 <mtr><mtd><mo>−</mo><mi>σ</mi></mtd><mtd><mi>σ</mi></mtd><mtd><mn>0</mn></mtd></mtr>
 <mtr><mtd><mi>ρ</mi><mo>−</mo><mi>z</mi></mtd><mtd><mo>−</mo><mn>1</mn></mtd><mtd><mo>−</mo><mi>x</mi></mtd></mtr>
 <mtr><mtd><mi>y</mi></mtd><mtd><mi>x</mi></mtd><mtd><mo>−</mo><mi>β</mi></mtd></mtr>
 </mtable><mo>]</mo></mrow></math></div>
-<p>Evaluate <math><mi>J</mi></math> at each fixed point to test its stability (the eigenvalue analysis was not required here).</p>
-</div></div>
+<p>evaluated at each fixed point (eigenvalue analysis not required).</p></div></details>
+</div>
 
 <hr class="soft">
-<p class="small">Built from your Class 1–6 slides (Modules 1, 2a, 2b, 2c1, 2c2 and the 1-D bifurcation note) and all seven past papers in the PYQ folder. The network-metrics and nonlinear-dynamics material sits on your current slides; the Kuramoto, Hopf, scale-free/BA, ER-moment and Lorenz items come from the mid-sem and Quiz&#160;2, whose slides aren't in the folder yet. Send those when they arrive and this guide gets extended.</p>
+<p class="small">Built from your Class 1–6 slides (Modules 1, 2a, 2b, 2c1, 2c2 and the 1-D bifurcation note) and all seven past papers in the PYQ folder. Network-metrics and nonlinear-dynamics material is on your current slides; the Kuramoto, Hopf, scale-free/BA, ER-moment and Lorenz items come from the mid-sem and Quiz&#160;2, whose slides aren't in the folder yet — send those and this guide gets extended.</p>
 </section>
 </main>
 </div>
