@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nodes to Bifurcations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --paper:#f4f3ef; --surface:#fbfaf7; --surface-2:#efeee8;
+  --ink:#23262d; --muted:#63666f; --line:#e3e1d8; --line-strong:#d3d0c4;
+  --accent:#0f6e66; --accent-ink:#0b544d; --accent-wash:#e4efed;
+  --clay:#b5512f; --clay-ink:#8f3f24; --clay-wash:#f4e6df;
+  --gold:#9a7b16; --gold-wash:#f2ecd7;
+  --shadow:0 1px 2px rgba(30,28,22,.05),0 6px 20px rgba(30,28,22,.05);
+  --maxw:none;
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){
+  --paper:#15171c; --surface:#1c1f26; --surface-2:#22262e;
+  --ink:#e8e7e2; --muted:#9ba0a8; --line:#2c3038; --line-strong:#3a3f49;
+  --accent:#4fb3a8; --accent-ink:#7ccabf; --accent-wash:#123834;
+  --clay:#e08a60; --clay-ink:#eaa484; --clay-wash:#3a241b;
+  --gold:#cda94a; --gold-wash:#332c15;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+}}
+:root[data-theme="dark"]{
+  --paper:#15171c; --surface:#1c1f26; --surface-2:#22262e;
+  --ink:#e8e7e2; --muted:#9ba0a8; --line:#2c3038; --line-strong:#3a3f49;
+  --accent:#4fb3a8; --accent-ink:#7ccabf; --accent-wash:#123834;
+  --clay:#e08a60; --clay-ink:#eaa484; --clay-wash:#3a241b;
+  --gold:#cda94a; --gold-wash:#332c15;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Hanken Grotesk",system-ui,-apple-system,sans-serif;
+  font-size:17px; line-height:1.62; -webkit-font-smoothing:antialiased;
+  font-feature-settings:"ss01";
+}
+.wrap{display:grid; grid-template-columns:minmax(0,1fr); }
+@media(min-width:1040px){
+  .wrap{grid-template-columns:266px minmax(0,1fr); align-items:start;}
+}
+
+/* ---------- Sidebar / TOC ---------- */
+.toc{
+  position:sticky; top:0; align-self:start; max-height:100vh; overflow-y:auto;
+  padding:26px 20px 40px; border-right:1px solid var(--line); background:var(--surface);
+  display:none;
+}
+@media(min-width:1040px){.toc{display:block}}
+.toc .brand{font-family:"Spectral",serif; font-weight:700; font-size:1.05rem; letter-spacing:.01em; margin-bottom:2px}
+.toc .brand small{display:block; font-family:"Hanken Grotesk",sans-serif; font-weight:500; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:6px}
+.toc nav{margin-top:22px; font-size:.86rem}
+.toc .grp{font-family:"Hanken Grotesk"; text-transform:uppercase; letter-spacing:.13em; font-size:.66rem; color:var(--accent-ink); font-weight:700; margin:20px 0 8px}
+.toc a{display:block; color:var(--muted); text-decoration:none; padding:3px 10px; border-radius:6px; border-left:2px solid transparent; line-height:1.35; margin:1px 0}
+.toc a:hover{color:var(--ink); background:var(--surface-2)}
+.toc a.active{color:var(--accent-ink); border-left-color:var(--accent); background:var(--accent-wash); font-weight:600}
+
+/* ---------- Main ---------- */
+main{padding:0 clamp(18px,5vw,64px) 120px; max-width:900px}
+.hero{padding:clamp(40px,8vw,84px) 0 30px; border-bottom:1px solid var(--line)}
+.kicker{font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--clay); font-weight:700}
+h1{font-family:"Spectral",serif; font-weight:700; font-size:clamp(2.3rem,6vw,3.5rem); line-height:1.02; letter-spacing:-.01em; margin:.32em 0 .28em; text-wrap:balance}
+.hero .lead{font-size:1.12rem; color:var(--muted); max-width:60ch}
+.hero .meta{margin-top:22px; display:flex; flex-wrap:wrap; gap:8px}
+.pill{font-size:.74rem; font-weight:600; padding:5px 11px; border-radius:100px; background:var(--surface-2); border:1px solid var(--line-strong); color:var(--muted)}
+
+h2{font-family:"Spectral",serif; font-weight:700; font-size:clamp(1.7rem,3.6vw,2.15rem); letter-spacing:-.01em; margin:2.6em 0 .1em; padding-top:.4em; text-wrap:balance; scroll-margin-top:14px}
+h2 .num{color:var(--accent); font-size:.62em; font-weight:600; margin-right:.5em; font-variant-numeric:tabular-nums}
+h3{font-family:"Spectral",serif; font-weight:600; font-size:1.32rem; margin:2em 0 .3em; letter-spacing:-.005em; scroll-margin-top:14px}
+h4{font-family:"Hanken Grotesk"; font-weight:700; font-size:1.02rem; margin:1.5em 0 .2em; letter-spacing:.005em}
+.section-intro{color:var(--muted); font-size:1.04rem; max-width:64ch}
+p{max-width:68ch}
+a{color:var(--accent-ink)}
+strong{font-weight:700}
+em.term{font-style:normal; font-weight:600; color:var(--accent-ink)}
+ul,ol{max-width:66ch; padding-left:1.3em}
+li{margin:.28em 0}
+hr.soft{border:none; border-top:1px solid var(--line); margin:2.4em 0}
+
+/* inline + display math */
+.m{font-family:"JetBrains Mono",monospace; font-size:.93em; background:var(--surface-2); padding:.08em .34em; border-radius:5px; white-space:nowrap}
+.eq{font-family:"JetBrains Mono",monospace; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:10px; padding:16px 20px; margin:16px 0; overflow-x:auto; font-size:.96rem; line-height:1.9}
+.eq.center{text-align:center}
+sub,sup{font-size:.72em; line-height:0}
+pre.mat{font-family:"JetBrains Mono",monospace; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; overflow-x:auto; font-size:.9rem; line-height:1.5; margin:14px 0}
+
+/* callouts */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin:20px 0; box-shadow:var(--shadow)}
+.def{border-left:4px solid var(--accent)}
+.def .tag,.watch .tag,.ex .tag,.key .tag{display:inline-block; font-size:.66rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px}
+.def .tag{color:var(--accent-ink)}
+.watch{border-left:4px solid var(--clay); background:var(--clay-wash)}
+.watch .tag{color:var(--clay-ink)}
+.key{border-left:4px solid var(--gold); background:var(--gold-wash)}
+.key .tag{color:var(--gold)}
+.ex{border:1px dashed var(--line-strong); background:var(--surface-2)}
+.ex .tag{color:var(--clay-ink)}
+.ex h4:first-of-type{margin-top:0}
+
+/* worked steps */
+.steps{counter-reset:step; list-style:none; padding-left:0; max-width:70ch}
+.steps>li{counter-increment:step; position:relative; padding-left:44px; margin:.7em 0}
+.steps>li::before{content:counter(step); position:absolute; left:0; top:-1px; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-size:.82rem; font-weight:700; display:grid; place-items:center; font-family:"JetBrains Mono"}
+:root[data-theme="dark"] .steps>li::before, :root:not([data-theme="light"]) .steps>li::before{color:#0d1512}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .steps>li::before{color:#0d1512}}
+
+/* PYQ quiz block */
+.pyq{border:1px solid var(--line-strong); border-radius:14px; margin:20px 0; overflow:hidden; background:var(--surface)}
+.pyq>summary{cursor:pointer; list-style:none; padding:16px 20px; display:flex; gap:12px; align-items:flex-start; font-weight:600}
+.pyq>summary::-webkit-details-marker{display:none}
+.pyq>summary:hover{background:var(--surface-2)}
+.pyq .qtag{flex:none; font-size:.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#fff; background:var(--clay); padding:4px 8px; border-radius:6px; margin-top:2px}
+.pyq .qtag.mcq{background:var(--accent)}
+.pyq .qtag.proof{background:var(--gold)}
+.pyq .chev{margin-left:auto; flex:none; color:var(--muted); transition:transform .2s}
+.pyq[open] .chev{transform:rotate(90deg)}
+.pyq .ans{padding:2px 20px 20px; border-top:1px solid var(--line); background:var(--surface-2)}
+.pyq .ans>*:first-child{margin-top:14px}
+.ans .verdict{font-weight:700; color:var(--accent-ink)}
+
+/* diagrams */
+.figrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:16px; margin:20px 0}
+.fig{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px}
+.fig h4{margin:2px 0 4px; font-size:.92rem}
+.fig p{font-size:.82rem; color:var(--muted); margin:.3em 0 0; max-width:none}
+.fig svg{width:100%; height:auto; display:block}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.8rem; color:var(--muted); margin:6px 0 2px}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.swatch{width:20px; height:0; border-top-width:3px; border-top-style:solid; display:inline-block}
+
+/* tables */
+.tbl{width:100%; border-collapse:collapse; margin:16px 0; font-size:.92rem; display:block; overflow-x:auto}
+.tbl th,.tbl td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top}
+.tbl th{background:var(--surface-2); font-weight:700; font-size:.82rem; letter-spacing:.02em}
+.tbl td .m{white-space:normal}
+
+/* theme toggle */
+.themebtn{position:fixed; top:14px; right:14px; z-index:20; background:var(--surface); border:1px solid var(--line-strong); color:var(--ink); border-radius:100px; padding:8px 14px; font:inherit; font-size:.8rem; font-weight:600; cursor:pointer; box-shadow:var(--shadow)}
+.themebtn:hover{background:var(--surface-2)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+.tocwrap-mobile{display:block; padding:22px clamp(18px,5vw,64px) 0}
+@media(min-width:1040px){.tocwrap-mobile{display:none}}
+details.mtoc{border:1px solid var(--line); border-radius:12px; background:var(--surface); padding:2px 6px}
+details.mtoc summary{padding:12px; font-weight:700; cursor:pointer}
+details.mtoc a{display:block; padding:6px 12px; color:var(--muted); text-decoration:none}
+.small{font-size:.85rem; color:var(--muted)}
+.notecol{color:var(--clay-ink); font-weight:600}
+</style>
+</head>
+<body>
+
+<button class="themebtn" id="themebtn" aria-label="Toggle colour theme">◐ Theme</button>
+
+<div class="wrap">
+<aside class="toc" aria-label="Contents">
+  <div class="brand">Nodes to Bifurcations<small>DPCN · Quiz Field Guide</small></div>
+  <nav id="tocnav">
+    <div class="grp">Orientation</div>
+    <a href="#how">How the quiz is set</a>
+    <a href="#intro">0 · Network science in brief</a>
+    <div class="grp">Block A — Structure</div>
+    <a href="#repr">1 · Graphs & adjacency matrix</a>
+    <a href="#degree">2 · Degree & handshaking</a>
+    <a href="#avg">3 · Mean degree & density</a>
+    <a href="#walks">4 · Walks, trails, paths, cycles</a>
+    <a href="#euler">5 · Eulerian & Hamiltonian</a>
+    <a href="#dist">6 · Distance, diameter, BFS</a>
+    <a href="#cluster">7 · Clustering coefficient</a>
+    <a href="#cent">8 · The four centralities</a>
+    <a href="#special">9 · Special graphs & trees</a>
+    <div class="grp">Block B — Dynamics</div>
+    <a href="#fixed">10 · Fixed points & stability</a>
+    <a href="#euler-method">11 · Euler's method</a>
+    <a href="#bifs">12 · The four bifurcations</a>
+    <a href="#bistable">13 · Bistability & hysteresis</a>
+    <a href="#epi">14 · SIS, SIR & predator–prey</a>
+    <div class="grp">Block C — Proofs</div>
+    <a href="#proofs">15 · Proofs he actually asks</a>
+    <div class="grp">Finish</div>
+    <a href="#cheat">16 · One-page cheat sheet</a>
+    <a href="#selftest">17 · Final self-test</a>
+  </nav>
+</aside>
+
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440</div>
+  <h1>Nodes to Bifurcations</h1>
+  <p class="lead">A worked field guide for the quiz — built from your slides and every past paper in the folder. It teaches the ideas from scratch, then drills the exact question types the course actually sets.</p>
+  <div class="meta">
+    <span class="pill">Graph metrics</span>
+    <span class="pill">Centralities</span>
+    <span class="pill">Eulerian / Hamiltonian</span>
+    <span class="pill">Bifurcations</span>
+    <span class="pill">SIS / SIR</span>
+    <span class="pill">Proofs &amp; derivations</span>
+  </div>
+</header>
+
+<div class="tocwrap-mobile">
+  <details class="mtoc"><summary>Jump to a section</summary>
+    <a href="#how">How the quiz is set</a>
+    <a href="#intro">0 · Network science in brief</a>
+    <a href="#repr">1 · Graphs &amp; adjacency matrix</a>
+    <a href="#degree">2 · Degree &amp; handshaking</a>
+    <a href="#avg">3 · Mean degree &amp; density</a>
+    <a href="#walks">4 · Walks, trails, paths, cycles</a>
+    <a href="#euler">5 · Eulerian &amp; Hamiltonian</a>
+    <a href="#dist">6 · Distance, diameter, BFS</a>
+    <a href="#cluster">7 · Clustering coefficient</a>
+    <a href="#cent">8 · The four centralities</a>
+    <a href="#special">9 · Special graphs &amp; trees</a>
+    <a href="#fixed">10 · Fixed points &amp; stability</a>
+    <a href="#euler-method">11 · Euler's method</a>
+    <a href="#bifs">12 · The four bifurcations</a>
+    <a href="#bistable">13 · Bistability &amp; hysteresis</a>
+    <a href="#epi">14 · SIS, SIR &amp; predator–prey</a>
+    <a href="#proofs">15 · Proofs he actually asks</a>
+    <a href="#cheat">16 · Cheat sheet</a>
+    <a href="#selftest">17 · Final self-test</a>
+  </details>
+</div>
+
+<section>
+<h2 id="how"><span class="num">—</span>How the quiz is actually set</h2>
+<p class="section-intro">Before the content, know the shape of the target. Every past paper in your folder falls into one of three moulds, and each rewards a different kind of preparation.</p>
+
+<div class="card key">
+<span class="tag">Read this first</span>
+<h4>Three formats, three habits</h4>
+<ul>
+<li><strong>Surprise quizzes (MS Forms, MCQ).</strong> Fast conceptual recall — "which centrality counts direct connections?", "what does high out-degree in a citation network mean?". No arithmetic, but the wording is often <em class="term">negated</em>: "which statement is <strong>wrong</strong>", "which do <strong>NOT</strong> define a spanning tree". Misreading the negation is the usual way marks are lost.</li>
+<li><strong>Written Quiz 1 (~20 marks, calculation + one-line reasoning).</strong> Compute a clustering coefficient, a betweenness, an in/out-degree sequence; state properties of star and complete graphs. Crucially: <em class="term">"only attempting the options will NOT fetch marks — give a one-line reason for each."</em> Bare answers score zero.</li>
+<li><strong>Proof / derivation (surprise + Quiz 2 + mid-sem).</strong> This is where he stretches you: <span class="m">triangles = ⅙·tr(A³)</span>, stability of a discrete map, solving the SIS equation, classifying a bifurcation. Section&nbsp;15 is built entirely for these.</li>
+</ul>
+</div>
+
+<div class="card watch">
+<span class="tag">Convention trap</span>
+<p style="margin:0">Your course's bifurcation note uses <strong>dashed = stable, solid = unstable</strong> — the <em>opposite</em> of most textbooks (Strogatz uses solid = stable). Every diagram in this guide is labelled by <strong>colour and word</strong> as well, so you're never guessing. But if a diagram appears on the paper with no colour, read the dashed/solid line by <em>his</em> convention.</p>
+</div>
+</section>
+
+<section>
+<h2 id="intro"><span class="num">0</span>Network science, in brief</h2>
+<p class="section-intro">The opening module is mostly motivation — a few crisp facts show up in MCQs, so hold onto these rather than the anecdotes.</p>
+
+<h4>What makes a system "complex"</h4>
+<p>A <em class="term">complex system</em> has many interconnected parts, time-dependent interactions, and behaviour that is <strong>not</strong> the sum of its parts. The headline property is <em class="term">emergence</em>: a pattern the whole shows that no single component carries on its own — synchronisation, an epidemic wave, a traffic jam. A <em class="term">complex network</em> is the graph you draw to study such a system: nodes are the parts, links are the interactions.</p>
+
+<h4>The five landmarks (for a date-matching MCQ)</h4>
+<table class="tbl">
+<tr><th>Year</th><th>Who</th><th>What</th></tr>
+<tr><td>1735</td><td>Euler</td><td>Seven Bridges of Königsberg — the birth of graph theory</td></tr>
+<tr><td>1959</td><td>Erdős &amp; Rényi</td><td>Random graph model <span class="m">G(N,p)</span></td></tr>
+<tr><td>1967</td><td>Milgram</td><td>"Six degrees of separation" — small-world experiment (avg ≈ 5.5–6 hops)</td></tr>
+<tr><td>1998</td><td>Watts &amp; Strogatz</td><td>Small-world networks (high clustering + short paths)</td></tr>
+<tr><td>1999</td><td>Barabási &amp; Albert</td><td>Scale-free networks, preferential attachment</td></tr>
+</table>
+<p class="small">Networks can be directed or undirected: the WWW and citations are <em>directed</em>; the internet (routers), power grids, and collaboration networks are <em>undirected</em>. <span class="m">N</span> = number of nodes, <span class="m">L</span> = number of links.</p>
+</section>
+
+<section>
+<h2 id="repr"><span class="num">1</span>Graphs &amp; the adjacency matrix</h2>
+<p class="section-intro">Everything downstream — degree, paths, triangles, centralities — is read off one object: the adjacency matrix. Get fluent with it and half the quiz is free.</p>
+
+<div class="card def"><span class="tag">Definition</span>
+<p style="margin:.2em 0 0">The <em class="term">adjacency matrix</em> <span class="m">A</span> of a graph on <span class="m">N</span> nodes is the <span class="m">N×N</span> matrix with</p>
+<div class="eq center">A<sub>ij</sub> = 1 &nbsp;if there is an edge from&nbsp; i → j, &nbsp;&nbsp; else&nbsp; 0</div>
+<p style="margin:.2em 0 0">Two vertices joined by an edge are <em class="term">adjacent</em>; the edge is <em class="term">incident</em> to them.</p>
+</div>
+
+<h4>Properties you must be able to state (these are literally MCQ options)</h4>
+<ul>
+<li><strong>Square, order N.</strong> Always.</li>
+<li><strong>Undirected ⇒ symmetric</strong> (<span class="m">A<sub>ij</sub> = A<sub>ji</sub></span>). Directed ⇒ generally <em>not</em> symmetric.</li>
+<li><strong>No self-loops ⇒ diagonal is all zero.</strong> A <span class="m">1</span> on the diagonal means a self-loop.</li>
+<li><strong>Binary graph:</strong> entries are 0/1. A <em class="term">weighted</em> graph stores real weights <span class="m">w<sub>ij</sub></span> instead.</li>
+<li><strong>Disconnected graph:</strong> with the right labelling <span class="m">A</span> is <em>block-diagonal</em> — one block per component, zeros between blocks. (So "non-zero off-diagonal entries between the components" is <em>false</em>.)</li>
+<li><strong>Rank can be less than N</strong>, even when connected — the matrix may be singular. "Rank is always N" is false.</li>
+</ul>
+
+<div class="card watch"><span class="tag">Common trap</span>
+<p style="margin:0">"If two vertices are connected, the entry is always 1" is <strong>false for a weighted graph</strong> — it's the weight, not necessarily 1. In an <em>unweighted</em> graph it is 1. Read whether the question says binary/unweighted.</p>
+</div>
+</section>
+
+<section>
+<h2 id="degree"><span class="num">2</span>Degree, in/out-degree &amp; the handshaking lemma</h2>
+
+<div class="card def"><span class="tag">Definition</span>
+<p style="margin:.2em 0 0">The <em class="term">degree</em> <span class="m">k<sub>i</sub></span> of node <span class="m">i</span> in an undirected graph is the number of edges touching it:</p>
+<div class="eq center">k<sub>i</sub> = Σ<sub>j</sub> A<sub>ij</sub> = Σ<sub>j</sub> A<sub>ji</sub>&nbsp;&nbsp; (row sum = column sum, by symmetry)</div>
+</div>
+
+<h4>Directed graphs: split the sum</h4>
+<div class="eq">
+in-degree &nbsp; k<sub>i</sub><sup>(in)</sup>  = Σ<sub>j</sub> A<sub>ji</sub> &nbsp; = &nbsp;<span class="notecol">column i</span> sum &nbsp; (arrows pointing <em>to</em> i)
+<br>out-degree &nbsp;k<sub>i</sub><sup>(out)</sup> = Σ<sub>j</sub> A<sub>ij</sub> &nbsp; = &nbsp;<span class="notecol">row i</span> sum &nbsp;&nbsp; (arrows pointing <em>from</em> i)
+</div>
+<p>With the convention <span class="m">A<sub>ij</sub></span> = edge <span class="m">i→j</span>: <strong>row sum = out-degree, column sum = in-degree.</strong> Memorise this direction — a whole question depends on it.</p>
+
+<div class="card ex"><span class="tag">Worked · past-paper style</span>
+<h4>In/out-degree sequence from a matrix</h4>
+<p style="margin:.2em 0 .6em">Given the directed graph (Quiz 1 style):</p>
+<pre class="mat">      to→   1  2  3  4
+  A =  1 [  0  1  0  0 ]
+       2 [  1  0  1  1 ]
+       3 [  0  1  0  0 ]
+       4 [  1  1  0  1 ]   ← A₄₄=1 is a self-loop</pre>
+<ul class="steps">
+<li><strong>Out-degree = row sums:</strong> node1 = 1, node2 = 3, node3 = 1, node4 = 3. → out-sequence <span class="m">(1, 3, 1, 3)</span>.</li>
+<li><strong>In-degree = column sums:</strong> col1 = 2, col2 = 3, col3 = 1, col4 = 2. → in-sequence <span class="m">(2, 3, 1, 2)</span>.</li>
+<li><strong>Check:</strong> Σ in = Σ out = 9 (total number of directed edges, counting the self-loop). They must be equal — a fast sanity check.</li>
+</ul>
+</div>
+
+<div class="card key"><span class="tag">Key theorem</span>
+<h4>Handshaking lemma</h4>
+<div class="eq center">Σ<sub>i</sub> k<sub>i</sub> = 2L</div>
+<p style="margin:.4em 0 0">The degrees of all vertices sum to <em>twice</em> the number of edges, because every edge is counted once at each of its two endpoints. <strong>Corollary:</strong> the number of odd-degree vertices is always <em>even</em>. (Proof in §15.)</p>
+</div>
+
+<div class="card def"><span class="tag">Reading the meaning (MCQ)</span>
+<p style="margin:0"><strong>Citation network</strong> — high in-degree = much-cited, influential article. High out-degree = cites many works → a review or book. <strong>Co-authorship</strong> is <em>undirected</em>, so in-degree = out-degree; a node can't be "isolated" if it has any links. A node can have high degree yet be functionally isolated only in the directed sense (all out, no in, or vice-versa).</p>
+</div>
+</section>
+
+<section>
+<h2 id="avg"><span class="num">3</span>Mean degree &amp; link density</h2>
+<div class="eq">
+Mean degree &nbsp;⟨k⟩ = (1/N) Σ<sub>i</sub> k<sub>i</sub>
+<br>&nbsp;&nbsp;&nbsp;undirected: ⟨k⟩ = 2L / N &nbsp;&nbsp;&nbsp; directed: ⟨k⟩ = L / N
+</div>
+<div class="eq">
+Link density &nbsp;ρ = (existing links) / (max possible links)
+<br>&nbsp;&nbsp;&nbsp;undirected: ρ = 2L / [N(N−1)] = ⟨k⟩ / (N−1)
+</div>
+<p>Max possible edges in a simple undirected graph on <span class="m">N</span> nodes is <span class="m">N(N−1)/2</span> — every distinct pair once.</p>
+
+<div class="card key"><span class="tag">Exam favourite</span>
+<h4>The Erdős–Rényi relation: ⟨k⟩ = p(N−1)</h4>
+<p style="margin:.3em 0 0">If each of the <span class="m">N(N−1)/2</span> possible edges exists independently with probability <span class="m">p</span> (this <em>is</em> the density in expectation), then a node has <span class="m">N−1</span> chances each with probability <span class="m">p</span>, so</p>
+<div class="eq center">⟨k⟩ = p (N − 1) ≈ pN &nbsp;(large N), &nbsp;&nbsp; L = p · N(N−1)/2</div>
+<p style="margin:.3em 0 0" class="small">Quiz 1 asks exactly this: "relationship between p, ⟨k⟩ and N". Answer with the formula <em>and</em> the one-line reason above.</p>
+</div>
+</section>
+<section>
+<h2 id="walks"><span class="num">4</span>Walk, trail, path, cycle, circuit</h2>
+<p class="section-intro">Four words that sound alike and are examined precisely. The distinction is <em>what you're not allowed to repeat</em>.</p>
+
+<table class="tbl">
+<tr><th>Term</th><th>Rule</th><th>Repeats allowed?</th></tr>
+<tr><td><em class="term">Walk</em></td><td>Any route along edges, vertex to vertex</td><td>Edges ✓ &nbsp; Vertices ✓</td></tr>
+<tr><td><em class="term">Trail</em></td><td>A walk with <strong>no repeated edge</strong></td><td>Edges ✗ &nbsp; Vertices ✓</td></tr>
+<tr><td><em class="term">Path</em></td><td>A walk with <strong>no repeated vertex</strong> (so no repeated edge either)</td><td>Edges ✗ &nbsp; Vertices ✗</td></tr>
+<tr><td><em class="term">Circuit</em></td><td>A <strong>closed trail</strong> — trail that starts and ends at the same vertex</td><td>Edges ✗</td></tr>
+<tr><td><em class="term">Cycle</em></td><td>A <strong>closed path</strong> — starts and ends at the same vertex, no other repeats</td><td>Vertices ✗ (except endpoints)</td></tr>
+</table>
+<p class="small">Hierarchy to remember: <span class="m">path ⊂ trail ⊂ walk</span>. A path is the strictest (nothing repeats); a walk is anything-goes.</p>
+</section>
+
+<section>
+<h2 id="euler"><span class="num">5</span>Eulerian &amp; Hamiltonian graphs</h2>
+<p class="section-intro">This is the module's signature topic — Königsberg — and it shows up as both an MCQ and a "justify your answer" written question.</p>
+
+<div class="card def"><span class="tag">Definition</span>
+<p style="margin:.2em 0"><strong>Eulerian</strong> is about <em class="term">edges</em>; <strong>Hamiltonian</strong> is about <em class="term">vertices</em>.</p>
+<ul style="margin:.4em 0 0">
+<li><strong>Eulerian trail</strong> — uses <em>every edge exactly once</em>.</li>
+<li><strong>Eulerian circuit</strong> — an Eulerian trail that returns to its start.</li>
+<li><strong>Hamiltonian path</strong> — visits <em>every vertex exactly once</em>.</li>
+<li><strong>Hamiltonian circuit</strong> — a Hamiltonian path that returns to its start.</li>
+</ul>
+</div>
+
+<div class="card key"><span class="tag">The criterion (this is the whole game)</span>
+<p style="margin:.2em 0">For a <strong>connected</strong> graph, count the vertices of <em>odd</em> degree:</p>
+<table class="tbl" style="margin-bottom:0">
+<tr><th>Odd-degree vertices</th><th>What exists</th><th>Where it starts / ends</th></tr>
+<tr><td><strong>0</strong> (all even)</td><td>Euler <strong>circuit</strong> (and trail)</td><td>Start = end, anywhere</td></tr>
+<tr><td><strong>exactly 2</strong></td><td>Euler <strong>trail</strong>, but <em>not</em> a circuit</td><td>Must start at one odd vertex, end at the other</td></tr>
+<tr><td><strong>more than 2</strong></td><td>No Euler trail or circuit</td><td>—</td></tr>
+</table>
+<p style="margin:.6em 0 0" class="small">(There can only ever be 0 or 2, never exactly 1, because odd-degree vertices come in pairs — handshaking.) The number of odd vertices is always even, so 1 or 3 is impossible.</p>
+</div>
+
+<div class="card ex"><span class="tag">The classic · Königsberg</span>
+<h4>Why the bridge walk is impossible</h4>
+<p style="margin:.2em 0 .6em">Four land masses (nodes) A, B, C, D with degrees <span class="m">A=5, B=3, C=3, D=3</span> — <strong>all four are odd</strong>. Four odd vertices &gt; 2, so no Euler trail exists: you cannot cross all seven bridges exactly once. That is Euler's 1735 answer.</p>
+<p style="margin:0"><strong>"How would you make one possible?"</strong> Remove (or add) a bridge so that at most two vertices have odd degree. E.g. removing one bridge that connects two odd-degree land masses turns both even, leaving exactly two odd → an Euler <em>trail</em> becomes possible (start at one odd land mass, finish at the other).</p>
+</div>
+
+<div class="card watch"><span class="tag">The distinction he asks outright</span>
+<p style="margin:0"><strong>"Main difference between an Eulerian and a Hamiltonian path?"</strong> — Eulerian = every <em>edge</em> once (may revisit vertices); Hamiltonian = every <em>vertex</em> once (may skip edges). Eulerian has a clean degree criterion; Hamiltonian has <em>no</em> simple criterion (it's an NP-hard problem in general) — so you check it by inspection.</p>
+</div>
+
+<div class="pyq">
+<summary><span class="qtag">Quiz 1</span><span>For the graph <span class="m">6–4, 4–5, 4–3, 5–1, 5–2, 3–2, 2–1</span>: is there a Hamiltonian path? An Euler path/circuit? If not, how to make an Euler path?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p><strong>Degrees:</strong> node 6 = 1, node 4 = 3, node 5 = 3, node 3 = 2, node 2 = 3, node 1 = 2.</p>
+<p><strong>Odd-degree vertices:</strong> 6, 4, 5, 2 — that's <strong>four</strong> odd vertices. More than 2 ⇒ <span class="verdict">no Euler trail and no Euler circuit.</span></p>
+<p><strong>Hamiltonian path:</strong> try to visit all 6 vertices once, e.g. <span class="m">6 → 4 → 3 → 2 → 1 → 5</span>. Check each edge exists: 6-4 ✓, 4-3 ✓, 3-2 ✓, 2-1 ✓, 1-5 ✓. <span class="verdict">Yes — a Hamiltonian path exists.</span></p>
+<p><strong>To create an Euler trail:</strong> reduce the odd count from 4 to 2. Add one edge between two of the odd vertices (say 6–5, or 4–2) so both become even; two odd vertices remain, giving an Euler trail that starts at one and ends at the other. (Equivalently, remove an edge joining two odd vertices.)</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2 id="dist"><span class="num">6</span>Distance, shortest path, diameter &amp; BFS</h2>
+
+<div class="card def"><span class="tag">Definitions</span>
+<ul style="margin:.2em 0 0">
+<li><em class="term">Distance</em> <span class="m">d(i,j)</span> (a.k.a. shortest path / geodesic) — the fewest edges connecting <span class="m">i</span> and <span class="m">j</span>. Disconnected ⇒ <span class="m">d = ∞</span>.</li>
+<li>In a <strong>directed</strong> graph you must follow arrow directions, so <span class="m">d(A,B) ≠ d(B,A)</span> in general.</li>
+<li><em class="term">Diameter</em> — the largest distance between <em>any</em> pair: <span class="m">d<sub>max</sub></span>. The "width" of the network.</li>
+<li><em class="term">Average path length</em> <span class="m">⟨d⟩</span> — mean of <span class="m">d(i,j)</span> over all pairs.</li>
+</ul>
+</div>
+<div class="eq center">⟨d⟩ = &nbsp; [ Σ<sub>i&lt;j</sub> d(i,j) ] &nbsp;/&nbsp; [ N(N−1)/2 ]&nbsp;&nbsp;(undirected: number of pairs is N(N−1)/2)</div>
+
+<h4>Shortest paths are computed by BFS</h4>
+<p><em class="term">Breadth-first search</em> from a source explores the graph in <em>layers</em>: all neighbours (distance 1), then their unvisited neighbours (distance 2), and so on. The layer at which a node is first reached is its distance from the source. That's why BFS gives shortest paths in an unweighted graph.</p>
+
+<div class="card ex"><span class="tag">Worked · path graph</span>
+<h4>Distances, diameter, ⟨d⟩ on the line 1–2–3–4–5</h4>
+<ul class="steps">
+<li><strong>Diameter</strong> = <span class="m">d(1,5) = 4</span> — the two ends are the farthest apart.</li>
+<li><strong>Distances by pair:</strong> there are <span class="m">C(5,2)=10</span> pairs. Sum of all shortest distances = 20 (four at d=1, three at d=2, two at d=3, one at d=4 → 4+6+6+4).</li>
+<li><strong>Average path length</strong> = <span class="m">20 / 10 = 2.0</span>.</li>
+</ul>
+</div>
+
+<div class="card key"><span class="tag">Also examined</span>
+<h4>Connected components &amp; the Laplacian</h4>
+<p style="margin:.3em 0 0">A <em class="term">connected component</em> is a maximal set of mutually reachable nodes. The <em class="term">graph Laplacian</em> is <span class="m">L = D − A</span> (D = diagonal degree matrix). Its key fact, asked directly:</p>
+<div class="eq center">number of connected components = nullity of L = multiplicity of eigenvalue 0</div>
+<p style="margin:.3em 0 0" class="small">So a graph with 3 components has a Laplacian with a 3-dimensional null space (eigenvalue 0 repeated 3×). The second-smallest Laplacian eigenvalue is the <em>algebraic connectivity</em> — larger means "better connected".</p>
+</div>
+</section>
+<section>
+<h2 id="cluster"><span class="num">7</span>Clustering coefficient</h2>
+<p class="section-intro">"Do my friends know each other?" — the single most-computed quantity in Quiz 1 and the surprise quizzes.</p>
+
+<div class="card def"><span class="tag">Definition</span>
+<p style="margin:.2em 0">The <em class="term">local clustering coefficient</em> of node <span class="m">i</span> is the fraction of its neighbour-pairs that are themselves linked:</p>
+<div class="eq center">C<sub>i</sub> = &nbsp;(links among the neighbours of i) &nbsp;/&nbsp; (possible links among them) &nbsp;=&nbsp; 2 e<sub>i</sub> / [ k<sub>i</sub>(k<sub>i</sub>−1) ]</div>
+<p style="margin:.2em 0 0"><span class="m">e<sub>i</sub></span> = number of edges actually present between the <span class="m">k<sub>i</sub></span> neighbours; the denominator <span class="m">k<sub>i</sub>(k<sub>i</sub>−1)/2</span> is the number of possible such edges. Always <span class="m">0 ≤ C<sub>i</sub> ≤ 1</span>. If <span class="m">k<sub>i</sub> &lt; 2</span>, <span class="m">C<sub>i</sub></span> is defined as 0.</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked · the MCQ answer</span>
+<h4>Node A has neighbours B, C, D; B and C are not linked — minimum C<sub>A</sub>?</h4>
+<p style="margin:.2em 0">Three neighbours ⇒ <span class="m">k<sub>A</sub>=3</span>, possible neighbour-links = <span class="m">3·2/2 = 3</span>. To get the <em>minimum</em>, assume only the forced/least links exist. With B–C absent, the fewest edges among {B,C,D} that any answer allows is <strong>one</strong> (e.g. B–D), giving</p>
+<div class="eq center">C<sub>A</sub> = 1 / 3 ≈ 0.33</div>
+<p style="margin:.2em 0 0" class="small">(If <em>no</em> neighbours were linked it would be 0; the quiz's phrasing and options fix the minimum at 1/3.)</p>
+</div>
+
+<div class="card watch"><span class="tag">Quiz 1 technique</span>
+<p style="margin:0">When asked for <span class="m">C<sub>X</sub></span> and <span class="m">C<sub>Y</sub></span> from a drawn graph: (1) list <span class="m">X</span>'s neighbours, (2) count edges <em>between those neighbours only</em>, (3) divide by <span class="m">k(k−1)/2</span>. A leaf-heavy hub often has <span class="m">C = 0</span> (its neighbours aren't linked); a node inside a triangle has <span class="m">C = 1</span> if that's its only neighbourhood.</p>
+</div>
+</section>
+
+<section>
+<h2 id="cent"><span class="num">8</span>The four centralities</h2>
+<p class="section-intro">"What makes a node important?" has four answers. The surprise quizzes test which-is-which; Quiz 1 tests computing them. Learn both the one-line idea and the formula.</p>
+
+<table class="tbl">
+<tr><th>Centrality</th><th>A node is important if…</th><th>Formula / how</th></tr>
+<tr><td><em class="term">Degree</em></td><td>it has many <strong>direct</strong> connections</td><td><span class="m">C<sub>D</sub>(i) = k<sub>i</sub></span>; normalised <span class="m">k<sub>i</sub>/(N−1)</span></td></tr>
+<tr><td><em class="term">Closeness</em></td><td>it is <strong>close to everyone</strong> (short distances)</td><td><span class="m">C<sub>C</sub>(i) = 1 / Σ<sub>j</sub> d(i,j)</span>; normalised <span class="m">(N−1)/Σ<sub>j</sub>d(i,j)</span></td></tr>
+<tr><td><em class="term">Betweenness</em></td><td>many <strong>shortest paths pass through</strong> it (a bridge)</td><td><span class="m">C<sub>B</sub>(v) = Σ<sub>s≠t≠v</sub> σ<sub>st</sub>(v)/σ<sub>st</sub></span></td></tr>
+<tr><td><em class="term">Eigenvector</em></td><td>it is linked to other <strong>important</strong> nodes</td><td><span class="m">A x = λ x</span>, take x for the largest λ</td></tr>
+</table>
+<p class="small">In the betweenness formula, <span class="m">σ<sub>st</sub></span> = number of shortest paths from <span class="m">s</span> to <span class="m">t</span>, and <span class="m">σ<sub>st</sub>(v)</span> = how many of them pass through <span class="m">v</span>. Centralities are used to find the most influential person in a social network, the most critical routers on the internet, or the top disease spreaders.</p>
+
+<h4>Eigenvector centrality — the recursive idea</h4>
+<div class="card def"><span class="tag">Definition</span>
+<p style="margin:.2em 0">Degree centrality gives one point per link. Eigenvector centrality weights each link by <em>how important the neighbour is</em> — endorsements from important nodes count more:</p>
+<div class="eq center">x<sub>i</sub> = (1/λ) Σ<sub>j</sub> A<sub>ij</sub> x<sub>j</sub> &nbsp;&nbsp;⟺&nbsp;&nbsp; A x = λ x</div>
+<p style="margin:.2em 0 0">So the centrality vector <span class="m">x</span> is the eigenvector of <span class="m">A</span> for its largest eigenvalue <span class="m">λ</span> (guaranteed positive entries by Perron–Frobenius).</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked · past-paper MCQ</span>
+<h4>Eigenvector centrality of the 4-node graph <span class="m">A²=[0111;1010;1101;1010]</span></h4>
+<p style="margin:.2em 0">The matrix has rows: A↔{B,C,D}, B↔{A,C}, C↔{A,B,D}, D↔{A,C}. By symmetry <strong>A and C are equivalent</strong> (both degree 3), and <strong>B and D are equivalent</strong> (both degree 2). So the centrality vector must have the form <span class="m">(a, b, a, b)</span>.</p>
+<p style="margin:.4em 0 0">The eigenvector equation for the top eigenvalue works out to give the <em>same</em> value at every node here, so the correct option is</p>
+<div class="eq center">A: 0.5, &nbsp; B: 0.5, &nbsp; C: 0.5, &nbsp; D: 0.5</div>
+<p style="margin:.3em 0 0" class="small">Exam shortcut: eigenvector-centrality options that respect the graph's symmetry (equal-degree, symmetric nodes get equal scores) are the ones to trust. Here all four map onto each other, so all equal.</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked · betweenness &amp; closeness</span>
+<h4>Node X (an endpoint) vs Y (interior) on the line 1–2–3–4–5</h4>
+<p style="margin:.2em 0"><strong>Betweenness</strong> on a path: interior node at position <span class="m">i</span> lies on the shortest path of every (left, right) pair, so <span class="m">C<sub>B</sub> = (i−1)(N−i)</span>. Endpoint ⇒ <span class="m">C<sub>B</sub> = 0</span> (no pair routes through an end). Centre of P₅ ⇒ <span class="m">(2)(2) = 4</span>.</p>
+<p style="margin:.4em 0"><strong>Closeness:</strong> centre node has distances 2,1,1,2 → sum 6 → <span class="m">C<sub>C</sub> = 4/6 = 0.67</span> (normalised). An endpoint has distances 1,2,3,4 → sum 10 → <span class="m">C<sub>C</sub> = 4/10 = 0.40</span>.</p>
+<p style="margin:.3em 0 0"><strong>So the interior node beats the endpoint on both</strong> — higher betweenness and higher closeness. That's the reasoning the "one line per option" questions want.</p>
+</div>
+</section>
+
+<section>
+<h2 id="special"><span class="num">9</span>Special graphs, bipartite &amp; spanning trees</h2>
+
+<h4>Star and complete graphs — memorise the numbers</h4>
+<table class="tbl">
+<tr><th>Graph on N nodes</th><th>Diameter</th><th>Avg path length</th><th>Avg degree</th></tr>
+<tr><td><em class="term">Star</em> (1 hub + N−1 leaves)</td><td><strong>2</strong> (leaf–hub–leaf)</td><td><span class="m">2(N−1)/N</span></td><td><span class="m">2(N−1)/N</span></td></tr>
+<tr><td><em class="term">Complete K<sub>N</sub></em> (all-to-all)</td><td><strong>1</strong></td><td><strong>1</strong></td><td><span class="m">N−1</span></td></tr>
+</table>
+
+<div class="card ex"><span class="tag">Worked · Quiz 1</span>
+<h4>Star graph, N = 5: average path length and diameter?</h4>
+<ul class="steps">
+<li><span class="m">C(5,2)=10</span> pairs. Hub–leaf pairs: 4, each distance 1. Leaf–leaf pairs: <span class="m">C(4,2)=6</span>, each distance 2 (must hop through the hub).</li>
+<li>Sum of distances = <span class="m">4·1 + 6·2 = 16</span>.</li>
+<li><strong>Average path length</strong> = <span class="m">16/10 = 1.6</span> &nbsp;(= <span class="m">2(N−1)/N = 8/5</span>). <strong>Diameter = 2</strong>.</li>
+</ul>
+</div>
+
+<div class="card ex"><span class="tag">Worked · Quiz 1</span>
+<h4>All-to-all network K<sub>N</sub> — which statements are true?</h4>
+<ul style="margin:.2em 0 0">
+<li><strong>(a) Symmetric</strong> — <span class="verdict">TRUE</span>, it's undirected so <span class="m">A=Aᵀ</span>.</li>
+<li><strong>(b) Diameter = N</strong> — <span class="verdict">FALSE</span>, diameter = 1; every pair is directly linked.</li>
+<li><strong>(c) Average path length = 1</strong> — <span class="verdict">TRUE</span>, all distances are 1.</li>
+<li><strong>(d) Average degree = N−1</strong> — <span class="verdict">TRUE</span>, each node connects to all others.</li>
+</ul>
+</div>
+
+<div class="card def"><span class="tag">Bipartite graphs</span>
+<p style="margin:.2em 0 0">A <em class="term">bipartite graph</em> splits nodes into two sets U and V with <strong>every edge going across</strong> (U-node to V-node), none inside a set. Use it whenever you relate <em>two different kinds of thing</em>: users–movies, authors–papers, buyers–sellers, customers–products, genes–pathways, airports–airlines. It is <em>not</em> suitable for a single-type network like friendships between individuals.</p>
+</div>
+
+<div class="card def"><span class="tag">Spanning tree</span>
+<p style="margin:.2em 0">A <em class="term">spanning tree</em> of a connected graph on <span class="m">N</span> nodes is a subgraph that:</p>
+<ul style="margin:.2em 0 0">
+<li>covers <strong>all N vertices</strong>,</li>
+<li>is <strong>connected</strong> and <strong>acyclic</strong> (no cycle),</li>
+<li>has exactly <strong><span class="m">N − 1</span> edges</strong>.</li>
+</ul>
+<p style="margin:.5em 0 0">"Must have a cycle" and "must have N−1 edges is false" are the trap options — a tree by definition has <em>no</em> cycle. To build one, remove edges until no cycle remains while keeping the graph connected (remove one edge per independent cycle).</p>
+</div>
+</section>
+<section>
+<h2 id="fixed"><span class="num">10</span>Fixed points &amp; linear stability</h2>
+<p class="section-intro">The whole of nonlinear-dynamics on the quiz reduces to two questions: <em>where does the system sit still</em>, and <em>does it stay there if nudged</em>.</p>
+
+<div class="card def"><span class="tag">Definition</span>
+<p style="margin:.2em 0">A one-dimensional autonomous system is <span class="m">ẋ = f(x)</span> (a dot means <span class="m">d/dt</span>). A <em class="term">fixed point</em> (equilibrium, steady state) <span class="m">x*</span> is where nothing changes:</p>
+<div class="eq center">f(x*) = 0</div>
+</div>
+
+<h4>The phase-line picture (no calculus needed)</h4>
+<p>Plot <span class="m">ẋ = f(x)</span> against <span class="m">x</span>. The <em>sign</em> of <span class="m">ẋ</span> tells you which way <span class="m">x</span> moves:</p>
+<ul>
+<li><span class="m">ẋ &gt; 0</span> (curve above axis) → <span class="m">x</span> increases → arrow points <strong>right</strong>.</li>
+<li><span class="m">ẋ &lt; 0</span> (curve below axis) → arrow points <strong>left</strong>.</li>
+<li>Zeros of the curve are the fixed points.</li>
+</ul>
+<div class="eq center">
+&nbsp;→ &nbsp;[x*]&nbsp; ← &nbsp;&nbsp;&nbsp;stable (arrows point in) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← &nbsp;[x*]&nbsp; → &nbsp;&nbsp;unstable (arrows point out)
+<br>&nbsp;&nbsp;<span class="notecol">+ → −</span> crossing = stable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="notecol">− → +</span> crossing = unstable
+</div>
+
+<div class="card key"><span class="tag">The one criterion to know cold</span>
+<h4>Linear stability (continuous system)</h4>
+<div class="eq center">
+f′(x*) &lt; 0 &nbsp;⟹&nbsp; x* is <strong>stable</strong>
+<br>f′(x*) &gt; 0 &nbsp;⟹&nbsp; x* is <strong>unstable</strong>
+</div>
+<p style="margin:.4em 0 0">Reason (derived in §15): a small perturbation <span class="m">η</span> obeys <span class="m">η(t) ≈ η(0) e^{f′(x*) t}</span>, so it decays only when the exponent is negative. If <span class="m">f′(x*)=0</span> the test is inconclusive — and that borderline is exactly where <em>bifurcations</em> live.</p>
+</div>
+
+<div class="card watch"><span class="tag">Continuous vs discrete — do not mix these</span>
+<p style="margin:0">For an <strong>iterated map</strong> <span class="m">x<sub>n+1</sub> = f(x<sub>n</sub>)</span> the criterion is <em>different</em>: a fixed point is stable when <span class="m">|f′(x*)| &lt; 1</span> (not <span class="m">f′&lt;0</span>). Continuous flow → sign of <span class="m">f′</span>; discrete map → magnitude of <span class="m">f′</span> against 1. He has asked the discrete version (logistic map, <span class="m">cos x</span>) — see §15.</p>
+</div>
+</section>
+
+<section>
+<h2 id="euler-method"><span class="num">11</span>Euler's method (numerical integration)</h2>
+<p class="section-intro">The demos integrate every model with this. You should be able to write the update rule and name its error.</p>
+
+<div class="card def"><span class="tag">The tangent-line method</span>
+<p style="margin:.2em 0">To solve <span class="m">ẏ = f(t, y)</span> from <span class="m">y(t₀)=y₀</span>, step forward along the tangent with step size <span class="m">h</span>:</p>
+<div class="eq center">y<sub>n+1</sub> = y<sub>n</sub> + h · f(t<sub>n</sub>, y<sub>n</sub>) &nbsp;,&nbsp;&nbsp; t<sub>n+1</sub> = t<sub>n</sub> + h</div>
+</div>
+<h4>The two error types (MCQ)</h4>
+<ul>
+<li><em class="term">Truncation / discretisation error</em> — from dropping higher-order Taylor terms. Present even with perfect arithmetic; shrinks as <span class="m">h→0</span>. Euler's is first-order accurate (<span class="m">O(h)</span> per step).</li>
+<li><em class="term">Round-off error</em> — from finite-precision floating point. Gets <em>worse</em> if <span class="m">h</span> is made absurdly small (more steps). RK4 is the higher-accuracy upgrade used in the demos.</li>
+</ul>
+</section>
+<section>
+<h2 id="bifs"><span class="num">12</span>The four one-dimensional bifurcations</h2>
+<p class="section-intro">A <em class="term">bifurcation</em> is a qualitative change in the fixed points as a parameter <span class="m">r</span> is varied — points appearing, vanishing, colliding, or swapping stability. Four normal forms cover the whole 1D syllabus. Learn the equation, the fixed points, and the shape.</p>
+
+<div class="legend" style="margin-bottom:4px">
+  <span><span class="swatch" style="border-top-color:var(--accent)"></span>stable branch</span>
+  <span><span class="swatch" style="border-top-color:var(--clay)"></span>unstable branch</span>
+  <span class="small">(diagrams: x* vertical, r horizontal)</span>
+</div>
+
+<div class="figrow">
+  <div class="fig">
+    <h4>Saddle-node (fold)</h4>
+    <svg id="bif-saddle" viewBox="0 0 240 180" role="img" aria-label="Saddle-node bifurcation diagram"></svg>
+    <p><span class="m">ẋ = r − x²</span> · two equilibria for r&gt;0, none for r&lt;0. They collide &amp; vanish at r=0 — creation/destruction.</p>
+  </div>
+  <div class="fig">
+    <h4>Transcritical</h4>
+    <svg id="bif-trans" viewBox="0 0 240 180" role="img" aria-label="Transcritical bifurcation diagram"></svg>
+    <p><span class="m">ẋ = rx − x²</span> · two branches <span class="m">x*=0</span> and <span class="m">x*=r</span> cross at r=0 and <strong>exchange stability</strong>.</p>
+  </div>
+  <div class="fig">
+    <h4>Supercritical pitchfork</h4>
+    <svg id="bif-super" viewBox="0 0 240 180" role="img" aria-label="Supercritical pitchfork diagram"></svg>
+    <p><span class="m">ẋ = rx − x³</span> · at r=0 the stable point at 0 splits into two stable branches <span class="m">±√r</span>. Soft transition.</p>
+  </div>
+  <div class="fig">
+    <h4>Subcritical pitchfork</h4>
+    <svg id="bif-sub" viewBox="0 0 240 180" role="img" aria-label="Subcritical pitchfork diagram"></svg>
+    <p><span class="m">ẋ = rx + x³</span> · two <em>unstable</em> branches <span class="m">±√(−r)</span> for r&lt;0. Linked to abrupt jumps / hysteresis.</p>
+  </div>
+</div>
+
+<table class="tbl">
+<tr><th>Bifurcation</th><th>Normal form</th><th>Fixed points</th><th>Signature</th></tr>
+<tr><td>Saddle-node</td><td><span class="m">ẋ = r − x²</span></td><td><span class="m">x* = ±√r</span> (r≥0); none for r&lt;0</td><td>pair appears from nothing (+ stable, − unstable)</td></tr>
+<tr><td>Transcritical</td><td><span class="m">ẋ = rx − x²</span></td><td><span class="m">x*=0</span> and <span class="m">x*=r</span></td><td>two branches cross, swap stability at r=0</td></tr>
+<tr><td>Supercritical pitchfork</td><td><span class="m">ẋ = rx − x³</span></td><td><span class="m">x*=0</span>; <span class="m">±√r</span> for r&gt;0</td><td>0 loses stability, two <em>stable</em> branches born</td></tr>
+<tr><td>Subcritical pitchfork</td><td><span class="m">ẋ = rx + x³</span></td><td><span class="m">x*=0</span>; <span class="m">±√(−r)</span> for r&lt;0</td><td>two <em>unstable</em> branches; jump to a distant state</td></tr>
+</table>
+
+<div class="card key"><span class="tag">How to classify in the exam (his exact wording)</span>
+<h4>"Describe the role of r. What bifurcation do you expect?"</h4>
+<ol>
+<li>Set <span class="m">f(x)=0</span> and solve for <span class="m">x*</span> as a function of <span class="m">r</span>.</li>
+<li>Count how the <em>number</em> of real fixed points changes as <span class="m">r</span> passes through the critical value.</li>
+<li>Match the count to the table: <strong>0↔2 appearing</strong> = saddle-node; <strong>two lines crossing</strong> = transcritical; <strong>1↔3 with symmetry</strong> = pitchfork.</li>
+</ol>
+</div>
+
+<div class="pyq">
+<summary><span class="qtag proof">Mid-sem</span><span>Classify <span class="m">ẋ = rx − x²</span> and <span class="m">ẋ = 1 + rx + x²</span>.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p><strong>(1) <span class="m">ẋ = rx − x² = x(r − x)</span>.</strong> Fixed points <span class="m">x*=0</span> and <span class="m">x*=r</span>. They coincide at <span class="m">r=0</span> and cross, and <span class="m">f′=r−2x</span> gives <span class="m">f′(0)=r</span>, <span class="m">f′(r)=−r</span> — opposite signs, so the two branches <strong>swap stability</strong> at <span class="m">r=0</span>. This is a <span class="verdict">transcritical bifurcation</span>. Role of <span class="m">r</span>: it is the growth rate; for <span class="m">r&gt;0</span> the non-zero state <span class="m">x*=r</span> is the stable one.</p>
+<p><strong>(2) <span class="m">ẋ = 1 + rx + x²</span>.</strong> Fixed points solve <span class="m">x² + rx + 1 = 0 ⇒ x* = [−r ± √(r²−4)]/2</span>. Real roots need the discriminant <span class="m">r²−4 ≥ 0</span>, i.e. <span class="m">|r| ≥ 2</span>. So:</p>
+<ul>
+<li><span class="m">|r|&lt;2</span>: no fixed points.</li>
+<li><span class="m">|r|=2</span>: one double fixed point appears.</li>
+<li><span class="m">|r|&gt;2</span>: two fixed points (one stable, one unstable).</li>
+</ul>
+<p>A pair of equilibria is created out of nothing as <span class="m">|r|</span> crosses 2 — <span class="verdict">saddle-node bifurcations at r = +2 and r = −2</span>.</p>
+</div>
+</div>
+</section>
+<section>
+<h2 id="bistable"><span class="num">13</span>Bistability &amp; hysteresis (Spruce Budworm)</h2>
+<p class="section-intro">When a system has <em>two</em> stable states at once, the interesting physics — tipping points, sudden collapse, hysteresis — appears. The Budworm model is the course's worked case.</p>
+
+<div class="card def"><span class="tag">The model</span>
+<div class="eq center">ẋ = r x (1 − x/K) − x² / (1 + x²) &nbsp;,&nbsp;&nbsp; K = 10, &nbsp; r &gt; 0</div>
+<p style="margin:.3em 0 0">First term = logistic growth of the population; second = saturating predation (birds eating budworms). The non-zero equilibria solve a <strong>cubic</strong>, which is why up to three positive states can coexist.</p>
+</div>
+
+<div class="card key"><span class="tag">The core concepts</span>
+<ul style="margin:.2em 0 0">
+<li><em class="term">Bistability</em>: for <span class="m">0.384 ≲ r ≲ 0.560</span> there are three positive equilibria in the pattern <strong>stable – unstable – stable</strong>. The low stable state = "refuge"; the high stable state = "outbreak".</li>
+<li>The middle <em>unstable</em> equilibrium is a <strong>threshold</strong>: start below it and you fall to the low state, start above it and you climb to the high state. (At <span class="m">r=0.5</span>: below <span class="m">x=2</span> → 0.68; above → 7.3.)</li>
+<li><em class="term">Hysteresis</em>: raise <span class="m">r</span> slowly and the system clings to the low branch until it vanishes at the upper fold, then jumps up. Lower <span class="m">r</span> again and it clings to the high branch until the lower fold. The up-path ≠ the down-path — that gap is hysteresis. The folds are <strong>saddle-node bifurcations</strong>.</li>
+</ul>
+</div>
+
+<div class="card def"><span class="tag">Fold detection (a derivation he likes)</span>
+<p style="margin:0">A fold (saddle-node) is where a fixed point exists <em>and</em> the curve is tangent to the axis:</p>
+<div class="eq center">f(x*; r) = 0 &nbsp;<strong>and</strong>&nbsp; f′(x*; r) = 0</div>
+<p style="margin:.3em 0 0" class="small">Solving both simultaneously gives the two critical <span class="m">r</span> values (≈0.384 and ≈0.560 for K=10). "Tangency to the axis" on a <span class="m">ẋ</span>-vs-<span class="m">x</span> plot is the visual tell of a saddle-node.</p>
+</div>
+</section>
+
+<section>
+<h2 id="epi"><span class="num">14</span>SIS, SIR &amp; predator–prey</h2>
+<p class="section-intro">Three dynamical models the course applies to networks. The SIS derivation is a mid-sem staple; the SIR and predator–prey facts are MCQ material.</p>
+
+<h4>SIS — susceptible ⇄ infected (reinfection possible)</h4>
+<div class="card def"><span class="tag">Model &amp; solution</span>
+<div class="eq">
+ds/dt = −β s i + γ i &nbsp;,&nbsp;&nbsp; di/dt = β s i − γ i &nbsp;,&nbsp;&nbsp; s + i = 1
+</div>
+<p style="margin:.2em 0">Substitute <span class="m">s = 1 − i</span> into the infected equation:</p>
+<div class="eq center">di/dt = β i (1 − i) − γ i = (β − γ) i − β i²</div>
+<p style="margin:.2em 0">This is the <strong>logistic equation</strong>. Its non-zero steady state (the <em class="term">endemic equilibrium</em>) is found by setting <span class="m">di/dt = 0</span>:</p>
+<div class="eq center">i* = 1 − γ/β = 1 − 1/R₀ &nbsp;,&nbsp;&nbsp; R₀ = β/γ</div>
+</div>
+
+<div class="card key"><span class="tag">The threshold — asked every time</span>
+<div class="eq center">
+R₀ = β/γ &gt; 1 &nbsp;⟹&nbsp; disease spreads, settles at endemic i* &gt; 0
+<br>R₀ = β/γ &lt; 1 &nbsp;⟹&nbsp; disease dies out, i* → 0
+</div>
+<p style="margin:.3em 0 0" class="small">"In which condition will the disease not spread?" → when <span class="m">β &lt; γ</span> (recovery outpaces infection), i.e. <span class="m">R₀ &lt; 1</span>. Equivalently, the fixed point <span class="m">i*=0</span> is stable exactly when <span class="m">β &lt; γ</span> — check via <span class="m">f′(0)=β−γ</span>.</p>
+</div>
+
+<div class="card def"><span class="tag">SIS on a network — the eigenvalue threshold</span>
+<p style="margin:.2em 0">On a network, node <span class="m">k</span> obeys <span class="m">i̇<sub>k</sub> = −γ i<sub>k</sub> + β(1 − i<sub>k</sub>) Σ<sub>j</sub> A<sub>kj</sub> i<sub>j</sub></span>. Early on (<span class="m">i<sub>k</sub></span> tiny) drop the quadratic term:</p>
+<div class="eq center">i̇ ≈ (β A − γ I) i &nbsp;⟹&nbsp; growth rate = β λ<sub>max</sub>(A) − γ</div>
+<p style="margin:.2em 0 0">The infection grows if <span class="m">β λ<sub>max</sub> &gt; γ</span>. So the network sets the threshold through its <strong>largest adjacency eigenvalue</strong>:</p>
+<div class="eq center">(β/γ)<sub>c</sub> = 1 / λ<sub>max</sub>(A)</div>
+<p style="margin:.2em 0 0" class="small">This is the answer to "how does the network affect infection at the initial stage?" — via <span class="m">λ<sub>max</sub></span>. Denser / more-connected networks (larger <span class="m">λ<sub>max</sub></span>) lower the threshold, so disease spreads more easily.</p>
+</div>
+
+<h4>SIR — susceptible → infected → removed (immunity/death)</h4>
+<div class="eq">
+ds/dt = −β s i &nbsp;,&nbsp;&nbsp; di/dt = β s i − γ i &nbsp;,&nbsp;&nbsp; dr/dt = γ i &nbsp;,&nbsp;&nbsp; s+i+r = 1
+</div>
+<ul>
+<li><strong>Susceptibles only ever decrease</strong> (monotone, roughly exponential decay) — no reinfection route back to S.</li>
+<li>Infectious period is assumed <strong>constant for everyone</strong> (constant recovery rate <span class="m">γ</span>); homogeneous mixing.</li>
+<li>At any steady point the three rates of change <strong>sum to zero</strong> (population conserved). An epidemic takes off only if <span class="m">R₀ = β/γ &gt; 1</span> with <span class="m">s ≈ 1</span> initially.</li>
+</ul>
+
+<h4>Predator–prey (Lotka–Volterra)</h4>
+<div class="card def"><span class="tag">Key behaviour (MCQ)</span>
+<ul style="margin:.2em 0 0">
+<li>The populations <strong>oscillate</strong> — prey rise, predators follow, prey crash, predators crash, repeat. Not a steady stabilisation.</li>
+<li>Equilibrium points shift with the parameters: higher predation rate → lower predator steady state; higher prey reproduction → higher predator steady state; a competing species does affect stability.</li>
+<li>Starting the prey above its carrying capacity leads into the same oscillatory cycle, not a smooth settle.</li>
+</ul>
+</div>
+</section>
+<section>
+<h2 id="proofs"><span class="num">15</span>Proofs he actually asks</h2>
+<p class="section-intro">The surprise quiz that asked you to prove <span class="m">triangles = ⅙ tr(A³)</span> is the tell: he wants <em>derivations</em>, not just recall. These are the ones that fit the current syllabus — learn to reproduce each in a few lines.</p>
+
+<div class="card ex"><span class="tag">Proof 1 · the one he sprang on you</span>
+<h4>Number of triangles = ⅙ · tr(A³)</h4>
+<p style="margin:.2em 0"><strong>Lemma (powers count walks).</strong> The entry <span class="m">(Aⁿ)<sub>ij</sub></span> equals the number of walks of length <span class="m">n</span> from <span class="m">i</span> to <span class="m">j</span>.</p>
+<p style="margin:.2em 0"><em>Why:</em> <span class="m">(A²)<sub>ij</sub> = Σ<sub>k</sub> A<sub>ik</sub>A<sub>kj</sub></span> counts intermediate nodes <span class="m">k</span> with edges <span class="m">i–k</span> and <span class="m">k–j</span> — exactly the 2-step walks. Induction extends it: <span class="m">(Aⁿ)<sub>ij</sub> = Σ<sub>k</sub>(A<sup>n−1</sup>)<sub>ik</sub>A<sub>kj</sub></span> appends one edge to every <span class="m">(n−1)</span>-walk.</p>
+<p style="margin:.5em 0 .2em"><strong>Apply at n = 3.</strong> <span class="m">(A³)<sub>ii</sub></span> counts closed walks of length 3 from <span class="m">i</span> back to <span class="m">i</span> — that is, triangles through <span class="m">i</span>. So</p>
+<div class="eq center">tr(A³) = Σ<sub>i</sub> (A³)<sub>ii</sub> = total closed 3-walks over all nodes.</div>
+<p style="margin:.4em 0"><strong>Count the over-counting.</strong> A single triangle on vertices <span class="m">{a,b,c}</span> is counted:</p>
+<ul style="margin:.2em 0">
+<li>once at <em>each</em> of its 3 vertices (as start point) → factor 3, and</li>
+<li>in <em>each</em> of 2 directions (a→b→c→a and a→c→b→a) → factor 2.</li>
+</ul>
+<p style="margin:.2em 0">So every triangle contributes <span class="m">3 × 2 = 6</span> to <span class="m">tr(A³)</span>. Therefore</p>
+<div class="eq center">Number of triangles = tr(A³) / 6 &nbsp;=&nbsp; ⅙ tr(A³). &nbsp;∎</div>
+<p style="margin:.4em 0 0" class="small"><strong>Bonus links he may combine:</strong> <span class="m">(A²)<sub>ii</sub> = k<sub>i</sub></span> (the degree — closed 2-walks are out-and-back along one edge), so <span class="m">tr(A²) = Σk<sub>i</sub> = 2L</span>. And the number of paths of length 2 centred at <span class="m">i</span> is <span class="m">C(k<sub>i</sub>,2) = k<sub>i</sub>(k<sub>i</sub>−1)/2</span>.</p>
+</div>
+
+<div class="card ex"><span class="tag">Proof 2</span>
+<h4>Handshaking lemma: Σ k<sub>i</sub> = 2L</h4>
+<p style="margin:.2em 0">Count the pairs (vertex, edge-incident-to-it) two ways. Summing over vertices gives <span class="m">Σ<sub>i</sub> k<sub>i</sub></span>. But each edge has exactly two endpoints, so summing over edges gives <span class="m">2L</span>. The two counts are equal:</p>
+<div class="eq center">Σ<sub>i</sub> k<sub>i</sub> = 2L. &nbsp;∎</div>
+<p style="margin:.2em 0 0"><strong>Corollary:</strong> <span class="m">2L</span> is even, and even terms don't change parity, so the odd-degree vertices must sum to an even count — there is always an <em>even number</em> of odd-degree vertices. (This is why Euler graphs have 0 or 2 odd vertices, never 1.)</p>
+</div>
+
+<div class="card ex"><span class="tag">Proof 3 · continuous stability</span>
+<h4>Why f′(x*) &lt; 0 means stable</h4>
+<p style="margin:.2em 0">Perturb the fixed point: <span class="m">x(t) = x* + η(t)</span> with <span class="m">|η|</span> small. Then <span class="m">η̇ = ẋ = f(x* + η)</span>. Taylor-expand and use <span class="m">f(x*)=0</span>:</p>
+<div class="eq center">η̇ = f(x*) + f′(x*) η + … ≈ f′(x*) η &nbsp;⟹&nbsp; η(t) = η(0) e^{f′(x*)·t}</div>
+<p style="margin:.2em 0 0">The perturbation decays (stable) iff the exponent is negative, i.e. <span class="m">f′(x*) &lt; 0</span>; it grows (unstable) iff <span class="m">f′(x*) &gt; 0</span>. If <span class="m">f′(x*)=0</span> the linear term vanishes and you need higher orders — the bifurcation case. ∎</p>
+</div>
+
+<div class="card ex"><span class="tag">Proof 4 · discrete-map stability</span>
+<h4>Iterated map x<sub>n+1</sub> = f(x<sub>n</sub>): stable iff |f′(x*)| &lt; 1</h4>
+<p style="margin:.2em 0">Let <span class="m">x<sub>n</sub> = x* + ε<sub>n</sub></span>. Then <span class="m">x* + ε<sub>n+1</sub> = f(x* + ε<sub>n</sub>) ≈ f(x*) + f′(x*) ε<sub>n</sub></span>. Since <span class="m">f(x*) = x*</span>,</p>
+<div class="eq center">ε<sub>n+1</sub> = f′(x*) ε<sub>n</sub> &nbsp;⟹&nbsp; ε<sub>n</sub> = [f′(x*)]ⁿ ε₀</div>
+<p style="margin:.2em 0">This shrinks iff <span class="m">|f′(x*)| &lt; 1</span> (stable), grows iff <span class="m">&gt; 1</span> (unstable). ∎ Worked cases he has set:</p>
+<table class="tbl" style="margin-bottom:0">
+<tr><th>Map</th><th>Fixed points</th><th>f′</th><th>Stability</th></tr>
+<tr><td><span class="m">f(x)=x²</span></td><td><span class="m">x*=0, 1</span></td><td><span class="m">2x</span></td><td>0 stable (|0|&lt;1); 1 unstable (|2|&gt;1)</td></tr>
+<tr><td><span class="m">f(x)=cos x</span></td><td><span class="m">x*≈0.739</span></td><td><span class="m">−sin x</span></td><td>stable: <span class="m">|−sin 0.739|≈0.67&lt;1</span></td></tr>
+<tr><td><span class="m">f(x)=rx(1−x)</span><br>(logistic map)</td><td><span class="m">0</span> and <span class="m">1−1/r</span></td><td><span class="m">r(1−2x)</span></td><td>0 stable for <span class="m">|r|&lt;1</span>; other stable for <span class="m">1&lt;r&lt;3</span></td></tr>
+</table>
+</div>
+
+<div class="card ex"><span class="tag">Proof 5 · solving SIS</span>
+<h4>Solve di/dt = (β−γ)i − βi², find i* and the no-spread condition</h4>
+<p style="margin:.2em 0">Write <span class="m">a = β − γ</span>. The equation is logistic: <span class="m">di/dt = a·i(1 − i/K)</span> with carrying capacity <span class="m">K = a/β = 1 − γ/β</span>. Separating variables and integrating gives</p>
+<div class="eq center">i(t) = K / [ 1 + ((K − i₀)/i₀) e^{−a t} ] , &nbsp;&nbsp; a = β − γ</div>
+<ul style="margin:.4em 0 0">
+<li><strong>Endemic equilibrium</strong> (<span class="m">t→∞</span>): if <span class="m">a&gt;0</span>, <span class="m">i* = K = 1 − γ/β = 1 − 1/R₀</span>.</li>
+<li><strong>Disease does not spread</strong> when <span class="m">a = β − γ &lt; 0</span>, i.e. <span class="m">β &lt; γ</span> (<span class="m">R₀ &lt; 1</span>): then <span class="m">i(t) → 0</span>. ∎</li>
+</ul>
+</div>
+</section>
+<section>
+<h2 id="cheat"><span class="num">16</span>One-page cheat sheet</h2>
+<p class="section-intro">The formulas and rules worth having in working memory the hour before the quiz.</p>
+
+<div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<div class="card" style="margin:0">
+<h4>Structure</h4>
+<ul style="font-size:.92rem">
+<li>Degree <span class="m">k<sub>i</sub>=Σ<sub>j</sub>A<sub>ij</sub></span>; out=row, in=column (directed)</li>
+<li>Handshaking <span class="m">Σk<sub>i</sub>=2L</span>; odd-degree count is even</li>
+<li>Mean degree <span class="m">⟨k⟩=2L/N</span>; density <span class="m">ρ=⟨k⟩/(N−1)</span></li>
+<li>ER: <span class="m">⟨k⟩=p(N−1)</span></li>
+<li>Clustering <span class="m">C<sub>i</sub>=2e<sub>i</sub>/[k<sub>i</sub>(k<sub>i</sub>−1)]</span></li>
+<li>Walks <span class="m">(Aⁿ)<sub>ij</sub></span>; triangles <span class="m">⅙tr(A³)</span>; <span class="m">(A²)<sub>ii</sub>=k<sub>i</sub></span></li>
+<li>Components = nullity of <span class="m">L=D−A</span></li>
+</ul>
+</div>
+<div class="card" style="margin:0">
+<h4>Paths &amp; Euler</h4>
+<ul style="font-size:.92rem">
+<li>path ⊂ trail ⊂ walk; cycle=closed path, circuit=closed trail</li>
+<li>Euler <strong>circuit</strong> ⟺ all degrees even</li>
+<li>Euler <strong>trail</strong> ⟺ exactly 0 or 2 odd vertices</li>
+<li>Hamiltonian = every vertex once (no easy test)</li>
+<li>Star N: diam 2, <span class="m">⟨d⟩=2(N−1)/N</span></li>
+<li>Complete K<sub>N</sub>: diam 1, <span class="m">⟨d⟩=1</span>, <span class="m">⟨k⟩=N−1</span></li>
+<li>Spanning tree: N−1 edges, connected, acyclic</li>
+</ul>
+</div>
+<div class="card" style="margin:0">
+<h4>Centralities</h4>
+<ul style="font-size:.92rem">
+<li>Degree — direct links</li>
+<li>Closeness — <span class="m">1/Σd(i,j)</span>, close to all</li>
+<li>Betweenness — on many shortest paths; path node <span class="m">(i−1)(N−i)</span></li>
+<li>Eigenvector — <span class="m">Ax=λx</span>, linked to important nodes</li>
+</ul>
+</div>
+<div class="card" style="margin:0">
+<h4>Dynamics</h4>
+<ul style="font-size:.92rem">
+<li>Fixed point <span class="m">f(x*)=0</span></li>
+<li>Continuous: stable ⟺ <span class="m">f′(x*)&lt;0</span></li>
+<li>Discrete map: stable ⟺ <span class="m">|f′(x*)|&lt;1</span></li>
+<li>Euler step <span class="m">y<sub>n+1</sub>=y<sub>n</sub>+h·f</span></li>
+<li>Saddle-node <span class="m">r−x²</span>; transcritical <span class="m">rx−x²</span></li>
+<li>Pitchfork super <span class="m">rx−x³</span>; sub <span class="m">rx+x³</span></li>
+<li>SIS endemic <span class="m">i*=1−1/R₀</span>, <span class="m">R₀=β/γ</span></li>
+<li>Network threshold <span class="m">(β/γ)<sub>c</sub>=1/λ<sub>max</sub></span></li>
+</ul>
+</div>
+</div>
+<div class="card watch" style="margin-top:16px"><span class="tag">Remember</span><p style="margin:0">His bifurcation note: <strong>dashed = stable, solid = unstable</strong>. Bare answers score 0 on Quiz 1 — always add the one-line reason.</p></div>
+</section>
+
+<section>
+<h2 id="selftest"><span class="num">17</span>Final self-test</h2>
+<p class="section-intro">Cover the answers. If you can do these cold, you're ready. Each mirrors a real past-paper question.</p>
+
+<div class="pyq"><summary><span class="qtag mcq">MCQ</span><span>In a directed network A has out-degree 2, B has out-degree 1, and there are 3 total edges among {A,B,C} pointing so that in-degrees sum correctly. If A→B, A→C, B→C, what is C's in/out-degree?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Out-degrees: A=2 (→B,→C), B=1 (→C), C=0. In-degrees: A=0, B=1, C=2. <span class="verdict">C has in-degree 2, out-degree 0.</span> Sanity: Σin = Σout = 3. ✓</p></div></div>
+
+<div class="pyq"><summary><span class="qtag">Calc</span><span>A graph has degree sequence (2, 2, 3, 3, 3, 1). Does an Euler circuit exist? An Euler trail? How many edges?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Odd-degree vertices: the three 3's and the one 1 → <strong>four</strong> odd vertices. More than 2 ⇒ <span class="verdict">no Euler trail and no circuit.</span> Edges: <span class="m">Σk<sub>i</sub>/2 = 14/2 = 7</span>.</p></div></div>
+
+<div class="pyq"><summary><span class="qtag proof">Proof</span><span>Show that the number of closed walks of length 2 at node i equals its degree, and hence tr(A²) = 2L.</span><span class="chev">›</span></summary>
+<div class="ans"><p><span class="m">(A²)<sub>ii</sub> = Σ<sub>k</sub>A<sub>ik</sub>A<sub>ki</sub> = Σ<sub>k</sub>A<sub>ik</sub>²</span>. For a binary graph <span class="m">A<sub>ik</sub>²=A<sub>ik</sub></span>, so <span class="m">(A²)<sub>ii</sub>=Σ<sub>k</sub>A<sub>ik</sub>=k<sub>i</sub></span>. Summing: <span class="m">tr(A²)=Σ<sub>i</sub>k<sub>i</sub>=2L</span> by handshaking. <span class="verdict">∎</span></p></div></div>
+
+<div class="pyq"><summary><span class="qtag">Calc</span><span>Compute the local clustering coefficient of a node with 4 neighbours, of which 3 mutual links exist among them.</span><span class="chev">›</span></summary>
+<div class="ans"><p><span class="m">k=4</span>, possible neighbour links <span class="m">=4·3/2=6</span>, present <span class="m">e=3</span>. <span class="m">C = 2·3/(4·3) = 6/12 = 0.5.</span> <span class="verdict">C = 0.5.</span></p></div></div>
+
+<div class="pyq"><summary><span class="qtag proof">Proof</span><span>For the map x<sub>n+1</sub> = cos(x<sub>n</sub>), find the fixed point and its stability.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Fixed point <span class="m">x* = cos x*</span> ⇒ <span class="m">x* ≈ 0.739</span>. <span class="m">f′(x)=−sin x</span>, <span class="m">|f′(x*)|=|−sin 0.739|≈0.673 &lt; 1</span> ⇒ <span class="verdict">stable</span> (iterating cos on a calculator converges here — the Dottie number).</p></div></div>
+
+<div class="pyq"><summary><span class="qtag proof">Classify</span><span>What bifurcation does ẋ = r − x² undergo, and what happens to the fixed points as r passes 0?</span><span class="chev">›</span></summary>
+<div class="ans"><p><span class="m">x*=±√r</span>: two equilibria for <span class="m">r&gt;0</span> (<span class="m">+√r</span> stable since <span class="m">f′=−2x&lt;0</span>; <span class="m">−√r</span> unstable), colliding at <span class="m">r=0</span>, none for <span class="m">r&lt;0</span>. <span class="verdict">Saddle-node (fold) bifurcation</span> — a pair of equilibria created/destroyed.</p></div></div>
+
+<div class="pyq"><summary><span class="qtag">Concept</span><span>An SIS disease has β = 0.2, γ = 0.5. Does it spread? What is the endemic level?</span><span class="chev">›</span></summary>
+<div class="ans"><p><span class="m">R₀ = β/γ = 0.4 &lt; 1</span> ⇒ <span class="verdict">it dies out.</span> Endemic <span class="m">i* = 1 − 1/R₀ = 1 − 2.5 = −1.5</span>, which is non-physical (negative), confirming the only stable state is <span class="m">i*=0</span>. Disease spreads only when <span class="m">β &gt; γ</span>.</p></div></div>
+
+<div class="pyq"><summary><span class="qtag">Calc</span><span>A graph on 6 nodes has 3 connected components. What is the nullity of its Laplacian?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Nullity of <span class="m">L = D − A</span> equals the number of connected components. <span class="verdict">Nullity = 3</span> (eigenvalue 0 with multiplicity 3).</p></div></div>
+
+<hr class="soft">
+<p class="small">Built from your Class 1–6 slides (Modules 1, 2a, 2b, 2c1, 2c2, the 1-D bifurcation note) and all seven past papers in the PYQ folder. Scope: network metrics + nonlinear dynamics. The later modules (Erdős–Rényi in depth, scale-free / BA, Kuramoto, Lorenz, percolation) sit in Quiz-2 and mid-sem territory and aren't in these slides yet — tell me when those slides arrive and I'll extend this.</p>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('themebtn');
+  function apply(t){ if(t) document.documentElement.setAttribute('data-theme',t); }
+  try{ apply(localStorage.getItem('dpcn-theme')); }catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var next = cur==='dark' ? 'light' : cur==='light' ? 'dark' :
+      (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'light':'dark');
+    apply(next);
+    try{ localStorage.setItem('dpcn-theme',next); }catch(e){}
+  });
+  // active TOC highlight
+  var links=[].slice.call(document.querySelectorAll('#tocnav a'));
+  var map={}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
+  var obs=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active');});
+        var a=map[en.target.id]; if(a){a.classList.add('active');
+          a.scrollIntoView({block:'nearest'});}
+      }
+    });
+  },{rootMargin:'-8% 0px -80% 0px',threshold:0});
+  document.querySelectorAll('main [id]').forEach(function(el){ if(map[el.id]) obs.observe(el); });
+})();
+</script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  var W=240,H=180, pad=22;
+  var rMin=-2,rMax=2, xMin=-1.7,xMax=1.7;
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function X(r){return pad + (r-rMin)/(rMax-rMin)*(W-2*pad);}
+  function Y(x){return H-pad - (x-xMin)/(xMax-xMin)*(H-2*pad);}
+  function el(tag,at){var e=document.createElementNS(NS,tag);for(var k in at)e.setAttribute(k,at[k]);return e;}
+  function axes(svg){
+    var line=css('--line-strong'), mut=css('--muted');
+    svg.appendChild(el('line',{x1:pad,y1:Y(0),x2:W-6,y2:Y(0),stroke:line,'stroke-width':1}));
+    svg.appendChild(el('line',{x1:X(0),y1:pad-6,x2:X(0),y2:H-pad,stroke:line,'stroke-width':1}));
+    var tr=el('text',{x:W-6,y:Y(0)-5,'text-anchor':'end','font-size':10,fill:mut,'font-family':'JetBrains Mono, monospace'});tr.textContent='r';svg.appendChild(tr);
+    var tx=el('text',{x:X(0)+5,y:pad,'font-size':10,fill:mut,'font-family':'JetBrains Mono, monospace'});tx.textContent='x*';svg.appendChild(tx);
+  }
+  // draw a branch: fn maps r->x over [a,b], colour by stability; dash pattern follows the course note
+  function branch(svg, fn, a, b, stable){
+    var col = stable? css('--accent'):css('--clay');
+    var pts=[], n=60;
+    for(var i=0;i<=n;i++){ var r=a+(b-a)*i/n; var x=fn(r); if(x<xMin||x>xMax)continue; pts.push(X(r).toFixed(1)+','+Y(x).toFixed(1)); }
+    if(pts.length<2)return;
+    svg.appendChild(el('polyline',{points:pts.join(' '),fill:'none',stroke:col,'stroke-width':2.4,
+      'stroke-dasharray': stable? '5 4':'0','stroke-linecap':'round','stroke-linejoin':'round'}));
+  }
+  function dot(svg,r,x){ svg.appendChild(el('circle',{cx:X(r),cy:Y(x),r:3.2,fill:css('--gold')})); }
+
+  function draw(){
+    var defs=[
+      {id:'bif-saddle', f:function(s){
+        branch(s,function(r){return Math.sqrt(r);},0,rMax,true);
+        branch(s,function(r){return -Math.sqrt(r);},0,rMax,false);
+        dot(s,0,0);
+      }},
+      {id:'bif-trans', f:function(s){
+        // x*=0 : stable r<0, unstable r>0
+        branch(s,function(){return 0;},rMin,0,true);
+        branch(s,function(){return 0;},0,rMax,false);
+        // x*=r : unstable r<0, stable r>0
+        branch(s,function(r){return r;},rMin,0,false);
+        branch(s,function(r){return r;},0,rMax,true);
+        dot(s,0,0);
+      }},
+      {id:'bif-super', f:function(s){
+        branch(s,function(){return 0;},rMin,0,true);
+        branch(s,function(){return 0;},0,rMax,false);
+        branch(s,function(r){return Math.sqrt(r);},0,rMax,true);
+        branch(s,function(r){return -Math.sqrt(r);},0,rMax,true);
+        dot(s,0,0);
+      }},
+      {id:'bif-sub', f:function(s){
+        branch(s,function(){return 0;},rMin,0,true);
+        branch(s,function(){return 0;},0,rMax,false);
+        branch(s,function(r){return Math.sqrt(-r);},rMin,0,false);
+        branch(s,function(r){return -Math.sqrt(-r);},rMin,0,false);
+        dot(s,0,0);
+      }}
+    ];
+    defs.forEach(function(d){
+      var svg=document.getElementById(d.id); if(!svg)return;
+      while(svg.firstChild)svg.removeChild(svg.firstChild);
+      axes(svg); d.f(svg);
+    });
+  }
+  draw();
+  // redraw on theme change so colours track tokens
+  var mo=new MutationObserver(draw);
+  mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(window.matchMedia){ try{ window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',draw);}catch(e){} }
+})();
+</script>
+</body>
+</html>
