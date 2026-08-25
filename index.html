@@ -1032,6 +1032,21 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <li>At any steady state the three rates of change <strong>sum to zero</strong>, because the total population <math><mi>s</mi><mo>+</mo><mi>i</mi><mo>+</mo><mi>r</mi></math> is conserved. An outbreak only takes off if <math><msub><mi>R</mi><mn>0</mn></msub><mo>=</mo><mi>β</mi><mo>/</mo><mi>γ</mi><mo>&gt;</mo><mn>1</mn></math> while almost everyone is still susceptible.</li>
 </ul>
 
+<div class="card def"><span class="tag">On the slides · SIR-X (quarantine)</span>
+<p>The COVID-era extension adds a compartment <math><mi>X</mi></math> for <em class="term">quarantined</em> people, removed from circulation by containment. Susceptibles are pulled out at rate <math><msub><mi>k</mi><mn>0</mn></msub></math> and infecteds are quarantined at rate <math><mi>k</mi></math>:</p>
+<div class="eq">
+<math display="block">
+<mtable columnalign="left">
+<mtr><mtd><mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mi>β</mi><mi>S</mi><mi>I</mi><mo>−</mo><msub><mi>k</mi><mn>0</mn></msub><mi>S</mi></mtd>
+<mtd><mspace width="1.4em"/><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>β</mi><mi>S</mi><mi>I</mi><mo>−</mo><mi>γ</mi><mi>I</mi><mo>−</mo><msub><mi>k</mi><mn>0</mn></msub><mi>I</mi><mo>−</mo><mi>k</mi><mi>I</mi></mtd></mtr>
+<mtr><mtd><mfrac><mrow><mi>d</mi><mi>R</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>γ</mi><mi>I</mi><mo>+</mo><msub><mi>k</mi><mn>0</mn></msub><mi>S</mi></mtd>
+<mtd><mspace width="1.4em"/><mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>(</mo><mi>k</mi><mo>+</mo><msub><mi>k</mi><mn>0</mn></msub><mo>)</mo><mi>I</mi></mtd></mtr>
+</mtable>
+</math>
+</div>
+<p class="small">It is just SIR with two extra "drain" terms that move people into quarantine — stronger containment (larger <math><mi>k</mi><mo>,</mo><msub><mi>k</mi><mn>0</mn></msub></math>) pulls the effective growth rate of <math><mi>I</mi></math> below zero sooner.</p>
+</div>
+
 <h4>Predator–prey (Lotka–Volterra)</h4>
 <div class="card def"><span class="tag">Key behaviour (MCQ)</span>
 <ul>
