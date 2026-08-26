@@ -1613,25 +1613,39 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <details class="ansd"><summary>Show answer</summary><div class="inner"><p>A tree is acyclic, so <span class="verdict">"must have a cycle" is the characteristic that does NOT define a spanning tree</span>. The others all do.</p></div></details>
 </div>
 
-<p class="small" style="margin-top:18px">Questions 10–12 refer to an undirected graph on A–E given by its adjacency matrix.</p>
+<p class="small" style="margin-top:18px">Questions 10–12 refer to the following undirected graph, given on the paper by its adjacency matrix:</p>
+<figure class="illus">
+<div style="overflow-x:auto"><table class="tbl" style="width:auto;margin:0 auto 16px;font-variant-numeric:tabular-nums;text-align:center">
+<tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+<tr><th>A</th><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><th>B</th><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><th>C</th><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><th>D</th><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><th>E</th><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+</table></div>
+<svg class="gr" viewBox="0 0 290 250" role="img" aria-label="Graph of the Q10-12 adjacency matrix"
+  data-spec='{"r":16,"nodes":{"A":[95,50],"B":[225,50],"C":[95,170],"E":[225,170],"D":[38,232]},"edges":[["A","B"],["A","C"],["B","E"],["C","E"],["C","D"]]}'></svg>
+<figcaption>Reading the 1's off the matrix gives edges A–B, A–C, B–E, C–D, C–E — a 4-cycle A–B–E–C with D attached to C.</figcaption>
+</figure>
+<div class="card watch"><span class="tag">Matrix vs key mismatch</span><p>As printed, this matrix describes a <strong>single connected graph</strong> (you can walk A–B–E–C–D), so strictly the answers are 1 component and Laplacian nullity 1. The form's key instead says <strong>3</strong> components {A,B,C}, {D}, {E} — which only holds if D and E were isolated (all-zero rows and columns). In other words the matrix on the form looks mistyped. Both readings are given below; the method is what matters.</p></div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag mcq">Q10</span><span>components</span><span class="marks">1 mark</span></div>
 <div class="qtext"><p>Determine the number of connected components. <span class="small">(numeric)</span></p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">3.</span></p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>From the matrix as printed the graph is connected, so <span class="verdict">1</span> component. The form's key gives <span class="verdict">3</span> (its intended graph has D and E isolated). Count components by tracing which nodes can reach each other.</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag mcq">Q11</span><span>components</span><span class="marks">1 mark</span></div>
 <div class="qtext"><p>Identify the connected components in the graph.</p>
-<ul class="qopts"><li class="correct">{A, B, C}</li><li class="correct">{D}</li><li class="correct">{E}</li><li>{D, E}</li><li>{A, C}</li><li>{A}</li><li>{C, D}</li></ul></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">{A, B, C}, {D}, {E}</span> — three separate groups.</p></div></details>
+<ul class="qopts"><li>{A, B, C}</li><li>{D}</li><li>{E}</li><li>{D, E}</li><li>{A, C}</li><li>{A}</li><li>{C, D}</li></ul></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>As printed, all five nodes form <span class="verdict">one component {A, B, C, D, E}</span> — none of the listed options. The form marked <span class="verdict">{A, B, C}, {D}, {E}</span>, which matches the intended version where D and E are isolated.</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag mcq">Q12</span><span>Laplacian</span><span class="marks">1 mark</span></div>
 <div class="qtext"><p>What is the nullity of the Laplacian matrix for the above graph? <span class="small">(numeric)</span></p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict">3</span> — the nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> equals the number of connected components.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> equals the number of connected components — so <span class="verdict">1</span> for the printed matrix, <span class="verdict">3</span> for the form's intended (D, E isolated) version. That equivalence (components = nullity) is the point being tested.</p></div></details>
 </div>
 
 <div class="qitem">
