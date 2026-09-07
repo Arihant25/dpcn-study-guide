@@ -212,18 +212,22 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
     <a href="#cluster">7 · Clustering coefficient</a>
     <a href="#cent">8 · The four centralities</a>
     <a href="#special">9 · Special graphs &amp; trees</a>
-    <div class="grp">Block B — Dynamics</div>
-    <a href="#fixed">10 · Fixed points &amp; stability</a>
-    <a href="#euler-method">11 · Euler's method</a>
-    <a href="#bifs">12 · The four bifurcations</a>
-    <a href="#bistable">13 · Bistability &amp; hysteresis</a>
-    <a href="#epi">14 · SIS, SIR &amp; predator–prey</a>
-    <div class="grp">Block C — Proofs</div>
-    <a href="#proofs">15 · Proofs he actually asks</a>
+    <div class="grp">Block B — Network models</div>
+    <a href="#degdist">10 · Degree distributions &amp; power laws</a>
+    <a href="#pathreg">11 · Path length in regular graphs</a>
+    <a href="#er">12 · Erdős–Rényi random graphs</a>
+    <div class="grp">Block C — Dynamics</div>
+    <a href="#fixed">13 · Fixed points &amp; stability</a>
+    <a href="#euler-method">14 · Euler's method</a>
+    <a href="#bifs">15 · The four bifurcations</a>
+    <a href="#bistable">16 · Bistability &amp; hysteresis</a>
+    <a href="#epi">17 · SIS, SIR &amp; predator–prey</a>
+    <div class="grp">Block D — Proofs</div>
+    <a href="#proofs">18 · Proofs he actually asks</a>
     <div class="grp">Finish</div>
-    <a href="#cheat">16 · One-page cheat sheet</a>
-    <a href="#selftest">17 · Final self-test</a>
-    <a href="#pyq">18 · Past papers, solved</a>
+    <a href="#cheat">19 · One-page cheat sheet</a>
+    <a href="#selftest">20 · Final self-test</a>
+    <a href="#pyq">21 · Past papers, solved</a>
   </nav>
 </aside>
 
@@ -236,6 +240,8 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
     <span class="pill">Graph metrics</span>
     <span class="pill">Centralities</span>
     <span class="pill">Eulerian / Hamiltonian</span>
+    <span class="pill">Power laws</span>
+    <span class="pill">Random graphs</span>
     <span class="pill">Bifurcations</span>
     <span class="pill">SIS / SIR</span>
     <span class="pill">Proofs &amp; derivations</span>
@@ -255,15 +261,18 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
     <a href="#cluster">7 · Clustering coefficient</a>
     <a href="#cent">8 · The four centralities</a>
     <a href="#special">9 · Special graphs &amp; trees</a>
-    <a href="#fixed">10 · Fixed points &amp; stability</a>
-    <a href="#euler-method">11 · Euler's method</a>
-    <a href="#bifs">12 · The four bifurcations</a>
-    <a href="#bistable">13 · Bistability &amp; hysteresis</a>
-    <a href="#epi">14 · SIS, SIR &amp; predator–prey</a>
-    <a href="#proofs">15 · Proofs he actually asks</a>
-    <a href="#cheat">16 · Cheat sheet</a>
-    <a href="#selftest">17 · Final self-test</a>
-    <a href="#pyq">18 · Past papers, solved</a>
+    <a href="#degdist">10 · Degree distributions &amp; power laws</a>
+    <a href="#pathreg">11 · Path length in regular graphs</a>
+    <a href="#er">12 · Erdős–Rényi random graphs</a>
+    <a href="#fixed">13 · Fixed points &amp; stability</a>
+    <a href="#euler-method">14 · Euler's method</a>
+    <a href="#bifs">15 · The four bifurcations</a>
+    <a href="#bistable">16 · Bistability &amp; hysteresis</a>
+    <a href="#epi">17 · SIS, SIR &amp; predator–prey</a>
+    <a href="#proofs">18 · Proofs he actually asks</a>
+    <a href="#cheat">19 · Cheat sheet</a>
+    <a href="#selftest">20 · Final self-test</a>
+    <a href="#pyq">21 · Past papers, solved</a>
   </details>
 </div>
 
@@ -438,7 +447,7 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <div class="eq boxed">
 <math display="block"><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi></math>
 </div>
-<p>The reason is simple: each edge has two ends, so when you walk around counting degrees, every edge gets counted once at each of its two endpoints — twice in total. (The full write-up is Proof&#160;2 in §15.) A useful consequence: the number of <strong>odd-degree nodes is always even</strong>. That single fact is what makes the Eulerian criterion in §5 work.</p>
+<p>The reason is simple: each edge has two ends, so when you walk around counting degrees, every edge gets counted once at each of its two endpoints — twice in total. (The full write-up is Proof&#160;2 in §18.) A useful consequence: the number of <strong>odd-degree nodes is always even</strong>. That single fact is what makes the Eulerian criterion in §5 work.</p>
 </div>
 
 <div class="card def"><span class="tag">Reading the meaning (MCQ)</span>
@@ -789,7 +798,328 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 </div>
 </section>
 <section>
-<h2 id="fixed"><span class="num">10</span>Fixed points &amp; linear stability</h2>
+<h2 id="degdist"><span class="num">10</span>Degree distributions &amp; power laws</h2>
+<p class="section-intro">Instead of looking at one node at a time, step back and ask: across the whole network, how many nodes have 1 link, how many have 2, how many have 50? That single chart — the <em>degree distribution</em> — is what separates a boring "everyone is average" network from a real one with a handful of giant hubs.</p>
+
+<div class="card def"><span class="tag">Definition</span>
+<h4>The degree distribution <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math></h4>
+<p><math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> is simply the <strong>fraction of nodes that have exactly <math><mi>k</mi></math> links</strong>. If a network has <math><mi>N</mi></math> nodes and <math><msub><mi>N</mi><mi>k</mi></msub></math> of them have degree <math><mi>k</mi></math>, then</p>
+<div class="eq"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mfrac><msub><mi>N</mi><mi>k</mi></msub><mi>N</mi></mfrac><mo>,</mo><mspace width="1.4em"/><munder><mo>∑</mo><mi>k</mi></munder><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mn>1</mn><mo>.</mo></math></div>
+<p>Read it like a histogram of degrees, then divided through by <math><mi>N</mi></math> so the bars add up to 1. It is a <em>probability</em>: pick a node at random, and <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> is the chance it has degree <math><mi>k</mi></math>.</p>
+</div>
+
+<h4>Two completely different shapes</h4>
+<p>Almost everything you measure in the real world falls into one of two families, and telling them apart is the whole point of this topic.</p>
+
+<div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+<div class="fig">
+<h4>Has a "scale" (peaked)</h4>
+<svg viewBox="0 0 210 140" role="img" aria-label="A peaked, bell-shaped distribution with a typical value">
+  <g style="color:var(--muted-fg)" fill="none" stroke="currentColor" stroke-width="1">
+    <line x1="26" y1="112" x2="202" y2="112"/><line x1="26" y1="112" x2="26" y2="16"/>
+  </g>
+  <g style="color:var(--brand)" fill="currentColor" fill-opacity="0.8">
+    <rect x="30" y="104" width="16" height="8"/><rect x="48" y="90" width="16" height="22"/>
+    <rect x="66" y="67" width="16" height="45"/><rect x="84" y="40" width="16" height="72"/>
+    <rect x="102" y="24" width="16" height="88"/><rect x="120" y="40" width="16" height="72"/>
+    <rect x="138" y="67" width="16" height="45"/><rect x="156" y="90" width="16" height="22"/>
+    <rect x="174" y="104" width="16" height="8"/>
+  </g>
+  <g style="color:var(--muted-fg)" fill="currentColor" font-family="STIX Two Text, serif" font-style="italic" font-size="12">
+    <text x="200" y="126" text-anchor="end">k</text><text x="20" y="22" text-anchor="end">P(k)</text>
+  </g>
+</svg>
+<p class="cap">A <strong>typical value</strong> sits under the peak; nothing strays far from it. Human heights, exam marks, and — importantly — the degrees of an Erdős–Rényi random network all look like this.</p>
+</div>
+<div class="fig">
+<h4>Scale-free (heavy tail)</h4>
+<svg viewBox="0 0 210 140" role="img" aria-label="A straight descending line on log-log axes, a power law">
+  <g style="color:var(--muted-fg)" fill="none" stroke="currentColor" stroke-width="1">
+    <line x1="26" y1="112" x2="202" y2="112"/><line x1="26" y1="112" x2="26" y2="16"/>
+  </g>
+  <g style="color:var(--brand)" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+    <line x1="32" y1="24" x2="192" y2="104"/>
+  </g>
+  <g style="color:var(--brand)" fill="currentColor">
+    <circle cx="32" cy="24" r="3"/><circle cx="64" cy="40" r="3"/><circle cx="96" cy="56" r="3"/>
+    <circle cx="128" cy="72" r="3"/><circle cx="160" cy="88" r="3"/><circle cx="180" cy="98" r="3"/>
+  </g>
+  <g style="color:var(--muted-fg)" fill="currentColor" font-family="STIX Two Text, serif" font-style="italic" font-size="12">
+    <text x="200" y="126" text-anchor="end">log k</text><text x="20" y="22" text-anchor="end">log P(k)</text>
+  </g>
+</svg>
+<p class="cap">On <strong>log–log axes</strong> it becomes a <strong>straight downhill line</strong>. Most nodes have very few links, but a rare few — the <em>hubs</em> — have enormous degree. City sizes, word frequencies, and web-page links look like this.</p>
+</div>
+</div>
+
+<div class="card def"><span class="tag">Power law</span>
+<h4>What "scale-free" means as a formula</h4>
+<p>A distribution is a <em class="term">power law</em> when</p>
+<div class="eq boxed"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mi>C</mi><mspace width="0.15em"/><msup><mi>k</mi><mrow><mo>−</mo><mi>α</mi></mrow></msup></math></div>
+<p>where <math><mi>α</mi></math> (the <em>exponent</em>, usually between 2 and 3 for real networks) sets how fast the tail falls off, and <math><mi>C</mi></math> is just a normalising constant that makes the bars add to 1. The name "scale-free" means there is <strong>no typical degree</strong> — no single peak you could point to and call "the size" of a node.</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked</span>
+<h4>Why a power law is a straight line on log–log axes</h4>
+<p>This is the single most-asked fact in this topic, so here it is one step at a time.</p>
+<ol class="steps">
+<li>Start from <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>α</mi></mrow></msup></math>.</li>
+<li>Take the logarithm of both sides. Logs turn multiplication into addition and pull exponents down to the front:
+<div class="eq"><math display="block"><mi>ln</mi><mspace width="0.15em"/><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>C</mi><mo>−</mo><mi>α</mi><mspace width="0.15em"/><mi>ln</mi><mspace width="0.15em"/><mi>k</mi><mo>.</mo></math></div></li>
+<li>Now rename <math><mi>y</mi><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> and <math><mi>x</mi><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>k</mi></math>. The equation reads <math><mi>y</mi><mo>=</mo><mo>(</mo><mi>ln</mi><mspace width="0.15em"/><mi>C</mi><mo>)</mo><mo>−</mo><mi>α</mi><mi>x</mi></math> — the equation of a <strong>straight line</strong> with slope <math><mo>−</mo><mi>α</mi></math>.</li>
+</ol>
+<p>So plotting a power law on log–log paper gives a line whose <strong>steepness is exactly the exponent</strong> <math><mi>α</mi></math>. That is how researchers measure <math><mi>α</mi></math> from real data: fit the slope.</p>
+</div>
+
+<h4>Reading the data: linear binning vs log binning</h4>
+<p>To draw <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> you group the raw values into <em>bins</em> and count how many land in each. <em>How</em> you choose the bins matters a lot for heavy-tailed data.</p>
+
+<div class="card def"><span class="tag">Linear binning</span>
+<p>Cut the range into <strong>equal-width</strong> slices. Suppose your data is <math><mo>[</mo><mn>2</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>7.3</mn><mo>,</mo><mn>13</mn><mo>,</mo><mn>15</mn><mo>]</mo></math>, minimum 2, maximum 15, and you want 3 bins. Each bin is <math><mo>(</mo><mn>15</mn><mo>−</mo><mn>2</mn><mo>)</mo><mo>/</mo><mn>3</mn><mo>≈</mo><mn>4.3</mn></math> wide (round to 5), giving bins <math><mo>[</mo><mn>2</mn><mo>,</mo><mn>7</mn><mo>)</mo><mo>,</mo><mo>[</mo><mn>7</mn><mo>,</mo><mn>12</mn><mo>)</mo><mo>,</mo><mo>[</mo><mn>12</mn><mo>,</mo><mn>17</mn><mo>)</mo></math>:</p>
+<ul>
+<li>Bin 1 <math><mo>[</mo><mn>2</mn><mo>,</mo><mn>7</mn><mo>)</mo></math>: contains 2 and 5 → count 2</li>
+<li>Bin 2 <math><mo>[</mo><mn>7</mn><mo>,</mo><mn>12</mn><mo>)</mo></math>: contains 7.3 → count 1</li>
+<li>Bin 3 <math><mo>[</mo><mn>12</mn><mo>,</mo><mn>17</mn><mo>)</mo></math>: contains 13 and 15 → count 2</li>
+</ul>
+<p>Fine for peaked data. But for a power law the <strong>tail is a disaster</strong>: out where degrees are large, each equal-width bin catches only 0 or 1 node, so the plot dissolves into random noise exactly where you most wanted to measure the slope.</p>
+</div>
+
+<div class="card key"><span class="tag">Log binning — the fix</span>
+<p>Make each bin a <strong>fixed multiple wider</strong> than the one before, e.g. edges at <math><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>8</mn><mo>,</mo><mn>16</mn><mo>,</mo><mo>…</mo></math> (or <math><msup><mn>10</mn><mn>0</mn></msup><mo>,</mo><msup><mn>10</mn><mn>1</mn></msup><mo>,</mo><msup><mn>10</mn><mn>2</mn></msup><mo>,</mo><mo>…</mo></math>). Now the far tail is swept up into a few wide bins that each hold a decent number of nodes, so the noise smooths out.</p>
+<p>There is <strong>one catch you must not forget</strong>: because the bins are unequal, a wide bin naturally catches more nodes. To compare fairly you <strong>divide each bin's count by its width</strong> <math><mi>Δ</mi><mi>k</mi></math>:</p>
+<div class="eq boxed"><math display="block"><mtext>height</mtext><mo>=</mo><mfrac><mrow><mtext>count in bin</mtext></mrow><mrow><mi>Δ</mi><mi>k</mi></mrow></mfrac></math></div>
+<p>That normalisation makes the height independent of how wide you chose the bin — which is the only reason you are allowed to vary the widths in the first place.</p>
+</div>
+
+<div class="card def"><span class="tag">Moments — when the average even exists</span>
+<h4>The <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math> and <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math> rules</h4>
+<p>For a power law the "average degree" and "spread of degree" are not always finite — the heavy tail can be so fat that the sums blow up. The rule the course states:</p>
+<ul>
+<li>The <strong>mean</strong> <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> is finite only when <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math>.</li>
+<li>The <strong>second moment</strong> <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math> (which controls the variance) is finite only when <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math>.</li>
+</ul>
+<p>Real networks usually sit in the awkward middle band <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math>: the average is finite, but the variance is <em>infinite</em> (it keeps growing as you add more nodes). That single fact is why hubs dominate, why the "friendship paradox" is so extreme, and why these networks are so hard to immunise — all of which come back in the random-graph section.</p>
+</div>
+
+<div class="card ex"><span class="tag">Aside · how the synthetic data is made</span>
+<p>The slides generate a test power law with the <em>transformation method</em>: draw a uniform random number <math><mi>r</mi></math> in <math><mo>[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>)</mo></math>, then</p>
+<div class="eq"><math display="block"><mi>x</mi><mo>=</mo><msub><mi>x</mi><mtext>min</mtext></msub><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>r</mi><mo>)</mo></mrow><mrow><mo>−</mo><mn>1</mn><mo>/</mo><mo>(</mo><mi>α</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></math></div>
+<p>gives a power-law-distributed <math><mi>x</mi><mo>≥</mo><msub><mi>x</mi><mtext>min</mtext></msub></math> with exponent <math><mi>α</mi></math>. A lower cut-off <math><msub><mi>x</mi><mtext>min</mtext></msub></math> is essential because the power law blows up as <math><mi>x</mi><mo>→</mo><mn>0</mn></math>. You won't be asked to derive this, but recognising the formula is worth an easy mark.</p>
+</div>
+</section>
+<section>
+<h2 id="pathreg"><span class="num">11</span>Path length in regular &amp; special graphs</h2>
+<p class="section-intro">A favourite exam move: "take this nice regular shape — a chain, a ring, a lattice — and derive how the average path length grows with <math><mi>N</mi></math>." These have clean closed-form answers, and the punchline sets up why random networks are called "small worlds".</p>
+
+<div class="card def"><span class="tag">Reminder</span>
+<p>The <em class="term">average path length</em> <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo></math> is the mean shortest-path distance taken over <strong>every pair of nodes</strong>. With <math><mi>N</mi></math> nodes there are <math><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> pairs, so <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mtext>(sum of all pair distances)</mtext><mo>/</mo><mtext>(number of pairs)</mtext></math>.</p>
+</div>
+
+<div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+<div class="fig">
+<h4>Open chain (path)</h4>
+<svg class="gr" viewBox="0 0 300 70" role="img" aria-label="Open chain of 5 nodes"
+  data-spec='{"r":14,"nodes":{"A":[30,35],"B":[90,35],"C":[150,35],"D":[210,35],"E":[270,35]},"edges":[["A","B"],["B","C"],["C","D"],["D","E"]]}'></svg>
+<p class="cap">A line of nodes, two loose ends. Every node has degree 2 except the two endpoints.</p>
+</div>
+<div class="fig">
+<h4>Ring (1-D lattice)</h4>
+<svg class="gr" viewBox="0 0 200 180" role="img" aria-label="Ring of 6 nodes"
+  data-spec='{"r":14,"nodes":{"A":[100,25],"B":[156,57],"C":[156,123],"D":[100,155],"E":[44,123],"F":[44,57]},"edges":[["A","B"],["B","C"],["C","D"],["D","E"],["E","F"],["F","A"]]}'></svg>
+<p class="cap">Join the two ends of a chain. Now every node has degree 2 and looks identical.</p>
+</div>
+<div class="fig">
+<h4>2-D lattice</h4>
+<svg class="gr" viewBox="0 0 200 200" role="img" aria-label="3 by 3 grid lattice"
+  data-spec='{"r":12,"nodes":{"a":[40,40],"b":[100,40],"c":[160,40],"d":[40,100],"e":[100,100],"f":[160,100],"g":[40,160],"h":[100,160],"i":[160,160]},"labels":{"a":"","b":"","c":"","d":"","e":"","f":"","g":"","h":"","i":""},"edges":[["a","b"],["b","c"],["d","e"],["e","f"],["g","h"],["h","i"],["a","d"],["d","g"],["b","e"],["e","h"],["c","f"],["f","i"]]}'></svg>
+<p class="cap">A grid. Interior nodes have degree 4. Distances are "city-block" (Manhattan) steps.</p>
+</div>
+</div>
+
+<div class="card ex"><span class="tag">Worked · derive it</span>
+<h4>Open chain of <math><mi>n</mi></math> nodes: <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math></h4>
+<ol class="steps">
+<li><strong>Count pairs at each distance.</strong> Two nodes are a distance <math><mi>d</mi></math> apart when they sit <math><mi>d</mi></math> steps along the line. How many such pairs are there? You can slide a "window" of length <math><mi>d</mi></math> along <math><mi>n</mi></math> nodes in exactly <math><mi>n</mi><mo>−</mo><mi>d</mi></math> positions. So there are <math><mo>(</mo><mi>n</mi><mo>−</mo><mi>d</mi><mo>)</mo></math> pairs at distance <math><mi>d</mi></math>, for <math><mi>d</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>…</mo><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn></math>.</li>
+<li><strong>Add up all the distances.</strong> The total is
+<div class="eq"><math display="block"><munderover><mo>∑</mo><mrow><mi>d</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><mi>d</mi><mo>(</mo><mi>n</mi><mo>−</mo><mi>d</mi><mo>)</mo><mo>=</mo><mi>n</mi><munder><mo>∑</mo><mi>d</mi></munder><mi>d</mi><mo>−</mo><munder><mo>∑</mo><mi>d</mi></munder><msup><mi>d</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mn>6</mn></mfrac><mo>.</mo></math></div>
+(Using the standard sums <math><mo>∑</mo><mi>d</mi><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> and <math><mo>∑</mo><msup><mi>d</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mn>2</mn><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>6</mn></mfrac></math>, then tidy up.)</li>
+<li><strong>Divide by the number of pairs</strong> <math><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math>:
+<div class="eq boxed"><math display="block"><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>6</mn></mrow><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac><mo>.</mo></math></div></li>
+</ol>
+<p>So a chain's average path length grows <strong>linearly</strong> with <math><mi>n</mi></math> — double the nodes and you roughly double the typical distance. That is the opposite of "small world".</p>
+</div>
+
+<div class="card def"><span class="tag">Ring &amp; lattices</span>
+<h4>The results to memorise</h4>
+<ul>
+<li><strong>Ring</strong> (1-D lattice, <math><mi>N</mi></math> nodes): from any node the distances run <math><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>…</mo></math> up to about <math><mi>N</mi><mo>/</mo><mn>2</mn></math> in <em>both</em> directions, and averaging them gives
+<div class="eq"><math display="block"><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>≈</mo><mfrac><mi>N</mi><mn>4</mn></mfrac><mspace width="1.4em"/><mo>(</mo><mi>N</mi><mo>≫</mo><mn>1</mn><mo>)</mo><mo>.</mo></math></div>
+Degree is constant (2 for a plain ring) and clustering is constant too — nothing about the local picture changes as the ring grows, yet distances keep stretching.</li>
+<li><strong>2-D lattice</strong>: distances grow like <math><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>. In general, a <math><mi>D</mi></math>-dimensional lattice has
+<div class="eq"><math display="block"><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup><mo>.</mo></math></div></li>
+<li><strong>Star</strong> (from §9): <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>→</mo><mn>2</mn></math> for large <math><mi>N</mi></math> (almost every pair is leaf→hub→leaf), and clustering is 0 (no two leaves are linked). <strong>Complete <math><msub><mi>K</mi><mi>N</mi></msub></math></strong>: <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>, every pair adjacent.</li>
+</ul>
+</div>
+
+<div class="card key"><span class="tag">The punchline</span>
+<h4>Lattices are big worlds; random graphs are small worlds</h4>
+<p>Notice the pattern: for a chain, ring or lattice the typical distance grows as a <strong>power of <math><mi>N</mi></math></strong> (<math><mi>N</mi></math>, <math><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>, <math><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math>). Blow the network up and distances blow up with it. A random / Erdős–Rényi network is dramatically different — there distances grow only as <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>, so even a network of a billion nodes has everyone just a handful of hops apart. That logarithmic scaling is exactly what "<em>small world</em>" means, and it is derived next.</p>
+</div>
+
+<table class="tbl">
+<tr><th>Graph on <math><mi>N</mi></math> nodes</th><th>Average path length <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo></math></th><th>Grows like</th><th>Small world?</th></tr>
+<tr><td>Open chain</td><td><math><mo>(</mo><mi>N</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>3</mn></math></td><td><math><mi>N</mi></math></td><td>No</td></tr>
+<tr><td>Ring (1-D)</td><td><math><mo>≈</mo><mi>N</mi><mo>/</mo><mn>4</mn></math></td><td><math><mi>N</mi></math></td><td>No</td></tr>
+<tr><td><math><mi>D</mi></math>-D lattice</td><td><math><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></td><td><math><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></td><td>No</td></tr>
+<tr><td>Star</td><td><math><mo>→</mo><mn>2</mn></math></td><td>constant</td><td>Yes (trivially)</td></tr>
+<tr><td>Random (ER)</td><td><math><mo>≈</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></td><td><math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></td><td><strong>Yes</strong></td></tr>
+</table>
+</section>
+<section>
+<h2 id="er"><span class="num">12</span>Erdős–Rényi random graphs</h2>
+<p class="section-intro">The simplest possible model of a network: sprinkle links between nodes purely at random. It gets some things gloriously right (short paths, sharp thresholds) and some things badly wrong (no hubs, almost no triangles) — and the mid-sem loves asking you to show <em>which</em>, and why.</p>
+
+<div class="card def"><span class="tag">Construction</span>
+<h4>Two ways to build <math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math></h4>
+<p>Take <math><mi>N</mi></math> nodes. There are <math><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> possible pairs. Then:</p>
+<ul>
+<li><math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math> — visit every pair and connect it with probability <math><mi>p</mi></math>, independently. The number of edges will fluctuate around its average.</li>
+<li><math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>m</mi><mo>)</mo></math> — just drop exactly <math><mi>m</mi></math> edges onto randomly chosen pairs.</li>
+</ul>
+<p>The two agree (on average) when <math><mi>m</mi><mo>=</mo><mi>p</mi><mo>·</mo><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math>. The independent-coin-flip version <math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math> is the one you compute with, because independence makes every average factor apart.</p>
+<div class="eq"><math display="block"><mo>⟨</mo><mi>L</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac><mo>,</mo><mspace width="1.6em"/><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>.</mo></math></div>
+</div>
+
+<div class="card ex"><span class="tag">Property 1 · degree distribution</span>
+<h4>Binomial, which becomes Poisson</h4>
+<p>Pick one node. It has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, each connected with probability <math><mi>p</mi></math> by an independent coin flip. "How many of <math><mi>N</mi><mo>−</mo><mn>1</mn></math> coins came up heads" is exactly the <strong>Binomial distribution</strong>:</p>
+<div class="eq"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mrow><mo>(</mo><mfrac linethickness="0"><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mi>k</mi></mfrac><mo>)</mo></mrow><msup><mi>p</mi><mi>k</mi></msup><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn><mo>−</mo><mi>k</mi></mrow></msup><mo>.</mo></math></div>
+<p>For a large network with a fixed average degree (<math><mi>p</mi></math> tiny, <math><mi>N</mi></math> huge) the Binomial collapses into the tidier <strong>Poisson distribution</strong>:</p>
+<div class="eq boxed"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup><mfrac><msup><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>k</mi></msup><mrow><mi>k</mi><mo>!</mo></mrow></mfrac><mo>.</mo></math></div>
+<p>Its tell-tale signature is <strong>mean = variance = <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></strong>. There is a single peak near <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> and the tail dies faster than any exponential — so <strong>hubs are essentially impossible</strong>. This is a "has-a-scale" distribution from §10, and it is the biggest way ER fails to look like a real network. (A one-number test: measure <math><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo><mo>/</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>. Near 1 → ER-like; far above 1 → fat tail.)</p>
+</div>
+
+<div class="card ex"><span class="tag">Property 2 · clustering</span>
+<h4>Clustering coefficient <math><mi>C</mi><mo>=</mo><mi>p</mi></math></h4>
+<p>Take a node's two neighbours. Are <em>they</em> linked? In an ER graph any pair is linked with probability <math><mi>p</mi></math> and edges don't know about each other — so the chance the triangle closes is just <math><mi>p</mi></math>. Hence</p>
+<div class="eq boxed"><math display="block"><mi>C</mi><mo>=</mo><mi>p</mi><mo>=</mo><mfrac><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo>→</mo><mn>0</mn><mspace width="0.8em"/><mtext>as</mtext><mspace width="0.4em"/><mi>N</mi><mo>→</mo><mo>∞</mo><mo>.</mo></math></div>
+<p>Real social networks keep a high, roughly constant clustering however large they get (your friends know each other). ER's clustering withers to zero. Second big failure — same as the hub problem, it is <em>structural</em>, not a matter of tuning <math><mi>p</mi></math>.</p>
+</div>
+
+<div class="card ex"><span class="tag">Property 3 · distances</span>
+<h4>Small-world: <math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>≈</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></h4>
+<p>Explore outward from a node. It has about <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> neighbours; each of those has about <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> more, so after <math><mi>d</mi></math> steps you have reached roughly <math><msup><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>d</mi></msup></math> nodes. You have "found everyone" once <math><msup><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>d</mi></msup><mo>≈</mo><mi>N</mi></math>. Take logs and solve:</p>
+<div class="eq boxed"><math display="block"><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>≈</mo><mfrac><mrow><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></mrow><mrow><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac><mo>.</mo></math></div>
+<p>Because <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> grows so slowly, distances stay tiny even for gigantic <math><mi>N</mi></math> — the small-world property promised at the end of §11. The denser the graph (bigger <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>), the shorter the hops.</p>
+</div>
+
+<h4>Property 4 — the giant component (percolation)</h4>
+<p>This is the marquee result of the whole module. As you turn <math><mi>p</mi></math> up from zero, the network does <strong>not</strong> fill in smoothly. Below a sharp threshold it is just a dust of tiny fragments; cross the threshold and — suddenly — one <em>giant component</em> containing a finite fraction of all nodes snaps into existence.</p>
+
+<div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+<div class="fig">
+<h4>Self-consistency curve</h4>
+<svg viewBox="0 0 210 160" role="img" aria-label="Giant component fraction S versus mean degree, rising from zero at k=1">
+  <g style="color:var(--muted-fg)" fill="none" stroke="currentColor" stroke-width="1">
+    <line x1="28" y1="132" x2="198" y2="132"/><line x1="28" y1="132" x2="28" y2="22"/>
+  </g>
+  <g style="color:var(--unstable)" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3" fill="none">
+    <line x1="66.75" y1="132" x2="66.75" y2="42"/>
+  </g>
+  <g style="color:var(--brand)" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <polyline points="28,132 66.75,132 86.1,71.4 105.5,49.1 124.9,39.1 144.25,34.2 163.6,31.5 183,30.1"/>
+  </g>
+  <g style="color:var(--muted-fg)" fill="currentColor" font-family="STIX Two Text, serif" font-style="italic" font-size="12">
+    <text x="196" y="146" text-anchor="end">⟨k⟩</text><text x="22" y="26" text-anchor="end">S</text>
+    <text x="66.75" y="150" text-anchor="middle">1</text>
+  </g>
+</svg>
+<p class="cap">The fraction of nodes in the giant component stays pinned at 0 until <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>, then lifts off continuously.</p>
+</div>
+<div class="fig">
+<h4>Sub-critical <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&lt;</mo><mn>1</mn></math></h4>
+<svg class="gr" viewBox="0 0 210 160" role="img" aria-label="Sparse random graph, only small fragments"
+  data-spec='{"r":11,"nodes":{"a":[30,35],"b":[75,50],"c":[150,30],"d":[190,45],"e":[178,90],"f":[45,120],"g":[95,135],"h":[135,120],"i":[185,140],"j":[110,80]},"labels":{"a":"","b":"","c":"","d":"","e":"","f":"","g":"","h":"","i":"","j":""},"edges":[["a","b"],["c","d"],["d","e"],["f","g"]]}'></svg>
+<p class="cap">Only isolated nodes and tiny trees; the largest fragment is only about <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> nodes.</p>
+</div>
+<div class="fig">
+<h4>Super-critical <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></h4>
+<svg class="gr" viewBox="0 0 210 160" role="img" aria-label="Random graph with one large connected component plus stragglers"
+  data-spec='{"r":11,"nodes":{"a":[45,40],"b":[95,30],"c":[140,55],"d":[85,70],"e":[45,100],"f":[120,100],"g":[80,135],"p":[185,45],"q":[190,95],"s":[185,140]},"labels":{"a":"","b":"","c":"","d":"","e":"","f":"","g":"","p":"","q":"","s":""},"edges":[["a","b"],["b","c"],["a","d"],["d","c"],["d","e"],["d","f"],["f","g"],["e","g"],["p","q"]],"hi":["a","b","c","d","e","f","g"]}'></svg>
+<p class="cap">One giant component (highlighted) swallows most nodes; a few small trees and singletons remain.</p>
+</div>
+</div>
+
+<div class="card key"><span class="tag">The threshold</span>
+<h4>Giant component appears exactly at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></h4>
+<p>Let <math><mi>S</mi></math> be the fraction of nodes in the giant component and <math><mi>u</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>S</mi></math> the fraction outside it. A node stays out only if <em>every</em> neighbour also stays out, which leads to the self-consistency equation the slides derive:</p>
+<div class="eq boxed"><math display="block"><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup><mo>.</mo></math></div>
+<p><math><mi>S</mi><mo>=</mo><mn>0</mn></math> always solves it. A second, positive solution appears only once the right-hand side leaves the origin steeper than the line <math><mi>y</mi><mo>=</mo><mi>S</mi></math> — i.e. when its initial slope <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> exceeds 1. Hence the critical point is <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>. The reading is beautifully simple: <strong>each node must lead, on average, to more than one further node</strong> for the exploration to keep growing instead of dying out.</p>
+</div>
+
+<h4>The four regimes</h4>
+<table class="tbl">
+<tr><th>Regime</th><th>Condition</th><th>Largest component</th></tr>
+<tr><td><strong>Sub-critical</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&lt;</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>&lt;</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td>tiny trees, size <math><mo>∼</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></td></tr>
+<tr><td><strong>Critical</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>=</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td><math><mo>∼</mo><msup><mi>N</mi><mrow><mn>2</mn><mo>/</mo><mn>3</mn></mrow></msup></math> (a jump, but still a vanishing fraction)</td></tr>
+<tr><td><strong>Super-critical</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>&gt;</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td>giant component <math><mo>∼</mo><mi>N</mi></math>, plus small trees</td></tr>
+<tr><td><strong>Connected</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> &nbsp;(<math><mi>p</mi><mo>&gt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math>)</td><td>one component, no isolated nodes</td></tr>
+</table>
+
+<div class="card ex"><span class="tag">Property 5 · isolated nodes &amp; connectivity</span>
+<h4>Why the network connects at <math><mi>p</mi><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math></h4>
+<p>A graph becomes fully connected slightly <em>after</em> the giant appears — the last obstacle is always a single node that happened to draw no edges. So we just count isolated nodes.</p>
+<ol class="steps">
+<li>A given node is isolated when all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> of its possible edges are absent: <math><mtext>Pr</mtext><mo>=</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≈</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math>.</li>
+<li>Expected number of isolated nodes across the whole graph (just multiply by <math><mi>N</mi></math>):
+<div class="eq"><math display="block"><mi>E</mi><mo>[</mo><mi>X</mi><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mi>N</mi><mi>p</mi></mrow></msup><mo>.</mo></math></div></li>
+<li>Set <math><mi>p</mi><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math>: then <math><mi>E</mi><mo>[</mo><mi>X</mi><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mi>ln</mi><mi>N</mi></mrow></msup><mo>=</mo><mi>N</mi><mo>·</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><mo>=</mo><mn>1</mn></math>. Push <math><mi>p</mi></math> a hair higher and the expected number of loners drops to 0 — the graph connects.</li>
+</ol>
+<div class="eq boxed"><math display="block"><msub><mi>p</mi><mtext>connect</mtext></msub><mo>=</mo><mfrac><mrow><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></mrow><mi>N</mi></mfrac><mspace width="1.2em"/><mo>⟺</mo><mspace width="1.2em"/><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>.</mo></math></div>
+</div>
+
+<div class="card def"><span class="tag">Threshold ladder</span>
+<h4>When each structure first appears</h4>
+<p>More generally, a monotone property appears once <math><mi>p</mi><mo>(</mo><mi>N</mi><mo>)</mo></math> crosses a <em>threshold function</em> <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math>. Reading down the ladder tells you the order in which a random graph grows up as you crank <math><mi>p</mi></math>:</p>
+<table class="tbl">
+<tr><th>First appearance of…</th><th>Threshold <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math></th></tr>
+<tr><td>the first edge</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></math></td></tr>
+<tr><td>a tree on <math><mi>k</mi></math> nodes</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mi>k</mi><mo>/</mo><mo>(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></math></td></tr>
+<tr><td>the first cycle &amp; the giant component</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></math></td></tr>
+<tr><td>a complete subgraph <math><msub><mi>K</mi><mi>r</mi></msub></math></td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>2</mn><mo>/</mo><mo>(</mo><mi>r</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></math></td></tr>
+<tr><td>full connectivity (&amp; a Hamiltonian cycle)</td><td><math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math></td></tr>
+</table>
+<p class="small">Notice trees of every size show up <em>before</em> the first cycle — and connectivity and Hamiltonicity share the same threshold, because once the last isolated node is gone almost everything else is already in place.</p>
+</div>
+
+<div class="card def"><span class="tag">Friendship paradox</span>
+<h4>Your friends have more friends than you do</h4>
+<p>Follow a random <em>edge</em> and you are more likely to land on a high-degree node (it has more edges pointing at it). So the average degree of a <em>neighbour</em> is not <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> but</p>
+<div class="eq boxed"><math display="block"><msub><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mfrac><mrow><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></mrow><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>+</mo><mfrac><mrow><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac><mo>.</mo></math></div>
+<p>Since the variance is positive, a neighbour's expected degree always <em>beats</em> your own. For ER (Poisson, <math><mtext>Var</mtext><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) the gap is exactly one extra friend: <math><msub><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>+</mo><mn>1</mn></math>. For a scale-free network with <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math> the variance diverges (§10), so the paradox becomes enormous — your friends are wildly more popular than you.</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked · put the numbers in</span>
+<h4><math><mi>N</mi><mo>=</mo><mn>1000</mn></math>, <math><mi>p</mi><mo>=</mo><mn>0.006</mn></math>: giant? connected?</h4>
+<ol class="steps">
+<li><strong>Mean degree:</strong> <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>=</mo><mn>0.006</mn><mo>×</mo><mn>999</mn><mo>≈</mo><mn>6</mn></math>.</li>
+<li><strong>Giant component?</strong> <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>≈</mo><mn>6</mn><mo>&gt;</mo><mn>1</mn></math> → <span class="verdict">yes</span>, a giant component fills most of the graph.</li>
+<li><strong>Fully connected?</strong> The connectivity threshold is <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mn>1000</mn><mo>≈</mo><mn>6.9</mn></math>. Since <math><mn>6</mn><mo>&lt;</mo><mn>6.9</mn></math>, we are just <em>below</em> it → <span class="verdict">not yet connected</span>. Indeed the expected number of isolated nodes is <math><mn>1000</mn><mo>·</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>6</mn></mrow></msup><mo>≈</mo><mn>2.5</mn></math>, so a couple of loners remain.</li>
+</ol>
+<p>This "giant but not connected" band, <math><mn>1</mn><mo>&lt;</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&lt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>, is exactly where most real sparse networks live.</p>
+</div>
+
+<div class="card watch"><span class="tag">Beyond the quiz — good to recognise</span>
+<p>The two supplementary decks push further, into territory that is unlikely on a first mid-sem but worth knowing the names of:</p>
+<ul>
+<li><strong>Configuration model &amp; the Molloy–Reed criterion:</strong> for <em>any</em> degree distribution, a giant component exists when <math><mfrac><mrow><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></mrow><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac><mo>&gt;</mo><mn>2</mn></math>. It collapses back to <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math> for Poisson ER.</li>
+<li><strong>Generating functions</strong> (Newman): one functional equation <math><mi>h</mi><mo>(</mo><mi>z</mi><mo>)</mo><mo>=</mo><mi>z</mi><mspace width="0.15em"/><msup><mi>e</mi><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>(</mo><mi>h</mi><mo>(</mo><mi>z</mi><mo>)</mo><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></math> reproduces every result above exactly, including the mean small-component size <math><mo>⟨</mo><mi>s</mi><mo>⟩</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac></math> (which diverges at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>).</li>
+</ul>
+<p>If a question just asks for a result, quoting these is plenty — you won't need the full derivations for the mid-sem.</p>
+</div>
+</section>
+<section>
+<h2 id="fixed"><span class="num">13</span>Fixed points &amp; linear stability</h2>
 <p class="section-intro">The whole of nonlinear dynamics on this quiz boils down to two questions about a system: <em>where does it sit still</em>, and <em>if you nudge it, does it come back or run away</em>. Everything else is detail on top of these.</p>
 
 <div class="card def"><span class="tag">Definition</span>
@@ -842,7 +1172,7 @@ details.mtoc a{display:block; padding:7px 12px; color:var(--muted-fg); text-deco
 <mspace width="0.6em"/><mo>⟹</mo><mspace width="0.6em"/><mtext>unstable</mtext>
 </math>
 </div>
-<p>The reason (derived step-by-step in §15) is that a small nudge <math><mi>η</mi></math> grows or shrinks like <math><mi>η</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>≈</mo><mi>η</mi><mo>(</mo><mn>0</mn><mo>)</mo><msup><mi>e</mi><mrow><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mspace width="0.15em"/><mi>t</mi></mrow></msup></math> — it only decays when the exponent is negative. If <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>=</mo><mn>0</mn></math> the test is inconclusive, and that borderline is precisely where <em>bifurcations</em> live (§12).</p>
+<p>The reason (derived step-by-step in §18) is that a small nudge <math><mi>η</mi></math> grows or shrinks like <math><mi>η</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>≈</mo><mi>η</mi><mo>(</mo><mn>0</mn><mo>)</mo><msup><mi>e</mi><mrow><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mspace width="0.15em"/><mi>t</mi></mrow></msup></math> — it only decays when the exponent is negative. If <math><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>=</mo><mn>0</mn></math> the test is inconclusive, and that borderline is precisely where <em>bifurcations</em> live (§15).</p>
 </div>
 
 <div class="card ex"><span class="tag">On the slides · flow on the line</span>
@@ -864,11 +1194,11 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </div>
 
 <div class="card watch"><span class="tag">Continuous vs discrete — do not mix these up</span>
-<p>For a step-by-step <strong>iterated map</strong> <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math> the rule is <em>different</em>: a fixed point is stable when the <em>size</em> of the slope is below one, <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math> — not simply <math><msup><mi>f</mi><mo>′</mo></msup><mo>&lt;</mo><mn>0</mn></math>. So: continuous flow uses the <em>sign</em> of <math><msup><mi>f</mi><mo>′</mo></msup></math>; a discrete map compares the <em>magnitude</em> of <math><msup><mi>f</mi><mo>′</mo></msup></math> against 1. He has set the discrete version (the logistic map and <math><mi>cos</mi><mi>x</mi></math>) — see §15.</p>
+<p>For a step-by-step <strong>iterated map</strong> <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math> the rule is <em>different</em>: a fixed point is stable when the <em>size</em> of the slope is below one, <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math> — not simply <math><msup><mi>f</mi><mo>′</mo></msup><mo>&lt;</mo><mn>0</mn></math>. So: continuous flow uses the <em>sign</em> of <math><msup><mi>f</mi><mo>′</mo></msup></math>; a discrete map compares the <em>magnitude</em> of <math><msup><mi>f</mi><mo>′</mo></msup></math> against 1. He has set the discrete version (the logistic map and <math><mi>cos</mi><mi>x</mi></math>) — see §18.</p>
 </div>
 </section>
 <section>
-<h2 id="euler-method"><span class="num">11</span>Euler's method (numerical integration)</h2>
+<h2 id="euler-method"><span class="num">14</span>Euler's method (numerical integration)</h2>
 <p class="section-intro">Most models in this course can't be solved with a neat formula, so the computer marches the solution forward in small time steps. Euler's method is the simplest way to do that, and you should be able to write its update rule and name its two sources of error.</p>
 
 <div class="card def"><span class="tag">The tangent-line method</span>
@@ -914,7 +1244,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </section>
 
 <section>
-<h2 id="bifs"><span class="num">12</span>The four one-dimensional bifurcations</h2>
+<h2 id="bifs"><span class="num">15</span>The four one-dimensional bifurcations</h2>
 <p class="section-intro">A <em class="term">bifurcation</em> is a sudden, qualitative change in a system's fixed points as you slowly turn a knob — the parameter <math><mi>r</mi></math>. Fixed points can appear out of nowhere, collide and vanish, or swap their stability. Four standard equations ("normal forms") cover the entire 1-D syllabus. For each, learn the equation, its fixed points, and the shape of its diagram.</p>
 
 <div class="legend" style="margin-bottom:4px">
@@ -972,7 +1302,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </details>
 </section>
 <section>
-<h2 id="bistable"><span class="num">13</span>Bistability &amp; hysteresis (Spruce Budworm)</h2>
+<h2 id="bistable"><span class="num">16</span>Bistability &amp; hysteresis (Spruce Budworm)</h2>
 <p class="section-intro">The interesting behaviour in ecology and physics — tipping points, sudden collapse, states that depend on history — happens when a system can settle into <em>two</em> different stable states. The Spruce Budworm model is the course's worked example of this.</p>
 
 <div class="card def"><span class="tag">The model</span>
@@ -1012,7 +1342,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </section>
 
 <section>
-<h2 id="epi"><span class="num">14</span>SIS, SIR &amp; predator–prey</h2>
+<h2 id="epi"><span class="num">17</span>SIS, SIR &amp; predator–prey</h2>
 <p class="section-intro">Three dynamical models the course applies to disease and ecology. The SIS derivation is a mid-sem staple, while the SIR and predator–prey facts turn up as MCQs.</p>
 
 <h4>SIS — susceptible ⇄ infected (you can catch it again)</h4>
@@ -1119,7 +1449,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </div>
 </section>
 <section>
-<h2 id="proofs"><span class="num">15</span>Proofs he actually asks</h2>
+<h2 id="proofs"><span class="num">18</span>Proofs he actually asks</h2>
 <p class="section-intro">The surprise quiz that asked you to prove <math><mtext>triangles</mtext><mo>=</mo><mfrac><mn>1</mn><mn>6</mn></mfrac><mi>tr</mi><mo>(</mo><msup><mi>A</mi><mn>3</mn></msup><mo>)</mo></math> is the giveaway: he wants <em>derivations</em>, not just recall. These are the ones that fit the current syllabus, and each one is spelled out line by line — nothing skipped.</p>
 
 <div class="card ex"><span class="tag">Proof 1 · the one he sprang on you</span>
@@ -1228,7 +1558,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 </div>
 </section>
 <section>
-<h2 id="cheat"><span class="num">16</span>One-page cheat sheet</h2>
+<h2 id="cheat"><span class="num">19</span>One-page cheat sheet</h2>
 <p class="section-intro">The formulas and rules worth holding in working memory in the hour before the quiz.</p>
 
 <div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">
@@ -1278,12 +1608,26 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <li>Network threshold <math><mo>(</mo><mi>β</mi><mo>/</mo><mi>γ</mi><msub><mo>)</mo><mtext>c</mtext></msub><mo>=</mo><mn>1</mn><mo>/</mo><msub><mi>λ</mi><mtext>max</mtext></msub></math></li>
 </ul>
 </div>
+<div class="card" style="margin:0">
+<h4>Models &amp; distributions</h4>
+<ul class="small" style="line-height:1.9">
+<li>ER mean degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
+<li>Degree dist Binomial → Poisson; <strong>mean = var</strong>, no hubs</li>
+<li>ER clustering <math><mi>C</mi><mo>=</mo><mi>p</mi><mo>→</mo><mn>0</mn></math>; path <math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>≈</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></li>
+<li>Giant component <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>, appears at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></li>
+<li>Connected at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mi>N</mi></math> (<math><mi>p</mi><mo>=</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>N</mi></math>); <math><mi>E</mi><mo>[</mo><mtext>iso</mtext><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math></li>
+<li>Power law <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>α</mi></mrow></msup></math>: line of slope <math><mo>−</mo><mi>α</mi></math> on log–log</li>
+<li>Mean finite if <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math>; variance finite if <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math></li>
+<li>Chain <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>; ring <math><mo>≈</mo><mi>N</mi><mo>/</mo><mn>4</mn></math>; lattice <math><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></li>
+<li>Friendship <math><msub><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo><mo>/</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> (<math><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>+</mo><mn>1</mn></math> for ER)</li>
+</ul>
+</div>
 </div>
 <div class="card watch" style="margin-top:16px"><span class="tag">Remember</span><p>His bifurcation note draws <strong>dashed = stable, solid = unstable</strong>. And on the written Quiz&#160;1, a bare answer scores zero — always add the one-line reason.</p></div>
 </section>
 
 <section>
-<h2 id="selftest"><span class="num">17</span>Final self-test</h2>
+<h2 id="selftest"><span class="num">20</span>Final self-test</h2>
 <p class="section-intro">Cover the answers and try each cold. If these feel routine, you are ready. Every one mirrors a real past-paper question.</p>
 
 <details class="pyq"><summary><span class="qtag mcq">MCQ</span><span>In a directed network, node A has out-degree 2 and node B has out-degree 1. Given the edges A→B, A→C, B→C, what are C's in-degree and out-degree?</span><span class="chev">›</span></summary>
@@ -1309,9 +1653,24 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 
 <details class="pyq"><summary><span class="qtag">Calc</span><span>A graph on 6 nodes has 3 connected components. What is the nullity of its Laplacian?</span><span class="chev">›</span></summary>
 <div class="ans"><p>The nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math> equals the number of connected components. <span class="verdict">Nullity = 3</span> — the eigenvalue 0 appears with multiplicity 3.</p></div></details>
+
+<details class="pyq"><summary><span class="qtag">Calc</span><span>Derive the average path length of an open chain of 10 nodes.</span><span class="chev">›</span></summary>
+<div class="ans"><p>For an open chain the formula is <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>. With <math><mi>n</mi><mo>=</mo><mn>10</mn></math> that is <math><mfrac><mn>11</mn><mn>3</mn></mfrac><mo>≈</mo><mn>3.67</mn></math>. <span class="verdict"><math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>≈</mo><mn>3.67</mn></math>.</span> (It comes from summing <math><mo>∑</mo><mi>d</mi><mo>(</mo><mi>n</mi><mo>−</mo><mi>d</mi><mo>)</mo><mo>=</mo><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>6</mn></math> over all pairs, then dividing by <math><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>2</mn></math>.)</p></div></details>
+
+<details class="pyq"><summary><span class="qtag">Concept</span><span>An Erdős–Rényi graph has mean degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>4</mn></math>. What is the variance of its degree, and what does that tell you about hubs?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The degree distribution is Poisson, for which <strong>variance = mean</strong>, so <math><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mn>4</mn></math>. <span class="verdict">The spread is small and there is a clear typical degree near 4</span> — the tail dies faster than exponentially, so a high-degree hub is essentially impossible. (If a real network showed <math><mtext>Var</mtext><mo>/</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> far above 1, ER would be the wrong model.)</p></div></details>
+
+<details class="pyq"><summary><span class="qtag proof">Derive</span><span>At what mean degree does a giant component appear in <math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math>, and why?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The giant-component fraction obeys <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution splits off from <math><mi>S</mi><mo>=</mo><mn>0</mn></math> only when the right side leaves the origin with slope above 1, i.e. when its initial slope <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math>. <span class="verdict">So the threshold is <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></span> — each node must lead, on average, to more than one new node for the exploration to keep growing.</p></div></details>
+
+<details class="pyq"><summary><span class="qtag">Calc</span><span>For <math><mi>N</mi><mo>=</mo><mn>10000</mn></math>, roughly what edge probability makes the graph connected, and how many isolated nodes do you expect right at that point?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Connectivity threshold: <math><mi>p</mi><mo>=</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>N</mi><mo>=</mo><mi>ln</mi><mn>10000</mn><mo>/</mo><mn>10000</mn><mo>≈</mo><mn>9.2</mn><mo>/</mo><mn>10000</mn><mo>=</mo><mn>9.2</mn><mo>×</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></math>. Expected isolated nodes <math><mi>E</mi><mo>[</mo><mi>X</mi><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mi>N</mi><mi>p</mi></mrow></msup><mo>=</mo><mn>10000</mn><mo>·</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>ln</mi><mn>10000</mn></mrow></msup><mo>=</mo><mn>10000</mn><mo>/</mo><mn>10000</mn><mo>=</mo><mn>1</mn></math>. <span class="verdict"><math><mi>p</mi><mo>≈</mo><mn>9.2</mn><mo>×</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></math>, expecting about 1 isolated node</span> — nudge <math><mi>p</mi></math> a little higher and it connects.</p></div></details>
+
+<details class="pyq"><summary><span class="qtag">Concept</span><span>A degree distribution plots as a straight line of slope <math><mo>−</mo><mn>2.5</mn></math> on log–log axes. Write <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math>, and say whether its mean and variance are finite.</span><span class="chev">›</span></summary>
+<div class="ans"><p>A straight log–log line means a power law, and the slope is <math><mo>−</mo><mi>α</mi></math>, so <math><mi>α</mi><mo>=</mo><mn>2.5</mn></math> and <span class="verdict"><math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>∝</mo><msup><mi>k</mi><mrow><mo>−</mo><mn>2.5</mn></mrow></msup></math></span>. Since <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math> the <strong>mean is finite</strong>, but <math><mi>α</mi><mo>&lt;</mo><mn>3</mn></math> so the <strong>variance is infinite</strong> — the classic "scale-free" regime where hubs dominate.</p></div></details>
 </section>
 <section>
-<h2 id="pyq"><span class="num">18</span>Past papers, solved</h2>
+<h2 id="pyq"><span class="num">21</span>Past papers, solved</h2>
 <p class="section-intro">Every question from all seven papers, written out exactly as it was set — you shouldn't need to open a single PDF. For the MCQs, all options are listed so you can attempt them first — the correct choice(s) light up with a ✓ only when you reveal the answer. The two surprise quizzes and Quiz&#160;1 sit on your current slides; the mid-sem and Quiz&#160;2 reach into later modules and are flagged.</p>
 
 <h3>Surprise Quiz 1 (2024) — multiple choice, 30 marks</h3>
@@ -1759,31 +2118,31 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="eq" style="margin:8px 0"><math display="block"><msub><mover><mi>θ</mi><mo>˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mi>sin</mi><mo>(</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>)</mo><mo>,</mo><mspace width="1.2em"/><msub><mover><mi>θ</mi><mo>˙</mo></mover><mn>2</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mi>sin</mi><mo>(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>)</mo></math></div>
 <p>where <math><msub><mi>θ</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub></math>, <math><msub><mi>ω</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub></math> and <math><msub><mi>k</mi><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow></msub></math> are phase, natural frequency and coupling strength. (a)&#160;Calculate the critical coupling strength at which both oscillators will follow a common frequency. (b)&#160;Calculate the common frequency. Also explain whether one can obtain a common (and stable) frequency at <math><msub><mi>k</mi><mn>1</mn></msub><mo>=</mo><msub><mi>k</mi><mn>2</mn></msub><mo>=</mo><mi>k</mi><mo>=</mo><mn>2</mn></math> and <math><msub><mi>ω</mi><mn>1</mn></msub><mo>=</mo><mn>2</mn></math>, <math><msub><mi>ω</mi><mn>2</mn></msub><mo>=</mo><mn>10</mn></math>.</p></div>
 <details class="ansd"><summary>Show answer</summary><div class="inner">
-<p>Let <math><mi>φ</mi><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub></math>. Subtracting: <math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>)</mo><mo>−</mo><mo>(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo>)</mo><mi>sin</mi><mi>φ</mi></math>. Locking (<math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>) needs <math><mi>sin</mi><mi>φ</mi><mo>=</mo><mfrac><mrow><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>, which is only possible if <span class="verdict"><math><mrow><mo>|</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>|</mo></mrow><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></math></span>. Common frequency <math><mi>Ω</mi><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>. With the given numbers <math><mrow><mo>|</mo><mn>2</mn><mo>−</mo><mn>10</mn><mo>|</mo></mrow><mo>=</mo><mn>8</mn><mo>&gt;</mo><mn>4</mn></math>, so <span class="verdict">they cannot lock</span> (full working in the §12 note area and here).</p></div></details>
+<p>Let <math><mi>φ</mi><mo>=</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub></math>. Subtracting: <math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>)</mo><mo>−</mo><mo>(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo>)</mo><mi>sin</mi><mi>φ</mi></math>. Locking (<math><mover><mi>φ</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn></math>) needs <math><mi>sin</mi><mi>φ</mi><mo>=</mo><mfrac><mrow><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>, which is only possible if <span class="verdict"><math><mrow><mo>|</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>|</mo></mrow><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></math></span>. Common frequency <math><mi>Ω</mi><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></math>. With the given numbers <math><mrow><mo>|</mo><mn>2</mn><mo>−</mo><mn>10</mn><mo>|</mo></mrow><mo>=</mo><mn>8</mn><mo>&gt;</mo><mn>4</mn></math>, so <span class="verdict">they cannot lock</span> (full working in the §15 note area and here).</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q2</span><span>Hopf / limit cycle</span><span class="marks">3 + 4 marks</span></div>
 <div class="qtext"><p>Assume the motion of a particle is captured by <math><mover><mi>z</mi><mo>˙</mo></mover><mo>=</mo><mo>(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><msup><mrow><mo>|</mo><mi>z</mi><mo>|</mo></mrow><mn>2</mn></msup><mo>)</mo><mi>z</mi></math>, where <math><mi>z</mi><mo>=</mo><mi>x</mi><mo>+</mo><mi>i</mi><mi>y</mi></math>. (a)&#160;Transform this equation into the <math><mo>(</mo><mi>r</mi><mo>,</mo><mi>θ</mi><mo>)</mo></math> plane. (b)&#160;Find the condition in which the system will reveal a stable limit cycle. Explain it with proper bifurcation analysis.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Writing <math><mi>z</mi><mo>=</mo><mi>r</mi><msup><mi>e</mi><mrow><mi>i</mi><mi>θ</mi></mrow></msup></math> and matching real/imaginary parts gives <math><mover><mi>r</mi><mo>˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn>3</mn></msup></math> and <math><mover><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mi>ω</mi></math>. The radius is a supercritical pitchfork: a <span class="verdict">stable limit cycle of radius <math><msqrt><mi>μ</mi></msqrt></math> exists for <math><mi>μ</mi><mo>&gt;</mo><mn>0</mn></math></span> (a Hopf bifurcation at <math><mi>μ</mi><mo>=</mo><mn>0</mn></math>). Full step-by-step in §18 &gt; mid-sem earlier draft &amp; §12.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Writing <math><mi>z</mi><mo>=</mo><mi>r</mi><msup><mi>e</mi><mrow><mi>i</mi><mi>θ</mi></mrow></msup></math> and matching real/imaginary parts gives <math><mover><mi>r</mi><mo>˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn>3</mn></msup></math> and <math><mover><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mi>ω</mi></math>. The radius is a supercritical pitchfork: a <span class="verdict">stable limit cycle of radius <math><msqrt><mi>μ</mi></msqrt></math> exists for <math><mi>μ</mi><mo>&gt;</mo><mn>0</mn></math></span> (a Hopf bifurcation at <math><mi>μ</mi><mo>=</mo><mn>0</mn></math>). Full step-by-step in §21 &gt; mid-sem earlier draft &amp; §15.</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q3</span><span>bifurcation classification</span><span class="marks">3.5 + 3.5 marks</span></div>
 <div class="qtext"><p>(a)&#160;A system is described by <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></math>, where <math><mi>r</mi></math> is the parameter. Describe the role of <math><mi>r</mi></math>. What type of bifurcation do you expect? (b)&#160;Another system is described by <math><mover><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mi>r</mi><mi>x</mi><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup></math>. Describe the bifurcations obtained by varying <math><mi>r</mi></math>.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>(a)&#160;<span class="verdict">transcritical</span> — branches <math><mn>0</mn></math> and <math><mi>r</mi></math> cross and swap stability at <math><mi>r</mi><mo>=</mo><mn>0</mn></math>. (b)&#160;<span class="verdict">saddle-node at <math><mi>r</mi><mo>=</mo><mo>±</mo><mn>2</mn></math></span> — a pair of fixed points appears once <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>≥</mo><mn>2</mn></math>. Both fully worked in the §12 box.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>(a)&#160;<span class="verdict">transcritical</span> — branches <math><mn>0</mn></math> and <math><mi>r</mi></math> cross and swap stability at <math><mi>r</mi><mo>=</mo><mn>0</mn></math>. (b)&#160;<span class="verdict">saddle-node at <math><mi>r</mi><mo>=</mo><mo>±</mo><mn>2</mn></math></span> — a pair of fixed points appears once <math><mrow><mo>|</mo><mi>r</mi><mo>|</mo></mrow><mo>≥</mo><mn>2</mn></math>. Both fully worked in the §15 box.</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q4</span><span>SIS model</span><span class="marks">4 + 1.5 + 1.5 marks</span></div>
 <div class="qtext"><p>An epidemic model (Susceptible–Infected–Susceptible) is described by <math><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>β</mi><mi>S</mi><mi>I</mi><mo>−</mo><mi>γ</mi><mi>I</mi></math> with <math><mi>S</mi><mo>+</mo><mi>I</mi><mo>=</mo><mn>1</mn></math>. (a)&#160;Solve this model and find the solution <math><mi>I</mi></math> as a function of time, <math><mi>β</mi></math> and <math><mi>γ</mi></math>. (b)&#160;What will be the endemic equilibrium (<math><msup><mi>I</mi><mo>*</mo></msup></math> at <math><mi>t</mi><mo>→</mo><mi>∞</mi></math>)? (c)&#160;Explain in which condition the disease will not spread.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Logistic solution <math><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>K</mi><mrow><mn>1</mn><mo>+</mo><mo>(</mo><mfrac><mrow><mi>K</mi><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub></mrow><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo>)</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo>)</mo><mi>t</mi></mrow></msup></mrow></mfrac></math> with <math><mi>K</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi></math>; endemic <math><msup><mi>I</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi></math>; no spread when <math><mi>β</mi><mo>&lt;</mo><mi>γ</mi></math>. Full derivation is Proof&#160;5 in §15.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Logistic solution <math><mi>I</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>K</mi><mrow><mn>1</mn><mo>+</mo><mo>(</mo><mfrac><mrow><mi>K</mi><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub></mrow><msub><mi>I</mi><mn>0</mn></msub></mfrac><mo>)</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo>)</mo><mi>t</mi></mrow></msup></mrow></mfrac></math> with <math><mi>K</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi></math>; endemic <math><msup><mi>I</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mo>/</mo><mi>β</mi></math>; no spread when <math><mi>β</mi><mo>&lt;</mo><mi>γ</mi></math>. Full derivation is Proof&#160;5 in §18.</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q5</span><span>network SIS</span><span class="marks">3.5 + 3.5 marks</span></div>
 <div class="qtext"><p>Let the SIS model on a network be <math><msub><mover><mi>i</mi><mo>˙</mo></mover><mi>k</mi></msub><mo>=</mo><mo>−</mo><mi>γ</mi><msub><mi>i</mi><mi>k</mi></msub><mo>+</mo><mi>β</mi><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>i</mi><mi>k</mi></msub><mo>)</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>A</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><msub><mi>i</mi><mi>j</mi></msub></math>, where <math><msub><mi>i</mi><mi>k</mi></msub></math> is the infected density at node <math><mi>k</mi></math>, <math><mi>A</mi></math> is the adjacency matrix and <math><mi>N</mi></math> the number of nodes. (a)&#160;Explain how the network affects the infection at the initial stage (<math><mi>t</mi><mo>≈</mo><mn>0</mn></math>). (b)&#160;Explain in which case the disease will not spread.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Linearising for small <math><msub><mi>i</mi><mi>k</mi></msub></math> gives growth rate <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>−</mo><mi>γ</mi></math>, so the network acts through its largest adjacency eigenvalue; the disease dies out when <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>&lt;</mo><mi>γ</mi></math>, i.e. below the threshold <math><mn>1</mn><mo>/</mo><msub><mi>λ</mi><mtext>max</mtext></msub></math> (see §14).</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Linearising for small <math><msub><mi>i</mi><mi>k</mi></msub></math> gives growth rate <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>−</mo><mi>γ</mi></math>, so the network acts through its largest adjacency eigenvalue; the disease dies out when <math><mi>β</mi><msub><mi>λ</mi><mtext>max</mtext></msub><mo>&lt;</mo><mi>γ</mi></math>, i.e. below the threshold <math><mn>1</mn><mo>/</mo><msub><mi>λ</mi><mtext>max</mtext></msub></math> (see §17).</p></div></details>
 </div>
 
 <h3>Quiz 2 (2024, Set 1)</h3>
@@ -1792,7 +2151,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q1a</span><span>power law · normalisation</span><span class="marks">3 marks</span></div>
 <div class="qtext"><p>Assume the degree distribution of a network (symmetric and binary) follows a power law <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math>. Calculate the normalization constant <math><mi>C</mi></math>. Find the condition such that you can obtain a finite <math><mi>C</mi></math>.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p><math><mi>C</mi><mo>=</mo><mn>1</mn><mo>/</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></munderover><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup><mo>=</mo><mn>1</mn><mo>/</mo><mi>ζ</mi><mo>(</mo><mi>γ</mi><mo>)</mo></math>; finite only when the sum converges, i.e. <span class="verdict"><math><mi>γ</mi><mo>&gt;</mo><mn>1</mn></math></span> (full working in the earlier §18 draft &amp; below).</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><math><mi>C</mi><mo>=</mo><mn>1</mn><mo>/</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></munderover><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup><mo>=</mo><mn>1</mn><mo>/</mo><mi>ζ</mi><mo>(</mo><mi>γ</mi><mo>)</mo></math>; finite only when the sum converges, i.e. <span class="verdict"><math><mi>γ</mi><mo>&gt;</mo><mn>1</mn></math></span> (full working in the earlier §21 draft &amp; below).</p></div></details>
 </div>
 
 <div class="qitem">
@@ -1804,13 +2163,13 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q2</span><span>Erdős–Rényi giant component</span><span class="marks">5 marks</span></div>
 <div class="qtext"><p>Prove that, in an Erdős–Rényi graph, a giant connected component (GCC) will pop up if the mean degree (<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) is greater than 1.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The giant-component fraction satisfies <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution branches off from <math><mi>S</mi><mo>=</mo><mn>0</mn></math> only when the slope of the right side at 0 exceeds 1, i.e. <span class="verdict"><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></span> — each node must lead on average to more than one new node for the exploration to survive (full argument in the earlier §18 draft).</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The giant-component fraction satisfies <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution branches off from <math><mi>S</mi><mo>=</mo><mn>0</mn></math> only when the slope of the right side at 0 exceeds 1, i.e. <span class="verdict"><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></span> — each node must lead on average to more than one new node for the exploration to survive (full argument in the earlier §21 draft).</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q3</span><span>discrete-map stability</span><span class="marks">2 + 3 marks</span></div>
 <div class="qtext"><p>If <math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></math>, find the condition (show the derivation) where the system will show a stable fixed point (<math><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><msup><mi>x</mi><mo>*</mo></msup></math>). Then for (i)&#160;<math><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><msubsup><mi>x</mi><mi>n</mi><mn>2</mn></msubsup></math> and (ii)&#160;<math><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><mi>cos</mi><msub><mi>x</mi><mi>n</mi></msub></math>, find the fixed points and stability conditions.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Condition <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math> (Proof&#160;4, §15). (i)&#160;<math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> stable, <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn></math> unstable. (ii)&#160;<math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>, stable since <math><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math>.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Condition <math><mrow><mo>|</mo><msup><mi>f</mi><mo>′</mo></msup><mo>(</mo><msup><mi>x</mi><mo>*</mo></msup><mo>)</mo><mo>|</mo><mo>&lt;</mo><mn>1</mn></mrow></math> (Proof&#160;4, §18). (i)&#160;<math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>0</mn></math> stable, <math><msup><mi>x</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn></math> unstable. (ii)&#160;<math><msup><mi>x</mi><mo>*</mo></msup><mo>≈</mo><mn>0.739</mn></math>, stable since <math><mo>|</mo><mo>−</mo><mi>sin</mi><mn>0.739</mn><mo>|</mo><mo>≈</mo><mn>0.67</mn><mo>&lt;</mo><mn>1</mn></math>.</p></div></details>
 </div>
 
 <h3>Quiz 2 (2024, Set 2)</h3>
@@ -1818,7 +2177,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q1</span><span>BA graph</span><span class="marks">2 + 2 marks</span></div>
 <div class="qtext"><p>Explain the basic ingredients required for generating a BA graph. Prove that the rate at which an existing node <math><mi>i</mi></math> acquires links (<math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></math>) as new nodes connect to it is proportional to <math><msup><mi>t</mi><mi>β</mi></msup></math>, where <math><mi>β</mi><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></math>, <math><mi>k</mi></math> is the degree, and <math><mi>t</mi></math> is time.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Ingredients: <em>growth</em> (add one node at a time) and <em>preferential attachment</em> (<math><mi>Π</mi><mo>(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>)</mo><mo>=</mo><msub><mi>k</mi><mi>i</mi></msub><mo>/</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub></math>). With <math><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub><mo>=</mo><mn>2</mn><mi>m</mi><mi>t</mi></math>, <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><msub><mi>k</mi><mi>i</mi></msub><mrow><mn>2</mn><mi>t</mi></mrow></mfrac></math> ⇒ <math><msub><mi>k</mi><mi>i</mi></msub><mo>∝</mo><msup><mi>t</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math> ⇒ <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>∝</mo><msup><mi>t</mi><mrow><mo>−</mo><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>. Full derivation in the earlier §18 draft.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>Ingredients: <em>growth</em> (add one node at a time) and <em>preferential attachment</em> (<math><mi>Π</mi><mo>(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>)</mo><mo>=</mo><msub><mi>k</mi><mi>i</mi></msub><mo>/</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub></math>). With <math><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>k</mi><mi>j</mi></msub><mo>=</mo><mn>2</mn><mi>m</mi><mi>t</mi></math>, <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><msub><mi>k</mi><mi>i</mi></msub><mrow><mn>2</mn><mi>t</mi></mrow></mfrac></math> ⇒ <math><msub><mi>k</mi><mi>i</mi></msub><mo>∝</mo><msup><mi>t</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math> ⇒ <math><mfrac><mrow><mi>d</mi><msub><mi>k</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>∝</mo><msup><mi>t</mi><mrow><mo>−</mo><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>. Full derivation in the earlier §21 draft.</p></div></details>
 </div>
 
 <div class="qitem">
