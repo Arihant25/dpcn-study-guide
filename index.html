@@ -61,6 +61,11 @@ body{
 .toc a{display:block; color:var(--muted-fg); text-decoration:none; padding:5px 10px; border-radius:7px; line-height:1.35; margin:1px 0; transition:background .12s,color .12s}
 .toc a:hover{color:var(--fg); background:var(--muted)}
 .toc a.active{color:var(--fg); background:var(--muted); font-weight:600}
+.toc{scrollbar-width:thin; scrollbar-color:var(--border-2) transparent}
+.toc::-webkit-scrollbar{width:8px}
+.toc::-webkit-scrollbar-track{background:transparent}
+.toc::-webkit-scrollbar-thumb{background:var(--border-2); border-radius:100px; border:2px solid var(--card); background-clip:padding-box}
+.toc:hover::-webkit-scrollbar-thumb{background:var(--muted-fg); background-clip:padding-box}
 
 /* ---------- Main ---------- */
 main{padding:0 clamp(18px,5vw,72px) 128px; max-width:920px}
@@ -513,10 +518,10 @@ details.deriv .body>*:first-child{margin-top:12px}
 <p class="section-intro">Two summary numbers for a whole network: on average how many links does a node have, and how "full" is the network compared to the most links it could possibly have.</p>
 
 <h4>Mean degree</h4>
-<p>The <em class="term">mean degree</em> <math><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></math> is just the average of all the individual degrees. Add every degree and divide by the number of nodes. Using the handshaking lemma (the degrees add to <math><mn>2</mn><mi>L</mi></math>) this simplifies nicely:</p>
+<p>The <em class="term">mean degree</em> <math><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></math> is just the average of all the individual degrees. Add every degree and divide by the number of nodes. Using the handshaking lemma (the degrees add to <math><mn>2</mn><mi>L</mi></math>) this simplifies nicely:</p>
 <div class="eq">
 <math display="block">
-<mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow>
+<mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow>
 <mo>=</mo>
 <mfrac><mn>1</mn><mi>N</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub>
 <mo>=</mo>
@@ -525,7 +530,7 @@ details.deriv .body>*:first-child{margin-top:12px}
 <mtext>(undirected)</mtext>
 </math>
 </div>
-<p>For a <strong>directed</strong> network each edge contributes 1 to some node's out-degree and 1 to some node's in-degree, so the average in-degree equals the average out-degree, and both equal <math><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>L</mi><mo>/</mo><mi>N</mi></mrow></math>.</p>
+<p>For a <strong>directed</strong> network each edge contributes 1 to some node's out-degree and 1 to some node's in-degree, so the average in-degree equals the average out-degree, and both equal <math><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>L</mi><mo>/</mo><mi>N</mi></mrow></math>.</p>
 
 <h4>Link density</h4>
 <p>The <em class="term">link density</em> <math><mi>ρ</mi></math> asks: of all the links that <em>could</em> exist, what fraction actually do? In a simple undirected graph on <math><mi>N</mi></math> nodes, the largest possible number of edges is every distinct pair joined once, which is <math><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math>. So the density is the edges you have divided by that maximum:</p>
@@ -536,29 +541,29 @@ details.deriv .body>*:first-child{margin-top:12px}
 <mo>=</mo>
 <mfrac><mrow><mn>2</mn><mi>L</mi></mrow><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></mfrac>
 <mo>=</mo>
-<mfrac><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac>
+<mfrac><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac>
 </math>
 </div>
 <p>The last form says something intuitive: density is the average degree measured against the biggest degree a node could have, which is <math><mi>N</mi><mo>−</mo><mn>1</mn></math> (linked to everyone else).</p>
 
 <div class="card key"><span class="tag">Exam favourite</span>
-<h4>The Erdős–Rényi relation: <math><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></math></h4>
+<h4>The Erdős–Rényi relation: <math><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></math></h4>
 <p>In the Erdős–Rényi random graph you take <math><mi>N</mi></math> nodes and join each possible pair independently with probability <math><mi>p</mi></math>. Think about one node: it has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, and each becomes a real link with probability <math><mi>p</mi></math>. The expected number of links it ends up with is therefore probability × opportunities:</p>
 <div class="eq boxed">
 <math display="block">
-<mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo>
+<mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo>
 <mo>≈</mo><mi>p</mi><mi>N</mi>
 <mspace width="1.5em"/><mtext>and</mtext><mspace width="1.5em"/>
 <mi>L</mi><mo>=</mo><mi>p</mi><mo>·</mo><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac>
 </math>
 </div>
-<p>Quiz&#160;1 asks exactly this: "the relationship between <math><mi>p</mi></math>, <math><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></math> and <math><mi>N</mi></math>". Give the formula <em>and</em> the one-line reason (probability times number of possible partners). The <math><mo>≈</mo><mi>p</mi><mi>N</mi></math> version holds when <math><mi>N</mi></math> is large so that <math><mi>N</mi><mo>−</mo><mn>1</mn><mo>≈</mo><mi>N</mi></math>.</p>
+<p>Quiz&#160;1 asks exactly this: "the relationship between <math><mi>p</mi></math>, <math><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></math> and <math><mi>N</mi></math>". Give the formula <em>and</em> the one-line reason (probability times number of possible partners). The <math><mo>≈</mo><mi>p</mi><mi>N</mi></math> version holds when <math><mi>N</mi></math> is large so that <math><mi>N</mi><mo>−</mo><mn>1</mn><mo>≈</mo><mi>N</mi></math>.</p>
 </div>
 <div class="checkrow">Check yourself</div>
 <details class="pyq"><summary><span class="qtag">Calc</span><span>A graph has 10 nodes and 15 edges. Find its mean degree and its link density.</span><span class="chev">›</span></summary>
-<div class="ans"><p><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>2</mn><mi>L</mi><mo>/</mo><mi>N</mi><mo>=</mo><mn>30</mn><mo>/</mo><mn>10</mn><mo>=</mo></math> <span class="verdict">3</span>. Density <math><mi>ρ</mi><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>=</mo><mn>3</mn><mo>/</mo><mn>9</mn><mo>=</mo></math> <span class="verdict"><math><mn>1</mn><mo>/</mo><mn>3</mn></math></span>.</p></div></details>
-<details class="pyq"><summary><span class="qtag">Calc</span><span>Give the relationship between <math><mi>p</mi></math>, <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> and <math><mi>N</mi></math> for an ER graph, with a one-line reason. Then evaluate it for <math><mi>N</mi><mo>=</mo><mn>100</mn></math>, <math><mi>p</mi><mo>=</mo><mn>0.05</mn></math>.</span><span class="chev">›</span></summary>
-<div class="ans"><p><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math>: each node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, each present with probability <math><mi>p</mi></math>. Here <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>0.05</mn><mo>×</mo><mn>99</mn><mo>≈</mo></math> <span class="verdict">4.95</span>.</p></div></details>
+<div class="ans"><p><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>2</mn><mi>L</mi><mo>/</mo><mi>N</mi><mo>=</mo><mn>30</mn><mo>/</mo><mn>10</mn><mo>=</mo></math> <span class="verdict">3</span>. Density <math><mi>ρ</mi><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>=</mo><mn>3</mn><mo>/</mo><mn>9</mn><mo>=</mo></math> <span class="verdict"><math><mn>1</mn><mo>/</mo><mn>3</mn></math></span>.</p></div></details>
+<details class="pyq"><summary><span class="qtag">Calc</span><span>Give the relationship between <math><mi>p</mi></math>, <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> and <math><mi>N</mi></math> for an ER graph, with a one-line reason. Then evaluate it for <math><mi>N</mi><mo>=</mo><mn>100</mn></math>, <math><mi>p</mi><mo>=</mo><mn>0.05</mn></math>.</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math>: each node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, each present with probability <math><mi>p</mi></math>. Here <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>0.05</mn><mo>×</mo><mn>99</mn><mo>≈</mo></math> <span class="verdict">4.95</span>.</p></div></details>
 </section>
 <section>
 <h2 id="walks"><span class="num">4</span>Walk, trail, path, cycle, circuit</h2>
@@ -664,11 +669,11 @@ details.deriv .body>*:first-child{margin-top:12px}
 <li>The <em class="term">distance</em> <math><mi>d</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo></math> between two nodes, also called the shortest path or geodesic, is the smallest number of edges on any route connecting them. If they are in different components there is no route, so <math><mi>d</mi><mo>=</mo><mi>∞</mi></math>.</li>
 <li>In a <strong>directed</strong> graph you must follow the arrows, so the distance from <math><mi>A</mi></math> to <math><mi>B</mi></math> can differ from the distance from <math><mi>B</mi></math> to <math><mi>A</mi></math>.</li>
 <li>The <em class="term">diameter</em> is the largest distance between any pair of nodes. The "width" of the network, the worst case.</li>
-<li>The <em class="term">average path length</em> <math><mrow><mo>⟨</mo><mi>d</mi><mo>⟩</mo></mrow></math> is the mean distance taken over every pair.</li>
+<li>The <em class="term">average path length</em> <math><mrow><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo></mrow></math> is the mean distance taken over every pair.</li>
 </ul>
 <div class="eq">
 <math display="block">
-<mrow><mo>⟨</mo><mi>d</mi><mo>⟩</mo></mrow>
+<mrow><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo></mrow>
 <mo>=</mo>
 <mfrac>
 <mrow><munder><mo>∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></munder><mi>d</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo></mrow>
@@ -693,7 +698,7 @@ details.deriv .body>*:first-child{margin-top:12px}
 <ol class="steps">
 <li><strong>Diameter</strong> is the farthest pair, the two ends: <math><mi>d</mi><mo>(</mo><mn>1</mn><mo>,</mo><mn>5</mn><mo>)</mo><mo>=</mo><mn>4</mn></math>.</li>
 <li><strong>Add up all pair-distances.</strong> There are <math><mfrac><mrow><mn>5</mn><mo>·</mo><mn>4</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>10</mn></math> pairs. Sorted by distance: four pairs are 1 apart, three are 2 apart, two are 3 apart, one is 4 apart. The total is <math><mn>4</mn><mo>·</mo><mn>1</mn><mo>+</mo><mn>3</mn><mo>·</mo><mn>2</mn><mo>+</mo><mn>2</mn><mo>·</mo><mn>3</mn><mo>+</mo><mn>1</mn><mo>·</mo><mn>4</mn><mo>=</mo><mn>20</mn></math>.</li>
-<li><strong>Divide.</strong> <math><mrow><mo>⟨</mo><mi>d</mi><mo>⟩</mo></mrow><mo>=</mo><mfrac><mn>20</mn><mn>10</mn></mfrac><mo>=</mo><mn>2</mn></math>.</li>
+<li><strong>Divide.</strong> <math><mrow><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo></mrow><mo>=</mo><mfrac><mn>20</mn><mn>10</mn></mfrac><mo>=</mo><mn>2</mn></math>.</li>
 </ol>
 </div>
 
@@ -977,8 +982,8 @@ details.deriv .body>*:first-child{margin-top:12px}
 <h4>The <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math> and <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math> rules</h4>
 <p>For a power law the "average degree" and "spread of degree" are not always finite. The heavy tail can be so fat that the sums blow up. The rule the course states:</p>
 <ul>
-<li>The <strong>mean</strong> <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> is finite only when <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math>.</li>
-<li>The <strong>second moment</strong> <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math> (which controls the variance) is finite only when <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math>.</li>
+<li>The <strong>mean</strong> <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> is finite only when <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math>.</li>
+<li>The <strong>second moment</strong> <math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></math> (which controls the variance) is finite only when <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math>.</li>
 </ul>
 <p>Real networks usually sit in the awkward middle band <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math>: the average is finite, but the variance is <em>infinite</em> (it keeps growing as you add more nodes). That single fact is why hubs dominate, why the "friendship paradox" is so extreme, and why these networks are so hard to immunise, all of which come back in the random-graph section.</p>
 </div>
@@ -999,7 +1004,7 @@ details.deriv .body>*:first-child{margin-top:12px}
 <p class="section-intro">A favourite exam move: "take this nice regular shape, a chain, a ring, a lattice, and derive how the average path length grows with <math><mi>N</mi></math>." These have clean closed-form answers, and the punchline sets up why random networks are called "small worlds".</p>
 
 <div class="card def"><span class="tag">Reminder</span>
-<p>The <em class="term">average path length</em> <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo></math> is the mean shortest-path distance taken over <strong>every pair of nodes</strong>. With <math><mi>N</mi></math> nodes there are <math><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> pairs, so <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mtext>(sum of all pair distances)</mtext><mo>/</mo><mtext>(number of pairs)</mtext></math>.</p>
+<p>The <em class="term">average path length</em> <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo></math> is the mean shortest-path distance taken over <strong>every pair of nodes</strong>. With <math><mi>N</mi></math> nodes there are <math><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> pairs, so <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mtext>(sum of all pair distances)</mtext><mo>/</mo><mtext>(number of pairs)</mtext></math>.</p>
 </div>
 
 <div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
@@ -1024,14 +1029,14 @@ details.deriv .body>*:first-child{margin-top:12px}
 </div>
 
 <div class="card ex"><span class="tag">Worked · derive it</span>
-<h4>Open chain of <math><mi>n</mi></math> nodes: <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math></h4>
+<h4>Open chain of <math><mi>n</mi></math> nodes: <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math></h4>
 <ol class="steps">
 <li><strong>Count pairs at each distance.</strong> Two nodes are a distance <math><mi>d</mi></math> apart when they sit <math><mi>d</mi></math> steps along the line. How many such pairs are there? You can slide a "window" of length <math><mi>d</mi></math> along <math><mi>n</mi></math> nodes in exactly <math><mi>n</mi><mo>−</mo><mi>d</mi></math> positions. So there are <math><mo>(</mo><mi>n</mi><mo>−</mo><mi>d</mi><mo>)</mo></math> pairs at distance <math><mi>d</mi></math>, for <math><mi>d</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>…</mo><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn></math>.</li>
 <li><strong>Add up all the distances.</strong> The total is
 <div class="eq"><math display="block"><munderover><mo>∑</mo><mrow><mi>d</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><mi>d</mi><mo>(</mo><mi>n</mi><mo>−</mo><mi>d</mi><mo>)</mo><mo>=</mo><mi>n</mi><munder><mo>∑</mo><mi>d</mi></munder><mi>d</mi><mo>−</mo><munder><mo>∑</mo><mi>d</mi></munder><msup><mi>d</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mn>6</mn></mfrac><mo>.</mo></math></div>
 (Using the standard sums <math><mo>∑</mo><mi>d</mi><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math> and <math><mo>∑</mo><msup><mi>d</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mn>2</mn><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>6</mn></mfrac></math>, then tidy up.)</li>
 <li><strong>Divide by the number of pairs</strong> <math><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac></math>:
-<div class="eq boxed"><math display="block"><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>6</mn></mrow><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac><mo>.</mo></math></div></li>
+<div class="eq boxed"><math display="block"><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>6</mn></mrow><mrow><mi>n</mi><mo>(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac><mo>.</mo></math></div></li>
 </ol>
 <p>So a chain's average path length grows <strong>linearly</strong> with <math><mi>n</mi></math>, double the nodes and you roughly double the typical distance. That is the opposite of "small world".</p>
 </div>
@@ -1040,11 +1045,11 @@ details.deriv .body>*:first-child{margin-top:12px}
 <h4>The results to memorise</h4>
 <ul>
 <li><strong>Ring</strong> (1-D lattice, <math><mi>N</mi></math> nodes): from any node the distances run <math><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>…</mo></math> up to about <math><mi>N</mi><mo>/</mo><mn>2</mn></math> in <em>both</em> directions, and averaging them gives
-<div class="eq"><math display="block"><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>≈</mo><mfrac><mi>N</mi><mn>4</mn></mfrac><mspace width="1.4em"/><mo>(</mo><mi>N</mi><mo>≫</mo><mn>1</mn><mo>)</mo><mo>.</mo></math></div>
+<div class="eq"><math display="block"><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>≈</mo><mfrac><mi>N</mi><mn>4</mn></mfrac><mspace width="1.4em"/><mo>(</mo><mi>N</mi><mo>≫</mo><mn>1</mn><mo>)</mo><mo>.</mo></math></div>
 Degree is constant (2 for a plain ring) and clustering is constant too, nothing about the local picture changes as the ring grows, yet distances keep stretching.</li>
 <li><strong>2-D lattice</strong>: distances grow like <math><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msup></math>. In general, a <math><mi>D</mi></math>-dimensional lattice has
-<div class="eq"><math display="block"><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup><mo>.</mo></math></div></li>
-<li><strong>Star</strong> (the hub-and-leaves graph from §9): <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>→</mo><mn>2</mn></math> for large <math><mi>N</mi></math> (almost every pair is leaf→hub→leaf), and clustering is 0 (no two leaves are linked), worked out just below. <strong>Complete <math><msub><mi>K</mi><mi>N</mi></msub></math></strong>: <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>, every pair adjacent.</li>
+<div class="eq"><math display="block"><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup><mo>.</mo></math></div></li>
+<li><strong>Star</strong> (the hub-and-leaves graph from §9): <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>→</mo><mn>2</mn></math> for large <math><mi>N</mi></math> (almost every pair is leaf→hub→leaf), and clustering is 0 (no two leaves are linked), worked out just below. <strong>Complete <math><msub><mi>K</mi><mi>N</mi></msub></math></strong>: <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>, every pair adjacent.</li>
 </ul>
 </div>
 
@@ -1057,7 +1062,7 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <ol class="steps">
 <li><strong>Count the pairs.</strong> With <math><mi>N</mi><mo>=</mo><mn>5</mn></math> there are <math><mfrac><mrow><mn>5</mn><mo>·</mo><mn>4</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>10</mn></math> pairs of nodes to measure a distance between.</li>
 <li><strong>Sort the pairs by distance.</strong> Four pairs join the hub to a leaf. Those are <strong>1 hop</strong> each. The remaining six pairs are leaf-to-leaf, and the only route between two leaves runs <em>through the hub</em>, so each of those is <strong>2 hops</strong>.</li>
-<li><strong>Add and divide.</strong> Total distance <math><mo>=</mo><mn>4</mn><mo>·</mo><mn>1</mn><mo>+</mo><mn>6</mn><mo>·</mo><mn>2</mn><mo>=</mo><mn>16</mn></math>, so <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mn>16</mn><mn>10</mn></mfrac><mo>=</mo><mn>1.6</mn></math>. That matches the general star formula <math><mfrac><mrow><mn>2</mn><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mi>N</mi></mfrac><mo>=</mo><mfrac><mn>8</mn><mn>5</mn></mfrac><mo>=</mo><mn>1.6</mn></math>. The <strong>diameter is 2</strong>, because the farthest any two nodes ever get is leaf-to-leaf.</li>
+<li><strong>Add and divide.</strong> Total distance <math><mo>=</mo><mn>4</mn><mo>·</mo><mn>1</mn><mo>+</mo><mn>6</mn><mo>·</mo><mn>2</mn><mo>=</mo><mn>16</mn></math>, so <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mfrac><mn>16</mn><mn>10</mn></mfrac><mo>=</mo><mn>1.6</mn></math>. That matches the general star formula <math><mfrac><mrow><mn>2</mn><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mi>N</mi></mfrac><mo>=</mo><mfrac><mn>8</mn><mn>5</mn></mfrac><mo>=</mo><mn>1.6</mn></math>. The <strong>diameter is 2</strong>, because the farthest any two nodes ever get is leaf-to-leaf.</li>
 </ol>
 <p class="small">Sanity check on the formula: as <math><mi>N</mi></math> grows, <math><mfrac><mrow><mn>2</mn><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mi>N</mi></mfrac><mo>→</mo><mn>2</mn></math>, almost every pair is a leaf–leaf pair at distance 2, which is why the star stays a "small world" no matter how big it gets.</p>
 </div>
@@ -1068,22 +1073,32 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 </div>
 
 <table class="tbl">
-<tr><th>Graph on <math><mi>N</mi></math> nodes</th><th>Average path length <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo></math></th><th>Grows like</th><th>Small world?</th></tr>
+<tr><th>Graph on <math><mi>N</mi></math> nodes</th><th>Average path length <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo></math></th><th>Grows like</th><th>Small world?</th></tr>
 <tr><td>Open chain</td><td><math><mo>(</mo><mi>N</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>/</mo><mn>3</mn></math></td><td><math><mi>N</mi></math></td><td>No</td></tr>
 <tr><td>Ring (1-D)</td><td><math><mo>≈</mo><mi>N</mi><mo>/</mo><mn>4</mn></math></td><td><math><mi>N</mi></math></td><td>No</td></tr>
 <tr><td><math><mi>D</mi></math>-D lattice</td><td><math><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></td><td><math><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></td><td>No</td></tr>
 <tr><td>Star</td><td><math><mo>→</mo><mn>2</mn></math></td><td>constant</td><td>Yes (trivially)</td></tr>
-<tr><td>Random (ER)</td><td><math><mo>≈</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></td><td><math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></td><td><strong>Yes</strong></td></tr>
+<tr><td>Random (ER)</td><td><math><mo>≈</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>ln</mi><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></td><td><math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></td><td><strong>Yes</strong></td></tr>
 </table>
 <div class="checkrow">Check yourself</div>
 <details class="pyq"><summary><span class="qtag">Calc</span><span>Derive the average path length of an open chain of 10 nodes.</span><span class="chev">›</span></summary>
-<div class="ans"><p>For an open chain <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>. With <math><mi>n</mi><mo>=</mo><mn>10</mn></math> that is <math><mfrac><mn>11</mn><mn>3</mn></mfrac><mo>≈</mo></math> <span class="verdict">3.67</span>.</p></div></details>
+<div class="ans"><p>For an open chain <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>. With <math><mi>n</mi><mo>=</mo><mn>10</mn></math> that is <math><mfrac><mn>11</mn><mn>3</mn></mfrac><mo>≈</mo></math> <span class="verdict">3.67</span>.</p></div></details>
 <details class="pyq"><summary><span class="qtag">Concept</span><span>A ring and a random graph both have <math><mi>N</mi><mo>=</mo><msup><mn>10</mn><mn>6</mn></msup></math> nodes. Which has the shorter typical distance, and how do the two scale?</span><span class="chev">›</span></summary>
 <div class="ans"><p>The <span class="verdict">random graph</span>: its distance scales as <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> (a handful of hops), while the ring scales as <math><mi>N</mi><mo>/</mo><mn>4</mn></math> (hundreds of thousands). Powers of <math><mi>N</mi></math> are big worlds; <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> is a small world.</p></div></details>
 </section>
 <section>
 <h2 id="er"><span class="num">12</span>Erdős–Rényi random graphs</h2>
-<p class="section-intro">This is the simplest network model there is: take a set of nodes and, for each possible pair, decide at random, with a fixed probability, whether to place a link. The course spends time on it because even this simple model shows a phase transition (a sudden change in behaviour at a precise point), and because it gives a clean baseline to compare real networks against. Below are its five main properties, each derived rather than just stated.</p>
+<p class="section-intro">Picture a class of <math><mi>N</mi></math> students. For every pair, flip a biased coin: with probability <math><mi>p</mi></math> they become friends, otherwise they do not. That single rule, friendships placed at random, is the Erdős–Rényi model <math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math>: the simplest network there is, and the baseline every real network gets compared against. Keep the class in mind, because each formula below is really a statement about those students.</p>
+
+<div class="card def"><span class="tag">Picture it · a class of N students</span>
+<p>Hold this picture the whole way through; it turns each symbol into something you can feel:</p>
+<ul>
+<li><math><mi>N</mi></math> is the number of students; <math><mi>p</mi></math> is the chance any two of them are friends.</li>
+<li><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> is the average number of friends a student has.</li>
+<li>A <em>component</em> is a group of students all reachable through chains of friends. The <em>giant component</em> is the big group a rumour could spread to.</li>
+</ul>
+<p>Property 4, the main result, is exactly this: start a rumour and watch how much of the class hears it.</p>
+</div>
 
 <div class="card def"><span class="tag">Start here · the setup</span>
 <h4>What "<math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math>" means</h4>
@@ -1098,10 +1113,10 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 </div>
 
 <div class="card key"><span class="tag">The formula the rest depends on</span>
-<h4>Average degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></h4>
+<h4>Average degree <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></h4>
 <p>Take any node. It has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> chances to gain a link, one per other node, each present with probability <math><mi>p</mi></math>. The average number of successes out of <math><mi>N</mi><mo>−</mo><mn>1</mn></math> attempts, each with probability <math><mi>p</mi></math>, is <math><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math>. The same way 10 fair coin flips average 5 heads. So</p>
-<div class="eq boxed"><math display="block"><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>,</mo><mspace width="1.4em"/><mtext>and total links</mtext><mspace width="0.5em"/><mo>⟨</mo><mi>L</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac><mo>.</mo></math></div>
-<p>Most results below are written using <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> rather than <math><mi>p</mi></math>, because <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> is what controls the network's behaviour. Many questions turn on converting a given <math><mi>p</mi></math> into <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>, or the reverse.</p>
+<div class="eq boxed"><math display="block"><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>,</mo><mspace width="1.4em"/><mtext>and total links</mtext><mspace width="0.5em"/><mo stretchy="false">⟨</mo><mi>L</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mfrac><mrow><mi>N</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></mfrac><mo>.</mo></math></div>
+<p>Most results below are written using <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> rather than <math><mi>p</mi></math>, because <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> is what controls the network's behaviour. Many questions turn on converting a given <math><mi>p</mi></math> into <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>, or the reverse.</p>
 </div>
 
 <div class="card key"><span class="tag">ER at a glance</span>
@@ -1109,44 +1124,54 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <p>Everything below fills in this table. Read it first, then dip into whichever row you need.</p>
 <table class="tbl">
 <tr><th>Property</th><th>Result</th><th>In one line</th><th>Like real networks?</th></tr>
-<tr><td>1 · degree distribution</td><td><math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> is Poisson</td><td>one peak at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>, no hubs</td><td><strong>No</strong> (real nets have hubs)</td></tr>
+<tr><td>1 · degree distribution</td><td><math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> is Poisson</td><td>one peak at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>, no hubs</td><td><strong>No</strong> (real nets have hubs)</td></tr>
 <tr><td>2 · clustering</td><td><math><mi>C</mi><mo>=</mo><mi>p</mi><mo>→</mo><mn>0</mn></math></td><td>neighbours rarely linked</td><td><strong>No</strong> (real nets cluster)</td></tr>
-<tr><td>3 · distances</td><td><math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>≈</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></td><td>everyone close (small world)</td><td><strong>Yes</strong></td></tr>
-<tr><td>4 · giant component</td><td>appears at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></td><td>one big blob forms suddenly</td><td><strong>Yes</strong> (a phase transition)</td></tr>
-<tr><td>5 · connectivity</td><td>at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mi>N</mi></math></td><td>last isolated node disappears</td><td>—</td></tr>
+<tr><td>3 · distances</td><td><math><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo><mo>≈</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>ln</mi><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></td><td>everyone close (small world)</td><td><strong>Yes</strong></td></tr>
+<tr><td>4 · giant component</td><td>appears at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math></td><td>one big blob forms suddenly</td><td><strong>Yes</strong> (a phase transition)</td></tr>
+<tr><td>5 · connectivity</td><td>at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mi>N</mi></math></td><td>last isolated node disappears</td><td>—</td></tr>
 </table>
 </div>
 
+<div class="card key"><span class="tag">What you actually need (and what you can skip)</span>
+<p>Most of this section is probability, but the mid-sem needs much less of it than the page shows. If the maths feels heavy, this is the whole job:</p>
+<ul>
+<li><strong>Know the five results</strong> in the table above, and <em>when</em> each one applies.</li>
+<li><strong>The two thresholds are the stars:</strong> a giant component appears at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>, and the graph is fully connected at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>.</li>
+<li><strong>The recipe for almost every question:</strong> turn <math><mi>p</mi></math> into <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math>, then compare <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> against 1 and against <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>.</li>
+</ul>
+<p>Every grey <em>"Show the derivation"</em> box below is optional. You only need what is inside if a question literally says "derive" or "prove". Otherwise skip them: knowing the result and when it applies is what earns the marks.</p>
+</div>
+
 <h3>Property 1 · the degree distribution</h3>
-<p>How many links does a typical node have? For ER the fraction of nodes with degree <math><mi>k</mi></math> follows the <strong>Poisson distribution</strong>:</p>
-<div class="eq boxed"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup><mspace width="0.15em"/><mfrac><msup><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>k</mi></msup><mrow><mi>k</mi><mo>!</mo></mrow></mfrac></math></div>
+<p>How many links does a typical node have, that is, how many friends does a typical student have? For ER the fraction of nodes with degree <math><mi>k</mi></math> follows the <strong>Poisson distribution</strong>:</p>
+<div class="eq boxed"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup><mspace width="0.15em"/><mfrac><msup><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>k</mi></msup><mrow><mi>k</mi><mo>!</mo></mrow></mfrac></math></div>
 <p>Here <math><mi>k</mi><mo>!</mo></math> is "<math><mi>k</mi></math> factorial" (<math><mn>3</mn><mo>!</mo><mo>=</mo><mn>3</mn><mo>·</mo><mn>2</mn><mo>·</mo><mn>1</mn><mo>=</mo><mn>6</mn></math>), and you read off the fraction of degree-<math><mi>k</mi></math> nodes by putting in a whole number <math><mi>k</mi></math>. Two things about this shape are worth memorising:</p>
 <ul>
-<li><strong>Mean = variance = <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>.</strong> There is a clear typical degree, right around <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> (a "has-a-scale" distribution, §10).</li>
-<li><strong>No hubs.</strong> The tail falls faster than any exponential, so a node with degree far above <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> is almost impossible.</li>
+<li><strong>Mean = variance = <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>.</strong> There is a clear typical degree, right around <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> (a "has-a-scale" distribution, §10).</li>
+<li><strong>No hubs.</strong> The tail falls faster than any exponential, so a node with degree far above <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> is almost impossible.</li>
 </ul>
-<p>That second point is ER's <strong>biggest failure</strong>: real networks (the web, citations, proteins) are full of hubs, and a Poisson cannot make them. A quick test of "is this network ER-like?" is the ratio <math><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo><mo>/</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>: near 1 for ER, well above 1 for a hub-heavy network. Quick check: with <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>2</mn></math>, the fraction of isolated nodes is <math><mi>P</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup><mo>≈</mo><mn>0.135</mn></math>, about 13.5%.</p>
+<p>That second point is ER's <strong>biggest failure</strong>: real networks (the web, citations, proteins) are full of hubs, and a Poisson cannot make them. A quick test of "is this network ER-like?" is the ratio <math><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo><mo>/</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>: near 1 for ER, well above 1 for a hub-heavy network. Quick check: with <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>2</mn></math>, the fraction of isolated nodes is <math><mi>P</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup><mo>≈</mo><mn>0.135</mn></math>, about 13.5%.</p>
 
-<details class="deriv"><summary>Show where the Poisson formula comes from</summary><div class="body">
+<details class="deriv"><summary>Optional · where the Poisson formula comes from (skip unless asked to derive)</summary><div class="body">
 <p>Fix one node. Each of its <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible links is present with probability <math><mi>p</mi></math>, independently, so its degree is the number of successes in <math><mi>N</mi><mo>−</mo><mn>1</mn></math> coin flips. That is the <strong>Binomial distribution</strong>:</p>
 <div class="eq"><math display="block"><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mrow><mo>(</mo><mfrac linethickness="0"><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mi>k</mi></mfrac><mo>)</mo></mrow><msup><mi>p</mi><mi>k</mi></msup><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn><mo>−</mo><mi>k</mi></mrow></msup></math></div>
 <p>reading as (ways to pick which <math><mi>k</mi></math> neighbours are linked) × (probability those <math><mi>k</mi></math> are present) × (probability the rest are absent). For a large network with small <math><mi>p</mi></math> this simplifies. The key step is the last factor, using the standard limit <math><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo>/</mo><mi>m</mi><mo>)</mo></mrow><mi>m</mi></msup><mo>→</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></math>:</p>
-<div class="eq"><math display="block"><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mspace width="0.5em"/><mo>⟶</mo><mspace width="0.5em"/><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math></div>
+<div class="eq"><math display="block"><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mspace width="0.5em"/><mo>⟶</mo><mspace width="0.5em"/><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup></math></div>
 <p>Putting that back into the Binomial and tidying up gives the Poisson formula above.</p>
 </div></details>
 
 <h3>Property 2 · clustering</h3>
 <p>A node's clustering coefficient (§7) is the fraction of its neighbour-pairs that are themselves linked. In ER any pair is linked with probability <math><mi>p</mi></math>, and the coin flips are independent, so that fraction is simply <math><mi>p</mi></math>:</p>
-<div class="eq boxed"><math display="block"><mi>C</mi><mo>=</mo><mi>p</mi><mo>=</mo><mfrac><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mspace width="0.8em"/><munder><mo>⟶</mo><mrow><mi>N</mi><mo>→</mo><mo>∞</mo></mrow></munder><mspace width="0.4em"/><mn>0</mn></math></div>
+<div class="eq boxed"><math display="block"><mi>C</mi><mo>=</mo><mi>p</mi><mo>=</mo><mfrac><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mspace width="0.8em"/><munder><mo>⟶</mo><mrow><mi>N</mi><mo>→</mo><mo>∞</mo></mrow></munder><mspace width="0.4em"/><mn>0</mn></math></div>
 <p>ER's <strong>second failure</strong>: real friendship networks keep a high, roughly constant clustering as they grow (friends tend to know each other), but ER's falls to zero.</p>
 
 <h3>Property 3 · distances (the small-world property)</h3>
-<p>From one node you reach about <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> others in one step, about <math><mo>⟨</mo><mi>k</mi><msup><mo>⟩</mo><mn>2</mn></msup></math> in two, and about <math><msup><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>d</mi></msup></math> after <math><mi>d</mi></math> steps. You have reached everyone once <math><msup><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>d</mi></msup><mo>≈</mo><mi>N</mi></math>; taking the logarithm of both sides gives the typical distance:</p>
-<div class="eq boxed"><math display="block"><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>≈</mo><mfrac><mrow><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></mrow><mrow><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac></math></div>
-<p>Because <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> grows slowly, distances stay small even for huge networks. This is the <strong>small-world</strong> property from the end of §11: unlike a lattice, where distance grows as a power of <math><mi>N</mi></math>, here it grows only as <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>. The one property ER gets right.</p>
+<p>From one node you reach about <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> others in one step, about <math><mo stretchy="false">⟨</mo><mi>k</mi><msup><mo stretchy="false">⟩</mo><mn>2</mn></msup></math> in two, and about <math><msup><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>d</mi></msup></math> after <math><mi>d</mi></math> steps. You have reached everyone once <math><msup><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>d</mi></msup><mo>≈</mo><mi>N</mi></math>; taking the logarithm of both sides gives the typical distance:</p>
+<div class="eq boxed"><math display="block"><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo><mo>≈</mo><mfrac><mrow><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></mrow><mrow><mi>ln</mi><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac></math></div>
+<p>Because <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> grows slowly, distances stay small even for huge networks. This is the <strong>small-world</strong> property from the end of §11: unlike a lattice, where distance grows as a power of <math><mi>N</mi></math>, here it grows only as <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>. The one property ER gets right: in the class, any two students are joined by a short chain of mutual friends, the "six degrees of separation" idea.</p>
 
 <h3>Property 4 · the giant component <span class="small" style="font-weight:400">(the module's main result)</span></h3>
-<p>Increase <math><mi>p</mi></math> from zero and watch the largest connected component. It does <strong>not</strong> grow smoothly: for a while there are only small fragments, then at one precise value a single <em>giant component</em>, holding a fixed fraction of <em>all</em> the nodes, appears. A sudden change at a precise point like this is a <em class="term">phase transition</em>, the same idea as water freezing at a fixed temperature.</p>
+<p>Here is the property to really understand, and the rumour makes it concrete. Start a rumour with one student; everyone who hears it tells their friends. How much of the class eventually hears it? Increase <math><mi>p</mi></math> (make the class friendlier) and watch the largest reachable group, the <em>giant component</em>. It does <strong>not</strong> grow smoothly: while the average student has fewer than one friend the rumour keeps dying out in small cliques, then at one precise point a giant component holding a fixed fraction of the whole class suddenly appears. A sudden change at a precise point like this is a <em class="term">phase transition</em>, the same idea as water freezing at a fixed temperature.</p>
 
 <div class="figrow" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
 <div class="fig">
@@ -1166,16 +1191,16 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
     <text x="66.75" y="150" text-anchor="middle">1</text>
   </g>
 </svg>
-<p class="cap">The fraction <math><mi>S</mi></math> of nodes in the giant component stays at 0 until <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>, then rises.</p>
+<p class="cap">The fraction <math><mi>S</mi></math> of nodes in the giant component stays at 0 until <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>, then rises.</p>
 </div>
 <div class="fig">
-<h4>Below: <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&lt;</mo><mn>1</mn></math></h4>
+<h4>Below: <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&lt;</mo><mn>1</mn></math></h4>
 <svg class="gr" viewBox="0 0 210 160" role="img" aria-label="Sparse random graph, only small fragments"
   data-spec='{"r":11,"nodes":{"a":[30,35],"b":[75,50],"c":[150,30],"d":[190,45],"e":[178,90],"f":[45,120],"g":[95,135],"h":[135,120],"i":[185,140],"j":[110,80]},"labels":{"a":"","b":"","c":"","d":"","e":"","f":"","g":"","h":"","i":"","j":""},"edges":[["a","b"],["c","d"],["d","e"],["f","g"]]}'></svg>
 <p class="cap">Only isolated nodes and small fragments; the largest is about <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> nodes.</p>
 </div>
 <div class="fig">
-<h4>Above: <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></h4>
+<h4>Above: <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mn>1</mn></math></h4>
 <svg class="gr" viewBox="0 0 210 160" role="img" aria-label="Random graph with one large connected component plus stragglers"
   data-spec='{"r":11,"nodes":{"a":[45,40],"b":[95,30],"c":[140,55],"d":[85,70],"e":[45,100],"f":[120,100],"g":[80,135],"p":[185,45],"q":[190,95],"s":[185,140]},"labels":{"a":"","b":"","c":"","d":"","e":"","f":"","g":"","p":"","q":"","s":""},"edges":[["a","b"],["b","c"],["a","d"],["d","c"],["d","e"],["d","f"],["f","g"],["e","g"],["p","q"]],"hi":["a","b","c","d","e","f","g"]}'></svg>
 <p class="cap">One giant component (highlighted) holds most nodes; a few small fragments and isolated nodes remain.</p>
@@ -1183,41 +1208,41 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 </div>
 
 <div class="card key"><span class="tag">The threshold</span>
-<h4>The giant component appears at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></h4>
+<h4>The giant component appears at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math></h4>
 <p>The size of the giant component obeys a <em>self-consistency</em> equation (derived below):</p>
-<div class="eq boxed"><math display="block"><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math></div>
-<p>You cannot solve it for <math><mi>S</mi></math>, but you can read off when a positive solution exists: only when <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math>. The plain meaning is what to remember: <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> is roughly how many new nodes each step of exploration adds. Below 1, every branch dies out and you get only small fragments. Above 1, exploration adds more than it exhausts and grows to a fixed fraction of the whole network.</p>
+<div class="eq boxed"><math display="block"><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math></div>
+<p>You cannot solve it for <math><mi>S</mi></math>, but you can read off when a positive solution exists: only when <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mn>1</mn></math>. The plain meaning is what to remember: <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> is roughly how many new nodes each step of exploration adds. Below 1, every branch dies out and you get only small fragments. Above 1, exploration adds more than it exhausts and grows to a fixed fraction of the whole network.</p>
 </div>
 
-<details class="deriv"><summary>Show why <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>, and why the threshold is 1</summary><div class="body">
+<details class="deriv"><summary>Optional · why <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math>, and why the threshold is 1</summary><div class="body">
 <p>Let <math><mi>u</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>S</mi></math> be the fraction of nodes <em>not</em> in the giant component.</p>
 <ol class="steps">
 <li>A node stays out only if every one of its potential neighbours fails to connect it in.</li>
 <li>One neighbour <math><mi>j</mi></math> fails in two ways: there is no link (probability <math><mn>1</mn><mo>−</mo><mi>p</mi></math>), or there is a link but <math><mi>j</mi></math> is also out (probability <math><mi>p</mi><mi>u</mi></math>). Total <math><mn>1</mn><mo>−</mo><mi>p</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo></math>.</li>
-<li>All <math><mi>N</mi><mo>−</mo><mn>1</mn></math> must fail: <math><mi>u</mi><mo>=</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup></math>. With <math><mi>p</mi><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> the same limit gives <math><mi>u</mi><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo></mrow></msup></math>.</li>
-<li>Substituting <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>u</mi></math> gives <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>.</li>
+<li>All <math><mi>N</mi><mo>−</mo><mn>1</mn></math> must fail: <math><mi>u</mi><mo>=</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup></math>. With <math><mi>p</mi><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> the same limit gives <math><mi>u</mi><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo></mrow></msup></math>.</li>
+<li>Substituting <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>u</mi></math> gives <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math>.</li>
 </ol>
-<p>To find the threshold, compare the curve <math><mi>y</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math> with the line <math><mi>y</mi><mo>=</mo><mi>S</mi></math>. Both pass through the origin; a second (positive) crossing exists only if the curve leaves the origin steeper than the line. The curve's slope there is <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> and the line's is 1, so the giant component exists exactly when <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math>.</p>
+<p>To find the threshold, compare the curve <math><mi>y</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math> with the line <math><mi>y</mi><mo>=</mo><mi>S</mi></math>. Both pass through the origin; a second (positive) crossing exists only if the curve leaves the origin steeper than the line. The curve's slope there is <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> and the line's is 1, so the giant component exists exactly when <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mn>1</mn></math>.</p>
 </div></details>
 
-<h4>The four regimes as <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> increases</h4>
+<h4>The four regimes as <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> increases</h4>
 <table class="tbl">
 <tr><th>Regime</th><th>Condition</th><th>Largest component</th></tr>
-<tr><td><strong>Sub-critical</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&lt;</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>&lt;</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td>small fragments, largest is size <math><mo>∼</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></td></tr>
-<tr><td><strong>Critical</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>=</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td><math><mo>∼</mo><msup><mi>N</mi><mrow><mn>2</mn><mo>/</mo><mn>3</mn></mrow></msup></math>, larger, but still a vanishing fraction</td></tr>
-<tr><td><strong>Super-critical</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>&gt;</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td>one giant component <math><mo>∼</mo><mi>N</mi></math>, plus small fragments</td></tr>
-<tr><td><strong>Connected</strong></td><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> &nbsp;(<math><mi>p</mi><mo>&gt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math>)</td><td>a single component, no node left out</td></tr>
+<tr><td><strong>Sub-critical</strong></td><td><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&lt;</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>&lt;</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td>small fragments, largest is size <math><mo>∼</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></td></tr>
+<tr><td><strong>Critical</strong></td><td><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>=</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td><math><mo>∼</mo><msup><mi>N</mi><mrow><mn>2</mn><mo>/</mo><mn>3</mn></mrow></msup></math>, larger, but still a vanishing fraction</td></tr>
+<tr><td><strong>Super-critical</strong></td><td><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mn>1</mn></math> &nbsp;(<math><mi>p</mi><mo>&gt;</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>)</td><td>one giant component <math><mo>∼</mo><mi>N</mi></math>, plus small fragments</td></tr>
+<tr><td><strong>Connected</strong></td><td><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> &nbsp;(<math><mi>p</mi><mo>&gt;</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math>)</td><td>a single component, no node left out</td></tr>
 </table>
 
 <h3>Property 5 · isolated nodes and full connectivity</h3>
-<p>A giant component still leaves some nodes out. The graph becomes <em>fully</em> connected only when the last isolated node disappears, so we count isolated nodes. One node is isolated when all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> of its links are absent, probability <math><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≈</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math>, so the expected number in the whole graph is <math><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math>. That count passes through 1 exactly at:</p>
-<div class="eq boxed"><math display="block"><msub><mi>p</mi><mtext>connect</mtext></msub><mo>=</mo><mfrac><mrow><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></mrow><mi>N</mi></mfrac><mspace width="1.2em"/><mo>⟺</mo><mspace width="1.2em"/><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></div>
-<p>So there are two different milestones: the giant component at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>, and full connectivity at the larger <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>. Between them the graph is mostly joined up but still has a few isolated nodes, which is where most real sparse networks sit.</p>
+<p>A giant component still leaves some nodes out. The graph becomes <em>fully</em> connected only when the last isolated node disappears, so we count isolated nodes. One node is isolated when all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> of its links are absent, probability <math><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≈</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup></math>, so the expected number in the whole graph is <math><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup></math>. That count passes through 1 exactly at:</p>
+<div class="eq boxed"><math display="block"><msub><mi>p</mi><mtext>connect</mtext></msub><mo>=</mo><mfrac><mrow><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></mrow><mi>N</mi></mfrac><mspace width="1.2em"/><mo>⟺</mo><mspace width="1.2em"/><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></div>
+<p>So there are two different milestones: the giant component at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>, and full connectivity at the larger <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math>. Between them the graph is mostly joined up but still has a few isolated nodes, which is where most real sparse networks sit. In the class, full connectivity is the moment no student is left friendless.</p>
 
-<details class="deriv"><summary>Show the counting in full</summary><div class="body">
+<details class="deriv"><summary>Optional · the isolated-node counting in full (skip unless asked to derive)</summary><div class="body">
 <ol class="steps">
-<li><strong>One node isolated:</strong> all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible links absent, <math><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≈</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math> by the same limit as Property 1.</li>
-<li><strong>Expected number over all nodes,</strong> multiply by <math><mi>N</mi></math>: <math><mi>E</mi><mo>[</mo><mi>X</mi><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mi>N</mi><mi>p</mi></mrow></msup></math>.</li>
+<li><strong>One node isolated:</strong> all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible links absent, <math><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>≈</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup></math> by the same limit as Property 1.</li>
+<li><strong>Expected number over all nodes,</strong> multiply by <math><mi>N</mi></math>: <math><mi>E</mi><mo>[</mo><mi>X</mi><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mi>N</mi><mi>p</mi></mrow></msup></math>.</li>
 <li><strong>Set <math><mi>p</mi><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math>:</strong> then <math><mi>N</mi><mi>p</mi><mo>=</mo><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math> and <math><msup><mi>e</mi><mrow><mo>−</mo><mi>ln</mi><mi>N</mi></mrow></msup><mo>=</mo><mn>1</mn><mo>/</mo><mi>N</mi></math>, so <math><mi>E</mi><mo>[</mo><mi>X</mi><mo>]</mo><mo>=</mo><mi>N</mi><mo>·</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><mo>=</mo><mn>1</mn></math>. Above this <math><mi>p</mi></math> the count drops toward 0 and the graph connects; below it, loners remain.</li>
 </ol>
 </div></details>
@@ -1229,7 +1254,7 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <tr><th>First appearance of…</th><th>Threshold <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math></th></tr>
 <tr><td>the first link</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></math></td></tr>
 <tr><td>a tree of <math><mi>k</mi></math> nodes</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mi>k</mi><mo>/</mo><mo>(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></math></td></tr>
-<tr><td>the first cycle and the giant component</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></math> &nbsp;(<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>)</td></tr>
+<tr><td>the first cycle and the giant component</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></math> &nbsp;(<math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>)</td></tr>
 <tr><td>a complete sub-graph <math><msub><mi>K</mi><mi>r</mi></msub></math></td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>2</mn><mo>/</mo><mo>(</mo><mi>r</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></math></td></tr>
 <tr><td>full connectivity (and a Hamiltonian cycle)</td><td><math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math></td></tr>
 </table>
@@ -1238,35 +1263,39 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 
 <div class="card def"><span class="tag">A related result</span>
 <h4>The friendship paradox · "your friends have more friends than you"</h4>
-<p>Pick a node by following a random link and you are more likely to land on a high-degree node, because it has more links pointing at it. So a <em>neighbour's</em> average degree is not <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> but</p>
-<div class="eq boxed"><math display="block"><msub><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mfrac><mrow><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></mrow><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>+</mo><mfrac><mrow><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac></math></div>
-<p>Since the variance is never negative, a neighbour's expected degree always meets or beats your own; it is a sampling bias, true of every network. For ER (Poisson, <math><mtext>Var</mtext><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) the gap is exactly one extra friend. For a scale-free network (§10) with <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math> the variance is infinite, so the gap is very large.</p>
+<p>Pick a node by following a random link and you are more likely to land on a high-degree node, because it has more links pointing at it. So a <em>neighbour's</em> average degree is not <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> but</p>
+<div class="eq boxed"><math display="block"><msub><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mfrac><mrow><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>+</mo><mfrac><mrow><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac></math></div>
+<p>Since the variance is never negative, a neighbour's expected degree always meets or beats your own; it is a sampling bias, true of every network. For ER (Poisson, <math><mtext>Var</mtext><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>) the gap is exactly one extra friend. For a scale-free network (§10) with <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math> the variance is infinite, so the gap is very large.</p>
 </div>
 
 <div class="card ex"><span class="tag">Worked · the standard ER question</span>
 <h4><math><mi>N</mi><mo>=</mo><mn>1000</mn></math>, <math><mi>p</mi><mo>=</mo><mn>0.006</mn></math>, is there a giant component? Is it connected?</h4>
 <ol class="steps">
-<li><strong>Convert <math><mi>p</mi></math> to average degree.</strong> <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>=</mo><mn>0.006</mn><mo>×</mo><mn>999</mn><mo>≈</mo><mn>6</mn></math>.</li>
+<li><strong>Convert <math><mi>p</mi></math> to average degree.</strong> <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>=</mo><mn>0.006</mn><mo>×</mo><mn>999</mn><mo>≈</mo><mn>6</mn></math>.</li>
 <li><strong>Giant component?</strong> Compare with 1. Since <math><mn>6</mn><mo>&gt;</mo><mn>1</mn></math> → <span class="verdict">yes</span>.</li>
 <li><strong>Fully connected?</strong> Compare with <math><mi>ln</mi><mspace width="0.15em"/><mn>1000</mn><mo>≈</mo><mn>6.9</mn></math>. Since <math><mn>6</mn><mo>&lt;</mo><mn>6.9</mn></math> → <span class="verdict">not yet</span>. Check: expected isolated nodes <math><mo>=</mo><mn>1000</mn><mo>·</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>6</mn></mrow></msup><mo>≈</mo><mn>2.5</mn></math>, a couple remain.</li>
 </ol>
-<p>The recipe for every ER exam question: <strong>convert to <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>, then compare against 1 and against <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></strong>.</p>
+<p>The recipe for every ER exam question: <strong>convert to <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>, then compare against 1 and against <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></strong>.</p>
 </div>
 
 <div class="card watch"><span class="tag">Beyond the mid-sem · names worth recognising</span>
 <p>The two supplementary decks go further. You are unlikely to need to derive these, but recognising the names is useful:</p>
 <ul>
-<li><strong>Molloy–Reed criterion</strong> (configuration model): for any degree distribution, a giant component exists when <math><mfrac><mrow><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></mrow><mrow><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></mfrac><mo>&gt;</mo><mn>2</mn></math>. For Poisson this returns <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>.</li>
-<li><strong>Generating functions</strong> (Newman): one equation reproduces every result above, including the average small-fragment size <math><mo>⟨</mo><mi>s</mi><mo>⟩</mo><mo>=</mo><mn>1</mn><mo>/</mo><mo>(</mo><mn>1</mn><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>)</mo></math>, which blows up at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>.</li>
+<li><strong>Molloy–Reed criterion</strong> (configuration model): for any degree distribution, a giant component exists when <math><mfrac><mrow><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac><mo>&gt;</mo><mn>2</mn></math>. For Poisson this returns <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>.</li>
+<li><strong>Generating functions</strong> (Newman): one equation reproduces every result above, including the average small-fragment size <math><mo stretchy="false">⟨</mo><mi>s</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn><mo>/</mo><mo>(</mo><mn>1</mn><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>)</mo></math>, which blows up at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>.</li>
 </ul>
 </div>
 <div class="checkrow">Check yourself</div>
-<details class="pyq"><summary><span class="qtag">Concept</span><span>An ER graph has mean degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>4</mn></math>. What is the variance of its degree, and what does that say about hubs?</span><span class="chev">›</span></summary>
+<details class="pyq"><summary><span class="qtag">Concept</span><span>An ER graph has mean degree <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>4</mn></math>. What is the variance of its degree, and what does that say about hubs?</span><span class="chev">›</span></summary>
 <div class="ans"><p>The degree distribution is Poisson, so <strong>variance = mean = 4</strong>. The tail dies faster than exponentially, so <span class="verdict">hubs are essentially impossible</span>.</p></div></details>
 <details class="pyq"><summary><span class="qtag proof">Derive</span><span>At what mean degree does a giant component appear in <math><mi>G</mi><mo>(</mo><mi>N</mi><mo>,</mo><mi>p</mi><mo>)</mo></math>, and why?</span><span class="chev">›</span></summary>
-<div class="ans"><p>The giant-component size obeys <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution appears only when the curve leaves the origin steeper than the line <math><mi>y</mi><mo>=</mo><mi>S</mi></math>, i.e. when its slope <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math>. <span class="verdict">Threshold <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></span>: each node must lead on average to more than one new node.</p></div></details>
+<div class="ans"><p>The giant-component size obeys <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution appears only when the curve leaves the origin steeper than the line <math><mi>y</mi><mo>=</mo><mi>S</mi></math>, i.e. when its slope <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mn>1</mn></math>. <span class="verdict">Threshold <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math></span>: each node must lead on average to more than one new node.</p></div></details>
 <details class="pyq"><summary><span class="qtag">Calc</span><span>For <math><mi>N</mi><mo>=</mo><mn>10000</mn></math>, roughly what edge probability makes the graph connected, and how many isolated nodes do you expect there?</span><span class="chev">›</span></summary>
 <div class="ans"><p><math><msub><mi>p</mi><mtext>connect</mtext></msub><mo>=</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>N</mi><mo>=</mo><mi>ln</mi><mn>10000</mn><mo>/</mo><mn>10000</mn><mo>≈</mo></math> <span class="verdict"><math><mn>9.2</mn><mo>×</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></math></span>. Expected isolated nodes <math><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mi>N</mi><mi>p</mi></mrow></msup><mo>=</mo><mi>N</mi><mo>·</mo><mo>(</mo><mn>1</mn><mo>/</mo><mi>N</mi><mo>)</mo><mo>=</mo></math> <span class="verdict">1</span>.</p></div></details>
+<details class="pyq"><summary><span class="qtag proof">Stretch</span><span>Starting from the fraction <math><mi>u</mi></math> of nodes <em>not</em> in the giant component, derive <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math> and hence the critical mean degree.</span><span class="chev">›</span></summary>
+<div class="ans"><p>A node stays out only if all <math><mi>N</mi><mo>−</mo><mn>1</mn></math> of its potential neighbours fail to connect it. One neighbour fails with probability <math><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo><mo>+</mo><mi>p</mi><mi>u</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo></math> (no link, or a link to another outsider). All independent, so <math><mi>u</mi><mo>=</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo><mo>)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup></math>. With <math><mi>p</mi><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> the limit <math><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo>/</mo><mi>m</mi><mo>)</mo></mrow><mi>m</mi></msup><mo>→</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></math> gives <math><mi>u</mi><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>u</mi><mo>)</mo></mrow></msup></math>, and <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>u</mi></math> turns this into <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution exists only when the curve leaves the origin steeper than the line <math><mi>y</mi><mo>=</mo><mi>S</mi></math>; its slope there is <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>, so the threshold is <span class="verdict"><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math></span>.</p></div></details>
+<details class="pyq"><summary><span class="qtag proof">Stretch</span><span>An ER graph has <math><mi>N</mi><mo>=</mo><mn>500</mn></math> and <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>3</mn></math>. Estimate the fraction of nodes in the giant component, and say whether the graph is fully connected.</span><span class="chev">›</span></summary>
+<div class="ans"><p><strong>Giant component:</strong> <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>3</mn><mo>&gt;</mo><mn>1</mn></math>, so one exists. Solving <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>3</mn><mi>S</mi></mrow></msup></math> (or reading the curve) gives <math><mi>S</mi><mo>≈</mo><mn>0.94</mn></math>, so <span class="verdict">about 94% of nodes (~470) are in it</span>. <strong>Connected?</strong> The threshold is <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mn>500</mn><mo>≈</mo><mn>6.2</mn></math>, and <math><mn>3</mn><mo>&lt;</mo><mn>6.2</mn></math>, so <span class="verdict">no</span>, the expected number of isolated nodes is <math><mn>500</mn><msup><mi>e</mi><mrow><mo>−</mo><mn>3</mn></mrow></msup><mo>≈</mo><mn>25</mn></math>.</p></div></details>
 </section>
 <section>
 <h2 id="fixed"><span class="num">13</span>Fixed points &amp; linear stability</h2>
@@ -1744,14 +1773,14 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <tr><td><math><mi>N</mi></math></td><td>number of nodes (vertices)</td></tr>
 <tr><td><math><mi>L</mi></math></td><td>number of links (edges)</td></tr>
 <tr><td><math><msub><mi>k</mi><mi>i</mi></msub></math></td><td>degree of node <math><mi>i</mi></math>: how many links it has</td></tr>
-<tr><td><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></td><td>mean degree, averaged over all nodes</td></tr>
+<tr><td><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></td><td>mean degree, averaged over all nodes</td></tr>
 <tr><td><math><mi>A</mi></math>, <math><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></math></td><td>adjacency matrix; entry is 1 if <math><mi>i</mi></math>–<math><mi>j</mi></math> linked, else 0</td></tr>
 <tr><td><math><mi>tr</mi><mo>(</mo><mo>·</mo><mo>)</mo></math></td><td>trace: sum of a matrix's diagonal</td></tr>
 <tr><td><math><msup><mi>A</mi><mi>n</mi></msup></math></td><td><math><mi>A</mi></math> multiplied by itself <math><mi>n</mi></math> times; its <math><mi>i</mi><mi>j</mi></math> entry counts length-<math><mi>n</mi></math> walks <math><mi>i</mi><mo>→</mo><mi>j</mi></math></td></tr>
 <tr><td><math><mi>ρ</mi></math></td><td>link density: fraction of possible links present</td></tr>
 <tr><td><math><msub><mi>C</mi><mi>i</mi></msub></math>, <math><msub><mi>e</mi><mi>i</mi></msub></math></td><td>clustering coefficient of <math><mi>i</mi></math>; links among <math><mi>i</mi></math>'s neighbours</td></tr>
 <tr><td><math><mi>d</mi><mo>(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>)</mo></math></td><td>distance: fewest links from <math><mi>i</mi></math> to <math><mi>j</mi></math></td></tr>
-<tr><td><math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo></math></td><td>average path length, over all node pairs</td></tr>
+<tr><td><math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo></math></td><td>average path length, over all node pairs</td></tr>
 <tr><td><math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math></td><td>Laplacian (<math><mi>D</mi></math> = diagonal matrix of degrees)</td></tr>
 <tr><td><math><msub><mi>λ</mi><mtext>max</mtext></msub></math></td><td>largest eigenvalue of <math><mi>A</mi></math></td></tr>
 </table>
@@ -1769,8 +1798,8 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <tr><td><math><mi>p</mi></math></td><td>ER edge probability</td></tr>
 <tr><td><math><mi>S</mi></math></td><td>fraction of nodes in the giant component</td></tr>
 <tr><td><math><mi>α</mi></math></td><td>power-law exponent, <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>∝</mo><msup><mi>k</mi><mrow><mo>−</mo><mi>α</mi></mrow></msup></math></td></tr>
-<tr><td><math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math>, <math><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></math></td><td>mean of <math><msup><mi>k</mi><mn>2</mn></msup></math>; variance of degree</td></tr>
-<tr><td><math><msub><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mtext>nn</mtext></msub></math></td><td>average degree of a neighbour</td></tr>
+<tr><td><math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></math>, <math><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></math></td><td>mean of <math><msup><mi>k</mi><mn>2</mn></msup></math>; variance of degree</td></tr>
+<tr><td><math><msub><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mtext>nn</mtext></msub></math></td><td>average degree of a neighbour</td></tr>
 </table>
 </div>
 <p class="small" style="margin-top:10px"><math><mo>⟺</mo></math> means "if and only if"; <math><mo>∼</mo></math> and <math><mo>≈</mo></math> mean "grows like" and "about".</p>
@@ -1782,8 +1811,8 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <ul class="small" style="line-height:1.9">
 <li>Degree <math><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></math>; out = row sum, in = column sum</li>
 <li>Handshaking <math><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi></math>; odd-degree count is even</li>
-<li>Mean degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>2</mn><mi>L</mi><mo>/</mo><mi>N</mi></math>; density <math><mi>ρ</mi><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
-<li>Erdős–Rényi <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
+<li>Mean degree <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>2</mn><mi>L</mi><mo>/</mo><mi>N</mi></math>; density <math><mi>ρ</mi><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>/</mo><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
+<li>Erdős–Rényi <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
 <li>Clustering <math><msub><mi>C</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><msub><mi>e</mi><mi>i</mi></msub></mrow><mrow><msub><mi>k</mi><mi>i</mi></msub><mo>(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>−</mo><mn>1</mn><mo>)</mo></mrow></mfrac></math></li>
 <li>Walks <math><msub><mrow><mo>(</mo><msup><mi>A</mi><mi>n</mi></msup><mo>)</mo></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub></math>; triangles <math><mfrac><mn>1</mn><mn>6</mn></mfrac><mi>tr</mi><mo>(</mo><msup><mi>A</mi><mn>3</mn></msup><mo>)</mo></math></li>
 <li>Components = nullity of <math><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></math></li>
@@ -1796,8 +1825,8 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <li>Euler <strong>circuit</strong> ⟺ all degrees even</li>
 <li>Euler <strong>trail</strong> ⟺ exactly 0 or 2 odd nodes</li>
 <li>Hamiltonian = every vertex once (no easy test)</li>
-<li>Star <math><mi>N</mi></math>: diameter 2, <math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mn>2</mn><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mi>N</mi></mfrac></math></li>
-<li>Complete <math><msub><mi>K</mi><mi>N</mi></msub></math>: diameter 1, <math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math>, <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>N</mi><mo>−</mo><mn>1</mn></math></li>
+<li>Star <math><mi>N</mi></math>: diameter 2, <math><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo><mo>=</mo><mfrac><mrow><mn>2</mn><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><mi>N</mi></mfrac></math></li>
+<li>Complete <math><msub><mi>K</mi><mi>N</mi></msub></math>: diameter 1, <math><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>, <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>N</mi><mo>−</mo><mn>1</mn></math></li>
 <li>Spanning tree: <math><mi>N</mi><mo>−</mo><mn>1</mn></math> edges, connected, acyclic</li>
 </ul>
 </div>
@@ -1826,15 +1855,15 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="card" style="margin:0">
 <h4>Models &amp; distributions</h4>
 <ul class="small" style="line-height:1.9">
-<li>ER mean degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
+<li>ER mean degree <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></li>
 <li>Degree dist Binomial → Poisson; <strong>mean = var</strong>, no hubs</li>
-<li>ER clustering <math><mi>C</mi><mo>=</mo><mi>p</mi><mo>→</mo><mn>0</mn></math>; path <math><mo>⟨</mo><mi>d</mi><mo>⟩</mo><mo>≈</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>ln</mi><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math></li>
-<li>Giant component <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>, appears at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mn>1</mn></math></li>
-<li>Connected at <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>ln</mi><mi>N</mi></math> (<math><mi>p</mi><mo>=</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>N</mi></math>); <math><mi>E</mi><mo>[</mo><mtext>iso</mtext><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></mrow></msup></math></li>
+<li>ER clustering <math><mi>C</mi><mo>=</mo><mi>p</mi><mo>→</mo><mn>0</mn></math>; path <math><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo><mo>≈</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>ln</mi><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></li>
+<li>Giant component <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math>, appears at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math></li>
+<li>Connected at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mi>N</mi></math> (<math><mi>p</mi><mo>=</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>N</mi></math>); <math><mi>E</mi><mo>[</mo><mtext>iso</mtext><mo>]</mo><mo>=</mo><mi>N</mi><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></msup></math></li>
 <li>Power law <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>α</mi></mrow></msup></math>: line of slope <math><mo>−</mo><mi>α</mi></math> on log–log</li>
 <li>Mean finite if <math><mi>α</mi><mo>&gt;</mo><mn>2</mn></math>; variance finite if <math><mi>α</mi><mo>&gt;</mo><mn>3</mn></math></li>
-<li>Chain <math><mo>⟨</mo><mi>ℓ</mi><mo>⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>; ring <math><mo>≈</mo><mi>N</mi><mo>/</mo><mn>4</mn></math>; lattice <math><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></li>
-<li>Friendship <math><msub><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo><mo>/</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> (<math><mo>=</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>+</mo><mn>1</mn></math> for ER)</li>
+<li>Chain <math><mo stretchy="false">⟨</mo><mi>ℓ</mi><mo stretchy="false">⟩</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>; ring <math><mo>≈</mo><mi>N</mi><mo>/</mo><mn>4</mn></math>; lattice <math><mo>∼</mo><msup><mi>N</mi><mrow><mn>1</mn><mo>/</mo><mi>D</mi></mrow></msup></math></li>
+<li>Friendship <math><msub><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mtext>nn</mtext></msub><mo>=</mo><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo><mo>/</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> (<math><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>+</mo><mn>1</mn></math> for ER)</li>
 </ul>
 </div>
 </div>
@@ -2276,7 +2305,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="qitem">
 <div class="qmeta"><span class="qtag">Q7</span><span>Erdős–Rényi</span><span class="marks">2 marks</span></div>
 <div class="qtext"><p>Given a probability (denoted by p) representing the likelihood of a connection between two nodes or the ratio of existing links to the total potential edges, what is the relationship between p, the average degree ⟨K⟩, and the number of nodes N?</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict"><math><mo>⟨</mo><mi>K</mi><mo>⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></span>. Each node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, each realised with probability <math><mi>p</mi></math>.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p><span class="verdict"><math><mo stretchy="false">⟨</mo><mi>K</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math></span>. Each node has <math><mi>N</mi><mo>−</mo><mn>1</mn></math> possible partners, each realised with probability <math><mi>p</mi></math>.</p></div></details>
 </div>
 
 <p class="small">Set IV poses the same seven questions in a different order; its adjacency-matrix question uses <math><mrow><mo>[</mo><mtable columnspacing="0.4em" rowspacing="0.1em"><mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr></mtable><mo>]</mo></mrow></math>: same method: out = row sums (1,2,3,2), in = column sums (2,2,2,2).</p>
@@ -2328,14 +2357,14 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q1b</span><span>power law · moments</span><span class="marks">4 marks</span></div>
-<div class="qtext"><p>Assume the degree distribution follows <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math>. Find the first moment (<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) and the second moment (<math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math>). Explain in which cases these moments will diverge.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The <math><mi>n</mi></math>-th moment <math><mo>∝</mo><mo>∑</mo><msup><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mi>γ</mi></mrow></msup></math> converges only when <math><mi>γ</mi><mo>&gt;</mo><mi>n</mi><mo>+</mo><mn>1</mn></math>. So <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math> <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>2</mn></math></span> and <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo></math> <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>3</mn></math></span>.</p></div></details>
+<div class="qtext"><p>Assume the degree distribution follows <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo>−</mo><mi>γ</mi></mrow></msup></math>. Find the first moment (<math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>) and the second moment (<math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></math>). Explain in which cases these moments will diverge.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The <math><mi>n</mi></math>-th moment <math><mo>∝</mo><mo>∑</mo><msup><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mi>γ</mi></mrow></msup></math> converges only when <math><mi>γ</mi><mo>&gt;</mo><mi>n</mi><mo>+</mo><mn>1</mn></math>. So <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>2</mn></math></span> and <math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></math> <span class="verdict">diverges for <math><mi>γ</mi><mo>≤</mo><mn>3</mn></math></span>.</p></div></details>
 </div>
 
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q2</span><span>Erdős–Rényi giant component</span><span class="marks">5 marks</span></div>
-<div class="qtext"><p>Prove that, in an Erdős–Rényi graph, a giant connected component (GCC) will pop up if the mean degree (<math><mo>⟨</mo><mi>k</mi><mo>⟩</mo></math>) is greater than 1.</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The giant-component fraction satisfies <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution branches off from <math><mi>S</mi><mo>=</mo><mn>0</mn></math> only when the slope of the right side at 0 exceeds 1, i.e. <span class="verdict"><math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>&gt;</mo><mn>1</mn></math></span>. Each node must lead on average to more than one new node for the exploration to survive (full argument in the earlier §20 draft).</p></div></details>
+<div class="qtext"><p>Prove that, in an Erdős–Rényi graph, a giant connected component (GCC) will pop up if the mean degree (<math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>) is greater than 1.</p></div>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The giant-component fraction satisfies <math><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mi>S</mi></mrow></msup></math>. A positive solution branches off from <math><mi>S</mi><mo>=</mo><mn>0</mn></math> only when the slope of the right side at 0 exceeds 1, i.e. <span class="verdict"><math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>&gt;</mo><mn>1</mn></math></span>. Each node must lead on average to more than one new node for the exploration to survive (full argument in the earlier §20 draft).</p></div></details>
 </div>
 
 <div class="qitem">
@@ -2355,7 +2384,7 @@ with <math><mi>q</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></math> a
 <div class="qitem">
 <div class="qmeta"><span class="qtag proof">Q2</span><span>ER Poisson</span><span class="marks">3 + 1 marks</span></div>
 <div class="qtext"><p>Prove that, in an Erdős–Rényi network, the degree distribution follows a Poisson distribution if the connection probability is very small and the number of nodes is extremely large. What will be the average degree and the second moment?</p></div>
-<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The degree is binomial <math><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>p</mi><mo>)</mo></math>; taking <math><mi>N</mi><mo>→</mo><mi>∞</mi></math>, <math><mi>p</mi><mo>→</mo><mn>0</mn></math> with <math><mi>c</mi><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> fixed gives <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>c</mi></mrow></msup><msup><mi>c</mi><mi>k</mi></msup><mo>/</mo><mi>k</mi><mo>!</mo></math>. Average degree <math><mo>⟨</mo><mi>k</mi><mo>⟩</mo><mo>=</mo><mi>c</mi></math>; second moment <math><mo>⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo>⟩</mo><mo>=</mo><mi>c</mi><mo>+</mo><msup><mi>c</mi><mn>2</mn></msup></math>.</p></div></details>
+<details class="ansd"><summary>Show answer</summary><div class="inner"><p>The degree is binomial <math><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>,</mo><mi>p</mi><mo>)</mo></math>; taking <math><mi>N</mi><mo>→</mo><mi>∞</mi></math>, <math><mi>p</mi><mo>→</mo><mn>0</mn></math> with <math><mi>c</mi><mo>=</mo><mi>p</mi><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></math> fixed gives <math><msub><mi>p</mi><mi>k</mi></msub><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>c</mi></mrow></msup><msup><mi>c</mi><mi>k</mi></msup><mo>/</mo><mi>k</mi><mo>!</mo></math>. Average degree <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>c</mi></math>; second moment <math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo><mo>=</mo><mi>c</mi><mo>+</mo><msup><mi>c</mi><mn>2</mn></msup></math>.</p></div></details>
 </div>
 
 <div class="qitem">
