@@ -1120,7 +1120,7 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 </div>
 
 <div class="card key"><span class="tag">ER at a glance</span>
-<h4>The five properties on one screen</h4>
+<h4>The main ER results on one screen</h4>
 <p>Everything below fills in this table. Read it first, then dip into whichever row you need.</p>
 <table class="tbl">
 <tr><th>Property</th><th>Result</th><th>In one line</th><th>Like real networks?</th></tr>
@@ -1129,6 +1129,7 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <tr><td>3 · distances</td><td><math><mo stretchy="false">⟨</mo><mi>d</mi><mo stretchy="false">⟩</mo><mo>≈</mo><mi>ln</mi><mi>N</mi><mo>/</mo><mi>ln</mi><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></td><td>everyone close (small world)</td><td><strong>Yes</strong></td></tr>
 <tr><td>4 · giant component</td><td>appears at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math></td><td>one big blob forms suddenly</td><td><strong>Yes</strong> (a phase transition)</td></tr>
 <tr><td>5 · connectivity</td><td>at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mi>ln</mi><mi>N</mi></math></td><td>last isolated node disappears</td><td>—</td></tr>
+<tr><td>6 · friendship paradox</td><td><math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>=</mo><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo><mo>/</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></td><td>your friends have more friends than you</td><td><strong>Yes</strong></td></tr>
 </table>
 </div>
 
@@ -1249,6 +1250,27 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 </ol>
 </div></details>
 
+<h3>Property 6 · average nearest-neighbour degree (the friendship paradox)</h3>
+<p>This is the last ER topic on your syllabus, and it is a subtle one. Pick a student at random and you get an <em>average</em> student. But pick a random <em>friendship</em> and follow it to one of its two ends, and you tend to land on a <em>popular</em> student, because popular students sit on more friendships. "A random student" and "the student at the end of a random link" are not the same sample.</p>
+
+<div class="card def"><span class="tag">Following an edge is a random-walk step</span>
+<p>Taking one random edge and landing on the node at its end is exactly one step of a <em>random walk</em> on the network (this is the "relation with the random walk" on your sheet). The chance of arriving at a degree-<math><mi>k</mi></math> node is <strong>not</strong> <math><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></math> but</p>
+<div class="eq boxed"><math display="block"><msub><mi>q</mi><mi>k</mi></msub><mo>=</mo><mfrac><mrow><mi>k</mi><mspace width="0.15em"/><mi>P</mi><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac></math></div>
+<p>The extra factor <math><mi>k</mi></math> is the whole point: a degree-<math><mi>k</mi></math> node has <math><mi>k</mi></math> edges pointing at it, so it is <math><mi>k</mi></math> times more likely to be the one you land on. High-degree nodes are over-represented among "the neighbours you meet".</p>
+</div>
+
+<div class="card key"><span class="tag">The result</span>
+<h4>Average nearest-neighbour degree <math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>=</mo><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo><mo>/</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math></h4>
+<p>For a node <math><mi>i</mi></math> with degree <math><msub><mi>k</mi><mi>i</mi></msub></math>, the average degree of its neighbours is <math><msub><mi>k</mi><mrow><mtext>nn,</mtext><mi>i</mi></mrow></msub><mo>=</mo><mfrac><mn>1</mn><msub><mi>k</mi><mi>i</mi></msub></mfrac><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mi>k</mi><mi>j</mi></msub></math>. Averaging over the whole network (that is, averaging with the edge-following weights <math><msub><mi>q</mi><mi>k</mi></msub></math>) gives</p>
+<div class="eq boxed"><math display="block"><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><mi>k</mi><mspace width="0.15em"/><msub><mi>q</mi><mi>k</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>+</mo><mfrac><mrow><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac></math></div>
+<p>The last step uses <math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo><mo>=</mo><msup><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mn>2</mn></msup><mo>+</mo><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></math>. Because the variance is never negative, <math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>≥</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> <strong>always</strong>: a random person's friends have, on average, more friends than they do. This is the <em class="term">friendship paradox</em>, and it is a fact about sampling, not about people.</p>
+<ul>
+<li><strong>ER</strong> (Poisson, <math><mtext>Var</mtext><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>): <math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>+</mo><mn>1</mn></math>, exactly one extra friend.</li>
+<li><strong>Scale-free</strong> (§10) with <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math>: <math><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></math> is infinite, so <math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>≫</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>, your friends are enormously more popular.</li>
+</ul>
+<p class="small">In an uncorrelated network like ER, <math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub></math> does not depend on your own degree, every student's friends look equally over-popular.</p>
+</div>
+
 <div class="card def"><span class="tag">Reference · the threshold ladder</span>
 <h4>The order in which structures appear</h4>
 <p>Everything above is one instance of a pattern: a feature appears once <math><mi>p</mi></math> rises past its own <em>threshold</em> <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math>. Top to bottom is the order in which structures show up as <math><mi>p</mi></math> increases:</p>
@@ -1263,13 +1285,6 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <p class="small">Two points to remember: trees of every size appear <em>before</em> the first cycle, and connectivity has the same threshold as a Hamiltonian cycle, because once the last isolated node is absorbed the rest is almost always already in place.</p>
 </div>
 
-<div class="card def"><span class="tag">A related result</span>
-<h4>The friendship paradox · "your friends have more friends than you"</h4>
-<p>Pick a node by following a random link and you are more likely to land on a high-degree node, because it has more links pointing at it. So a <em>neighbour's</em> average degree is not <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math> but</p>
-<div class="eq boxed"><math display="block"><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub><mo>=</mo><mfrac><mrow><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>+</mo><mfrac><mrow><mtext>Var</mtext><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac></math></div>
-<p>Since the variance is never negative, a neighbour's expected degree always meets or beats your own; it is a sampling bias, true of every network. For ER (Poisson, <math><mtext>Var</mtext><mo>=</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>) the gap is exactly one extra friend. For a scale-free network (§10) with <math><mn>2</mn><mo>&lt;</mo><mi>α</mi><mo>&lt;</mo><mn>3</mn></math> the variance is infinite, so the gap is very large.</p>
-</div>
-
 <div class="card ex"><span class="tag">Worked · the standard ER question</span>
 <h4><math><mi>N</mi><mo>=</mo><mn>1000</mn></math>, <math><mi>p</mi><mo>=</mo><mn>0.006</mn></math>, is there a giant component? Is it connected?</h4>
 <ol class="steps">
@@ -1280,13 +1295,6 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <p>The recipe for every ER exam question: <strong>convert to <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></math>, then compare against 1 and against <math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi></math></strong>.</p>
 </div>
 
-<div class="card watch"><span class="tag">Beyond the mid-sem · names worth recognising</span>
-<p>The two supplementary decks go further. You are unlikely to need to derive these, but recognising the names is useful:</p>
-<ul>
-<li><strong>Molloy–Reed criterion</strong> (configuration model): for any degree distribution, a giant component exists when <math><mfrac><mrow><mo stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo stretchy="false">⟩</mo></mrow><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow></mfrac><mo>&gt;</mo><mn>2</mn></math>. For Poisson this returns <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>.</li>
-<li><strong>Generating functions</strong> (Newman): one equation reproduces every result above, including the average small-fragment size <math><mo stretchy="false">⟨</mo><mi>s</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn><mo>/</mo><mo>(</mo><mn>1</mn><mo>−</mo><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>)</mo></math>, which blows up at <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>1</mn></math>.</li>
-</ul>
-</div>
 <div class="checkrow">Check yourself</div>
 <details class="pyq"><summary><span class="qtag">Concept</span><span>An ER graph has mean degree <math><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo><mo>=</mo><mn>4</mn></math>. What is the variance of its degree, and what does that say about hubs?</span><span class="chev">›</span></summary>
 <div class="ans"><p>The degree distribution is Poisson, so <strong>variance = mean = 4</strong>. The tail dies faster than exponentially, so <span class="verdict">hubs are essentially impossible</span>.</p></div></details>
