@@ -1271,9 +1271,8 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <p class="small">In an uncorrelated network like ER, <math><msub><mrow><mo stretchy="false">⟨</mo><mi>k</mi><mo stretchy="false">⟩</mo></mrow><mtext>nn</mtext></msub></math> does not depend on your own degree, every student's friends look equally over-popular.</p>
 </div>
 
-<div class="card def"><span class="tag">Reference · the threshold ladder</span>
-<h4>The order in which structures appear</h4>
-<p>Everything above is one instance of a pattern: a feature appears once <math><mi>p</mi></math> rises past its own <em>threshold</em> <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math>. Top to bottom is the order in which structures show up as <math><mi>p</mi></math> increases:</p>
+<details class="deriv"><summary>Optional · the threshold ladder (include only if he covered "asymptotic threshold functions" in class)</summary><div class="body">
+<p>This one is only examinable if the professor went through the "asymptotic threshold functions" slides in a lecture; it sits after the friendship paradox in the newer deck. If you do not remember him covering it, you can skip it. The idea: as you turn <math><mi>p</mi></math> up, structures switch on one after another, each once <math><mi>p</mi></math> passes its own threshold <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math>. The table is just the order they appear in, a memory aid, nothing to derive:</p>
 <table class="tbl">
 <tr><th>First appearance of…</th><th>Threshold <math><mi>t</mi><mo>(</mo><mi>N</mi><mo>)</mo></math></th></tr>
 <tr><td>the first link</td><td><math><msup><mi>N</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></math></td></tr>
@@ -1283,7 +1282,7 @@ Degree is constant (2 for a plain ring) and clustering is constant too, nothing 
 <tr><td>full connectivity (and a Hamiltonian cycle)</td><td><math><mi>ln</mi><mspace width="0.15em"/><mi>N</mi><mo>/</mo><mi>N</mi></math></td></tr>
 </table>
 <p class="small">Two points to remember: trees of every size appear <em>before</em> the first cycle, and connectivity has the same threshold as a Hamiltonian cycle, because once the last isolated node is absorbed the rest is almost always already in place.</p>
-</div>
+</div></details>
 
 <div class="card ex"><span class="tag">Worked · the standard ER question</span>
 <h4><math><mi>N</mi><mo>=</mo><mn>1000</mn></math>, <math><mi>p</mi><mo>=</mo><mn>0.006</mn></math>, is there a giant component? Is it connected?</h4>
