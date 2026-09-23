@@ -1,0 +1,244 @@
+
+<div class="part">Part 4<span>Network dynamics</span></div>
+<section>
+<h2 id="epi"><span class="num">11</span>Disease models · SIS and SIR</h2>
+<span class="board">Syllabus · network dynamics (epidemic models)</span>
+<p class="about">These models track what fraction of a population is infected over time. In <strong>SIS</strong>, people who recover can catch the disease again (like the flu or some infections). In <strong>SIR</strong>, people who recover are immune and never catch it again. For SIS we solve the equation completely, find the level the infection settles at, and find the condition for the disease to die out. This was a full 7-mark question in the 2024 mid-sem.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Solve the SIS model for \(I(t)\) in terms of \(\beta\), \(\gamma\) and time. (2024 mid-sem Q4a, 4 marks)</li>
+<li>Find the endemic equilibrium, the value of \(I\) as \(t\to\infty\). (Q4b, 1.5 marks)</li>
+<li>Explain when the disease does not spread. (Q4c, 1.5 marks)</li>
+<li>Short questions on SIR.</li>
+</ul>
+</div>
+
+<h3>Setting up SIS</h3>
+<p>Split everyone into two groups, susceptible (healthy, can catch it) and infected. Write them as fractions of the population:</p>
+<p class="sym">\(S\) = fraction susceptible, \(I\) = fraction infected, with \(S + I = 1\). \(\beta\) (beta) = infection rate: how fast contact between a susceptible and an infected person causes new infections. \(\gamma\) (gamma) = recovery rate: the fraction of infected people who recover per unit of time.</p>
+<p>Two things change \(I\).</p>
+<ul>
+<li><strong>New infections</strong> need a susceptible person to meet an infected one. With everyone mixing equally ("homogeneous mixing"), meetings happen in proportion to \(S\times I\), so infections happen at rate \(\beta S I\).</li>
+<li><strong>Recoveries</strong> happen at rate \(\gamma I\). Recovered people become susceptible again.</li>
+</ul>
+<div class="eq">\[\frac{dI}{dt} = \beta S I - \gamma I\]</div>
+<p>Since \(S = 1 - I\), replace \(S\):</p>
+<div class="eq">\[\frac{dI}{dt} = \beta I(1 - I) - \gamma I = (\beta - \gamma)\,I - \beta I^2 .\]</div>
+<p>Give two combinations names, to make the algebra shorter: \(a = \beta - \gamma\) and \(K = 1 - \frac\gamma\beta\). You can check that \(a\,I\left(1 - \frac IK\right) = aI - \frac aK I^2\), and \(\frac aK = \frac{\beta - \gamma}{(\beta - \gamma)/\beta} = \beta\). So the equation becomes</p>
+<div class="eq boxed">\[\frac{dI}{dt} = a\,I\left(1 - \frac IK\right), \qquad a = \beta - \gamma, \qquad K = 1 - \frac\gamma\beta\]</div>
+<p>This is exactly the logistic equation of §8, with growth rate \(a\) and ceiling \(K\).</p>
+
+<h3>Solving it, step by step</h3>
+<p>The method is called <strong>separation of variables</strong>: move everything with \(I\) to one side and everything with \(t\) to the other, then integrate both sides.</p>
+<ol class="steps">
+<li><strong>Separate.</strong> Divide both sides by \(I(1 - I/K)\) and multiply by \(dt\): \[\frac{dI}{I\,(1 - I/K)} = a\,dt .\]</li>
+<li><strong>Split the fraction</strong> into two simpler ones (this trick is called partial fractions): \[\frac{1}{I\,(1 - I/K)} = \frac1I + \frac{1/K}{1 - I/K}.\] You can check it by adding the two fractions on the right back together.</li>
+<li><strong>Integrate both sides.</strong> The integral of \(\frac1I\) is \(\ln I\). The integral of \(\frac{1/K}{1 - I/K}\) is \(-\ln\left(1 - \frac IK\right)\). The integral of \(a\) with respect to \(t\) is \(at\). Adding a constant \(c\): \[\ln I - \ln\left(1 - \frac IK\right) = at + c .\]</li>
+<li><strong>Remove the logs.</strong> \(\ln A - \ln B = \ln\frac AB\), and applying \(e\) to both sides undoes \(\ln\): \[\frac{I}{1 - I/K} = A\,e^{at}, \qquad A = e^{c}.\] At \(t = 0\), \(I = I_0\) (the starting fraction infected), so \(A = \frac{I_0}{1 - I_0/K}\).</li>
+<li><strong>Solve for \(I\).</strong> Rearranging gives \(I = \frac{K}{1 + \frac KA e^{-at}}\), and \(\frac KA = \frac{K - I_0}{I_0}\).</li>
+</ol>
+<div class="eq boxed">\[I(t) = \frac{K}{1 + \dfrac{K - I_0}{I_0}\,e^{-(\beta - \gamma)t}}, \qquad K = 1 - \frac\gamma\beta\]</div>
+<p>Check at \(t = 0\): \(e^0 = 1\), so \(I = \frac{K}{1 + (K - I_0)/I_0} = \frac{K I_0}{I_0 + K - I_0} = I_0\). Correct.</p>
+
+<h3>The long run and the threshold</h3>
+<p>Everything depends on the sign of \(a = \beta - \gamma\), because of the term \(e^{-at}\) (M5).</p>
+<ul>
+<li><strong>If \(\beta > \gamma\)</strong> (people infect faster than they recover), \(a > 0\) and \(e^{-at}\) shrinks to 0. Then \(I(t)\to K\). This long-run level is the <strong>endemic equilibrium</strong>: \[I^* = 1 - \frac\gamma\beta = 1 - \frac1{R_0}, \qquad R_0 = \frac\beta\gamma .\] \(R_0\) is called the basic reproduction number.</li>
+<li><strong>If \(\beta < \gamma\)</strong> (people recover faster than they infect), \(a < 0\) and \(e^{-at}\) grows without limit, so the bottom of the fraction becomes huge and \(I(t)\to0\). The disease dies out.</li>
+<li>If \(\beta = \gamma\), the equation is \(\dot I = -\beta I^2\), which also shrinks to 0, slowly.</li>
+</ul>
+<p>So <strong>the disease does not spread when \(\beta < \gamma\), that is \(R_0 < 1\)</strong>.</p>
+<p>The slope test of §8 gives the same answer. With \(f(I) = (\beta - \gamma)I - \beta I^2\), the slope at the disease-free state \(I = 0\) is \(f'(0) = \beta - \gamma\). That is negative (stable, the disease cannot take hold) exactly when \(\beta < \gamma\). As \(\beta/\gamma\) passes 1, the fixed points \(I^* = 0\) and \(I^* = 1 - \gamma/\beta\) cross and swap stability, which is a transcritical bifurcation (§9).</p>
+<figure class="fig"><!--plot:sis-->
+<figcaption>Two SIS epidemics. With \(\beta = 0.5\), \(\gamma = 0.2\) (\(R_0 = 2.5\)), the infection follows an S-shaped curve up to \(1 - 0.2/0.5 = 0.6\). With \(\beta = 0.2\), \(\gamma = 0.5\) (\(R_0 = 0.4\)), it dies out.</figcaption></figure>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Put \(S = 1 - I\) to get \((\beta - \gamma)I - \beta I^2\). Name \(a = \beta - \gamma\) and \(K = 1 - \gamma/\beta\), giving the logistic form.</li>
+<li>Separate variables, split with partial fractions, integrate, and use \(I(0) = I_0\). Box \(I(t)\).</li>
+<li>As \(t\to\infty\): \(I^* = 1 - \gamma/\beta\) when \(\beta > \gamma\).</li>
+<li>No spread when \(\beta < \gamma\) (\(R_0 < 1\)), because then \(I(t)\to0\). Support it with \(f'(0) = \beta - \gamma < 0\).</li>
+</ol>
+</div>
+
+<h3>SIR</h3>
+<p>In SIR, recovered people move to a third group, removed (\(R\)), meaning immune or dead, and never return. With fractions \(s\), \(i\), \(r\) adding to 1:</p>
+<div class="eq">\[\frac{ds}{dt} = -\beta s i, \qquad \frac{di}{dt} = \beta s i - \gamma i, \qquad \frac{dr}{dt} = \gamma i .\]</div>
+<ul>
+<li>Assumptions: everyone mixes equally, and the recovery rate \(\gamma\) is constant, meaning everyone is infectious for the same length of time on average.</li>
+<li>\(s\) can only go down, because nothing flows back into the susceptible group.</li>
+<li>The three rates always add to zero (\(-\beta si + \beta si - \gamma i + \gamma i = 0\)), because the total \(s + i + r\) stays 1.</li>
+<li>At the start almost everyone is susceptible (\(s\approx1\)), so \(\dot i\approx(\beta - \gamma)i\). An outbreak takes off only if \(R_0 = \beta/\gamma > 1\). Unlike SIS, it always ends with \(i\to0\), because the susceptibles run out.</li>
+</ul>
+<details class="opt"><summary>Optional · SIR-X, the quarantine model on the slides</summary><div class="body">
+<p>The COVID model of Maier and Brockmann adds a quarantined group \(X\). Containment measures remove susceptibles at rate \(\kappa_0\) (kappa), and infected people are also isolated at rate \(\kappa\):</p>
+<div class="eq">\[\dot S = -\beta SI - \kappa_0 S,\quad \dot I = \beta SI - \gamma I - \kappa_0 I - \kappa I,\quad \dot R = \gamma I + \kappa_0 S,\quad \dot X = (\kappa + \kappa_0)I .\]</div>
+<p>The extra terms drain people out of \(S\) and \(I\), which slows the growth of infections.</p>
+</div></details>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>SIS: \(\dot I = \beta I(1 - I) - \gamma I\), logistic with \(a = \beta - \gamma\), \(K = 1 - \gamma/\beta\).</li>
+<li>\(I(t) = K\big/\left(1 + \frac{K - I_0}{I_0}e^{-(\beta - \gamma)t}\right)\).</li>
+<li>\(I^* = 1 - \gamma/\beta\). Dies out if \(\beta < \gamma\) (\(R_0 = \beta/\gamma < 1\)).</li>
+<li>SIR: \(s\) only falls; rates add to zero; outbreak needs \(R_0 > 1\).</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>SIS with β = 0.3 and γ = 0.1. Does it spread? What level does it settle at?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(R_0 = 0.3/0.1 = 3 > 1\), so it spreads. \(I^* = 1 - 0.1/0.3 = 2/3\).</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>In SIR, what is true at a steady state? (a) γ = 0 (b) the rates of change of s, i, r add to zero (c) R₀ = 0</span><span class="chev">›</span></summary>
+<div class="ans"><p>(b). The total \(s + i + r\) never changes, so the three rates always add to zero, including at a steady state.</p></div></details>
+</section>
+
+<section>
+<h2 id="lap"><span class="num">12</span>The graph Laplacian</h2>
+<span class="board">Syllabus · network dynamics (Module 2c2 slides)</span>
+<p class="about">The <strong>Laplacian</strong> is another table of numbers that describes a network, built from the degrees and the adjacency matrix. It is the tool that describes how things spread and even out across a network (§13). Its eigenvalues (M9) also tell you how many separate pieces the network has.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Write down the Laplacian of a given network.</li>
+<li>Show that 0 is always one of its eigenvalues.</li>
+<li>Count the separate pieces of a network from its Laplacian, and explain the "algebraic connectivity".</li>
+</ul>
+</div>
+
+<h3>Definition</h3>
+<p>Start from the adjacency matrix \(A\) (§0). Make a second table \(D\) with the degrees down the diagonal and zeros elsewhere. The Laplacian is \(L = D - A\). Entry by entry:</p>
+<div class="eq boxed">\[L_{ij} = \begin{cases} k_i & \text{if } i = j \text{ (on the diagonal: the degree)}\\ -1 & \text{if } i \ne j \text{ and } i, j \text{ are linked}\\ 0 & \text{otherwise}\end{cases}\]</div>
+<p class="sym">The slides also write this as \(L_{ij} = \delta_{ij}k_i - A_{ij}\). The symbol \(\delta_{ij}\) (the "Kronecker delta") is 1 when \(i = j\) and 0 otherwise, so it just puts \(k_i\) on the diagonal.</p>
+<div class="card ex"><span class="tag">Worked example · the network from §0</span>
+<p>Links 1–2, 1–5, 2–3, 2–4, 3–4, 3–5. Degrees 2, 3, 3, 2, 2. Put the degrees on the diagonal and \(-1\) wherever \(A\) has a 1:</p>
+<div class="eq">\[L = \begin{pmatrix} 2 & -1 & 0 & 0 & -1\\ -1 & 3 & -1 & -1 & 0\\ 0 & -1 & 3 & -1 & -1\\ 0 & -1 & -1 & 2 & 0\\ -1 & 0 & -1 & 0 & 2\end{pmatrix}\]</div>
+<p>Notice that every row adds up to 0. Its eigenvalues (worked out by computer) are \(0,\ 1.38,\ 2.38,\ 3.62,\ 4.62\).</p>
+</div>
+
+<h3>Its properties, one at a time</h3>
+<ol>
+<li><strong>It is symmetric</strong> for an undirected network (row \(i\) column \(j\) equals row \(j\) column \(i\)). So its eigenvalues are real numbers and its eigenvectors are at right angles to each other (M9).</li>
+<li><strong>Every row adds to zero.</strong> Row \(i\) has \(k_i\) on the diagonal and one \(-1\) for each of its \(k_i\) neighbours. So multiplying \(L\) by the vector of all ones, \(\mathbf 1 = (1, 1, \dots, 1)\), adds up each row and gives zero:
+\[L\mathbf 1 = \begin{pmatrix} k_1 - \sum_j A_{1j}\\ \vdots\\ k_i - \sum_j A_{ij}\\ \vdots\end{pmatrix} = \begin{pmatrix}0\\ \vdots\\ 0\\ \vdots\end{pmatrix} = 0\times\mathbf 1 .\]
+So \(\mathbf 1\) is always an eigenvector with eigenvalue 0.</li>
+<li><strong>No eigenvalue is negative.</strong> So 0 is the smallest one. They are numbered from smallest to largest, \(0 = \lambda_1\le\lambda_2\le\dots\le\lambda_N\).</li>
+<li><strong>The number of zero eigenvalues equals the number of separate pieces</strong> (components). If a network is in \(c\) separate pieces, then for each piece, the vector that is 1 on that piece and 0 everywhere else also has all its row sums zero. That gives \(c\) different eigenvectors with eigenvalue 0. The number of zero eigenvalues is also called the <strong>nullity</strong> of \(L\).</li>
+<li><strong>Algebraic connectivity.</strong> The second-smallest eigenvalue \(\lambda_2\) is greater than 0 exactly when the network is in one piece (connected). It is called the <strong>algebraic connectivity</strong>. A larger \(\lambda_2\) means the network is harder to cut into two parts, and (§13) that things spread and even out across it faster.</li>
+</ol>
+<p>In the example, there is exactly one zero eigenvalue, so the network is in one piece, and its algebraic connectivity is \(\lambda_2 = 1.38\).</p>
+<details class="opt"><summary>Optional · why no eigenvalue can be negative</summary><div class="body">
+<p>For any vector \(\mathbf x\), the product \(\mathbf x^T L\mathbf x\) works out to \(\sum_{\text{links }(i,j)}(x_i - x_j)^2\), a sum of squares, which cannot be negative. For an eigenvector of length 1, this product equals its eigenvalue. So every eigenvalue is at least 0. It equals 0 only if \(x_i = x_j\) across every link, meaning \(\mathbf x\) is constant on each piece, which is also why the zero eigenvalues match the pieces.</p>
+</div></details>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(L = D - A\): degrees on the diagonal, \(-1\) for each link.</li>
+<li>Rows add to 0, so \(L\mathbf 1 = 0\): eigenvalue 0 always.</li>
+<li>All eigenvalues \(\ge 0\). Number of zero eigenvalues (nullity) = number of components.</li>
+<li>\(\lambda_2 > 0\) exactly when connected. \(\lambda_2\) = algebraic connectivity.</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>A network of 7 nodes is in three separate pieces. How many zero eigenvalues does its Laplacian have? What is λ₂?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Three zero eigenvalues (nullity 3), one per piece. \(\lambda_2 = 0\), because the network is not connected.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Write the Laplacian of the path 1–2–3.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Degrees 1, 2, 1.</p><div class="eq">\[L = \begin{pmatrix}1 & -1 & 0\\ -1 & 2 & -1\\ 0 & -1 & 1\end{pmatrix}\]</div><p>Its eigenvalues are 0, 1, 3.</p></div></details>
+</section>
+
+<section>
+<h2 id="netdyn"><span class="num">13</span>Dynamics on networks · diffusion and infection</h2>
+<span class="board">Syllabus · network dynamics (Module 2c2 slides, 2024 mid-sem Q5)</span>
+<p class="about">Now each node of a network has its own value that changes over time, and neighbours affect each other through the links. Two examples from the slides. In <strong>diffusion</strong>, something (heat, water, money) flows along links from fuller nodes to emptier ones until everything evens out. In the <strong>SI model on a network</strong>, an infection passes along links. For both, the eigenvalues and eigenvectors from M9 and §12 tell us what happens.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Derive the diffusion equation \(\dot{\mathbf x} = -CL\mathbf x\) and solve it.</li>
+<li>Simplify the network SI or SIS model for early times and find how fast the infection grows.</li>
+<li>"Explain how the network affects the infection at the initial stage, and in which case the disease will not spread." (2024 mid-sem Q5, 7 marks)</li>
+</ul>
+</div>
+
+<h3>The general form</h3>
+<div class="eq boxed">\[\dot x_i = f_i(x_i) + \sum_j A_{ij}\,g_{ij}(x_i, x_j)\]</div>
+<p class="sym">\(x_i\) is the value at node \(i\). \(f_i\) says how node \(i\) would change on its own, with no links. The sum adds the effect of each neighbour \(j\), given by the function \(g_{ij}\). The \(A_{ij}\) (1 for neighbours, 0 otherwise) makes sure only neighbours count.</p>
+
+<h3>Diffusion</h3>
+<p>Picture water tanks connected by pipes. Water flows from the fuller tank to the emptier one, faster when the difference in levels is bigger. Eventually all tanks have the same level. On a network, node \(i\) holds an amount \(x_i\), and along each link the amount flows at a rate \(C\) times the difference.</p>
+<ol class="steps">
+<li>The flow from neighbour \(j\) into \(i\) is \(C(x_j - x_i)\). If \(j\) has more, this is positive, so \(i\) gains.</li>
+<li>Add over all neighbours: \(\dot x_i = C\sum_j A_{ij}(x_j - x_i)\).</li>
+<li>Split the sum into two parts: \(\dot x_i = C\sum_j A_{ij}x_j - Cx_i\sum_j A_{ij}\). The second sum is just the degree \(k_i\) (§0). So \(\dot x_i = C\sum_j A_{ij}x_j - Ck_ix_i = C\sum_j(A_{ij} - \delta_{ij}k_i)\,x_j\).</li>
+<li>The bracket is \(-L_{ij}\) (§12). For all nodes at once, in matrix form:</li>
+</ol>
+<div class="eq boxed">\[\dot{\mathbf x} = C(A - D)\,\mathbf x = -C\,L\,\mathbf x\]</div>
+
+<h4>Solving it with eigenvectors</h4>
+<p>This is \(N\) linked equations, one per node. The trick from M9 is to describe \(\mathbf x\) as a mix of the eigenvectors \(\mathbf v_r\) of \(L\), with amounts \(a_r(t)\) that change over time:</p>
+<div class="eq">\[\mathbf x(t) = \sum_r a_r(t)\,\mathbf v_r .\]</div>
+<p>Put this into the equation and use \(L\mathbf v_r = \lambda_r\mathbf v_r\):</p>
+<div class="eq">\[\sum_r\frac{da_r}{dt}\mathbf v_r = -C\sum_r a_r(t)\,\lambda_r\,\mathbf v_r .\]</div>
+<p>Because the eigenvectors are at right angles to each other, each one can be matched separately on the two sides. (Formally, multiply both sides by one eigenvector \(\mathbf v_s\); since \(\mathbf v_r\cdot\mathbf v_s = 0\) when \(r\ne s\) and 1 when \(r = s\), only one term survives.) That leaves, for each \(r\), the single equation of M8:</p>
+<div class="eq boxed">\[\frac{da_r}{dt} = -C\lambda_r\,a_r \quad\Longrightarrow\quad a_r(t) = a_r(0)\,e^{-C\lambda_r t}\]</div>
+<ul>
+<li>For \(\lambda_1 = 0\), \(e^{0} = 1\), so that part never changes. Its eigenvector is the all-ones vector (§12).</li>
+<li>For every other eigenvalue (all positive if the network is connected), \(e^{-C\lambda_rt}\) shrinks to 0.</li>
+</ul>
+<p>So after a long time only the all-ones part remains, and <strong>every node ends up with the same value</strong>. The total \(\sum_i x_i\) never changes (whatever leaves one node enters another), so that common value is <strong>the average of the starting values</strong>. The last part to fade is the one with \(\lambda_2\), so the algebraic connectivity sets how quickly the network evens out: roughly in a time \(1/(C\lambda_2)\).</p>
+<figure class="fig"><!--plot:diffusion-->
+<figcaption>Diffusion on the five-node network from §0 and §12, with \(C = 1\). Node 1 starts with everything (1) and the others with 0. All five approach the average, \(1/5 = 0.2\). The remaining differences fade like \(e^{-\lambda_2t} = e^{-1.38t}\).</figcaption></figure>
+
+<h3>SI on a network</h3>
+<p>Now \(x_i\) is the probability that node \(i\) is infected, and \(1 - x_i\) the probability it is still healthy. A healthy node catches the infection from each infected neighbour at rate \(\beta\). Nobody recovers (that is what SI means):</p>
+<div class="eq boxed">\[\dot x_i = \beta\,(1 - x_i)\sum_j A_{ij}\,x_j\]</div>
+<p class="sym">\(\sum_j A_{ij}x_j\) adds up the infection of node \(i\)'s neighbours. \((1 - x_i)\) is the chance that \(i\) is still healthy and can be infected. The slides also write the same model for the healthy fraction, \(\dot s_i = -\beta s_i\sum_j A_{ij}(1 - s_j)\) with \(s_i + x_i = 1\).</p>
+<p>These equations cannot be solved exactly for a general network. The slides look at the start of the epidemic instead.</p>
+<ol class="steps">
+<li>At the start, only one node or a few nodes are infected, so every \(x_i\) is very small.</li>
+<li>Multiply out \(\beta(1 - x_i)\sum_j A_{ij}x_j = \beta\sum_j A_{ij}x_j - \beta x_i\sum_j A_{ij}x_j\). The second part is a small number times a small number, which is tiny, so drop it. Then \(\dot x_i\approx\beta\sum_j A_{ij}x_j\), or in matrix form \(\dot{\mathbf x} = \beta A\mathbf x\).</li>
+<li>Use the eigenvectors \(\mathbf v_r\) of \(A\), with eigenvalues \(\kappa_r\) (kappa), exactly as for diffusion. Each part grows as \(a_r(t) = a_r(0)e^{\beta\kappa_rt}\).</li>
+<li>The part with the largest eigenvalue \(\kappa_1\) grows fastest and soon dominates all the others.</li>
+</ol>
+<div class="eq boxed">\[\mathbf x(t)\approx\sum_r a_r(0)\,e^{\beta\kappa_rt}\,\mathbf v_r\ \sim\ e^{\beta\kappa_1t}\,\mathbf v_1\]</div>
+<p>What this means, as the slides say:</p>
+<ul>
+<li>The number infected grows exponentially at first, as in a fully mixed population, but the growth rate is \(\beta\kappa_1\). It depends on the network through the largest eigenvalue \(\kappa_1\) of the adjacency matrix.</li>
+<li>Early on, the chance that node \(i\) is infected is roughly proportional to the \(i\)-th entry of the leading eigenvector \(\mathbf v_1\). Well-connected nodes, and nodes next to well-connected nodes, are infected first.</li>
+</ul>
+<div class="card ex"><span class="tag">Worked example</span>
+<p>For the five-node network, \(\kappa_1 = 2.48\) and \(\mathbf v_1 = (0.36,\ 0.53,\ 0.53,\ 0.43,\ 0.36)\). An infection grows like \(e^{2.48\beta t}\) at first. Nodes 2 and 3, which have 3 links each, have the largest entries, so they are most at risk early on.</p>
+</div>
+
+<h3>SIS on a network · when does the disease spread?</h3>
+<p>Now add recovery at rate \(\gamma\). This is the model in 2024 mid-sem Q5:</p>
+<div class="eq">\[\dot x_i = -\gamma x_i + \beta(1 - x_i)\sum_j A_{ij}x_j .\]</div>
+<p>At early times, drop the small-times-small term as before: \(\dot{\mathbf x} = \beta A\mathbf x - \gamma\mathbf x\). The eigenvectors are still those of \(A\), and each part now grows at rate \(\beta\kappa_r - \gamma\). The fastest part grows only if \(\beta\kappa_1 - \gamma > 0\):</p>
+<div class="eq boxed">\[\text{the disease spreads if}\ \ \frac\beta\gamma > \frac1{\kappa_1}, \qquad\text{and dies out if}\ \ \frac\beta\gamma < \frac1{\kappa_1}\]</div>
+<p>Compare this with §11, where everyone mixes equally and the condition was \(\beta/\gamma > 1\). On a network the threshold is \(1/\kappa_1\). A denser network, or one with hubs, has a larger \(\kappa_1\), so its threshold is lower and diseases spread more easily. (When every node has degree \(k\), \(\kappa_1 = k\).) For the five-node example, the disease spreads if \(\beta/\gamma > 1/2.48\approx0.40\).</p>
+
+<div class="card exam"><span class="tag">How to write it in the exam · 2024 mid-sem Q5</span>
+<ol class="steps">
+<li>(a) At \(t\approx0\) every \(i_k\) is small, so drop the \(i_k i_j\) term: \(\dot{\mathbf i} = (\beta A - \gamma I)\mathbf i\), where \(I\) here is the identity matrix (1s on the diagonal).</li>
+<li>Write \(\mathbf i\) in terms of the eigenvectors of \(A\). Each part grows like \(e^{(\beta\kappa_r - \gamma)t}\), and the largest eigenvalue \(\kappa_1\) dominates, so \(\mathbf i(t)\sim e^{(\beta\kappa_1 - \gamma)t}\mathbf v_1\).</li>
+<li>So the network affects the early stage through \(\kappa_1\) (how fast it grows) and \(\mathbf v_1\) (which nodes are infected first).</li>
+<li>(b) The disease does not spread when \(\beta\kappa_1 - \gamma < 0\), that is \(\beta/\gamma < 1/\kappa_1\).</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>General: \(\dot x_i = f_i(x_i) + \sum_j A_{ij}g_{ij}(x_i, x_j)\).</li>
+<li>Diffusion: \(\dot{\mathbf x} = -CL\mathbf x\); \(a_r(t) = a_r(0)e^{-C\lambda_rt}\); all nodes end at the average; speed set by \(\lambda_2\).</li>
+<li>SI early: \(\dot{\mathbf x} = \beta A\mathbf x\); \(\mathbf x\sim e^{\beta\kappa_1t}\mathbf v_1\).</li>
+<li>SIS on a network: spreads if \(\beta/\gamma > 1/\kappa_1\).</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>In diffusion, why does the total amount \(\sum_i x_i\) stay the same?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Along each link, whatever flows into \(i\), namely \(C(x_j - x_i)\), flows out of \(j\). The two cancel in the total, so nothing is created or lost.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>SIS on a ring where every node has 2 links (so κ₁ = 2), with γ = 1. What is the smallest β for the disease to spread?</span><span class="chev">›</span></summary>
+<div class="ans"><p>It needs \(\beta/\gamma > 1/\kappa_1 = 1/2\), so \(\beta > 0.5\).</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>Two connected networks have λ₂ = 0.1 and λ₂ = 2. On which does diffusion even out faster?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The one with \(\lambda_2 = 2\). The slowest part fades like \(e^{-C\lambda_2t}\), so a larger \(\lambda_2\) fades faster.</p></div></details>
+</section>

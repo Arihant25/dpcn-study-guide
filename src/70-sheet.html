@@ -1,0 +1,22 @@
+
+<section>
+<h2 id="sheet"><span class="num">15</span>Formula sheet</h2>
+<p class="about">All the "What to remember" boxes in one place, for the last read before the exam. If any line here means nothing to you, go back to the section named in the first column.</p>
+<table class="tbl">
+<tr><th>Topic</th><th>Formula or fact</th></tr>
+<tr><td><a href="#basics">Basics</a></td><td>\(\langle k\rangle = 2L/N = p(N-1)\). \(\operatorname{var}(k) = \langle k^2\rangle - \langle k\rangle^2\). \(C_i = \frac{\text{links among neighbours}}{k_i(k_i-1)/2}\).</td></tr>
+<tr><td><a href="#moments">Power law</a></td><td>\(P(k) = Ck^{-\gamma}\) (notes: \(k^{-\beta}\)). \(C = (\gamma-1)k_{\min}^{\gamma-1}\) (needs \(\gamma>1\)). \(\langle k\rangle = \frac{\gamma-1}{\gamma-2}k_{\min}\) (needs \(\gamma>2\)). \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\) (needs \(\gamma>3\)). Real networks \(2<\gamma<3\).</td></tr>
+<tr><td><a href="#binning">Binning</a></td><td>\(\log P = \log C - \gamma\log k\): straight line, slope \(-\gamma\). Log bins grow by a fixed factor. \(P\approx\text{count}/(N\times\text{width})\).</td></tr>
+<tr><td><a href="#simple">Simple graphs</a></td><td>Star \(2(N-1)/N\), diameter 2. Chain \((N+1)/3\). Ring \(\approx N/4\). Ring with degree \(k\): \(\approx N/(2k)\), \(C = \frac12\) for \(k=4\). Complete: 1.</td></tr>
+<tr><td><a href="#er">ER degrees</a></td><td>Binomial \(\binom{N-1}{k}p^k(1-p)^{N-1-k}\). Poisson \(e^{-\langle k\rangle}\langle k\rangle^k/k!\). Variance = ⟨k⟩. \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\).</td></tr>
+<tr><td><a href="#gcc">Giant component</a></td><td>\(S = 1 - e^{-\langle k\rangle S}\). Exists only if \(\langle k\rangle > 1\). Near it, \(S\approx2(\langle k\rangle - 1)\), \(\beta = 1\). Connected when \(\langle k\rangle > \ln N\).</td></tr>
+<tr><td><a href="#erlc">ER ⟨l⟩ and C</a></td><td>\(\langle l\rangle\approx\ln N/\ln\langle k\rangle\). \(C = p = \langle k\rangle/N\), same for all \(k\). Real networks: short paths, high clustering.</td></tr>
+<tr><td><a href="#knn">Friendship paradox</a></td><td>\(q_k = kP(k)/\langle k\rangle\). \(\langle k_{nn}\rangle = \langle k^2\rangle/\langle k\rangle\ge\langle k\rangle\). ER: \(\langle k\rangle + 1\).</td></tr>
+<tr><td><a href="#fixed">Stability</a></td><td>Fixed point \(f(x^*) = 0\). Stable if \(f'(x^*) < 0\), unstable if \(> 0\).</td></tr>
+<tr><td><a href="#bif">Bifurcations</a></td><td>Saddle-node \(r - x^2\). Transcritical \(rx - x^2\). Supercritical pitchfork \(rx - x^3\). Subcritical pitchfork \(rx + x^3\). Course: dashed = stable.</td></tr>
+<tr><td><a href="#budworm">Hysteresis</a></td><td>Stable, unstable, stable. Folds where \(f = 0\) and \(f' = 0\). Budworm folds \(r\approx0.384,\ 0.560\).</td></tr>
+<tr><td><a href="#epi">SIS / SIR</a></td><td>\(\dot I = (\beta-\gamma)I - \beta I^2\). \(I(t) = K/\big(1 + \frac{K-I_0}{I_0}e^{-(\beta-\gamma)t}\big)\), \(K = 1-\gamma/\beta\). \(I^* = 1 - \gamma/\beta\). Dies out if \(\beta<\gamma\).</td></tr>
+<tr><td><a href="#lap">Laplacian</a></td><td>\(L = D - A\). \(L\mathbf 1 = 0\). Eigenvalues \(\ge0\). Number of zeros = number of components. \(\lambda_2\) = algebraic connectivity.</td></tr>
+<tr><td><a href="#netdyn">Network dynamics</a></td><td>Diffusion \(\dot{\mathbf x} = -CL\mathbf x\), \(a_r = a_r(0)e^{-C\lambda_rt}\), ends at the average. SI early \(\dot{\mathbf x} = \beta A\mathbf x\sim e^{\beta\kappa_1t}\mathbf v_1\). SIS spreads if \(\beta/\gamma > 1/\kappa_1\).</td></tr>
+</table>
+</section>

@@ -1,0 +1,189 @@
+
+<section>
+<h2 id="start"><span class="num">·</span>Start here · what the mid-sem covers</h2>
+<p class="about">This is the list of topics the professor wrote for the mid-sem, with the section of this guide that teaches each one. Nothing outside this list is included.</p>
+
+<table class="tbl">
+<tr><th>Syllabus item (from the board)</th><th>What it is about, in plain words</th><th>Section</th></tr>
+<tr><td>Power law \(P(k) = k^{-\beta}\): ⟨k⟩ = ?, ⟨k²⟩ = ?, critical β, range of β, "not discrete"</td><td>In many networks a few nodes have a huge number of links. We describe this with a formula called a power law and work out its average and its "average of squares".</td><td><a href="#moments">§1</a></td></tr>
+<tr><td>How \(k_{\min}\), ⟨k⟩ and β are related</td><td>One formula connects the smallest degree, the average degree and the exponent of the power law.</td><td><a href="#moments">§1</a></td></tr>
+<tr><td>Binning: linear and log (log-log scale)</td><td>How to draw a chart of the degrees so that a power law is easy to see.</td><td><a href="#binning">§2</a></td></tr>
+<tr><td>Average path length and degree of star, chain, closed chain, ring with degree k</td><td>For a few simple network shapes, how many steps it takes on average to get from one node to another.</td><td><a href="#simple">§3</a></td></tr>
+<tr><td>ER 1. Binomial, Poisson, ⟨k⟩, var(k); second moment for Poisson</td><td>A network built by coin flips. How many links a node gets, and why it follows a formula called Poisson.</td><td><a href="#er">§4</a></td></tr>
+<tr><td>ER 2. GCC, S, self-consistent equation</td><td>When a random network has one big connected piece, and how big it is.</td><td><a href="#gcc">§5</a></td></tr>
+<tr><td>ER 3. \(S \sim (\langle k\rangle - 1)^\beta\), behaviour at the critical point</td><td>How that big piece starts to grow just after it appears.</td><td><a href="#gcc">§5</a></td></tr>
+<tr><td>ER 4. ⟨l⟩, ⟨CC⟩, relation with real-world networks</td><td>Distances and triangles in a random network, compared with real networks.</td><td><a href="#erlc">§6</a></td></tr>
+<tr><td>ER 4. \(k_{nn}\), ⟨\(k_{nn}\)⟩, is ⟨\(k_{nn}\)⟩ = ⟨k⟩? (slide 67, friendship paradox, starred)</td><td>Why your friends have more friends than you, on average.</td><td><a href="#knn">§7</a></td></tr>
+<tr><td>Bifurcation + network dynamics</td><td>How a system changes over time, when it settles down, and how that behaviour can suddenly change. Then disease spreading and "flow" on a network.</td><td><a href="#fixed">§8</a> to <a href="#netdyn">§13</a></td></tr>
+</table>
+
+<div class="card watch"><span class="tag">One letter, three meanings</span>
+<p>The letter \(\beta\) (Greek "beta") is used for three different things in this course.</p>
+<ol>
+<li>In your syllabus notes, the <strong>power-law exponent</strong>: \(P(k) = k^{-\beta}\). The slides and past papers call this \(\gamma\) (Greek "gamma") instead, and so does this guide. It is the same thing.</li>
+<li>In ER item 3, the <strong>critical exponent</strong> in \(S \sim (\langle k\rangle - 1)^\beta\).</li>
+<li>In disease models, the <strong>infection rate</strong>.</li>
+</ol>
+<p>Always check which one a question means from the context.</p>
+</div>
+
+<div class="card goal"><span class="tag">If you are short on time</span>
+<p>These derivations have been asked in past papers. Each one is a likely 4 to 7 mark question. Learn them in this order.</p>
+<ol>
+<li>Solve the SIS disease model and say when the disease dies out (<a href="#epi">§11</a>). 2024 mid-sem.</li>
+<li>Find fixed points, check stability, and name the bifurcation (<a href="#bif">§9</a>). 2024 mid-sem.</li>
+<li>Power law: the constant, the average ⟨k⟩ and ⟨k²⟩, and when they become infinite (<a href="#moments">§1</a>). 2024 Quiz 2.</li>
+<li>The giant-component equation and why it needs average degree above 1 (<a href="#gcc">§5</a>). 2024 Quiz 2.</li>
+<li>Binomial to Poisson (<a href="#er">§4</a>). 2024 Quiz 2.</li>
+<li>Average path length of a star (<a href="#simple">§3</a>). 2024 Quiz 1.</li>
+<li>Disease spreading on a network (<a href="#netdyn">§13</a>). 2024 mid-sem.</li>
+</ol>
+</div>
+
+<h4>How each section is laid out</h4>
+<ol>
+<li><strong>What this is about</strong>, in plain words, with no formulas.</li>
+<li><strong>What the exam can ask</strong>.</li>
+<li><strong>The explanation</strong>, built up slowly from a small example. Symbols are explained in the grey side notes the first time they appear.</li>
+<li><strong>How to write it in the exam</strong>, the steps a marker looks for.</li>
+<li><strong>What to remember</strong>, the formulas in one box at the end.</li>
+<li><strong>Check yourself</strong>, short questions with hidden answers.</li>
+</ol>
+<p>If a piece of maths looks unfamiliar, it is explained in <a href="#maths">section M</a> just below. Read that first if you have not done calculus or probability recently.</p>
+
+<div class="card"><span class="tag">Not on the mid-sem</span>
+<p>Eulerian and Hamiltonian paths, the four centralities, bipartite graphs and spanning trees, Euler's numerical method, predator–prey and the "love affairs" model, discrete maps, the Barabási–Albert model and the Lorenz system are not on the mid-sem board. They are covered in the <a href="quiz1/">Quiz 1 guide</a>, which you may need again for Quiz 2 and the end-sem.</p>
+</div>
+</section>
+
+<section>
+<h2 id="maths"><span class="num">M</span>The maths you need, from the beginning</h2>
+<p class="about">The course uses a small set of maths tools again and again. Each one is explained here with an example. You do not need anything beyond this page.</p>
+
+<h3>M1 · Averages and the angle brackets ⟨ ⟩</h3>
+<p>Angle brackets around something mean "the average of it". If five people have 2, 3, 3, 2 and 2 friends, the average number of friends is</p>
+<div class="eq">\[\langle k\rangle = \frac{2+3+3+2+2}{5} = \frac{12}{5} = 2.4 .\]</div>
+<p>\(\langle k^2\rangle\) means "square each number first, then average": \((4+9+9+4+4)/5 = 30/5 = 6\). Note that \(\langle k^2\rangle\) (6) is not the same as \(\langle k\rangle^2\) (\(2.4^2 = 5.76\)). The difference between them measures how spread out the numbers are. It is called the <em class="t">variance</em>:</p>
+<div class="eq">\[\operatorname{var}(k) = \langle k^2\rangle - \langle k\rangle^2 = 6 - 5.76 = 0.24 .\]</div>
+<p>If every number were the same, the variance would be 0. The square root of the variance is the <em class="t">standard deviation</em> \(\sigma\) (Greek "sigma"), a typical distance from the average.</p>
+
+<h3>M2 · The summation sign Σ</h3>
+<p>\(\sum\) (capital Greek "sigma") means "add up". The small text under and over it says what to add.</p>
+<div class="eq">\[\sum_{k=1}^{4} k = 1 + 2 + 3 + 4 = 10, \qquad \sum_{k=1}^{3} k^2 = 1 + 4 + 9 = 14 .\]</div>
+<p>Two sums that come up in path-length questions: \(1 + 2 + \dots + n = \frac{n(n+1)}{2}\) and \(1^2 + 2^2 + \dots + n^2 = \frac{n(n+1)(2n+1)}{6}\). Check the first with \(n = 4\): \(4\times5/2 = 10\).</p>
+<p>An average can be written with a sum. If \(P(k)\) is the fraction of people with \(k\) friends, then \(\langle k\rangle = \sum_k k\,P(k)\). In the example, 3 out of 5 have 2 friends and 2 out of 5 have 3, so \(\langle k\rangle = 2\times\frac35 + 3\times\frac25 = 1.2 + 1.2 = 2.4\), the same as before.</p>
+
+<h3>M3 · Probability</h3>
+<ul>
+<li>A probability is a number from 0 (never happens) to 1 (always happens). A fair coin lands heads with probability \(\frac12\).</li>
+<li><strong>"Not"</strong>: if something happens with probability \(p\), it fails to happen with probability \(1 - p\).</li>
+<li><strong>"And" for independent events</strong>: multiply. Two heads in a row: \(\frac12\times\frac12 = \frac14\). "Independent" means one result does not affect the other.</li>
+<li><strong>"Or" for events that cannot both happen</strong>: add. A die shows 1 or 2 with probability \(\frac16 + \frac16 = \frac13\).</li>
+<li>The <strong>expected value</strong> is the long-run average. If you flip a coin 10 times, the expected number of heads is \(10\times\frac12 = 5\). In general, \(n\) tries each succeeding with probability \(p\) give \(np\) successes on average.</li>
+<li>\(\binom{n}{k}\), read "n choose k", counts the ways to pick \(k\) things out of \(n\). \(\binom{4}{2} = 6\): from A, B, C, D the pairs are AB, AC, AD, BC, BD, CD. The formula is \(\binom{n}{k} = \frac{n!}{k!(n-k)!}\), where \(n! = n\times(n-1)\times\dots\times1\). The number of pairs among \(N\) nodes is \(\binom N2 = \frac{N(N-1)}{2}\).</li>
+</ul>
+
+<h3>M4 · Powers</h3>
+<p>\(k^3 = k\times k\times k\). A negative power means "one over": \(k^{-2} = \frac{1}{k^2}\), so \(2^{-2} = \frac14\) and \(10^{-2} = 0.01\). Rules: \(k^a\times k^b = k^{a+b}\) and \(\frac{k^a}{k^b} = k^{a-b}\). For large \(k\), \(k^{-2}\) is tiny, \(k^{0} = 1\) always, and \(k^{2}\) is huge. So a large number raised to a negative power goes towards 0, and raised to a positive power grows without limit.</p>
+
+<h3>M5 · The number e, exponentials and ln</h3>
+<p>\(e \approx 2.718\) is a fixed number, like \(\pi\). \(e^{x}\) grows fast as \(x\) increases, and \(e^{-x}\) shrinks towards 0: \(e^{-1} \approx 0.37\), \(e^{-2}\approx 0.14\), \(e^{-5}\approx 0.007\). Also \(e^0 = 1\).</p>
+<p>\(\ln\) (the natural logarithm) undoes \(e\): \(\ln(e^x) = x\). It turns multiplying into adding and powers into multiplying: \(\ln(ab) = \ln a + \ln b\), \(\ln(a^n) = n\ln a\). It grows very slowly: \(\ln 10 \approx 2.3\), \(\ln 1000 \approx 6.9\), \(\ln 10^6 \approx 13.8\). The base-10 logarithm \(\log_{10}\) works the same way, with \(\log_{10}100 = 2\).</p>
+<p>Three approximations are used in the derivations. You can use them without proof.</p>
+<ol>
+<li>For large \(n\), \(\left(1 - \frac{x}{n}\right)^{n} \approx e^{-x}\). Check with \(x = 1\), \(n = 100\): \(0.99^{100} = 0.366\), and \(e^{-1} = 0.368\).</li>
+<li>For small \(x\), \(e^{-x} \approx 1 - x + \frac{x^2}{2}\). Check with \(x = 0.1\): \(e^{-0.1} = 0.9048\), and \(1 - 0.1 + 0.005 = 0.905\).</li>
+<li>For small \(p\), \(\ln(1-p) \approx -p\). Check: \(\ln 0.99 = -0.01005\).</li>
+</ol>
+
+<h3>M6 · Derivatives (slopes) and "dot" notation</h3>
+<p>The <em class="t">derivative</em> of a function is its slope: how fast it goes up or down. \(f'(x)\) or \(\frac{df}{dx}\) both mean "the slope of \(f\) at \(x\)". A positive slope means the curve is going up, negative means going down.</p>
+<ul>
+<li>Slope of \(x^n\) is \(n\,x^{n-1}\). So \(x^2\) has slope \(2x\), \(x^3\) has slope \(3x^2\), and \(5x\) has slope 5. A constant has slope 0.</li>
+<li>Slope of \(e^{cx}\) is \(c\,e^{cx}\).</li>
+<li>Slopes of a sum add: the slope of \(rx - x^2\) is \(r - 2x\).</li>
+</ul>
+<p>A dot over a letter means "rate of change over time". \(\dot x = \frac{dx}{dt}\). If \(x\) is a population, \(\dot x = 3\) means it is growing by 3 per unit of time.</p>
+
+<h3>M7 · Integrals (adding up continuous things)</h3>
+<p>An <em class="t">integral</em> \(\int_a^b f(k)\,dk\) is the area under the curve \(f(k)\) between \(k = a\) and \(k = b\). You can think of it as a sum \(\sum\) over a smooth range of values instead of whole numbers. The course replaces sums over degrees by integrals because integrals are easier to work out. Your syllabus note "not discrete!" refers to this.</p>
+<p>The only rule you need is the reverse of the power rule for slopes:</p>
+<div class="eq">\[\int k^{a}\,dk = \frac{k^{a+1}}{a+1} \qquad (\text{for } a \ne -1).\]</div>
+<p>To use limits, work out the answer at the top limit and subtract its value at the bottom limit. This is written with square brackets:</p>
+<div class="eq">\[\int_1^2 k^2\,dk = \left[\frac{k^3}{3}\right]_1^2 = \frac{8}{3} - \frac{1}{3} = \frac73 .\]</div>
+<h4>When the top limit is infinity</h4>
+<p>Power-law questions integrate up to \(\infty\) (infinity). The answer depends on whether \(k^{a+1}\) shrinks or grows as \(k\) gets huge (see M4).</p>
+<ul>
+<li>\(\int_1^\infty k^{-2}\,dk = \left[\frac{k^{-1}}{-1}\right]_1^\infty = \left[-\frac1k\right]_1^\infty = 0 - (-1) = 1\). At \(k=\infty\), \(1/k\) is 0. The area is <strong>finite</strong>.</li>
+<li>\(\int_1^\infty k^{-1/2}\,dk = \left[2k^{1/2}\right]_1^\infty\). At \(k=\infty\), \(\sqrt k\) is infinite. The area is <strong>infinite</strong>. We say the integral <em class="t">diverges</em>.</li>
+</ul>
+<p>So the integral up to infinity is finite only when the power \(a+1\) is negative. This single fact decides every "when does it diverge?" question in §1.</p>
+
+<h3>M8 · The one differential equation you must know</h3>
+<p>A <em class="t">differential equation</em> tells you the rate of change of something in terms of its current value. The simplest one says "the rate of growth is proportional to the current amount":</p>
+<div class="eq boxed">\[\dot y = a\,y \quad\Longrightarrow\quad y(t) = y(0)\,e^{a t}\]</div>
+<p>You can check it: the slope of \(y(0)e^{at}\) is \(a\,y(0)e^{at} = a\,y\). If \(a > 0\), \(y\) grows exponentially. If \(a < 0\), \(y\) shrinks to 0. Almost every stability question in Parts 3 and 4 comes down to "is this \(a\) positive or negative?".</p>
+
+<h3>M9 · Matrices, eigenvectors and eigenvalues</h3>
+<p>A <em class="t">matrix</em> is a table of numbers. A <em class="t">vector</em> is a single column of numbers. Multiplying a matrix by a vector: each entry of the answer is a row of the matrix multiplied entry by entry with the vector, then added.</p>
+<div class="eq">\[\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}\begin{pmatrix}1\\ 1\end{pmatrix} = \begin{pmatrix}2\cdot1 + 1\cdot1\\ 1\cdot1 + 2\cdot1\end{pmatrix} = \begin{pmatrix}3\\ 3\end{pmatrix} = 3\begin{pmatrix}1\\ 1\end{pmatrix}.\]</div>
+<p>Here the matrix did not change the direction of \((1,1)\), it only stretched it by 3. Such a special vector is an <em class="t">eigenvector</em>, and the stretch factor 3 is its <em class="t">eigenvalue</em>. Written generally, \(M\mathbf v = \lambda\mathbf v\) (\(\lambda\) is Greek "lambda"). The same matrix has a second eigenvector \((1,-1)\), with eigenvalue 1, since the result is \((2-1,\ 1-2) = (1,-1)\).</p>
+<p>Why this matters: in Part 4, a network's behaviour is split into these special directions. Along each eigenvector, the problem becomes the single equation \(\dot y = a y\) of M8, which we can solve. For a symmetric matrix (one that equals its mirror image across the diagonal), the eigenvectors are at right angles to each other ("orthogonal"), which is what lets the problem split cleanly.</p>
+</section>
+
+<section>
+<h2 id="basics"><span class="num">0</span>Network words</h2>
+<p class="about">A network is a set of things (people, computers, web pages) and the connections between them. These are the words used to describe one. We use one small example throughout.</p>
+
+<figure class="fig">
+<svg class="gr" viewBox="0 0 320 200" role="img" aria-label="Five-node example graph"
+  data-spec='{"r":16,"nodes":{"1":[60,110],"2":[150,32],"3":[165,118],"4":[272,112],"5":[105,178]},"edges":[["1","2"],["1","5"],["2","3"],["2","4"],["3","4"],["3","5"]]}'></svg>
+<figcaption>The example network. It has 5 nodes (circles) and 6 links (lines). This is the network on the Laplacian slides, and it is used again in §12 and §13.</figcaption>
+</figure>
+
+<ul>
+<li>A <strong>node</strong> (also called a vertex) is one of the things. \(N\) is the number of nodes. Here \(N = 5\).</li>
+<li>A <strong>link</strong> (also called an edge) is a connection between two nodes. \(L\) is the number of links. Here \(L = 6\).</li>
+<li>Two nodes joined by a link are <strong>neighbours</strong>.</li>
+</ul>
+
+<h3>The adjacency matrix A</h3>
+<p>A computer stores a network as a table \(A\) with one row and one column for each node. The entry in row \(i\), column \(j\), written \(A_{ij}\), is 1 if nodes \(i\) and \(j\) are linked and 0 if not.</p>
+<div class="eq">\[A = \begin{pmatrix} 0&1&0&0&1\\ 1&0&1&1&0\\ 0&1&0&1&1\\ 0&1&1&0&0\\ 1&0&1&0&0\end{pmatrix}\]</div>
+<p>Row 1 has 1s in columns 2 and 5 because node 1 is linked to nodes 2 and 5. The table is symmetric (row \(i\) column \(j\) equals row \(j\) column \(i\)) because a link between 1 and 2 is also a link between 2 and 1.</p>
+
+<h3>Degree</h3>
+<p>The <strong>degree</strong> \(k_i\) of node \(i\) is its number of links. Here \(k_1 = 2\), \(k_2 = 3\), \(k_3 = 3\), \(k_4 = 2\), \(k_5 = 2\). It is also the sum of row \(i\) of \(A\): \(k_i = \sum_j A_{ij}\).</p>
+<p>The <strong>average degree</strong> is \(\langle k\rangle = 12/5 = 2.4\). There is a shortcut: every link has two ends, so adding up all degrees counts each link twice, and \(\sum_i k_i = 2L\). So \(\langle k\rangle = 2L/N = 12/5\).</p>
+
+<h3>Degree distribution P(k)</h3>
+<p>\(P(k)\) is the fraction of nodes that have exactly \(k\) links. Here three of the five nodes have degree 2 and two have degree 3, so \(P(2) = 3/5\) and \(P(3) = 2/5\). All other values are 0. The fractions always add up to 1. It is the network version of "what fraction of the class has 2 friends, 3 friends, and so on".</p>
+
+<h3>Path length and diameter</h3>
+<p>The <strong>distance</strong> between two nodes is the smallest number of links you must walk along to get from one to the other. Nodes 1 and 3 are not neighbours, but 1 → 2 → 3 takes 2 steps, so their distance is 2.</p>
+<p>The <strong>average path length</strong> \(\langle l\rangle\) is the distance averaged over every pair of nodes. With 5 nodes there are \(\binom52 = 10\) pairs. Six of them are neighbours (distance 1) and the other four (1–3, 1–4, 2–5, 4–5) are at distance 2. So \(\langle l\rangle = (6\times1 + 4\times2)/10 = 14/10 = 1.4\).</p>
+<p>The <strong>diameter</strong> is the largest distance between any pair. Here it is 2.</p>
+
+<h3>Clustering coefficient</h3>
+<p>Clustering measures whether your neighbours are also neighbours of each other ("are my friends friends with each other?"). For node \(i\) with \(k_i\) neighbours, there are \(\frac{k_i(k_i-1)}{2}\) possible pairs of neighbours. The clustering \(C_i\) is the fraction of those pairs that are actually linked.</p>
+<div class="eq">\[C_i = \frac{\text{number of links between neighbours of } i}{k_i(k_i-1)/2}\]</div>
+<p>Node 2 has neighbours 1, 3 and 4. The possible pairs are 1–3, 1–4, 3–4, and only 3–4 is a link. So \(C_2 = 1/3\). Node 4 has neighbours 2 and 3, one pair, and it is linked, so \(C_4 = 1\). The average over all nodes is \(\langle C\rangle = (0 + \frac13 + \frac13 + 1 + 0)/5 = \frac13\).</p>
+
+<h3>Link density p</h3>
+<p>\(p\) is the fraction of all possible links that exist. With 5 nodes there are 10 possible links and 6 exist, so \(p = 0.6\). Each node could link to \(N - 1\) others and actually links to a fraction \(p\) of them, which gives \(\langle k\rangle = p(N-1) = 0.6\times4 = 2.4\). This was a 2024 Quiz 1 question.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(N\) nodes, \(L\) links. \(k_i\) = degree of node \(i\). \(\langle k\rangle = 2L/N\).</li>
+<li>\(P(k)\) = fraction of nodes with degree \(k\).</li>
+<li>\(\langle l\rangle\) = distance averaged over all \(N(N-1)/2\) pairs. Diameter = largest distance.</li>
+<li>\(C_i\) = fraction of pairs of \(i\)'s neighbours that are linked.</li>
+<li>\(p\) = fraction of possible links present. \(\langle k\rangle = p(N-1)\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Quick</span><span>A network has 8 nodes and 12 links. What is the average degree? What is the link density p?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Average degree \(= 2L/N = 24/8 = 3\). Possible links \(= 8\times7/2 = 28\), so \(p = 12/28 \approx 0.43\). Check: \(p(N-1) = 0.43\times7 = 3\).</p></div></details>
+<details class="q"><summary><span class="qt">Quick</span><span>What is the clustering of node 3 in the example network?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Node 3's neighbours are 2, 4 and 5. The pairs are 2–4, 2–5, 4–5. Only 2–4 is a link, so \(C_3 = 1/3\).</p></div></details>
+</section>

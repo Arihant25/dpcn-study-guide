@@ -1,20 +1,27 @@
-# Nodes to Bifurcations — DPCN Study Guide
+# DPCN Mid-sem Guide
 
-A single-page, worked study guide for **Dynamical Processes of Complex Networks (SC1.440)** at IIIT Hyderabad.
+A study guide for **Dynamical Processes of Complex Networks (SC1.440)** at IIIT Hyderabad, covering only the mid-sem syllabus. It assumes no background: every topic starts in plain words, symbols are explained where they first appear, and a short maths primer covers sums, integrals, e and ln, slopes, probability and eigenvectors.
 
 **Live page:** https://arihant25.github.io/dpcn-study-guide/
-
-It is built from the course slides (Modules 1, 2a, 2b, 2c1, 2c2, 2d, Module 3 path-length, the ER random-graph decks, and the 1-D bifurcation note) and calibrated against every past paper — surprise quizzes, written quizzes, and the mid-sem. It teaches each topic from scratch, then drills the exact question types the course sets, with worked solutions.
+**Quiz 1 guide** (the earlier, longer version): https://arihant25.github.io/dpcn-study-guide/quiz1/
 
 ## Covers
 
-- **Structure** — adjacency matrix, degree & handshaking, mean degree & density, walks/trails/paths/cycles, Eulerian & Hamiltonian graphs, distance/diameter/BFS, clustering coefficient, the four centralities, special graphs & spanning trees
-- **Network models & distributions** — degree distributions & power laws (linear vs log binning, log-log slope, moment rules), path length of regular graphs (chain (n+1)/3, ring N/4, D-D lattice N^(1/D)), Erdős–Rényi random graphs (Poisson degrees, C = p, small-world ln N, the giant-component threshold ⟨k⟩ = 1, connectivity at ⟨k⟩ = ln N, the threshold ladder, friendship paradox)
-- **Dynamics** — fixed points & linear stability, Euler's method, the four 1-D bifurcations (with live-drawn diagrams), bistability & hysteresis (Spruce Budworm), SIS/SIR & predator–prey
-- **Proofs he actually asks** — triangles = ⅙·tr(A³), handshaking, continuous & discrete-map stability, solving SIS
+- Power law P(k) = Ck^-γ: the constant C, ⟨k⟩, ⟨k²⟩, the critical exponents 2 and 3, and how k_min, ⟨k⟩ and γ are related
+- Linear vs log binning and log-log plots
+- Average path length and degree of the star, open chain, ring and ring with degree k
+- Erdős–Rényi graphs: binomial to Poisson, the giant component S = 1 − e^(−⟨k⟩S), S ~ (⟨k⟩ − 1)^β with β = 1, ⟨l⟩ and ⟨C⟩ compared with real networks, k_nn and the friendship paradox
+- Fixed points, the four 1-D bifurcations, bistability and hysteresis (spruce budworm)
+- SIS and SIR, the graph Laplacian, diffusion and SI/SIS on a network
+- 2024 past-paper questions on this syllabus, with model answers
 
-## Notes
+## Editing
 
-- Single self-contained `index.html` — no build step, no dependencies. Fonts load from Google Fonts.
-- Dark/light theme toggle; bifurcation diagrams and the giant-component curve are drawn in-browser, and follow the course note's convention (**dashed = stable, solid = unstable**).
-- Now covers through the mid-sem material (degree distributions, path length, Erdős–Rényi). Remaining topics (scale-free/BA in depth, Kuramoto, Lorenz, advanced percolation) are added as those lectures are taught.
+The page is generated. Edit the parts in `src/` (in order `00-head.html` … `99-foot.html`), then run:
+
+```
+npm install
+node build.mjs
+```
+
+`build.mjs` joins the parts, renders `\( … \)` and `\[ … \]` TeX to MathML with temml, draws the plots as static SVG that follow the light/dark theme, and writes the self-contained `index.html`. `snap.mjs` takes screenshots of the figures (needs Chrome) for checking.

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DPCN Mid-sem Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mid-sem study guide for Dynamical Processes of Complex Networks: power laws, binning, path length of simple graphs, Erdős–Rényi graphs, bifurcations and dynamics on networks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#ffffff; --card:#ffffff; --muted:#f4f4f5; --muted-2:#fafafa;
+  --fg:#09090b; --muted-fg:#6b6b75; --border:#e4e4e7; --border-2:#d4d4d8;
+  --primary:#18181b; --primary-fg:#fafafa;
+  --brand:#0f766e; --brand-fg:#ffffff; --brand-soft:#effaf8;
+  --stable:#0f766e; --unstable:#c2410c; --destructive:#dc2626; --destructive-soft:#fef2f2;
+  --amber-soft:#fffbeb; --amber:#b45309;
+  --c1:#0f766e; --c2:#c2410c; --c3:#4f46e5; --c4:#a21caf;
+  --grid:#efeff1; --axis:#a1a1aa;
+  --node:#f4f4f5; --node-stroke:#3f3f46; --edge:#a1a1aa;
+  --radius:0.7rem;
+  --shadow-sm:0 1px 2px 0 rgb(9 9 11 / .05);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0b0b0d; --card:#121215; --muted:#1c1c20; --muted-2:#16161a;
+  --fg:#f4f4f5; --muted-fg:#a1a1aa; --border:#27272a; --border-2:#3f3f46;
+  --primary:#f4f4f5; --primary-fg:#18181b;
+  --brand:#2dd4bf; --brand-fg:#09090b;
+  --brand-soft:#112926;
+  --stable:#2dd4bf; --unstable:#fb923c; --destructive:#f87171; --destructive-soft:#2a1414;
+  --amber-soft:#2a2110; --amber:#fbbf24;
+  --c1:#2dd4bf; --c2:#fb923c; --c3:#a5b4fc; --c4:#f0abfc;
+  --grid:#1f1f24; --axis:#52525b;
+  --node:#1c1c20; --node-stroke:#a1a1aa; --edge:#5b5b63;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / .4);
+}}
+:root[data-theme="dark"]{
+  --bg:#0b0b0d; --card:#121215; --muted:#1c1c20; --muted-2:#16161a;
+  --fg:#f4f4f5; --muted-fg:#a1a1aa; --border:#27272a; --border-2:#3f3f46;
+  --primary:#f4f4f5; --primary-fg:#18181b;
+  --brand:#2dd4bf; --brand-fg:#09090b; --brand-soft:#112926;
+  --stable:#2dd4bf; --unstable:#fb923c; --destructive:#f87171; --destructive-soft:#2a1414;
+  --amber-soft:#2a2110; --amber:#fbbf24;
+  --c1:#2dd4bf; --c2:#fb923c; --c3:#a5b4fc; --c4:#f0abfc;
+  --grid:#1f1f24; --axis:#52525b;
+  --node:#1c1c20; --node-stroke:#a1a1aa; --edge:#5b5b63;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / .4);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--bg); color:var(--fg);
+  font-family:"Hanken Grotesk",system-ui,-apple-system,sans-serif;
+  font-size:16.5px; line-height:1.68; -webkit-font-smoothing:antialiased}
+.wrap{display:grid; grid-template-columns:minmax(0,1fr)}
+@media(min-width:1060px){.wrap{grid-template-columns:280px minmax(0,1fr); align-items:start}}
+
+/* sidebar */
+.toc{position:sticky; top:0; align-self:start; max-height:100vh; overflow-y:auto; padding:26px 18px 48px;
+  border-right:1px solid var(--border); background:var(--card); display:none; scrollbar-width:thin; scrollbar-color:var(--border-2) transparent}
+@media(min-width:1060px){.toc{display:block}}
+.toc .brand{font-weight:700; font-size:1.02rem; letter-spacing:-.02em}
+.toc .brand small{display:block; font-weight:500; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-fg); margin-top:6px}
+.toc nav{margin-top:20px; font-size:.86rem}
+.toc .grp{text-transform:uppercase; letter-spacing:.11em; font-size:.64rem; color:var(--muted-fg); font-weight:700; margin:20px 0 6px; padding:0 10px}
+.toc a{display:block; color:var(--muted-fg); text-decoration:none; padding:5px 10px; border-radius:7px; line-height:1.35; margin:1px 0}
+.toc a:hover{color:var(--fg); background:var(--muted)}
+.toc a.other{margin:12px 0 0; padding:7px 10px; border:1px solid var(--border); border-radius:8px; color:var(--brand); font-size:.84rem; font-weight:600}
+.toc a.other:hover{background:var(--muted)}
+.toc a.active{color:var(--fg); background:var(--muted); font-weight:600}
+
+main{padding:0 clamp(18px,5vw,72px) 128px; max-width:900px}
+.hero{padding:clamp(44px,8vw,84px) 0 30px; border-bottom:1px solid var(--border)}
+.kicker{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-fg); font-weight:600}
+h1{font-weight:700; font-size:clamp(2.1rem,6vw,3.2rem); line-height:1.05; letter-spacing:-.035em; margin:.34em 0 .3em; text-wrap:balance}
+.hero .lead{font-size:1.12rem; color:var(--muted-fg); max-width:62ch; line-height:1.6}
+.part{margin:4.2em 0 0; padding:14px 0 0; border-top:2px solid var(--fg); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700}
+.part span{color:var(--muted-fg); font-weight:600; margin-left:.6em}
+h2{font-weight:700; font-size:clamp(1.55rem,3.4vw,2rem); letter-spacing:-.03em; margin:2.4em 0 .2em; padding-top:.3em; text-wrap:balance; scroll-margin-top:14px}
+.part+section h2{margin-top:.9em}
+h2 .num{color:var(--muted-fg); font-size:.56em; font-weight:600; margin-right:.55em; font-variant-numeric:tabular-nums}
+h3{font-weight:650; font-size:1.25rem; margin:2em 0 .35em; letter-spacing:-.02em; scroll-margin-top:14px}
+h4{font-weight:700; font-size:1.02rem; margin:1.5em 0 .3em}
+.oneline{font-size:1.1rem; line-height:1.55; max-width:64ch; margin:.6em 0 1em}
+p{max-width:70ch}
+a{color:var(--brand); text-underline-offset:2px}
+em.t{font-style:normal; font-weight:650; border-bottom:2px solid var(--brand)}
+ul,ol{max-width:68ch; padding-left:1.35em}
+li{margin:.35em 0}
+li::marker{color:var(--muted-fg)}
+.small{font-size:.87rem; color:var(--muted-fg)}
+.board{font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft);
+  border:1px solid color-mix(in srgb,var(--amber) 35%,var(--border)); border-radius:6px; padding:3px 9px; display:inline-block; margin-top:6px}
+
+/* math */
+math{font-family:"Cambria Math","STIX Two Math","Latin Modern Math",math,serif; font-style:normal}
+p math, li math, td math, summary math, figcaption math{font-size:1.07em}
+.eq{display:block; margin:18px 0; text-align:center; overflow-x:auto; overflow-y:hidden; padding:6px 2px}
+.eq math{font-size:1.36em}
+.eq.boxed{background:var(--muted-2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px}
+.eq .label{display:block; margin-top:6px; font-size:.8rem; color:var(--muted-fg)}
+math .tml-box, math menclose{border:1px solid var(--border-2); padding:3px}
+
+/* cards */
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 22px; margin:20px 0; box-shadow:var(--shadow-sm)}
+.card>*:first-child{margin-top:0} .card>*:last-child{margin-bottom:0}
+.card.ex{background:var(--muted-2)}
+.card.watch{border-color:color-mix(in srgb,var(--destructive) 40%,var(--border)); background:var(--destructive-soft)}
+.card.goal{border-left:4px solid var(--brand)}
+.card.exam{border:1.5px solid var(--fg)}
+.card.remember{background:var(--brand-soft); border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.remember .tag{background:var(--brand); color:var(--brand-fg); border-color:var(--brand)}
+.about{font-size:1.08rem; line-height:1.6; max-width:66ch; margin:.6em 0 1em}
+.sym{font-size:.93rem; color:var(--muted-fg); border-left:3px solid var(--border-2); padding:2px 0 2px 12px; margin:10px 0}
+.tag{display:inline-flex; font-size:.66rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:3px 9px; border-radius:6px;
+  border:1px solid var(--border); background:var(--muted); color:var(--muted-fg); margin-bottom:10px}
+.goal .tag{background:var(--brand-soft); color:var(--brand); border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.exam .tag{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.watch .tag{background:transparent; color:var(--destructive); border-color:color-mix(in srgb,var(--destructive) 45%,var(--border))}
+.card h4:first-of-type{margin-top:.1em}
+.goal ul{margin:.2em 0}
+
+.steps{counter-reset:s; list-style:none; padding-left:0; max-width:72ch}
+.steps>li{counter-increment:s; position:relative; padding-left:42px; margin:.95em 0}
+.steps>li::before{content:counter(s); position:absolute; left:0; top:0; width:27px; height:27px; border-radius:8px;
+  background:var(--primary); color:var(--primary-fg); font-size:.8rem; font-weight:700; display:grid; place-items:center}
+
+/* tables */
+.tbl{width:100%; border-collapse:collapse; margin:16px 0; font-size:.92rem; display:block; overflow-x:auto}
+.tbl th,.tbl td{border:1px solid var(--border); padding:9px 12px; text-align:left; vertical-align:top}
+.tbl th{background:var(--muted); font-weight:650; font-size:.82rem}
+.tbl tr:nth-child(even) td{background:var(--muted-2)}
+.tbl td.c, .tbl th.c{text-align:center}
+
+/* figures */
+figure.fig{margin:20px 0; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm)}
+figure.fig svg{width:100%; height:auto; display:block; margin:0 auto}
+figure.fig svg.gr{max-width:460px}
+figure.fig svg.plot{max-width:620px}
+figure.fig figcaption{font-size:.86rem; color:var(--muted-fg); margin-top:10px; line-height:1.5; max-width:70ch}
+.figrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:20px 0}
+.figrow figure.fig{margin:0}
+svg.plot text{font-family:"Hanken Grotesk",sans-serif}
+svg.plot .tk{font-size:11px; fill:var(--muted-fg)}
+svg.plot .al{font-size:12.5px; fill:var(--muted-fg)}
+svg.plot .lb{font-size:12px; font-weight:600}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.82rem; color:var(--muted-fg); margin:4px 0 10px}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.sw{width:24px; height:0; border-top:3px solid; display:inline-block}
+
+/* collapsibles */
+details.opt{border:1px dashed var(--border-2); border-radius:var(--radius); background:var(--muted-2); margin:16px 0; overflow:hidden}
+details.opt>summary{cursor:pointer; list-style:none; padding:10px 16px; font-weight:600; font-size:.92rem; color:var(--brand)}
+details.opt>summary::-webkit-details-marker{display:none}
+details.opt>summary::before{content:"▸  "; font-size:.8em}
+details.opt[open]>summary::before{content:"▾  "}
+details.opt[open]>summary{border-bottom:1px solid var(--border)}
+details.opt .body{padding:2px 16px 14px}
+.checkrow{display:flex; align-items:center; gap:12px; margin:34px 0 10px; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-fg)}
+.checkrow::before,.checkrow::after{content:""; flex:1; height:1px; background:var(--border)}
+details.q{border:1px solid var(--border); border-radius:var(--radius); margin:12px 0; background:var(--card); overflow:hidden}
+details.q>summary{cursor:pointer; list-style:none; padding:13px 16px; display:flex; gap:11px; align-items:flex-start; font-weight:550}
+details.q>summary::-webkit-details-marker{display:none}
+details.q>summary:hover{background:var(--muted)}
+.qt{flex:none; font-size:.6rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:4px 8px; border-radius:6px; margin-top:2px;
+  background:var(--muted); color:var(--muted-fg); border:1px solid var(--border)}
+.qt.pyq{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.chev{margin-left:auto; flex:none; color:var(--muted-fg); transition:transform .2s}
+details.q[open] .chev{transform:rotate(90deg)}
+details.q .ans{padding:2px 18px 16px; border-top:1px solid var(--border); background:var(--muted-2)}
+details.q .ans>*:first-child{margin-top:12px}
+
+/* theme toggle */
+.themebtn{position:fixed; top:14px; right:14px; z-index:20; background:var(--card); border:1px solid var(--border); color:var(--fg);
+  border-radius:8px; padding:7px 12px; font:inherit; font-size:.8rem; font-weight:500; cursor:pointer; box-shadow:var(--shadow-sm)}
+.themebtn:hover{background:var(--muted)}
+:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:4px}
+.tocwrap-mobile{display:block; padding:18px clamp(16px,5vw,72px) 0}
+@media(min-width:1060px){.tocwrap-mobile{display:none}}
+details.mtoc{border:1px solid var(--border); border-radius:var(--radius); background:var(--card); padding:2px 6px}
+details.mtoc>summary{padding:11px; font-weight:600; cursor:pointer}
+details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-decoration:none}
+
+@media (max-width:700px){
+  html,body{overflow-x:hidden}
+  body{font-size:16px}
+  main{padding:0 16px 96px}
+  .themebtn{top:auto; bottom:14px}
+  .card{padding:15px 15px}
+  .steps>li{padding-left:34px}
+  .steps>li::before{width:23px; height:23px; font-size:.72rem}
+  .eq math{font-size:1.15em}
+  .tbl{font-size:.85rem}
+  .tbl th,.tbl td{padding:7px 9px}
+  figure.fig{padding:10px}
+}
+@media print{.toc,.themebtn,.tocwrap-mobile{display:none} details{open:true}}
+</style>
+</head>
+<body>
+<button class="themebtn" id="themebtn" aria-label="Switch colour theme (auto, light, dark)"><span class="ico" aria-hidden="true">◐</span> <span class="lbl">Auto</span></button>
+<div class="wrap">
+<aside class="toc" aria-label="Contents">
+  <div class="brand">DPCN Mid-sem Guide<small>Mid-sem syllabus only</small></div>
+  <a class="other" href="quiz1/">Open the Quiz 1 guide →</a>
+  <nav id="tocnav">
+    <a href="#start">Start here · the syllabus</a>
+    <a href="#maths">M · The maths you need</a>
+    <a href="#basics">0 · Network words</a>
+    <div class="grp">Board item 1–3 · Degrees &amp; paths</div>
+    <a href="#moments">1 · ⟨k⟩, ⟨k²⟩ and the power law</a>
+    <a href="#binning">2 · Linear vs log binning</a>
+    <a href="#simple">3 · Star, chain, ring</a>
+    <div class="grp">ER board · Random graphs</div>
+    <a href="#er">4 · Binomial → Poisson</a>
+    <a href="#gcc">5 · Giant component S</a>
+    <a href="#erlc">6 · ⟨l⟩ and ⟨C⟩ of ER</a>
+    <a href="#knn">7 · k<sub>nn</sub> and the friendship paradox</a>
+    <div class="grp">Board item 5 · Bifurcation</div>
+    <a href="#fixed">8 · Fixed points &amp; stability</a>
+    <a href="#bif">9 · The four bifurcations</a>
+    <a href="#budworm">10 · Bistability &amp; hysteresis</a>
+    <div class="grp">Board item 5 · Network dynamics</div>
+    <a href="#epi">11 · SIS and SIR</a>
+    <a href="#lap">12 · The graph Laplacian</a>
+    <a href="#netdyn">13 · Diffusion and SI on a network</a>
+    <div class="grp">Finish</div>
+    <a href="#pyq">14 · Past-paper questions</a>
+    <a href="#sheet">15 · Formula sheet</a>
+  </nav>
+</aside>
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Mid-sem</div>
+  <h1>DPCN Mid-sem Guide</h1>
+  <p class="lead">This guide assumes you know nothing about the course. It covers only what is on the mid-sem syllabus. Every topic starts in plain words with a small example, every symbol is explained when it first appears, and every step of the maths is explained in words. The formulas to memorise are collected at the end of each section.</p>
+  <p class="small" style="margin-top:14px">The earlier, longer guide for Quiz 1 is still available as the <a href="quiz1/">Quiz 1 guide</a>.</p>
+</header>
+<div class="tocwrap-mobile">
+  <details class="mtoc"><summary>Jump to a section</summary>
+    <a href="#start">Start here · the syllabus</a>
+    <a href="#maths">M · The maths you need</a>
+    <a href="#basics">0 · Network words</a>
+    <a href="#moments">1 · ⟨k⟩, ⟨k²⟩ and the power law</a>
+    <a href="#binning">2 · Linear vs log binning</a>
+    <a href="#simple">3 · Star, chain, ring</a>
+    <a href="#er">4 · Binomial → Poisson</a>
+    <a href="#gcc">5 · Giant component S</a>
+    <a href="#erlc">6 · ⟨l⟩ and ⟨C⟩ of ER</a>
+    <a href="#knn">7 · k_nn and the friendship paradox</a>
+    <a href="#fixed">8 · Fixed points &amp; stability</a>
+    <a href="#bif">9 · The four bifurcations</a>
+    <a href="#budworm">10 · Bistability &amp; hysteresis</a>
+    <a href="#epi">11 · SIS and SIR</a>
+    <a href="#lap">12 · The graph Laplacian</a>
+    <a href="#netdyn">13 · Diffusion and SI on a network</a>
+    <a href="#pyq">14 · Past-paper questions</a>
+    <a href="#sheet">15 · Formula sheet</a>
+  </details>
+</div>

@@ -1,0 +1,74 @@
+
+<div class="part">Part 5<span>Practice</span></div>
+<section>
+<h2 id="pyq"><span class="num">14</span>Past-paper questions on this syllabus</h2>
+<p class="oneline">Every 2024 question that falls inside the mid-sem board list, with a model answer. Try each one before opening the answer.</p>
+<p class="small">Skipped because they are outside this syllabus: the Quiz 1 questions on clustering and centralities of drawn figures, in/out-degree sequences, Eulerian and Hamiltonian paths; Quiz 2 questions on the Barabási–Albert model, discrete maps and the Lorenz system.</p>
+
+<h3>2024 mid-sem</h3>
+
+<details class="q"><summary><span class="qt pyq">Mid Q3</span><span>(a) \(\dot x = rx - x^2\): describe the role of \(r\) and the type of bifurcation. (b) \(\dot x = 1 + rx + x^2\): describe the bifurcations as \(r\) varies. [3.5 + 3.5]</span><span class="chev">›</span></summary>
+<div class="ans">
+<p>(a) Fixed points \(0\) and \(r\); \(f'(0) = r\), \(f'(r) = -r\). They exchange stability at \(r = 0\): a transcritical bifurcation. For \(r<0\) the system decays to 0; for \(r>0\) it settles at \(x^* = r\).</p>
+<p>(b) Fixed points \(\frac{-r\pm\sqrt{r^2-4}}{2}\), real only for \(|r|\ge2\), with \(f' = \pm\sqrt{r^2-4}\) (the + root unstable, the − root stable). A stable/unstable pair is born at \(r = 2\) and at \(r = -2\): two saddle-node bifurcations. For \(|r|<2\) there are no fixed points and \(x\) increases forever. Full working in <a href="#bif">§9</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Mid Q4</span><span>SIS: \(dI/dt = \beta SI - \gamma I\), \(S + I = 1\). (a) Solve for \(I(t)\). (b) Endemic equilibrium. (c) When does the disease not spread? [4 + 1.5 + 1.5]</span><span class="chev">›</span></summary>
+<div class="ans">
+<p>(a) \(\dot I = (\beta-\gamma)I - \beta I^2\), logistic with \(a = \beta-\gamma\), \(K = 1-\gamma/\beta\). Separating variables gives</p>
+<div class="eq">\[I(t) = \frac{1-\gamma/\beta}{1 + \frac{1-\gamma/\beta-I_0}{I_0}\,e^{-(\beta-\gamma)t}}.\]</div>
+<p>(b) \(I^* = 1 - \gamma/\beta\) (for \(\beta > \gamma\)).</p>
+<p>(c) When \(\beta < \gamma\), i.e. \(R_0 = \beta/\gamma < 1\): then \(e^{-(\beta-\gamma)t}\to\infty\) and \(I\to0\). Equivalently \(f'(0) = \beta-\gamma<0\) makes the disease-free state stable. Full working in <a href="#epi">§11</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Mid Q5</span><span>Network SIS: \(\dot i_k = -\gamma i_k + \beta(1-i_k)\sum_j A_{kj}i_j\). (a) How does the network affect the infection at the initial stage? (b) When will the disease not spread? [3.5 + 3.5]</span><span class="chev">›</span></summary>
+<div class="ans">
+<p>(a) Early on all \(i_k\) are small, so drop \(i_k i_j\): \(\dot{\mathbf i} = (\beta A - \gamma I)\mathbf i\). Expanding in the eigenvectors of \(A\), each mode grows like \(e^{(\beta\kappa_r-\gamma)t}\), and the largest eigenvalue \(\kappa_1\) soon dominates: \(\mathbf i(t)\sim e^{(\beta\kappa_1-\gamma)t}\mathbf v_1\). The network sets the growth rate through \(\kappa_1\), and which nodes are infected first through the leading eigenvector \(\mathbf v_1\).</p>
+<p>(b) It does not spread when \(\beta\kappa_1 - \gamma < 0\), i.e. \(\beta/\gamma < 1/\kappa_1\). Denser or hub-heavy networks have larger \(\kappa_1\) and so a lower threshold. See <a href="#netdyn">§13</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Mid Q2</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\), \(z = x + iy\). (a) Transform into the \((r,\theta)\) plane. (b) Find when there is a stable limit cycle, with bifurcation analysis. [3 + 4]</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="small">Limit cycles were not in this year's slides. The question is included because it reduces to the pitchfork of §9.</p>
+<p>(a) Write \(z = re^{i\theta}\). Then \(\dot z = \dot r e^{i\theta} + ir\dot\theta e^{i\theta}\), and the right side is \((\mu + i\omega - r^2)re^{i\theta}\). Cancel \(e^{i\theta}\) and match real and imaginary parts:</p>
+<div class="eq">\[\dot r = \mu r - r^3, \qquad \dot\theta = \omega .\]</div>
+<p>(b) The angle just turns at constant speed \(\omega\). The radius obeys the supercritical pitchfork normal form. For \(\mu<0\), \(r^* = 0\) is the only fixed point and it is stable (\(f'(0) = \mu < 0\)), so trajectories spiral into the origin. For \(\mu > 0\), \(r^*=0\) becomes unstable and \(r^* = \sqrt\mu\) appears with \(f'(\sqrt\mu) = -2\mu < 0\), stable. A circle of radius \(\sqrt\mu\) that attracts nearby trajectories is a stable limit cycle. So the condition is \(\mu > 0\). The change at \(\mu = 0\) is called a supercritical Hopf bifurcation.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Mid Q1</span><span>Two coupled phase oscillators \(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2-\theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1-\theta_2)\). (a) Critical coupling for a common frequency. (b) The common frequency; is it possible for \(k_1 = k_2 = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\)? [3 + 4]</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="small">Coupled oscillators were not in this year's slides. The method is just the fixed-point analysis of §8, applied to the phase difference.</p>
+<p>(a) Let \(\phi = \theta_2 - \theta_1\). Subtract the equations: \(\dot\phi = (\omega_2-\omega_1) - (k_1+k_2)\sin\phi\). A common frequency means \(\phi\) stops changing, a fixed point: \(\sin\phi^* = \frac{\omega_2-\omega_1}{k_1+k_2}\). This has a solution only if \(|\omega_2-\omega_1| \le k_1+k_2\), so the critical coupling is \(k_1 + k_2 = |\omega_2 - \omega_1|\) (for equal couplings, \(k_c = |\omega_2-\omega_1|/2\)). The stable fixed point is the one with \(\cos\phi^*>0\), since \(\frac{d\dot\phi}{d\phi} = -(k_1+k_2)\cos\phi\).</p>
+<p>(b) At lock \(\dot\theta_1 = \dot\theta_2 = \Omega\). From \(\Omega = \omega_1 + k_1\sin\phi^* = \omega_2 - k_2\sin\phi^*\), eliminate \(\sin\phi^*\): \[\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}.\] With \(k = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\): \(|\Delta\omega| = 8 > k_1 + k_2 = 4\), so there is no fixed point and no common frequency. The phase difference keeps drifting. (If they could lock, \(\Omega\) would be 6.)</p>
+</div></details>
+
+<h3>2024 Quiz 2</h3>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · 1a</span><span>Degree distribution \(P_k = Ck^{-\gamma}\). Find C and the condition for a finite C. [3]</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(1 = \int_{k_{\min}}^\infty Ck^{-\gamma}dk = C\frac{k_{\min}^{1-\gamma}}{\gamma-1}\), valid only for \(\gamma > 1\) (otherwise the integral diverges at the upper limit). So \(C = (\gamma-1)k_{\min}^{\gamma-1}\), finite for \(\gamma>1\). See <a href="#moments">§1</a>.</p></div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · 1b</span><span>Find ⟨k⟩ and ⟨k²⟩. When do they diverge? [4]</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle k\rangle = \frac{\gamma-1}{\gamma-2}k_{\min}\), finite for \(\gamma>2\). \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\), finite for \(\gamma>3\). So ⟨k⟩ diverges for \(\gamma\le2\) and ⟨k²⟩ for \(\gamma\le3\). Real networks usually have \(2<\gamma<3\): finite mean, diverging second moment.</p></div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · 2</span><span>Prove that in an Erdős–Rényi graph the GCC appears if the mean degree is greater than 1. [5]</span><span class="chev">›</span></summary>
+<div class="ans"><p>Derive \(u = (1-p+pu)^{N-1}\to e^{-\langle k\rangle(1-u)}\), so \(S = 1-e^{-\langle k\rangle S}\). \(S=0\) always solves it. The right side has slope ⟨k⟩ at \(S=0\), is concave and stays below 1, so it crosses \(y = S\) a second time (\(S>0\)) only if its initial slope exceeds 1: \(\langle k\rangle > 1\). Full steps in <a href="#gcc">§5</a>.</p></div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · Set 2 · 2</span><span>Prove that the ER degree distribution is Poisson for small p and large N. What are the average degree and second moment? [3 + 1]</span><span class="chev">›</span></summary>
+<div class="ans"><p>Start from the binomial \(\binom{N-1}{k}p^k(1-p)^{N-1-k}\). Use \(\binom{N-1}{k}\approx\frac{(N-1)^k}{k!}\), \(p = \frac{\langle k\rangle}{N-1}\) and \((1-p)^{N-1-k}\approx e^{-\langle k\rangle}\). The \((N-1)^k\) cancels, leaving \(e^{-\langle k\rangle}\langle k\rangle^k/k!\). Average degree \(\langle k\rangle = p(N-1)\), second moment \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\). See <a href="#er">§4</a>.</p></div></details>
+
+<h3>2024 Quiz 1</h3>
+
+<details class="q"><summary><span class="qt pyq">Quiz 1</span><span>For a star graph with N = 5 (another set: N = 6), what is the average path length? What is the diameter? [2 + 1]</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle l\rangle = 2(N-1)/N\). For \(N=5\): 4 pairs at distance 1 and 6 at distance 2, so \(16/10 = 1.6\). For \(N=6\): \(10/6 = 5/3\approx1.67\). Diameter 2 in both. See <a href="#simple">§3</a>.</p></div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 1</span><span>Given the connection probability p, what is the relation between p, ⟨k⟩ and N? [2]</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle k\rangle = p(N-1)\). Each node has \(N-1\) possible links, each present with probability \(p\) (or, since \(p = L/\binom N2\), \(\langle k\rangle = 2L/N = p(N-1)\)).</p></div></details>
+
+<h3>2024 surprise quiz (MS Forms)</h3>
+
+<details class="q"><summary><span class="qt pyq">Surprise</span><span>Adjacency matrix with rows A: 0 1 1 0 0, B: 1 0 0 0 1, C: 1 0 0 1 1, D: 0 0 1 0 0, E: 0 1 1 0 0. How many connected components? What is the nullity of the Laplacian?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The rule is that the nullity of the Laplacian (number of zero eigenvalues) equals the number of components. As printed, the links are A–B, A–C, B–E, C–D, C–E, which form one connected graph, so the answer would be 1 component and nullity 1. The official key says 3 components, {A, B, C}, {D}, {E}, and nullity 3, which only fits if D and E had no links. Either way, the answer to the second part equals the answer to the first.</p></div></details>
+
+<details class="q"><summary><span class="qt pyq">Surprise</span><span>SIR: What is assumed about the infectious period? What happens to the number of susceptibles over time?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The infectious period is the same for all individuals (constant recovery rate \(\gamma\)). The susceptible number decreases over time, since nobody returns to S (roughly exponentially during the epidemic).</p></div></details>
+</section>

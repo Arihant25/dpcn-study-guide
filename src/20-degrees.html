@@ -1,0 +1,333 @@
+
+<div class="part">Part 1<span>Degree distributions and path length</span></div>
+<section>
+<h2 id="moments"><span class="num">1</span>The power law and its averages</h2>
+<span class="board">Syllabus · power law, ⟨k⟩, ⟨k²⟩, critical β, k_min</span>
+<p class="about">In a real network, like the web or a citation network, most nodes have only a few links, but a small number of nodes (called <strong>hubs</strong>) have an enormous number. A formula called a <strong>power law</strong> describes this. In this section we find the average degree of such a network, the average of the squared degrees, and the conditions under which these averages are infinite. That last part is what "critical β" and "range of β" on the syllabus mean.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Find the constant \(C\) in the power law, and the condition for it to exist. (2024 Quiz 2, 3 marks)</li>
+<li>Find ⟨k⟩ and ⟨k²⟩, and say for which exponents they are infinite. (2024 Quiz 2, 4 marks)</li>
+<li>Say how the smallest degree \(k_{\min}\), the average degree ⟨k⟩ and the exponent are related.</li>
+<li>Work out ⟨k⟩, ⟨k²⟩ and the variance from a list of degrees.</li>
+</ul>
+</div>
+
+<h3>Step 0 · averages from a list of degrees</h3>
+<p>Before the power law, here is what ⟨k⟩ and ⟨k²⟩ mean on real numbers. Ten nodes have degrees</p>
+<p style="text-align:center">1, 1, 1, 1, 2, 2, 2, 2, 3, 5</p>
+<p>The degree distribution is the fraction of nodes with each degree: \(P(1) = 4/10 = 0.4\), \(P(2) = 0.4\), \(P(3) = 0.1\), \(P(5) = 0.1\).</p>
+<ul>
+<li>The <strong>average degree</strong> ⟨k⟩ multiplies each degree by its fraction and adds them up: \(\langle k\rangle = 1(0.4) + 2(0.4) + 3(0.1) + 5(0.1) = 2\).</li>
+<li>The <strong>second moment</strong> ⟨k²⟩ does the same with each degree squared: \(\langle k^2\rangle = 1(0.4) + 4(0.4) + 9(0.1) + 25(0.1) = 5.4\).</li>
+<li>The <strong>variance</strong> is \(\langle k^2\rangle - \langle k\rangle^2 = 5.4 - 4 = 1.4\). It measures how spread out the degrees are.</li>
+</ul>
+<p>Look at the single node with degree 5. It adds only 0.5 to ⟨k⟩, but it adds 2.5 to ⟨k²⟩, almost half of the total. Squaring makes big numbers much bigger, so ⟨k²⟩ is dominated by the hubs. That is why ⟨k²⟩ is the quantity that tells you whether a network has hubs. (We reuse these ten nodes in <a href="#knn">§7</a>.)</p>
+<p class="sym">"Moment" is just the name for these averages. The first moment is ⟨k⟩, the average of \(k\). The second moment is ⟨k²⟩, the average of \(k^2\).</p>
+
+<h3>Step 1 · what a power law is</h3>
+<p>A power law says the fraction of nodes with degree \(k\) is</p>
+<div class="eq boxed">\[P(k) = C\,k^{-\gamma} = \frac{C}{k^{\gamma}}\]</div>
+<p class="sym">\(k\) is a degree (number of links). \(P(k)\) is the fraction of nodes with that degree. \(\gamma\) (gamma) is a fixed number called the <strong>exponent</strong>. Your syllabus notes call it \(\beta\) and write \(P(k) = k^{-\beta}\); it is the same thing. \(C\) is a constant number that we will work out. The formula applies from some smallest degree \(k_{\min}\) upwards (for example, every node has at least 1 link, so \(k_{\min} = 1\)).</p>
+<p>Take \(\gamma = 2\) and ignore \(C\) for a moment. Then \(P(k)\) is proportional to \(1/k^2\):</p>
+<table class="tbl">
+<tr><th class="c">Degree k</th><th class="c">1</th><th class="c">2</th><th class="c">10</th><th class="c">100</th><th class="c">1000</th></tr>
+<tr><td class="c">\(1/k^2\)</td><td class="c">1</td><td class="c">0.25</td><td class="c">0.01</td><td class="c">0.0001</td><td class="c">0.000001</td></tr>
+</table>
+<p>Nodes with degree 1 are very common. Degree 100 is 10,000 times rarer, but it still happens. In a network with a million nodes, you expect about one node with 1000 links. That is a hub. Compare people's heights, which all sit near an average and never reach ten times the average. A power law has no "typical" size, which is why such networks are called <strong>scale-free</strong>.</p>
+
+<h3>Step 2 · why we use integrals ("not discrete!")</h3>
+<p>Degrees are whole numbers, so strictly we should add up \(P(1) + P(2) + P(3) + \dots\) with a sum. Those sums are hard to work out exactly. Instead, the course pretends \(k\) can take any value and uses an integral (the smooth version of a sum, see <a href="#maths">M7</a>). The answers are close, and the conditions for being finite are exactly the same. This is what "not discrete!" in your notes means: treat \(k\) as continuous.</p>
+<p>We will use one rule from M7 three times:</p>
+<div class="eq boxed">\[\int_{k_{\min}}^{\infty} k^{a}\,dk = \left[\frac{k^{a+1}}{a+1}\right]_{k_{\min}}^{\infty}\]</div>
+<p>At the top limit (\(k = \infty\)), \(k^{a+1}\) is 0 if the power \(a+1\) is negative, and infinite if it is positive or zero. So:</p>
+<ul>
+<li>if \(a + 1 < 0\), the answer is finite: \(0 - \frac{k_{\min}^{a+1}}{a+1} = \frac{k_{\min}^{a+1}}{-(a+1)}\);</li>
+<li>if \(a + 1 \ge 0\), the answer is infinite.</li>
+</ul>
+
+<h3>Step 3 · finding the constant C</h3>
+<p>The fractions \(P(k)\) must add up to 1 (every node has some degree). This is called <strong>normalisation</strong>. With an integral:</p>
+<div class="eq">\[\int_{k_{\min}}^{\infty} C\,k^{-\gamma}\,dk = 1\]</div>
+<p>\(C\) is a constant, so it comes outside. The power is \(a = -\gamma\), so \(a + 1 = 1 - \gamma\). Using the rule:</p>
+<div class="eq">\[C\left[\frac{k^{1-\gamma}}{1-\gamma}\right]_{k_{\min}}^{\infty} = 1\]</div>
+<p>This is finite only if \(1 - \gamma < 0\), that is \(\gamma > 1\). Then the top limit gives 0, the bottom limit gives \(\frac{k_{\min}^{1-\gamma}}{1-\gamma}\), and subtracting:</p>
+<div class="eq">\[C\cdot\frac{k_{\min}^{1-\gamma}}{\gamma - 1} = 1 \quad\Longrightarrow\quad C = \frac{\gamma-1}{k_{\min}^{1-\gamma}} = (\gamma - 1)\,k_{\min}^{\gamma-1}.\]</div>
+<p>(Dividing by \(k_{\min}^{1-\gamma}\) is the same as multiplying by \(k_{\min}^{\gamma-1}\), by the power rules in M4.) If \(\gamma \le 1\), the area is infinite and no value of \(C\) can make the total equal 1.</p>
+<div class="eq boxed">\[C = (\gamma - 1)\,k_{\min}^{\gamma-1}, \qquad\text{which exists only if } \gamma > 1\]</div>
+
+<h3>Step 4 · the average degree ⟨k⟩</h3>
+<p>The average is "degree times fraction, added up" (Step 0), so we integrate \(k \times P(k)\):</p>
+<div class="eq">\[\langle k\rangle = \int_{k_{\min}}^{\infty} k\cdot C k^{-\gamma}\,dk = C\int_{k_{\min}}^{\infty} k^{1-\gamma}\,dk\]</div>
+<p>(\(k \times k^{-\gamma} = k^{1-\gamma}\).) Now \(a = 1 - \gamma\), so \(a + 1 = 2 - \gamma\). This is finite only if \(2 - \gamma < 0\), that is \(\gamma > 2\). Then</p>
+<div class="eq">\[\langle k\rangle = C\cdot\frac{k_{\min}^{2-\gamma}}{\gamma - 2} = (\gamma-1)k_{\min}^{\gamma-1}\cdot\frac{k_{\min}^{2-\gamma}}{\gamma-2} = \frac{\gamma-1}{\gamma-2}\,k_{\min}.\]</div>
+<p>(The powers of \(k_{\min}\) combine: \(k_{\min}^{\gamma-1}\times k_{\min}^{2-\gamma} = k_{\min}^{1}\).)</p>
+<div class="eq boxed">\[\langle k\rangle = \frac{\gamma - 1}{\gamma - 2}\,k_{\min}, \qquad\text{finite only if } \gamma > 2\]</div>
+
+<h3>Step 5 · the second moment ⟨k²⟩</h3>
+<p>Same again with \(k^2\times P(k)\), which is \(C k^{2-\gamma}\). Now \(a + 1 = 3 - \gamma\), finite only if \(\gamma > 3\):</p>
+<div class="eq">\[\langle k^2\rangle = C\int_{k_{\min}}^{\infty} k^{2-\gamma}\,dk = C\cdot\frac{k_{\min}^{3-\gamma}}{\gamma-3} = \frac{\gamma-1}{\gamma-3}\,k_{\min}^2 .\]</div>
+<div class="eq boxed">\[\langle k^2\rangle = \frac{\gamma - 1}{\gamma - 3}\,k_{\min}^2, \qquad\text{finite only if } \gamma > 3\]</div>
+
+<h3>Step 6 · the critical values of the exponent</h3>
+<p>Steps 3 to 5 give two critical values, 2 and 3. They split the possible exponents into three ranges.</p>
+<table class="tbl">
+<tr><th>Exponent</th><th>⟨k⟩</th><th>⟨k²⟩</th><th>What it means</th></tr>
+<tr><td>\(\gamma \le 2\)</td><td>infinite</td><td>infinite</td><td>The hubs are so big that even the average degree is infinite.</td></tr>
+<tr><td>\(2 < \gamma \le 3\)</td><td>finite</td><td>infinite</td><td>The usual case for real networks. The average is a normal number, but the spread of degrees has no limit.</td></tr>
+<tr><td>\(\gamma > 3\)</td><td>finite</td><td>finite</td><td>Hubs are rare enough that the network behaves much like a random one.</td></tr>
+</table>
+<p>A real network has a finite number of nodes, so nothing is literally infinite. "Infinite" here means "keeps growing as the network grows". A bigger network contains bigger hubs, and because ⟨k²⟩ is dominated by the hubs, it keeps increasing with network size when \(\gamma < 3\).</p>
+<p class="sym">The general pattern: the average of \(k^m\) is finite only if \(\gamma > m + 1\).</p>
+
+<h3>Step 7 · how k_min, ⟨k⟩ and the exponent are related</h3>
+<p>Step 4 already connects the three numbers:</p>
+<div class="eq boxed">\[\langle k\rangle = \frac{\gamma - 1}{\gamma - 2}\,k_{\min} \qquad\Longleftrightarrow\qquad \gamma = \frac{2\langle k\rangle - k_{\min}}{\langle k\rangle - k_{\min}}\]</div>
+<p>To get the second form, multiply out \(\langle k\rangle(\gamma - 2) = (\gamma - 1)k_{\min}\), collect the \(\gamma\) terms on one side, \(\gamma(\langle k\rangle - k_{\min}) = 2\langle k\rangle - k_{\min}\), and divide. So if you know any two of the three numbers, you can find the third.</p>
+<table class="tbl">
+<tr><th class="c">γ</th><th class="c">2.1</th><th class="c">2.5</th><th class="c">3</th><th class="c">4</th><th class="c">very large</th></tr>
+<tr><td class="c">⟨k⟩ ÷ k_min</td><td class="c">11</td><td class="c">3</td><td class="c">2</td><td class="c">1.5</td><td class="c">close to 1</td></tr>
+</table>
+<p>As \(\gamma\) comes down towards 2, the average climbs without limit (more and bigger hubs). As \(\gamma\) gets large, big degrees become so rare that almost every node has the minimum degree, and ⟨k⟩ approaches \(k_{\min}\). The average is always at least \(k_{\min}\), as it must be.</p>
+
+<div class="card ex"><span class="tag">Worked example</span>
+<p>\(\gamma = 2.5\) and \(k_{\min} = 1\).</p>
+<ol>
+<li>\(C = (2.5 - 1)\times 1^{1.5} = 1.5\).</li>
+<li>\(\langle k\rangle = \frac{2.5-1}{2.5-2}\times1 = \frac{1.5}{0.5} = 3\).</li>
+<li>⟨k²⟩ needs \(\gamma > 3\). Here \(2.5 < 3\), so ⟨k²⟩ is infinite.</li>
+</ol>
+<p>Going backwards: if a network has \(k_{\min} = 1\) and \(\langle k\rangle = 3\), then \(\gamma = \frac{6 - 1}{3 - 1} = 2.5\).</p>
+</div>
+
+<h3>For comparison · the second moment of a Poisson distribution</h3>
+<p>Your notes also ask for the second moment of the Poisson distribution, which is the degree distribution of a random network (explained in <a href="#er">§4</a>). For Poisson, the variance equals the average, so</p>
+<div class="eq">\[\langle k^2\rangle = \operatorname{var}(k) + \langle k\rangle^2 = \langle k\rangle + \langle k\rangle^2 ,\]</div>
+<p>which is always finite. For example, average degree 4 gives \(\langle k^2\rangle = 4 + 16 = 20\). This is the key difference: a random network has a finite ⟨k²⟩, while a real scale-free network (\(2 < \gamma < 3\)) does not.</p>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Write the normalisation condition \(\int_{k_{\min}}^\infty Ck^{-\gamma}dk = 1\). Say you treat \(k\) as continuous.</li>
+<li>Integrate. Say the value at infinity is zero only if \(\gamma > 1\). Get \(C = (\gamma - 1)k_{\min}^{\gamma-1}\).</li>
+<li>For ⟨k⟩ integrate \(k\cdot Ck^{-\gamma}\). Finite only if \(\gamma > 2\). Get \(\frac{\gamma-1}{\gamma-2}k_{\min}\).</li>
+<li>For ⟨k²⟩ integrate \(k^2\cdot Ck^{-\gamma}\). Finite only if \(\gamma > 3\). Get \(\frac{\gamma-1}{\gamma-3}k_{\min}^2\).</li>
+<li>Draw the table of the three ranges and state that real networks usually have \(2 < \gamma < 3\): finite ⟨k⟩, infinite ⟨k²⟩.</li>
+</ol>
+</div>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Power law: \(P(k) = Ck^{-\gamma}\) (your notes write \(k^{-\beta}\)).</li>
+<li>\(C = (\gamma - 1)k_{\min}^{\gamma-1}\), needs \(\gamma > 1\).</li>
+<li>\(\langle k\rangle = \frac{\gamma-1}{\gamma-2}k_{\min}\), finite only for \(\gamma > 2\).</li>
+<li>\(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\), finite only for \(\gamma > 3\).</li>
+<li>Critical values 2 and 3. Real networks: \(2 < \gamma < 3\).</li>
+<li>Poisson: \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\).</li>
+</ul>
+</div>
+
+<details class="opt"><summary>Optional · the version with sums instead of integrals</summary><div class="body">
+<p>If you keep \(k\) as a whole number with \(k_{\min} = 1\), then \(C = 1\big/\sum_{k=1}^\infty k^{-\gamma}\). The sum is finite exactly when \(\gamma > 1\), just like the integral. The conditions \(\gamma > 2\) and \(\gamma > 3\) for the two averages are also unchanged. Only the exact numbers differ, which is why the course uses integrals.</p>
+</div></details>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>For \(P(k) = Ck^{-3}\) with \(k_{\min} = 2\), find C and ⟨k⟩. Is ⟨k²⟩ finite?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(C = (3-1)\times 2^{2} = 8\). \(\langle k\rangle = \frac{3-1}{3-2}\times2 = 4\). For ⟨k²⟩ the power would be \(a + 1 = 3 - \gamma = 0\), which is not negative, so ⟨k²⟩ is infinite (the integral gives \(\ln k\), which grows forever).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>A power-law network has k_min = 2 and ⟨k⟩ = 6. What is the exponent?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\gamma = \frac{2\times6 - 2}{6 - 2} = \frac{10}{4} = 2.5\).</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>Why does ⟨k²⟩ become infinite at a larger exponent than ⟨k⟩ does?</span><span class="chev">›</span></summary>
+<div class="ans"><p>⟨k²⟩ multiplies each fraction by \(k^2\) instead of \(k\), so very large degrees count much more. The thing being integrated, \(k^{2-\gamma}\), shrinks more slowly than \(k^{1-\gamma}\), so it needs a steeper fall-off (\(\gamma > 3\) instead of \(\gamma > 2\)) for the area to be finite.</p></div></details>
+</section>
+
+<section>
+<h2 id="binning"><span class="num">2</span>Drawing a degree distribution · linear and log binning</h2>
+<span class="board">Syllabus · binning, linear and log, log-log scale</span>
+<p class="about">To see a degree distribution you draw a histogram: a bar chart of how many nodes have each degree. For a power law, the ordinary way of drawing it hides the pattern. This section explains the special axes (log-log) and the special way of grouping degrees (log binning) that make a power law show up as a straight line.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Why plot a degree distribution on log-log axes?</li>
+<li>What is linear binning, what goes wrong with it, and how does log binning fix it?</li>
+<li>Given bins and counts, compute \(P(k)\), or read the exponent off a plot.</li>
+</ul>
+</div>
+
+<h3>What a histogram and a bin are</h3>
+<p>Suppose you have the degrees of 1000 nodes. You split the possible degrees into ranges called <strong>bins</strong>, for example 1–5, 6–10, 11–15, and count how many nodes fall into each bin. Drawing those counts as bars gives a <strong>histogram</strong>. <strong>Linear binning</strong> means every bin has the same width. The slide steps are: find the smallest and largest value, split that range into equal intervals, put each value in its interval, and count.</p>
+<p>For heights of people or car speeds this works well, because the values sit around a typical size. For a power law, one bin at the left holds nearly all the nodes and the rest look empty. The slides show exactly this with "linbin/lin-scale": one tall bar, then almost nothing.</p>
+
+<h3>What a log scale is</h3>
+<p>On a normal axis, equal distances mean equal differences: 0, 10, 20, 30. On a <strong>logarithmic (log) axis</strong>, equal distances mean equal multiples: 1, 10, 100, 1000. Each step to the right multiplies by 10. This lets one chart show both tiny and huge values. A <strong>log-log plot</strong> uses a log scale on both axes.</p>
+
+<h3>Why a power law is a straight line on log-log axes</h3>
+<p>Take the logarithm of both sides of \(P(k) = Ck^{-\gamma}\). Using the rules \(\log(ab) = \log a + \log b\) and \(\log(k^n) = n\log k\) from <a href="#maths">M5</a>:</p>
+<div class="eq boxed">\[\log P(k) = \log C - \gamma\,\log k\]</div>
+<p>Call \(y = \log P(k)\) and \(x = \log k\). Then \(y = \log C - \gamma x\), which is the equation of a straight line (like \(y = c + mx\)) with slope \(-\gamma\). A log-log plot draws exactly \(\log P\) against \(\log k\). So <strong>a power law appears as a straight line, and its slope is minus the exponent</strong>. Other distributions, such as the Poisson distribution of a random network, curve sharply downwards on these axes.</p>
+<figure class="fig"><!--plot:loglog-compare-->
+<figcaption>On log-log axes the power law (teal) is a straight line. The Poisson distribution of a random network (orange) rises to a peak and then drops off a cliff.</figcaption></figure>
+<p>To read the exponent from two points \((k_1, P_1)\) and \((k_2, P_2)\) on the line, use "slope = rise over run":</p>
+<div class="eq">\[\gamma = -\,\frac{\log P_2 - \log P_1}{\log k_2 - \log k_1}\]</div>
+<p>Example: if \(P(10) = 10^{-2}\) and \(P(100) = 10^{-4.5}\), then in base-10 logs the rise is \(-4.5 - (-2) = -2.5\) and the run is \(2 - 1 = 1\), so the slope is \(-2.5\) and \(\gamma = 2.5\).</p>
+
+<h3>What goes wrong with linear bins on log-log axes</h3>
+<ol>
+<li><strong>The right-hand end is noise.</strong> Large degrees are rare. With bins of equal width, most bins at large \(k\) contain 0 or 1 node. A bin with 0 cannot be drawn at all, since \(\log 0\) does not exist. The bins with exactly 1 node all have the same height, so they make a flat row of points (a "floor") that has nothing to do with the true distribution.</li>
+<li><strong>The points are in the wrong places.</strong> On a log axis, equal-width bins crowd together at the right end. Most of your points land in the noisy region, and the useful left part gets only one or two points.</li>
+</ol>
+
+<h3>Log binning</h3>
+<p>In <strong>logarithmic binning</strong>, each bin is a fixed multiple wider than the previous one. For example, with a factor of 2 the bin edges are 1, 2, 4, 8, 16, 32 and so on. With a factor of 10 they are 1, 10, 100, 1000. At small degrees, where there is lots of data, the bins are narrow and keep the detail. At large degrees, where data is rare, the bins are wide, so each bin still collects enough nodes to give a reliable count. On a log axis these bins are evenly spaced.</p>
+<div class="card watch"><span class="tag">The step people forget · divide by the bin width</span>
+<p>The bins now have different widths, and a wider bin collects more nodes just because it covers more degrees. To make them comparable, divide each count by the bin width. Also divide by the total number of nodes \(N\) to turn counts into fractions:</p>
+<div class="eq">\[P(k) \approx \frac{\text{number of nodes in the bin}}{N \times \text{bin width}}\]</div>
+<p>Plot each value at the middle of its bin. If you forget to divide by the width, the slope comes out as \(-(\gamma - 1)\) instead of \(-\gamma\).</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked example</span>
+<p>1000 nodes are put into log bins with factor 2. The counts are:</p>
+<table class="tbl">
+<tr><th>Bin (degrees)</th><th class="c">Width</th><th class="c">Count</th><th class="c">Count ÷ (1000 × width)</th></tr>
+<tr><td>1 up to 2</td><td class="c">1</td><td class="c">480</td><td class="c">0.48</td></tr>
+<tr><td>2 up to 4</td><td class="c">2</td><td class="c">240</td><td class="c">0.12</td></tr>
+<tr><td>4 up to 8</td><td class="c">4</td><td class="c">120</td><td class="c">0.03</td></tr>
+<tr><td>8 up to 16</td><td class="c">8</td><td class="c">60</td><td class="c">0.0075</td></tr>
+</table>
+<p>Each time the degree doubles, the last column is divided by 4. Since \(4 = 2^2\), this is a power law with \(\gamma = 2\). The raw counts only halve each time (\(2 = 2^1\)), which would wrongly suggest \(\gamma = 1\). That is the mistake that dividing by the width prevents.</p>
+</div>
+
+<figure class="fig"><!--plot:binning-->
+<figcaption>20,000 degrees drawn from a power law with \(\gamma = 2.5\), plotted two ways. Linear bins of width 5 (orange) follow the line at first, then become a noisy flat floor where each bin holds only one or two nodes. Log bins that double in width (teal) follow the true line (dashed) much further. The slides show the same comparison ("Linear binning vs Log binning").</figcaption></figure>
+
+<details class="opt"><summary>Optional · cumulative plots</summary><div class="body">
+<p>Some slide figures (word counts in Moby Dick, citations, earthquakes) are marked "these plots are cumulative". A cumulative plot shows, for each \(k\), the fraction of nodes with degree <em>at least</em> \(k\). It needs no bins at all. For a power law with exponent \(\gamma\), it is also a straight line on log-log axes, with slope \(-(\gamma - 1)\).</p>
+</div></details>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Take logs: \(\log P = \log C - \gamma\log k\), so a power law is a straight line of slope \(-\gamma\) on log-log axes.</li>
+<li>Linear binning uses equal-width bins. For a power law, the tail bins hold 0 or 1 node, giving noise, a flat floor, and points that cannot be plotted.</li>
+<li>Log binning makes each bin a constant factor wider (for example 2 times), so wide bins at large \(k\) collect enough nodes.</li>
+<li>Divide each count by \(N\) times the bin width, and plot at the bin centre.</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Log-log axes turn a power law into a straight line with slope \(-\gamma\).</li>
+<li>Linear bins: equal widths, noisy tail. Log bins: widths grow by a fixed factor.</li>
+<li>\(P \approx \text{count}/(N\times\text{width})\).</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>On a log-log plot of a linearly binned histogram, the right half is a flat row of points. Why?</span><span class="chev">›</span></summary>
+<div class="ans"><p>In the tail, most bins contain exactly one node, so they all have the same height, \(1/(N\times\text{width})\). The flat row is caused by counting single nodes, not by the network. Log binning removes it.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Log bins with factor 3, starting at 1. Write the first four bin edges and widths.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Edges 1, 3, 9, 27, 81. Widths 2, 6, 18, 54. Each width is 3 times the one before.</p></div></details>
+</section>
+
+<section>
+<h2 id="simple"><span class="num">3</span>Path length and degree of star, chain and ring</h2>
+<span class="board">Syllabus · star, chain, closed chain, ring with degree k</span>
+<p class="about">Here we take four simple network shapes and work out, for each, how many steps it takes on average to get from one node to another (the average path length), plus the degree of each node. The method is the same every time: count how many pairs of nodes are 1 step apart, 2 steps apart, and so on, and take the average.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Average path length and diameter of a star with a given number of nodes. (2024 Quiz 1: 5 nodes and 6 nodes)</li>
+<li>Derive the average path length of the open chain, the ring, or the ring with degree \(k\). Give their degrees and clustering.</li>
+<li>Say how the average path length changes as the network gets bigger.</li>
+</ul>
+</div>
+
+<div class="figrow">
+<figure class="fig"><svg class="gr" viewBox="0 0 200 170" role="img" aria-label="Star graph with six nodes" data-spec='{"r":14,"nodes":{"h":[100,85],"a":[100,22],"b":[160,68],"c":[138,145],"d":[62,145],"e":[40,68]},"edges":[["h","a"],["h","b"],["h","c"],["h","d"],["h","e"]],"hi":["h"],"labels":{"h":"","a":"","b":"","c":"","d":"","e":""}}'></svg><figcaption>Star: one centre (the hub) joined to every other node</figcaption></figure>
+<figure class="fig"><svg class="gr" viewBox="0 0 260 90" role="img" aria-label="Open chain of five nodes" data-spec='{"r":14,"nodes":{"A":[25,45],"B":[77,45],"C":[130,45],"D":[183,45],"E":[235,45]},"edges":[["A","B"],["B","C"],["C","D"],["D","E"]]}'></svg><figcaption>Open chain: nodes in a line</figcaption></figure>
+<figure class="fig"><svg class="gr" viewBox="0 0 200 180" role="img" aria-label="Ring of eight nodes with degree two" data-spec='{"r":11,"nodes":{"0":[100,20],"1":[153,42],"2":[175,95],"3":[153,148],"4":[100,170],"5":[47,148],"6":[25,95],"7":[47,42]},"edges":[["0","1"],["1","2"],["2","3"],["3","4"],["4","5"],["5","6"],["6","7"],["7","0"]],"labels":{"0":"","1":"","2":"","3":"","4":"","5":"","6":"","7":""}}'></svg><figcaption>Closed chain (ring): the chain with its ends joined</figcaption></figure>
+<figure class="fig"><svg class="gr" viewBox="0 0 200 180" role="img" aria-label="Ring of ten nodes with degree four" data-spec='{"r":9,"nodes":{"0":[100,18],"1":[143,32],"2":[170,68],"3":[170,112],"4":[143,148],"5":[100,162],"6":[57,148],"7":[30,112],"8":[30,68],"9":[57,32]},"edges":[["0","1"],["1","2"],["2","3"],["3","4"],["4","5"],["5","6"],["6","7"],["7","8"],["8","9"],["9","0"],["0","2"],["1","3"],["2","4"],["3","5"],["4","6"],["5","7"],["6","8"],["7","9"],["8","0"],["9","1"]],"labels":{"0":"","1":"","2":"","3":"","4":"","5":"","6":"","7":"","8":"","9":""}}'></svg><figcaption>Ring with degree 4: each node also linked to the nodes two places away</figcaption></figure>
+</div>
+
+<h3>The method</h3>
+<ol class="steps">
+<li>Count the pairs. With \(N\) nodes there are \(\frac{N(N-1)}{2}\) pairs (<a href="#maths">M3</a>).</li>
+<li>Group the pairs by distance: how many are 1 step apart, how many 2 steps apart, and so on.</li>
+<li>Add up (distance × number of pairs at that distance), then divide by the number of pairs.</li>
+</ol>
+<p>For the ring, every node sees the same picture around it. Then there is a shortcut: pick any one node, average its distances to the other \(N - 1\) nodes, and that is already the answer for the whole network.</p>
+
+<h3>Star</h3>
+<p>Start with a star of 5 nodes: one hub and 4 outer nodes (called leaves). There are \(\frac{5\times4}{2} = 10\) pairs.</p>
+<ul>
+<li>Hub with a leaf: 4 pairs, each 1 step apart (they are directly linked).</li>
+<li>Leaf with a leaf: the other 6 pairs, each 2 steps apart (leaf → hub → leaf).</li>
+</ul>
+<p>Average path length \(= \frac{4\times1 + 6\times2}{10} = \frac{16}{10} = 1.6\). The diameter (largest distance) is 2.</p>
+<p>Now any size \(N\). There are \(N - 1\) leaves, so \(N - 1\) hub–leaf pairs at distance 1, and \(\frac{(N-1)(N-2)}{2}\) leaf–leaf pairs at distance 2. Put these into the method:</p>
+<div class="eq">\[\langle l\rangle = \frac{(N-1)\times 1 + \frac{(N-1)(N-2)}{2}\times 2}{\frac{N(N-1)}{2}} = \frac{(N-1) + (N-1)(N-2)}{\frac{N(N-1)}{2}}\]</div>
+<p>The top is \((N-1)\) times \(\big(1 + (N - 2)\big) = (N-1)^2\). Dividing by \(\frac{N(N-1)}{2}\) is the same as multiplying by \(\frac{2}{N(N-1)}\), and one factor of \((N-1)\) cancels:</p>
+<div class="eq boxed">\[\langle l\rangle_{\text{star}} = \frac{2(N-1)}{N}, \qquad \text{diameter} = 2\]</div>
+<p>Check with \(N = 5\): \(2\times4/5 = 1.6\). For \(N = 6\): \(10/6 \approx 1.67\). As \(N\) grows, \(\frac{2(N-1)}{N} = 2 - \frac2N\) gets closer to 2 but never reaches it. The hub keeps everyone within two steps however big the star is.</p>
+<p><strong>Degrees:</strong> the hub has \(N - 1\) links, each leaf has 1. The average is \(\langle k\rangle = \frac{2L}{N} = \frac{2(N-1)}{N}\), the same number as \(\langle l\rangle\). <strong>Clustering</strong> is 0 everywhere: a leaf has only one neighbour, and the hub's neighbours (the leaves) are never linked to each other.</p>
+
+<h3>Open chain</h3>
+<p>Take 4 nodes in a line, A–B–C–D, as on the slide. The pairs at distance 1 are AB, BC, CD (3 pairs). At distance 2: AC, BD (2 pairs). At distance 3: AD (1 pair). So</p>
+<div class="eq">\[\langle l\rangle = \frac{3\times1 + 2\times2 + 1\times3}{6} = \frac{10}{6} = \frac53 .\]</div>
+<p>The pattern (3, 2, 1 pairs for \(N = 4\); 4, 3, 2, 1 for \(N = 5\)) is that there are \(N - j\) pairs at distance \(j\). Using the two sums from <a href="#maths">M2</a>, the slide's calculation gives</p>
+<div class="eq">\[\langle l\rangle = \frac{2}{N(N-1)}\sum_{j=1}^{N-1} j\,(N-j) = \frac{2}{N(N-1)}\left[N\cdot\frac{N(N-1)}{2} - \frac{(N-1)N(2N-1)}{6}\right] = N - \frac{2N-1}{3}\]</div>
+<p>(Inside the bracket, \(\sum j(N - j) = N\sum j - \sum j^2\), and each sum runs up to \(n = N - 1\).)</p>
+<div class="eq boxed">\[\langle l\rangle_{\text{chain}} = \frac{N+1}{3}, \qquad \text{diameter} = N - 1\]</div>
+<p>Check with \(N = 4\): \(5/3\). <strong>Degrees:</strong> the two end nodes have 1, the others have 2. <strong>Clustering</strong> is 0 (no triangles).</p>
+
+<h3>Closed chain (ring)</h3>
+<p>Join the two ends of the chain. Take 6 nodes. Stand on any one node and look both ways around the ring: 2 nodes are 1 step away, 2 nodes are 2 steps away, and 1 node (directly opposite) is 3 steps away. The average of these 5 distances is \(\frac{1+1+2+2+3}{5} = \frac95 = 1.8\). Every node sees the same, so \(\langle l\rangle = 1.8\).</p>
+<p>In general, a node has 2 nodes at each distance 1, 2, 3, … up to about \(N/2\) (the node opposite). The average of the numbers from 1 to \(N/2\) is about half of \(N/2\), which is \(N/4\):</p>
+<div class="eq boxed">\[\langle l\rangle_{\text{ring}} \approx \frac{N}{4}\]</div>
+<p class="sym">Exact values, if asked: \(\frac{N+1}{4}\) when \(N\) is odd, \(\frac{N^2}{4(N-1)}\) when \(N\) is even. For \(N = 6\): \(36/20 = 1.8\).</p>
+<p>Diameter is about \(N/2\). <strong>Degree</strong> is exactly 2 for every node. The slides write this as \(P(k) = \delta(k - 2)\), which means "all nodes have degree 2 and no other degree occurs". <strong>Clustering</strong> is 0 (for \(N > 3\)).</p>
+
+<h3>Ring with degree k</h3>
+<p>Now link each node to its nearest \(k/2\) nodes on each side, so every node has degree \(k\). The slide picture has \(k = 4\): each node is linked to the nodes 1 and 2 places away on both sides.</p>
+<p>In one step you can now move up to \(k/2\) places around the ring, in either direction. So each extra step reaches \(k\) new nodes (\(k/2\) on each side). The slide writes this as \(1 + \sum_{l=1}^{l_{\max}} k \approx N\): the starting node plus \(k\) new nodes per step, until all \(N\) are reached. That takes about</p>
+<div class="eq">\[l_{\max} \approx \frac{N}{k}\ \text{steps}.\]</div>
+<p>Distances are spread evenly from 1 to \(l_{\max}\), so the average is about half of \(l_{\max}\):</p>
+<div class="eq boxed">\[\langle l\rangle \approx \frac{N}{2k}, \qquad\text{so for } k = 4,\ \ \langle l\rangle \approx \frac{N}{8}\]</div>
+<p>With \(k = 2\) this gives \(N/4\), the plain ring, as it should. The slide simulation with 500 nodes found 125.25 for \(k = 2\) (formula: \(500/4 = 125\)) and 62.88 for \(k = 4\) (formula: 62.5).</p>
+<p><strong>Degree</strong> is \(k\) for every node (\(P(k) = \delta(k - 4)\) on the slide). <strong>Clustering</strong> is no longer 0. For \(k = 4\), node \(i\)'s neighbours are \(i - 2,\ i - 1,\ i + 1,\ i + 2\). Among these 4 neighbours there are 6 possible pairs, and 3 of them are linked: \((i-2, i-1)\), \((i-1, i+1)\) and \((i+1, i+2)\), since each of these is at most 2 places apart. So \(C = 3/6 = 1/2\) for every node, as on the slide (which says "if \(N > 6\)", so that the ring is big enough for these to be different nodes).</p>
+<p class="sym">General formula, rarely needed: \(C = \frac{3(k-2)}{4(k-1)}\).</p>
+
+<h3>Two more for comparison</h3>
+<ul>
+<li><strong>Complete graph</strong> (every node linked to every other, the "all-to-all" network in Quiz 1): every distance is 1, so \(\langle l\rangle = 1\) and the diameter is 1. Every node has degree \(N - 1\). Clustering is 1. The adjacency matrix is symmetric.</li>
+<li><strong>Square grid (2-D lattice)</strong>: \(\langle l\rangle\) grows like \(\sqrt N\). In \(D\) dimensions it grows like \(N^{1/D}\). The ring is the 1-dimensional case, growing like \(N\).</li>
+</ul>
+
+<figure class="fig"><!--plot:pathlength-N-->
+<div class="legend"><span><i class="sw" style="border-color:var(--c4);border-top-style:dotted"></i>random (ER) network with average degree 4, ln N / ln 4</span><span><i class="sw" style="border-color:var(--c1)"></i>star, 2(N−1)/N, stays below 2</span></div>
+<figcaption>How the average path length grows as the number of nodes grows. Chains and rings grow in proportion to \(N\): double the nodes, double the distance. The star stays below 2. A random network (§6) grows only like \(\ln N\), extremely slowly.</figcaption></figure>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Draw the network for a small \(N\) and state the number of pairs, \(N(N-1)/2\).</li>
+<li>List how many pairs are at each distance (star: two kinds; chain: \(N - j\) at distance \(j\); ring: 2 at each distance, seen from one node).</li>
+<li>Write the weighted average, simplify, and box the formula.</li>
+<li>Check it against your small drawing, then give degree, clustering and diameter, and say how ⟨l⟩ grows with \(N\).</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<table class="tbl">
+<tr><th>Network</th><th>⟨l⟩</th><th>Diameter</th><th>Degree</th><th>Clustering</th></tr>
+<tr><td>Star</td><td>\(2(N-1)/N\), below 2</td><td>2</td><td>hub \(N-1\), leaves 1</td><td>0</td></tr>
+<tr><td>Open chain</td><td>\((N+1)/3\)</td><td>\(N-1\)</td><td>ends 1, others 2</td><td>0</td></tr>
+<tr><td>Ring (closed chain)</td><td>\(\approx N/4\)</td><td>\(\approx N/2\)</td><td>all 2</td><td>0</td></tr>
+<tr><td>Ring with degree \(k\)</td><td>\(\approx N/(2k)\)</td><td>\(\approx N/k\)</td><td>all \(k\)</td><td>\(\tfrac12\) for \(k = 4\)</td></tr>
+<tr><td>Complete</td><td>1</td><td>1</td><td>all \(N-1\)</td><td>1</td></tr>
+</table>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Average path length of an open chain with 7 nodes, and of a ring with 7 nodes?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Chain: \((7 + 1)/3 = 8/3 \approx 2.67\). Ring (odd \(N\)): \((7+1)/4 = 2\). Check the ring from one node: distances 1, 1, 2, 2, 3, 3 average to 2.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>A ring of 1000 nodes has each node linked to 5 neighbours on each side. Estimate ⟨l⟩.</span><span class="chev">›</span></summary>
+<div class="ans"><p>The degree is \(k = 10\), so \(\langle l\rangle \approx 1000/20 = 50\).</p></div></details>
+<details class="q"><summary><span class="qt">Quiz 1</span><span>For an all-to-all network (undirected, no self-loops), which are true? (a) symmetric (b) diameter N (c) ⟨l⟩ = 1 (d) ⟨k⟩ = N − 1</span><span class="chev">›</span></summary>
+<div class="ans"><p>(a) True: undirected means \(A_{ij} = A_{ji}\). (b) False: every pair is directly linked, so the diameter is 1. (c) True: every distance is 1. (d) True: each node links to all \(N - 1\) others.</p></div></details>
+</section>

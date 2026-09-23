@@ -1,0 +1,359 @@
+
+<div class="part">Part 2<span>Erdős–Rényi (ER) random networks</span></div>
+<section>
+<h2 id="er"><span class="num">4</span>Random networks · binomial degrees and the Poisson limit</h2>
+<span class="board">Syllabus · ER 1, binomial, Poisson, ⟨k⟩, var(k)</span>
+<p class="about">An Erdős–Rényi (ER) network is built by chance: for every pair of nodes you flip a coin to decide whether they are linked. This section works out how many links a node ends up with. The answer is a formula called the <strong>binomial distribution</strong>, which becomes a simpler formula called the <strong>Poisson distribution</strong> when the network is large.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Show that the degree follows the binomial distribution, and give its average and variance.</li>
+<li>Prove that it becomes Poisson when there are many nodes and the link probability is small. Give ⟨k⟩ and ⟨k²⟩. (2024 Quiz 2, 4 marks)</li>
+<li>Relate the link probability \(p\), the average degree ⟨k⟩ and the number of nodes \(N\). (2024 Quiz 1)</li>
+</ul>
+</div>
+
+<h3>How the network is built</h3>
+<p>Start with \(N\) nodes and no links. Go through every pair of nodes (there are \(\frac{N(N-1)}{2}\) pairs). For each pair, flip a biased coin that says "link" with probability \(p\) and "no link" with probability \(1 - p\). Every flip is independent of the others. The result is called \(G(N, p)\).</p>
+<p class="sym">\(N\) = number of nodes. \(p\) = probability that any given pair is linked. The slides also mention \(G(N, M)\), where you place exactly \(M\) links at random. For large networks the two behave the same.</p>
+<p>Each node has \(N - 1\) possible partners, and each is linked with probability \(p\). By the expected-value rule (<a href="#maths">M3</a>, "\(n\) tries each succeeding with probability \(p\) give \(np\) on average"):</p>
+<div class="eq boxed">\[\langle k\rangle = p\,(N - 1)\]</div>
+
+<h3>Warm-up · coin flips</h3>
+<p>The slides start with this question: what is the chance of exactly 2 heads in 3 flips, if each flip is heads with probability \(p\)?</p>
+<ul>
+<li>One way is H, H, T. By the "and" rule its probability is \(p\times p\times(1-p) = p^2(1-p)\).</li>
+<li>The other ways are H, T, H and T, H, H, each with the same probability.</li>
+<li>That is \(\binom32 = 3\) ways (choose which 2 of the 3 flips are heads). By the "or" rule, add them: \(3\,p^2(1-p)\).</li>
+</ul>
+<p>In general, the chance of exactly \(k\) successes in \(n\) tries is \(\binom nk p^k(1-p)^{n-k}\). This is the <strong>binomial distribution</strong>.</p>
+
+<h3>The degree of a node is binomial</h3>
+<p>For one node, each of its \(N - 1\) possible links is one coin flip. "Having degree \(k\)" means exactly \(k\) of those \(N - 1\) flips came up "link". So, with \(n = N - 1\):</p>
+<div class="eq boxed">\[P(k) = \binom{N-1}{k}\;p^{k}\;(1-p)^{N-1-k}\]</div>
+<ul>
+<li>\(\binom{N-1}{k}\) is the number of ways to choose which \(k\) of the \(N-1\) others are its neighbours.</li>
+<li>\(p^k\) is the probability that those \(k\) links are all present.</li>
+<li>\((1-p)^{N-1-k}\) is the probability that the remaining \(N - 1 - k\) links are all absent.</li>
+</ul>
+<p>Its average and variance are</p>
+<div class="eq">\[\langle k\rangle = p(N-1), \qquad \operatorname{var}(k) = \sigma_k^2 = p(1-p)(N-1).\]</div>
+<details class="opt"><summary>Optional · where the average and variance come from</summary><div class="body">
+<p>The slide does this with long sums. A shorter way: the degree is a sum of \(N - 1\) separate pieces, one per possible partner, each equal to 1 (link) with probability \(p\) or 0 (no link). One piece has average \(p\). Its variance is \(\langle x^2\rangle - \langle x\rangle^2 = p - p^2 = p(1-p)\), because \(x^2 = x\) when \(x\) is 0 or 1. For independent pieces, averages add and variances add. So the degree has average \((N-1)p\) and variance \((N-1)p(1-p)\).</p>
+</div></details>
+
+<h3>Why it becomes Poisson</h3>
+<p>Real networks are large and sparse: \(N\) is huge, but each node has only a few links. So \(p = \frac{\langle k\rangle}{N-1}\) is tiny. Keep the average degree ⟨k⟩ fixed and imagine \(N\) growing very large. Three approximations simplify the binomial formula.</p>
+<ol class="steps">
+<li><strong>The "choose" term.</strong> \(\binom{N-1}{k} = \frac{(N-1)(N-2)\cdots(N-k)}{k!}\). The top is \(k\) numbers multiplied together, all very close to \(N - 1\) when \(N\) is huge and \(k\) is small. So it is about \((N-1)^k\), and \(\binom{N-1}{k} \approx \frac{(N-1)^k}{k!}\).</li>
+<li><strong>The "\(p^k\)" term.</strong> Replace \(p\) by \(\frac{\langle k\rangle}{N-1}\). Then \(p^k = \frac{\langle k\rangle^k}{(N-1)^k}\).</li>
+<li><strong>The "\((1-p)^{N-1-k}\)" term.</strong> Take the logarithm, which turns the power into a multiplication (M5): \((N-1-k)\ln(1-p)\). For small \(p\), \(\ln(1-p) \approx -p\), and since \(k\) is tiny next to \(N\), \(N - 1 - k \approx N - 1\). So the log is about \(-(N-1)p = -\langle k\rangle\), and the term itself is \(e^{-\langle k\rangle}\).</li>
+</ol>
+<p>Now multiply the three pieces together. The \((N-1)^k\) on top (step 1) cancels the \((N-1)^k\) underneath (step 2):</p>
+<div class="eq">\[P(k) \approx \frac{(N-1)^k}{k!}\times\frac{\langle k\rangle^k}{(N-1)^k}\times e^{-\langle k\rangle}\]</div>
+<div class="eq boxed">\[P(k) = e^{-\langle k\rangle}\,\frac{\langle k\rangle^{k}}{k!}\qquad\text{(the Poisson distribution)}\]</div>
+<p>It depends on only one number, the average degree ⟨k⟩. \(N\) and \(p\) no longer appear separately, which is why it is easier to use.</p>
+<p>For the Poisson distribution, the <strong>variance equals the average</strong>: the binomial variance \(p(1-p)(N-1)\) becomes \(p(N-1) = \langle k\rangle\) when \(p\) is tiny (because \(1 - p \approx 1\)). Then the second moment follows from the definition of variance, \(\operatorname{var} = \langle k^2\rangle - \langle k\rangle^2\):</p>
+<div class="eq boxed">\[\langle k\rangle = \operatorname{var}(k), \qquad \langle k^2\rangle = \operatorname{var}(k) + \langle k\rangle^2 = \langle k\rangle + \langle k\rangle^2\]</div>
+
+<figure class="fig"><!--plot:poisson-->
+<figcaption>Poisson degree distributions for three average degrees. Each one peaks near its average and falls away quickly on both sides.</figcaption></figure>
+
+<h3>What this tells you about random networks</h3>
+<p>The typical spread of degrees is \(\sigma_k = \sqrt{\langle k\rangle}\). With an average of 100, the spread is 10, so nearly every node has between about 70 and 130 links. A node with 1000 links would be 90 spreads away from the average, which essentially never happens. So <strong>random networks have no hubs</strong>. This is the big difference from the power law of §1, where hubs are expected. Relative to the average, the spread \(\sigma_k/\langle k\rangle = 1/\sqrt{\langle k\rangle}\) gets smaller as the network gets denser.</p>
+
+<div class="card ex"><span class="tag">Worked example</span>
+<p>\(N = 1001\) nodes, \(p = 0.01\). Then \(\langle k\rangle = 0.01\times1000 = 10\).</p>
+<ul>
+<li>Chance that a node has exactly 10 links: \(e^{-10}\times\frac{10^{10}}{10!} \approx 0.125\).</li>
+<li>Chance that a node has no links: \(e^{-10}\approx 0.000045\). Expected number of isolated nodes: \(1001\times0.000045\approx0.05\), so almost certainly none.</li>
+<li>Second moment: \(\langle k^2\rangle = 10 + 100 = 110\).</li>
+</ul>
+</div>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Each of a node's \(N-1\) possible links exists independently with probability \(p\), so its degree is binomial. Write the formula and explain the three factors.</li>
+<li>State the limit: \(N\to\infty\), \(p\to0\), with \(\langle k\rangle = p(N-1)\) fixed.</li>
+<li>Apply the three approximations: the choose term, \(p^k\), and \((1-p)^{N-1-k}\approx e^{-\langle k\rangle}\).</li>
+<li>Multiply, cancel \((N-1)^k\), and box the Poisson formula.</li>
+<li>State \(\langle k\rangle = p(N-1)\), variance \(= \langle k\rangle\), and \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\).</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>ER: link each pair with probability \(p\). \(\langle k\rangle = p(N-1)\).</li>
+<li>Binomial: \(P(k) = \binom{N-1}{k}p^k(1-p)^{N-1-k}\), variance \(p(1-p)(N-1)\).</li>
+<li>Poisson (large \(N\), small \(p\)): \(P(k) = e^{-\langle k\rangle}\langle k\rangle^k/k!\).</li>
+<li>Poisson: variance = ⟨k⟩, \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\). No hubs.</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Quiz 1</span><span>What is the relation between p, ⟨k⟩ and N?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle k\rangle = p(N-1)\), or \(p = \frac{\langle k\rangle}{N-1}\). Each node has \(N - 1\) possible partners and each is linked with probability \(p\). For large \(N\), \(\langle k\rangle\approx pN\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>A random network has average degree 3. What fraction of nodes have 0, 1 and 2 links?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(P(0) = e^{-3}\approx0.050\). \(P(1) = 3e^{-3}\approx0.149\). \(P(2) = \frac{3^2}{2}e^{-3}\approx0.224\).</p></div></details>
+</section>
+
+<section>
+<h2 id="gcc"><span class="num">5</span>The giant component and the equation for S</h2>
+<span class="board">Syllabus · ER 2 and 3, GCC, S, critical point</span>
+<p class="about">If links are scarce, a random network falls apart into many small separate pieces. If you add links, at one exact point a single huge piece suddenly forms, containing a large share of all the nodes. This huge piece is the <strong>giant connected component</strong> (GCC). This section finds the equation for its size, shows that it appears exactly when the average degree passes 1, and describes how it grows just after that point.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Derive the self-consistent equation for \(S\), the fraction of nodes in the giant component.</li>
+<li>Prove that the giant component appears only when the average degree is greater than 1. (2024 Quiz 2, 5 marks)</li>
+<li>Show how \(S\) behaves near the critical point: \(S\sim(\langle k\rangle - 1)^\beta\), and find \(\beta\).</li>
+<li>Describe what the network looks like below, at, and above the critical point.</li>
+</ul>
+</div>
+
+<h3>Words first</h3>
+<p>A <strong>component</strong> is a piece of the network in which every node can reach every other node by walking along links, and which has no links to the rest. The example in §0 is one component. A network with no links at all has \(N\) components of one node each.</p>
+<p>Think of a class where any two students become friends with probability \(p\). If on average each student has fewer than one friend, the class is split into many small friend groups. As the average rises past one friend, the groups rapidly join up into one big group containing a fixed share of the whole class. That big group is the giant component. Its size grows in proportion to the number of nodes, which is what "giant" means.</p>
+<p class="sym">\(S\) = fraction of all nodes that are in the giant component (a number between 0 and 1). \(u = 1 - S\) = fraction of nodes that are <em>not</em> in it, which is also the probability that a randomly chosen node is not in it.</p>
+
+<h3>Deriving the equation, one step at a time</h3>
+<ol class="steps">
+<li><strong>Look at one node \(i\) and one other node \(j\).</strong> For \(i\) to be outside the giant component, \(j\) must not connect \(i\) to it. That happens in two ways that cannot both be true. Either there is no link between \(i\) and \(j\) (probability \(1 - p\)), or there is a link (probability \(p\)) but \(j\) is itself outside the giant component (probability \(u\)), giving \(p\,u\) by the "and" rule. Add them ("or" rule): \(1 - p + p\,u\).</li>
+<li><strong>Do this for all \(N - 1\) other nodes.</strong> For \(i\) to be outside, this must hold for every one of them. They are independent, so multiply ("and" rule) \(N - 1\) copies:
+\[u = (1 - p + pu)^{N-1} = \big[1 - p(1 - u)\big]^{N-1}.\]</li>
+<li><strong>Make \(N\) large.</strong> Put \(p = \frac{\langle k\rangle}{N-1}\). The bracket becomes \(\left[1 - \frac{\langle k\rangle(1-u)}{N-1}\right]^{N-1}\). This has the form \(\left(1 - \frac{x}{n}\right)^n\) with \(x = \langle k\rangle(1 - u)\), which approaches \(e^{-x}\) for large \(n\) (approximation 1 in M5). So
+\[u = e^{-\langle k\rangle(1-u)}.\]</li>
+<li><strong>Write it in terms of \(S\).</strong> Replace \(u\) by \(1 - S\). Then \(1 - u = S\), and \(1 - S = e^{-\langle k\rangle S}\).</li>
+</ol>
+<div class="eq boxed">\[S = 1 - e^{-\langle k\rangle S}\]</div>
+<p>It is called <strong>self-consistent</strong> because \(S\) appears on both sides. Whether you are in the giant component depends on whether your neighbours are in it, and the chance of that is again \(S\). The equation cannot be rearranged into "\(S = \) something", so it is solved by drawing a graph or by repeated substitution.</p>
+
+<h3>Solving it with a graph · why the average degree must be above 1</h3>
+<p>Draw both sides of the equation as curves against \(S\) and look for where they meet: the straight line \(y = S\), and the curve \(y = 1 - e^{-\langle k\rangle S}\).</p>
+<figure class="fig"><!--plot:gcc-graphical-->
+<figcaption>The line \(y = S\) (dashed) and the curve \(y = 1 - e^{-\langle k\rangle S}\) for four average degrees. Where a curve crosses the line, that value of \(S\) solves the equation. Every curve passes through \((0, 0)\). Only the curves that start out steeper than the line cross it a second time.</figcaption></figure>
+<ol>
+<li>\(S = 0\) is always a solution, since \(1 - e^{0} = 1 - 1 = 0\). It means "no giant component".</li>
+<li>The curve starts at \((0,0)\) with slope \(\langle k\rangle\). (The slope of \(1 - e^{-\langle k\rangle S}\) is \(\langle k\rangle e^{-\langle k\rangle S}\), by the rule in M6, and at \(S = 0\) that is \(\langle k\rangle\).)</li>
+<li>The curve bends downward and never goes above 1. So if it starts less steep than the line (slope less than 1), it stays below the line and never meets it again. If it starts steeper than the line (slope more than 1), it begins above the line, and because it flattens out below 1 it must come back down and cross the line at some \(S\) between 0 and 1.</li>
+</ol>
+<div class="eq boxed">\[\text{a giant component exists } (S > 0) \iff \langle k\rangle > 1 \iff p > \frac{1}{N-1}\approx\frac1N\]</div>
+<p>This is the proof that "the GCC appears when the average degree is greater than 1". The borderline \(\langle k\rangle = 1\), where the curve just touches the line at the origin, is called the <strong>critical point</strong>.</p>
+
+<div class="card ex"><span class="tag">Worked example · solving by repeated substitution</span>
+<p>Take \(\langle k\rangle = 2\). Guess \(S = 0.5\), put it into the right-hand side, and repeat with the answer:</p>
+<p>\(1 - e^{-2\times0.5} = 0.632\), then \(1 - e^{-2\times0.632} = 0.717\), then 0.762, 0.782, …, settling at 0.797.</p>
+<p>So about 80% of the nodes are in the giant component. Other values: average degree 1.5 gives \(S = 0.58\), 3 gives 0.94, 4 gives 0.98.</p>
+</div>
+
+<h3>Behaviour at the critical point · \(S \sim (\langle k\rangle - 1)^\beta\)</h3>
+<p>This syllabus item asks how \(S\) grows just after the average degree passes 1. There, \(S\) is still small, so we can use approximation 2 from M5, \(e^{-x}\approx 1 - x + \frac{x^2}{2}\), with \(x = \langle k\rangle S\).</p>
+<ol class="steps">
+<li>Substitute: \(S = 1 - \left(1 - \langle k\rangle S + \frac{\langle k\rangle^2S^2}{2}\right) = \langle k\rangle S - \frac{\langle k\rangle^2 S^2}{2}\).</li>
+<li>We want the solution where \(S\) is not 0, so divide both sides by \(S\): \(1 = \langle k\rangle - \frac{\langle k\rangle^2 S}{2}\).</li>
+<li>Rearrange for \(S\): \(\frac{\langle k\rangle^2 S}{2} = \langle k\rangle - 1\), so \(S = \frac{2(\langle k\rangle - 1)}{\langle k\rangle^2}\).</li>
+<li>Near the critical point \(\langle k\rangle\approx 1\), so \(\langle k\rangle^2\approx1\).</li>
+</ol>
+<div class="eq boxed">\[S \approx 2\,(\langle k\rangle - 1), \qquad\text{so}\quad S\sim(\langle k\rangle - 1)^{\beta}\ \text{ with }\ \beta = 1\]</div>
+<p class="sym">"\(\sim\)" means "grows like" or "is proportional to". The power \(\beta\) here is called the critical exponent. It is 1, so \(S\) grows in a straight line just after the critical point. The slide writes the same result as \(N_G/N\sim\langle k\rangle - 1\), where \(N_G\) is the number of nodes in the giant component.</p>
+<p>Check: for average degree 1.1, the formula gives \(2\times0.1/1.21 = 0.165\), and solving the full equation gives 0.176.</p>
+<figure class="fig"><!--plot:gcc-curve-->
+<figcaption>The size of the giant component against the average degree. It is exactly 0 up to 1, then rises along the straight line \(2(\langle k\rangle - 1)\) (dashed) before bending over towards 1.</figcaption></figure>
+<p>This sudden change is called a <strong>phase transition</strong>, like water turning to ice at exactly 0 °C. A smooth change in one number (the average degree) causes a sudden change in structure (a giant component appears where there was none).</p>
+
+<h3>What the network looks like in each regime</h3>
+<table class="tbl">
+<tr><th>Regime</th><th>Condition</th><th>Size of the largest piece</th><th>What it looks like</th></tr>
+<tr><td>Subcritical</td><td>average degree below 1 (\(p < 1/N\))</td><td>about \(\ln N\) nodes, tiny</td><td>Many small pieces, all shaped like trees (no loops). \(S = 0\).</td></tr>
+<tr><td>Critical</td><td>average degree exactly 1</td><td>about \(N^{2/3}\) nodes</td><td>The largest piece jumps in size, but is still a vanishing share of the network. Pieces of all sizes exist.</td></tr>
+<tr><td>Supercritical</td><td>average degree above 1</td><td>about \(S\times N\) nodes</td><td>One giant component, which has loops, plus many small tree-shaped pieces.</td></tr>
+<tr><td>Connected</td><td>average degree above \(\ln N\) (\(p > \ln N/N\))</td><td>all \(N\) nodes</td><td>The giant component has swallowed every node. No isolated nodes remain.</td></tr>
+</table>
+<p>The last threshold has a short reason. The expected number of nodes with no links is \(N\times P(0) = N e^{-\langle k\rangle}\) (using the Poisson formula with \(k = 0\)). This falls below 1 when \(e^{-\langle k\rangle} < 1/N\), which after taking logs is \(\langle k\rangle > \ln N\).</p>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Define \(u = 1 - S\), the probability that a node is not in the giant component.</li>
+<li>Write \(u = (1 - p + pu)^{N-1}\), explaining the two cases for each other node.</li>
+<li>Use \(p = \langle k\rangle/(N-1)\) and \((1 - x/n)^n\to e^{-x}\) to get \(S = 1 - e^{-\langle k\rangle S}\).</li>
+<li>Sketch \(y = S\) and \(y = 1 - e^{-\langle k\rangle S}\). The curve's slope at 0 is ⟨k⟩, so a second crossing needs \(\langle k\rangle > 1\).</li>
+<li>For the critical behaviour, expand \(e^{-x}\) to the \(x^2\) term and get \(S\approx 2(\langle k\rangle - 1)\), so \(\beta = 1\).</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(S = 1 - e^{-\langle k\rangle S}\) (self-consistent equation).</li>
+<li>Giant component exists only if \(\langle k\rangle > 1\). Critical point \(\langle k\rangle = 1\), \(p = 1/N\).</li>
+<li>Near the critical point \(S\approx2(\langle k\rangle - 1)\), so \(\beta = 1\).</li>
+<li>Fully connected when \(\langle k\rangle > \ln N\).</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>A network has 10,000 nodes and p = 0.00005. Is there a giant component? Is it connected?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The average degree is about \(pN = 0.5\), below 1, so there is no giant component. It is not connected either, since that needs average degree above \(\ln 10{,}000\approx9.2\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Estimate S for average degree 1.05.</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(S\approx2\times0.05 = 0.1\), or more precisely \(2\times0.05/1.05^2\approx0.091\). About 9 to 10% of nodes are in the giant component.</p></div></details>
+</section>
+
+<section>
+<h2 id="erlc"><span class="num">6</span>Path length and clustering of random networks, compared with real ones</h2>
+<span class="board">Syllabus · ER 4, ⟨l⟩, ⟨CC⟩, relation with real-world networks</span>
+<p class="about">Two questions about random networks. How far apart are two nodes on average? And how many triangles are there (do your friends know each other)? Then we compare the answers with real-world networks. Random networks get the first one right and the second one badly wrong.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Derive the average path length \(\langle l\rangle\approx\ln N/\ln\langle k\rangle\).</li>
+<li>Show that the clustering of a random network is \(p\), and that it does not depend on a node's degree.</li>
+<li>Say how each one changes with network size \(N\), and compare with real-world networks and with regular rings.</li>
+</ul>
+</div>
+
+<h3>Average path length</h3>
+<p>Stand on one node and count how many nodes you can reach in a given number of steps.</p>
+<ul>
+<li>In 1 step you reach its neighbours: about ⟨k⟩ nodes.</li>
+<li>Each of those has about ⟨k⟩ neighbours of its own, so in 2 steps you reach about \(\langle k\rangle\times\langle k\rangle = \langle k\rangle^2\) nodes.</li>
+<li>In \(d\) steps, about \(\langle k\rangle^d\) nodes.</li>
+</ul>
+<p class="sym">This assumes you do not meet the same node twice. In a large random network with few links per node, the area around any node looks like a tree (no loops), so this is a good approximation.</p>
+<p>The number reached grows very fast. You run out of nodes when \(\langle k\rangle^d\) reaches \(N\). Solve \(\langle k\rangle^d = N\) for \(d\) by taking logs of both sides: \(d\ln\langle k\rangle = \ln N\).</p>
+<div class="eq boxed">\[\langle l\rangle\approx\frac{\ln N}{\ln\langle k\rangle}\]</div>
+<p>The slides write the same thing more carefully: the number of nodes within distance \(d\) is \(1 + \langle k\rangle + \langle k\rangle^2 + \dots + \langle k\rangle^d \approx \langle k\rangle^d\), and setting it equal to \(N\) gives the diameter \(d_{\max}\approx\ln N/\ln\langle k\rangle\). The formula describes the average \(\langle l\rangle\) even better than the diameter, because the diameter is set by a few unusual pairs.</p>
+<p>Distance grows only like \(\ln N\), which grows extremely slowly (M5). This is the <strong>small-world property</strong>: even in a huge network, everyone is a few steps from everyone else. Dividing by \(\ln\langle k\rangle\) means more links per node give shorter paths.</p>
+<div class="card ex"><span class="tag">Worked example</span>
+<p>About 8 billion people, each knowing about 1000 others: \(\langle l\rangle\approx\frac{\ln(8\times10^9)}{\ln1000} = \frac{22.8}{6.9}\approx3.3\) steps. A ring with the same size and degree (§3) would give \(N/(2k) = 4\) million steps. This is the idea behind "six degrees of separation".</p>
+</div>
+
+<h3>Clustering</h3>
+<p>Take a node with \(k\) neighbours. There are \(\binom k2 = \frac{k(k-1)}{2}\) pairs of neighbours. In a random network, whether a given pair of neighbours is linked is just another coin flip with probability \(p\). Being neighbours of the same node does not make them more likely to be linked, because every link was decided independently. So on average \(p\times\binom k2\) of the pairs are linked, and</p>
+<div class="eq boxed">\[C_i = \frac{p\binom k2}{\binom k2} = p, \qquad \langle C\rangle = p = \frac{\langle k\rangle}{N-1}\approx\frac{\langle k\rangle}{N}\]</div>
+<ul>
+<li>This is the same for every degree \(k\). Writing \(C(k)\) for the clustering of nodes with degree \(k\), a random network has \(C(k) = p\), a flat line. In real networks \(C(k)\) usually falls as \(k\) grows.</li>
+<li>If the average degree stays fixed and the network grows, \(C = \langle k\rangle/N\) shrinks towards 0. A large random network has almost no triangles.</li>
+</ul>
+<details class="opt"><summary>Optional · the whole-network version also gives p</summary><div class="body">
+<p>Another way to measure clustering, called transitivity, is 3 × (number of triangles) ÷ (number of connected triples, meaning paths of two links). The expected number of triangles is \(\binom N3p^3\), since all three links must be present. The expected number of connected triples is \(N\binom{N-1}{2}p^2\): pick the middle node, pick two other nodes, and both links must be present. Then</p>
+<div class="eq">\[T = \frac{3\binom N3p^3}{N\binom{N-1}{2}p^2} = \frac{3\cdot\frac{N(N-1)(N-2)}{6}p^3}{N\cdot\frac{(N-1)(N-2)}{2}p^2} = p .\]</div>
+<p>Everything cancels, and both definitions agree.</p>
+</div></details>
+
+<h3>Relation with real-world networks</h3>
+<table class="tbl">
+<tr><th></th><th>Regular ring (§3)</th><th>Random (ER) network</th><th>Real-world networks</th></tr>
+<tr><td>Average path length</td><td>about \(N/(2k)\), long</td><td>\(\ln N/\ln\langle k\rangle\), short</td><td>short, close to the random value</td></tr>
+<tr><td>Clustering</td><td>high (\(\frac12\) for \(k = 4\)), does not shrink with \(N\)</td><td>\(\langle k\rangle/N\), tiny</td><td>high (often 0.1 to 0.5), does not shrink with \(N\)</td></tr>
+<tr><td>Degrees</td><td>all the same</td><td>Poisson, no hubs</td><td>often a power law, with hubs</td></tr>
+</table>
+<p>The random network matches real networks on path length but underestimates clustering by factors of hundreds or thousands. A regular ring has the opposite problem: high clustering, but long paths. Real networks have both short paths and high clustering. The Watts–Strogatz "small-world" model gets both by starting from a ring and rewiring a few links at random: the random shortcuts make paths short, and most triangles survive.</p>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Path length: about \(\langle k\rangle^d\) nodes within \(d\) steps (tree-like neighbourhood). Set \(\langle k\rangle^d = N\), take logs, get \(\langle l\rangle\approx\ln N/\ln\langle k\rangle\).</li>
+<li>Clustering: each pair of neighbours is linked independently with probability \(p\), so \(C = p = \langle k\rangle/(N-1)\), the same for every degree.</li>
+<li>Dependence on \(N\): ⟨l⟩ grows like \(\ln N\); \(C\) falls like \(1/N\).</li>
+<li>Real-world networks: similar ⟨l⟩, much larger \(C\).</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(\langle l\rangle\approx\ln N/\ln\langle k\rangle\). Small world.</li>
+<li>\(\langle C\rangle = p = \langle k\rangle/N\), and \(C(k) = p\) for all \(k\).</li>
+<li>Real networks: short paths like ER, but much higher clustering.</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>A random network has a million nodes and average degree 10. Estimate ⟨l⟩ and C.</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle l\rangle\approx\ln10^6/\ln10 = 6\). \(C\approx10/10^6 = 0.00001\).</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>You double N but keep the average degree fixed. What happens to ⟨l⟩ and C?</span><span class="chev">›</span></summary>
+<div class="ans"><p>⟨l⟩ goes up by only \(\ln2/\ln\langle k\rangle\), less than one step when the average degree is 2 or more. \(C = \langle k\rangle/N\) halves.</p></div></details>
+</section>
+
+<section>
+<h2 id="knn"><span class="num">7</span>Neighbour degree and the friendship paradox</h2>
+<span class="board">Syllabus · ER 4, k_nn, ⟨k_nn⟩, is ⟨k_nn⟩ = ⟨k⟩? · slide 67 (starred)</span>
+<p class="about">On average, your friends have more friends than you do. This sounds wrong but is true in almost every network, and the reason is simple: people with many friends show up on many friend lists. This section turns that into a formula and answers the syllabus question "is the average degree of a neighbour equal to the average degree?". The answer is no, it is bigger.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Define \(k_{nn,i}\) (average degree of node \(i\)'s neighbours) and ⟨\(k_{nn}\)⟩.</li>
+<li>Show that the chance of landing on a node of degree \(k\) by following a random link is \(q_k = kP(k)/\langle k\rangle\).</li>
+<li>Prove that \(\sum_k k\,q_k = \langle k^2\rangle/\langle k\rangle\), and that for a random network this equals \(\langle k\rangle + 1\).</li>
+<li>Compute \(p_k\), \(q_k\) and ⟨\(k_{nn}\)⟩ for a small drawn network, as on slide 67 onwards.</li>
+</ul>
+</div>
+
+<h3>The example from the slides</h3>
+<figure class="fig">
+<svg class="gr" viewBox="0 0 340 200" role="img" aria-label="Ten-node example graph with a hub" data-spec='{"r":14,"nodes":{"10":[120,62],"7":[70,20],"8":[122,14],"9":[172,24],"6":[40,80],"5":[62,135],"4":[120,160],"3":[180,168],"2":[240,160],"1":[300,150]},"edges":[["10","7"],["10","8"],["10","9"],["10","6"],["10","5"],["6","5"],["5","4"],["4","3"],["3","2"],["2","1"]],"hi":["10"]}'></svg>
+<figcaption>The network from the slides. Node 10 is a hub with 5 links. Nodes 1, 7, 8, 9 have 1 link each; nodes 2, 3, 4, 6 have 2; node 5 has 3. 10 nodes and 10 links.</figcaption></figure>
+<p>These are the same ten degrees as in §1, so \(\langle k\rangle = 2\) and \(\langle k^2\rangle = 5.4\).</p>
+
+<h3>Choosing a node versus following a link</h3>
+<p>There are two ways to pick a node.</p>
+<ol>
+<li><strong>Pick a node at random.</strong> Each node is equally likely. The chance of getting a node with degree \(k\) is just \(p_k = P(k)\), the fraction of nodes with that degree. Here, the chance of picking the hub is \(p_5 = 1/10\).</li>
+<li><strong>Pick a link at random and walk to one of its ends.</strong> Now a node with many links is more likely, because it sits at the end of many links. The hub is at the end of 5 of the 10 links, so it is reached in 5 of the 20 possible "link-end" choices: probability \(5/20 = 1/4\). That is 2.5 times more likely than picking it directly.</li>
+</ol>
+<p>In general, a node of degree \(k\) is the end of \(k\) links, so it is reached \(k\) times as often. The probability of landing on some node of degree \(k\) by following a link is</p>
+<div class="eq boxed">\[q_k = \frac{k\,P(k)}{\langle k\rangle}\]</div>
+<p class="sym">\(q_k\) is \(P(k)\) weighted by \(k\). Dividing by ⟨k⟩ makes all the \(q_k\) add up to 1, because \(\sum_k kP(k) = \langle k\rangle\).</p>
+<table class="tbl">
+<tr><th class="c">Degree k</th><th class="c">\(p_k\) (pick a node)</th><th class="c">\(q_k = k\,p_k/2\) (follow a link)</th><th>Comparison</th></tr>
+<tr><td class="c">1</td><td class="c">4/10</td><td class="c">1/5</td><td>less likely by following a link</td></tr>
+<tr><td class="c">2</td><td class="c">4/10</td><td class="c">2/5</td><td>the same</td></tr>
+<tr><td class="c">3</td><td class="c">1/10</td><td class="c">3/20</td><td>more likely</td></tr>
+<tr><td class="c">5</td><td class="c">1/10</td><td class="c">1/4</td><td>2.5 times more likely</td></tr>
+</table>
+<p>Check that the \(q_k\) add to 1: \(\frac{4}{20}+\frac{8}{20}+\frac{3}{20}+\frac{5}{20} = 1\).</p>
+
+<h3>The average degree of a neighbour</h3>
+<p>A neighbour of a node is exactly what you reach by following a link. So the average degree of a neighbour is the average of \(k\) using the \(q_k\) probabilities:</p>
+<div class="eq">\[\langle k_{nn}\rangle = \sum_k k\,q_k = \sum_k k\cdot\frac{kP(k)}{\langle k\rangle} = \frac{1}{\langle k\rangle}\sum_k k^2 P(k)\]</div>
+<p>The last sum is the definition of \(\langle k^2\rangle\) (M2), so</p>
+<div class="eq boxed">\[\langle k_{nn}\rangle = \frac{\langle k^2\rangle}{\langle k\rangle}\]</div>
+<p>For the example: \(\langle k_{nn}\rangle = 5.4/2 = 2.7\). The average node has 2 links, but the average neighbour has 2.7. You can see it node by node: node 7 has 1 link, and its only neighbour (the hub) has 5.</p>
+<p class="sym">The slides also define the average degree of the neighbours of one node, \(k_{nn,i} = \frac{1}{k_i}\sum_j A_{ij}k_j\). \(A_{ij}\) picks out the neighbours of \(i\), \(k_j\) is each neighbour's degree, and dividing by \(k_i\) averages them. For node 7, \(k_{nn,7} = 5\). For the hub, \(k_{nn,10} = (1+1+1+2+3)/5 = 1.6\).</p>
+
+<h3>Is ⟨k_nn⟩ = ⟨k⟩? No</h3>
+<p>Use the definition of variance, \(\langle k^2\rangle = \langle k\rangle^2 + \sigma^2\) (M1), and divide by ⟨k⟩:</p>
+<div class="eq">\[\langle k_{nn}\rangle = \frac{\langle k\rangle^2 + \sigma^2}{\langle k\rangle} = \langle k\rangle + \frac{\sigma^2}{\langle k\rangle}\]</div>
+<p>The extra part \(\sigma^2/\langle k\rangle\) can never be negative. So \(\langle k_{nn}\rangle\ge\langle k\rangle\), and the two are equal only when the variance is 0, meaning every node has the same degree (such as a ring). In every other network, your neighbours have more links than you on average. This is the <strong>friendship paradox</strong>. It comes from how neighbours are sampled, not from anything special about people.</p>
+<p><strong>For a random (ER) network</strong>, §4 gave \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\). So</p>
+<div class="eq boxed">\[\langle k_{nn}\rangle_{\text{ER}} = \frac{\langle k\rangle + \langle k\rangle^2}{\langle k\rangle} = \langle k\rangle + 1\]</div>
+<p>Your neighbours have exactly one more link than average, whatever the average is. For a power-law network with \(2 < \gamma < 3\), ⟨k²⟩ is infinite (§1), so ⟨\(k_{nn}\)⟩ is huge: neighbours are far better connected than you, because many of them are hubs.</p>
+<table class="tbl">
+<tr><th>Network</th><th>⟨k²⟩</th><th>⟨k_nn⟩</th></tr>
+<tr><td>All degrees equal to \(k\)</td><td>\(k^2\)</td><td>\(k\), the same as ⟨k⟩</td></tr>
+<tr><td>Random (ER, Poisson)</td><td>\(\langle k\rangle + \langle k\rangle^2\)</td><td>\(\langle k\rangle + 1\)</td></tr>
+<tr><td>Power law, \(2 < \gamma < 3\)</td><td>infinite</td><td>grows without limit as the network grows</td></tr>
+</table>
+<p class="small">If you average \(k_{nn,i}\) over the ten nodes one by one, you get 3.16 rather than 2.7. The two methods agree for large random networks. In a small drawn network they can differ. Use \(\langle k^2\rangle/\langle k\rangle\) unless the question asks for the node-by-node average.</p>
+
+<details class="opt"><summary>Optional · second neighbours, and the link to path length</summary><div class="body">
+<p>When you arrive at a neighbour with \(k\) links, one of those links is the one you came along, so it leads on to \(k - 1\) new nodes. On average that is \(\langle k_{nn}\rangle - 1\). The expected number of second neighbours is \(z_2 = \langle k\rangle(\langle k_{nn}\rangle - 1)\). For a random network, \(\langle k_{nn}\rangle - 1 = \langle k\rangle\), so \(z_2 = \langle k\rangle^2\), and at distance \(m\) there are \(z_m = \langle k\rangle^m\) nodes. That is the count used for the path length in §6.</p>
+</div></details>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Define \(k_{nn,i} = \frac{1}{k_i}\sum_j A_{ij}k_j\).</li>
+<li>Following a random link reaches a degree-\(k\) node with probability proportional to \(k\), so \(q_k = kP(k)/\langle k\rangle\).</li>
+<li>\(\langle k_{nn}\rangle = \sum_k kq_k = \langle k^2\rangle/\langle k\rangle\).</li>
+<li>Write \(\langle k^2\rangle = \langle k\rangle^2 + \sigma^2\) to show \(\langle k_{nn}\rangle\ge\langle k\rangle\), equal only if all degrees are equal.</li>
+<li>For ER, use \(\sigma^2 = \langle k\rangle\): \(\langle k_{nn}\rangle = \langle k\rangle + 1\).</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(q_k = kP(k)/\langle k\rangle\).</li>
+<li>\(\langle k_{nn}\rangle = \langle k^2\rangle/\langle k\rangle = \langle k\rangle + \sigma^2/\langle k\rangle \ge \langle k\rangle\).</li>
+<li>ER: \(\langle k_{nn}\rangle = \langle k\rangle + 1\).</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>A random network has average degree 7. What is ⟨k_nn⟩?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(7 + 1 = 8\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>A star with 5 nodes. Compute ⟨k⟩, ⟨k²⟩ and ⟨k_nn⟩.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Degrees 4, 1, 1, 1, 1. \(\langle k\rangle = 8/5 = 1.6\). \(\langle k^2\rangle = (16 + 1 + 1 + 1 + 1)/5 = 4\). \(\langle k_{nn}\rangle = 4/1.6 = 2.5\), much more than 1.6, because the hub is at one end of every link.</p></div></details>
+</section>

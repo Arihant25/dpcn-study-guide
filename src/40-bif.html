@@ -1,0 +1,264 @@
+
+<div class="part">Part 3<span>Bifurcations</span></div>
+<section>
+<h2 id="fixed"><span class="num">8</span>Fixed points and stability</h2>
+<span class="board">Syllabus · bifurcation (foundation)</span>
+<p class="about">A <strong>dynamical system</strong> is a rule that says how something changes over time, such as a population, the number of infected people, or the charge on a capacitor. A <strong>fixed point</strong> is a value where the change stops, so the system stays there forever. A fixed point is <strong>stable</strong> if, after a small push, the system comes back to it, and <strong>unstable</strong> if a small push sends it away. This section shows how to find fixed points and test their stability. Everything in Parts 3 and 4 uses this.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Find all fixed points of \(\dot x = f(x)\) and say which are stable.</li>
+<li>Draw the phase line (a plot of \(\dot x\) against \(x\), with arrows).</li>
+<li>Explain why a negative slope means stable.</li>
+</ul>
+</div>
+
+<h3>The equation</h3>
+<div class="eq">\[\dot x = f(x)\]</div>
+<p class="sym">\(x\) is the quantity that changes (say, a population). \(\dot x\) is its rate of change over time (M6): positive means \(x\) is increasing, negative means decreasing. \(f(x)\) is a formula that gives this rate for each value of \(x\).</p>
+<p>Example: \(\dot x = x(1 - x)\). At \(x = 0.5\), the rate is \(0.5\times0.5 = 0.25\), so \(x\) is growing. At \(x = 2\), the rate is \(2\times(-1) = -2\), so \(x\) is shrinking. At \(x = 1\), the rate is 0, so \(x\) does not change.</p>
+
+<h3>Fixed points</h3>
+<p>A fixed point \(x^*\) is a value where the rate of change is zero:</p>
+<div class="eq boxed">\[f(x^*) = 0\]</div>
+<p>For \(\dot x = x(1-x)\): \(x(1 - x) = 0\) when \(x = 0\) or \(x = 1\). Those are the two fixed points.</p>
+
+<h3>Stability, as a picture</h3>
+<p>Think of a ball on a hilly surface. A ball resting at the bottom of a valley rolls back if you nudge it: that is a stable fixed point. A ball balanced on a hilltop rolls away if you nudge it: that is an unstable fixed point. Both are places where the ball can rest, but only one survives a small disturbance.</p>
+
+<h3>The phase line · reading stability from a plot</h3>
+<p>Plot \(f(x)\) (the rate) against \(x\).</p>
+<ul>
+<li>Where the curve is <strong>above</strong> the axis, \(\dot x > 0\), so \(x\) increases. Draw an arrow pointing right.</li>
+<li>Where the curve is <strong>below</strong> the axis, \(\dot x < 0\), so \(x\) decreases. Draw an arrow pointing left.</li>
+<li>Where the curve <strong>crosses</strong> the axis, \(\dot x = 0\). That is a fixed point.</li>
+</ul>
+<p>If the arrows on both sides point <strong>towards</strong> a fixed point, it is stable. If they point <strong>away</strong>, it is unstable.</p>
+<figure class="fig"><!--plot:phase-logistic-->
+<figcaption>The phase line for \(\dot x = x(1 - x/K)\) (logistic growth). Left of 0 and right of \(K\) the curve is below the axis, so arrows point left. Between them it is above, so arrows point right. At 0 (hollow) the arrows point away, so it is unstable. At \(K\) (filled) they point in, so it is stable.</figcaption></figure>
+
+<h3>The slope test</h3>
+<p>Look at the picture again. At the stable point \(K\), the curve crosses the axis going <strong>downhill</strong> (from above to below). At the unstable point 0, it crosses going <strong>uphill</strong>. Downhill means negative slope, uphill means positive slope. So you can test stability with the slope \(f'(x^*)\) (M6) instead of drawing:</p>
+<div class="eq boxed">\[f'(x^*) < 0\ \Rightarrow\ \text{stable}, \qquad f'(x^*) > 0\ \Rightarrow\ \text{unstable}, \qquad f'(x^*) = 0\ \Rightarrow\ \text{the test cannot decide}\]</div>
+<p>The reason, in one line: if you push the system a small distance \(\eta\) (Greek "eta") from the fixed point, the push obeys \(\dot\eta\approx f'(x^*)\,\eta\). That is the equation \(\dot y = ay\) from <a href="#maths">M8</a> with \(a = f'(x^*)\), so the push shrinks if the slope is negative and grows if it is positive.</p>
+<details class="opt"><summary>Optional · the full reasoning</summary><div class="body">
+<p>Write \(x = x^* + \eta\), where \(\eta\) is small. Since \(x^*\) does not change, \(\dot x = \dot\eta\). Near \(x^*\), the curve \(f\) is close to its tangent line, so \(f(x^* + \eta)\approx f(x^*) + f'(x^*)\eta\). The first term is 0 because \(x^*\) is a fixed point. So \(\dot\eta\approx f'(x^*)\eta\), whose solution is \(\eta(t) = \eta(0)e^{f'(x^*)t}\). When the slope is exactly 0 the tangent line is flat and says nothing, which is why the test fails there. Those are exactly the places where bifurcations happen (§9).</p>
+</div></details>
+
+<div class="card ex"><span class="tag">Worked example · logistic growth</span>
+<p>\(\dot x = rx\left(1 - \frac xK\right)\), with \(r\) and \(K\) positive numbers. (\(x\) is a population, \(r\) its growth rate, \(K\) the largest population the environment can support.)</p>
+<ol>
+<li>Fixed points: \(rx(1 - x/K) = 0\) when \(x = 0\) or \(x = K\).</li>
+<li>Multiply out \(f(x) = rx - \frac rK x^2\), so the slope is \(f'(x) = r - \frac{2r}{K}x\).</li>
+<li>\(f'(0) = r > 0\): unstable. \(f'(K) = r - 2r = -r < 0\): stable.</li>
+</ol>
+<p>So any small positive population grows until it reaches \(K\) and then stays there.</p>
+</div>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Set \(f(x) = 0\) and solve for every fixed point.</li>
+<li>Differentiate to get \(f'(x)\).</li>
+<li>Put each fixed point into \(f'\): negative means stable, positive means unstable.</li>
+<li>If asked, draw the phase line with arrows to confirm.</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Fixed point: \(f(x^*) = 0\).</li>
+<li>\(f'(x^*) < 0\) stable, \(f'(x^*) > 0\) unstable, \(f'(x^*) = 0\) undecided.</li>
+<li>Phase line: arrows towards the point means stable.</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Find and classify the fixed points of \(\dot x = x^2 - 4\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(x^2 - 4 = 0\) gives \(x^* = 2\) and \(x^* = -2\). The slope is \(f'(x) = 2x\). \(f'(2) = 4 > 0\), unstable. \(f'(-2) = -4 < 0\), stable.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Fixed points of \(\dot x = 3 - x\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>One fixed point, \(x^* = 3\). The slope is \(-1\), negative, so it is stable. From anywhere, \(x\) moves towards 3.</p></div></details>
+</section>
+
+<section>
+<h2 id="bif"><span class="num">9</span>The four bifurcations</h2>
+<span class="board">Syllabus · bifurcation</span>
+<p class="about">Most systems contain a number you can adjust, called a <strong>parameter</strong> (for example a growth rate or an infection rate), written \(r\). As you slowly change \(r\), the fixed points move. Usually nothing dramatic happens. But at certain values of \(r\), fixed points suddenly appear, disappear, or swap between stable and unstable. That sudden change is a <strong>bifurcation</strong>. There are four standard types in one dimension, and each has a simple example equation called its <strong>normal form</strong>.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>"Describe the role of \(r\). What type of bifurcation do you expect?" for a given equation. (2024 mid-sem Q3, 7 marks)</li>
+<li>Draw the bifurcation diagram (fixed points against \(r\)), marking stable and unstable branches.</li>
+<li>State the normal form of each bifurcation.</li>
+</ul>
+</div>
+
+<h3>Watching one bifurcation happen</h3>
+<p>Take \(\dot x = r - x^2\) and try three values of \(r\).</p>
+<ul>
+<li>\(r = -1\): \(-1 - x^2 = 0\) means \(x^2 = -1\), which has no real solution. <strong>No fixed points.</strong></li>
+<li>\(r = 0\): \(-x^2 = 0\) gives only \(x = 0\). <strong>One fixed point.</strong></li>
+<li>\(r = 1\): \(1 - x^2 = 0\) gives \(x = 1\) and \(x = -1\). <strong>Two fixed points.</strong> The slope is \(f'(x) = -2x\), so \(f'(1) = -2\) (stable) and \(f'(-1) = 2\) (unstable).</li>
+</ul>
+<p>As \(r\) passes 0, a stable and an unstable fixed point appear together out of nothing. That is a <strong>saddle-node bifurcation</strong>. For general \(r > 0\) the fixed points are \(x^* = \pm\sqrt r\).</p>
+<p>A <strong>bifurcation diagram</strong> draws this: \(r\) along the horizontal axis, the fixed points \(x^*\) up the vertical axis, with each branch marked stable or unstable.</p>
+
+<div class="card watch"><span class="tag">Line style used by the course</span>
+<p>The course note draws <strong>stable branches dashed and unstable branches solid</strong>. Most textbooks do the opposite. The diagrams below follow the course note and also use colour: <span style="color:var(--stable);font-weight:700">teal = stable</span>, <span style="color:var(--unstable);font-weight:700">orange = unstable</span>. In the exam, write the word "stable" or "unstable" next to each branch so there is no confusion.</p>
+</div>
+
+<div class="figrow">
+<figure class="fig"><!--plot:bif-saddle--><figcaption><strong>Saddle-node</strong>, \(\dot x = r - x^2\). No fixed points for \(r < 0\). For \(r > 0\), a stable one at \(+\sqrt r\) and an unstable one at \(-\sqrt r\).</figcaption></figure>
+<figure class="fig"><!--plot:bif-trans--><figcaption><strong>Transcritical</strong>, \(\dot x = rx - x^2\). Two fixed points, 0 and \(r\), that cross at \(r = 0\) and swap stability.</figcaption></figure>
+<figure class="fig"><!--plot:bif-super--><figcaption><strong>Supercritical pitchfork</strong>, \(\dot x = rx - x^3\). For \(r > 0\), 0 turns unstable and two new stable points \(\pm\sqrt r\) appear. The change is gradual.</figcaption></figure>
+<figure class="fig"><!--plot:bif-sub--><figcaption><strong>Subcritical pitchfork</strong>, \(\dot x = rx + x^3\). Two unstable points \(\pm\sqrt{-r}\) exist for \(r < 0\). For \(r > 0\) there is no nearby stable point, so the system jumps far away.</figcaption></figure>
+</div>
+
+<h3>The four types, worked out</h3>
+<p>For each one: set \(f(x) = 0\) to find the fixed points, then use the slope to test them, exactly as in §8.</p>
+<h4>Saddle-node · \(\dot x = r - x^2\)</h4>
+<p>Fixed points \(x^* = \pm\sqrt r\), which exist only for \(r \ge 0\). Slope \(f' = -2x\): at \(+\sqrt r\) it is negative (stable), at \(-\sqrt r\) positive (unstable). <strong>What happens:</strong> a stable/unstable pair is created from nothing (or, going the other way, collides and disappears).</p>
+<h4>Transcritical · \(\dot x = rx - x^2 = x(r - x)\)</h4>
+<p>Fixed points \(x^* = 0\) and \(x^* = r\), for every \(r\). Slope \(f' = r - 2x\): at 0 it is \(r\), at \(r\) it is \(r - 2r = -r\). So for \(r < 0\), 0 is stable and \(r\) is unstable; for \(r > 0\), 0 is unstable and \(r\) is stable. <strong>What happens:</strong> the two branches cross and exchange stability.</p>
+<h4>Supercritical pitchfork · \(\dot x = rx - x^3 = x(r - x^2)\)</h4>
+<p>Fixed points \(x^* = 0\) always, plus \(\pm\sqrt r\) when \(r > 0\). Slope \(f' = r - 3x^2\): at 0 it is \(r\); at \(\pm\sqrt r\) it is \(r - 3r = -2r\), negative. <strong>What happens:</strong> 0 loses stability at \(r = 0\) and two stable branches grow out of it, like the prongs of a pitchfork.</p>
+<h4>Subcritical pitchfork · \(\dot x = rx + x^3 = x(r + x^2)\)</h4>
+<p>Fixed points \(x^* = 0\) always, plus \(\pm\sqrt{-r}\) when \(r < 0\). Slope \(f' = r + 3x^2\): at 0 it is \(r\); at \(\pm\sqrt{-r}\) it is \(r - 3r = -2r\), which is positive because \(r < 0\). <strong>What happens:</strong> the two side branches are unstable. After \(r = 0\) nothing nearby is stable, so a small push sends the system far away. This is linked to sudden, dramatic jumps.</p>
+
+<table class="tbl">
+<tr><th>Type</th><th>Normal form</th><th>Fixed points</th><th>What happens at \(r = 0\)</th></tr>
+<tr><td>Saddle-node</td><td>\(\dot x = r - x^2\)</td><td>\(\pm\sqrt r\) for \(r\ge0\)</td><td>A stable/unstable pair appears or disappears</td></tr>
+<tr><td>Transcritical</td><td>\(\dot x = rx - x^2\)</td><td>0 and \(r\)</td><td>Two branches cross and swap stability</td></tr>
+<tr><td>Supercritical pitchfork</td><td>\(\dot x = rx - x^3\)</td><td>0; \(\pm\sqrt r\) for \(r > 0\)</td><td>0 turns unstable, two stable branches appear</td></tr>
+<tr><td>Subcritical pitchfork</td><td>\(\dot x = rx + x^3\)</td><td>0; \(\pm\sqrt{-r}\) for \(r < 0\)</td><td>Two unstable branches merge into 0; the system jumps away</td></tr>
+</table>
+<p class="small">The Strogatz slides use the letters \(y\) and \(\mu\) (Greek "mu") instead of \(x\) and \(r\), and write the saddle-node as \(\dot y = y^2 + \mu\). That version has its two fixed points for \(\mu < 0\) instead of \(r > 0\). It is the same bifurcation, mirrored.</p>
+
+<h3>How to tell which type you have</h3>
+<ol class="steps">
+<li>Solve \(f(x; r) = 0\) for the fixed points in terms of \(r\), and note for which \(r\) they exist.</li>
+<li>Count the fixed points on each side of the critical value of \(r\).</li>
+<li>Find the slope \(f'\) on each branch and mark it stable or unstable.</li>
+<li>Match the pattern.
+<ul>
+<li>0 fixed points on one side and 2 on the other: <strong>saddle-node</strong>.</li>
+<li>2 on both sides, crossing and swapping stability: <strong>transcritical</strong>.</li>
+<li>1 becomes 3, symmetric about 0: <strong>pitchfork</strong>. Supercritical if the new branches are stable, subcritical if unstable.</li>
+</ul></li>
+</ol>
+<p>Bifurcations happen only where the slope test fails, so the critical point can be found by solving \(f = 0\) and \(f' = 0\) together.</p>
+
+<div class="card ex"><span class="tag">Worked example · 2024 mid-sem Q3(a)</span>
+<p><strong>\(\dot x = rx - x^2\), where \(r\) is a parameter. Describe the role of \(r\). What type of bifurcation do you expect?</strong></p>
+<ol>
+<li>\(x(r - x) = 0\), so the fixed points are \(x^* = 0\) and \(x^* = r\).</li>
+<li>The slope is \(f'(x) = r - 2x\). So \(f'(0) = r\) and \(f'(r) = -r\).</li>
+<li>For \(r < 0\): \(f'(0) < 0\), so 0 is stable, and \(x^* = r\) is unstable. For \(r > 0\): 0 is unstable and \(x^* = r\) is stable.</li>
+<li>The two branches meet at \(r = 0\) and exchange stability: a <strong>transcritical bifurcation</strong>.</li>
+</ol>
+<p><strong>Role of \(r\):</strong> it acts like a growth rate. When \(r\) is negative, any small \(x\) dies out to 0. When \(r\) is positive, 0 becomes unstable and \(x\) settles at \(x^* = r\).</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked example · 2024 mid-sem Q3(b)</span>
+<p><strong>\(\dot x = 1 + rx + x^2\). Describe the bifurcations as \(r\) varies.</strong></p>
+<ol>
+<li>The fixed points solve \(x^2 + rx + 1 = 0\). By the quadratic formula, \(x^* = \frac{-r\pm\sqrt{r^2 - 4}}{2}\).</li>
+<li>A square root of a negative number is not real, so fixed points exist only when \(r^2 \ge 4\), that is \(r \ge 2\) or \(r \le -2\). For \(-2 < r < 2\) there are none. At \(r = \pm2\) there is one. For \(|r| > 2\) there are two.</li>
+<li>The slope is \(f'(x) = r + 2x\). Putting in the two roots gives \(f' = +\sqrt{r^2 - 4}\) for the "+" root (unstable) and \(-\sqrt{r^2 - 4}\) for the "−" root (stable).</li>
+<li>So a stable/unstable pair is created as \(r\) passes 2, and another as \(r\) passes \(-2\): <strong>two saddle-node bifurcations</strong>, at \(r = 2\) and \(r = -2\).</li>
+</ol>
+<p>For \(-2 < r < 2\), \(1 + rx + x^2\) is positive for every \(x\), so \(x\) keeps increasing and never settles.</p>
+</div>
+
+<details class="opt"><summary>Optional · the worked quintic example from the course note</summary><div class="body">
+<p>\(\dot x = rx + x^3 - x^5\). Fixed points: \(x = 0\), or, writing \(y = x^2\), \(y^2 - y - r = 0\), so \(y = \frac{1\pm\sqrt{1+4r}}{2}\) and \(x = \pm\sqrt y\). The slope is \(f' = r + 3y - 5y^2\), and on the non-zero branches \(r = y^2 - y\), so \(f' = 2y(1 - 2y)\). The upper branch (\(y > \frac12\)) is stable and the lower branch (\(y < \frac12\)) is unstable. They meet at \(y = \frac12\), \(r = -\frac14\), a saddle-node fold. The lower branch reaches 0 at \(r = 0\), a subcritical pitchfork. Between \(r = -\frac14\) and 0, both \(x = 0\) and the upper branch are stable.</p>
+<p class="small">The course note writes the slope as \(2y(2 - 3y)\). Working it out from the note's own equations gives \(2y(1 - 2y)\), which puts the change of stability at the fold \(y = \frac12\), as it should be. Check with your class notes if this comes up.</p>
+</div></details>
+
+<div class="card exam"><span class="tag">How to write it in the exam</span>
+<ol class="steps">
+<li>Set \(f(x; r) = 0\) and write the fixed points as functions of \(r\), with the range of \(r\) where they exist.</li>
+<li>Differentiate, evaluate \(f'\) on each branch, and state stable or unstable on each side of the critical \(r\).</li>
+<li>Name the bifurcation and give the critical value of \(r\).</li>
+<li>Sketch the fixed points against \(r\) and label every branch "stable" or "unstable".</li>
+<li>Describe the role of \(r\): what the long-run state is below and above the critical value.</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Saddle-node \(r - x^2\): pair born from nothing.</li>
+<li>Transcritical \(rx - x^2\): branches cross and swap.</li>
+<li>Supercritical pitchfork \(rx - x^3\): two stable branches appear.</li>
+<li>Subcritical pitchfork \(rx + x^3\): two unstable branches, sudden jump.</li>
+<li>Course convention: dashed = stable, solid = unstable. Label anyway.</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Classify</span><span>\(\dot x = r + x^2\): which bifurcation, and where are the fixed points?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Saddle-node at \(r = 0\). Fixed points \(\pm\sqrt{-r}\) exist for \(r < 0\). The slope is \(2x\), so \(-\sqrt{-r}\) is stable and \(+\sqrt{-r}\) is unstable.</p></div></details>
+<details class="q"><summary><span class="qt">Classify</span><span>\(\dot x = x(r - x^2)\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Multiplied out it is \(rx - x^3\), the supercritical pitchfork.</p></div></details>
+</section>
+
+<section>
+<h2 id="budworm"><span class="num">10</span>Bistability and hysteresis · the spruce budworm</h2>
+<span class="board">Syllabus · bifurcation (course note example)</span>
+<p class="about">Some systems have two different stable states for the same value of the parameter. Which one you end up in depends on where you start. This is <strong>bistability</strong>. If you then slowly raise the parameter and lower it again, the system jumps between the two states at two different points, so the way up is not the way down. That is <strong>hysteresis</strong>. The course note shows both with a model of an insect pest, the spruce budworm.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Explain bistability and the role of the unstable middle fixed point.</li>
+<li>Explain hysteresis using the budworm model.</li>
+<li>State how to find a fold point: solve \(f = 0\) and \(f' = 0\) together.</li>
+</ul>
+</div>
+
+<h3>The model</h3>
+<div class="eq boxed">\[\dot x = r x\left(1 - \frac{x}{K}\right) - \frac{x^2}{1 + x^2}, \qquad K = 10\]</div>
+<p class="sym">\(x\) is the budworm population. The first part is logistic growth (§8) with growth rate \(r\). The second part is birds eating budworms. It levels off for large \(x\), because birds can only eat so many however many budworms there are.</p>
+<p>\(x^* = 0\) is always a fixed point, and it is unstable, since the slope there is \(r > 0\). Dividing the rest by \(x\) and clearing the fractions, the other fixed points solve a cubic (an equation with \(x^3\)):</p>
+<div class="eq">\[-\frac{r}{10}x^3 + r x^2 - \left(1 + \frac{r}{10}\right)x + r = 0 .\]</div>
+<p>A cubic can have up to three solutions. That is why up to three positive fixed points can exist at the same time.</p>
+
+<figure class="fig"><!--plot:budworm-f--><!--plot:budworm-zoom-->
+<figcaption>The rate \(\dot x\) against \(x\) at \(r = 0.5\), in full (top) and zoomed in on 0 to 2.5 (bottom). It crosses zero at 0, 0.68, 2 and 7.32. Filled points are stable, hollow ones unstable. The arrows show that anything starting below 2 falls to 0.68, and anything starting above 2 rises to 7.32.</figcaption></figure>
+
+<table class="tbl">
+<tr><th>\(r\)</th><th>Positive fixed points</th><th>Stability</th></tr>
+<tr><td>0.25</td><td>0.26</td><td>stable (only a low state)</td></tr>
+<tr><td>0.38</td><td>0.43</td><td>stable (just below the first fold at 0.384)</td></tr>
+<tr><td>0.50</td><td>0.68, 2.00, 7.32</td><td>stable, unstable, stable</td></tr>
+<tr><td>0.56</td><td>7.73</td><td>stable (only a high state, just past the second fold at 0.560)</td></tr>
+</table>
+
+<h3>Bistability</h3>
+<p>For \(r\) between about 0.384 and 0.560, there are three positive fixed points: stable, unstable, stable. The low stable state is a small "refuge" population kept down by birds. The high stable state is an "outbreak". The unstable one in the middle is a <strong>threshold</strong>: at \(r = 0.5\), a population starting below 2 ends at 0.68, and one starting above 2 ends at 7.32.</p>
+
+<h3>Hysteresis</h3>
+<figure class="fig"><!--plot:budworm-bif-->
+<figcaption>Positive fixed points against \(r\). The curve folds back twice. The low and high branches are stable (dashed teal) and the middle branch is unstable (solid orange). The two folds, at \(r\approx0.384\) and \(r\approx0.560\), are saddle-node bifurcations.</figcaption></figure>
+<ol>
+<li>Start with a small \(r\), on the low branch, and slowly increase \(r\). The population stays low.</li>
+<li>At \(r\approx0.560\) the low stable state meets the unstable middle state and both disappear (a saddle-node, §9). The population has nowhere nearby to settle, so it jumps up to the outbreak branch.</li>
+<li>Now slowly decrease \(r\). The population stays on the high branch, even below 0.560, until \(r\approx0.384\), where the high state disappears in the other fold. Only then does it drop back down.</li>
+</ol>
+<p>The path going up differs from the path coming down. That is <strong>hysteresis</strong>. In practice, it means that undoing the cause of an outbreak (bringing \(r\) back to where it was) does not end the outbreak. You have to push \(r\) much lower.</p>
+
+<h3>Finding a fold</h3>
+<p>At a fold, the curve of \(\dot x\) just touches the axis without crossing it. Two things are true at once there: it is a fixed point, and the slope is zero.</p>
+<div class="eq boxed">\[f(x^*; r) = 0 \qquad\text{and}\qquad f'(x^*; r) = 0\]</div>
+<p>Solving these two equations together gives the fold points (for the budworm with \(K = 10\), \(r\approx0.384\) and \(r\approx0.560\)).</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Bistable: two stable states with an unstable threshold between them.</li>
+<li>Hysteresis: the jump up and the jump down happen at different \(r\). Each jump is a saddle-node (fold).</li>
+<li>Fold: \(f = 0\) and \(f' = 0\) together. Budworm folds at \(r\approx0.384\) and \(0.560\).</li>
+</ul>
+</div>
+
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>At r = 0.5 a budworm population starts at 1.5. Where does it end up, and why?</span><span class="chev">›</span></summary>
+<div class="ans"><p>At the low state, 0.68. It starts below the unstable threshold at 2, where \(\dot x < 0\), so it decreases until it reaches the stable point 0.68.</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>What kind of bifurcation happens at each end of a hysteresis loop?</span><span class="chev">›</span></summary>
+<div class="ans"><p>A saddle-node (fold). A stable and an unstable state meet and disappear, forcing the system to jump to the other stable branch.</p></div></details>
+</section>
