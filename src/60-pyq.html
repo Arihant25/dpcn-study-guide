@@ -2,73 +2,352 @@
 <div class="part">Part 5<span>Practice</span></div>
 <section>
 <h2 id="pyq"><span class="num">14</span>Past-paper questions on this syllabus</h2>
-<p class="oneline">Every 2024 question that falls inside the mid-sem board list, with a model answer. Try each one before opening the answer.</p>
-<p class="small">Skipped because they are outside this syllabus: the Quiz 1 questions on clustering and centralities of drawn figures, in/out-degree sequences, Eulerian and Hamiltonian paths; Quiz 2 questions on the Barabási–Albert model, discrete maps and the Lorenz system.</p>
+<p class="about">Every 2024 question that is on this year's mid-sem syllabus, with a full model answer. Each answer is laid out the same way: first the formulas you need, then the numbers put into them step by step, then the final answer. Where a question has no numbers of its own, a numerical example is added so you can see the formula working. Try each question before opening the answer.</p>
+<p class="small">Left out because they are not in this year's slides: coupled phase oscillators (2024 mid-sem Q1); the Quiz 1 questions on centralities, clustering of drawn figures, in/out-degree sequences and Eulerian paths; the Quiz 2 questions on the Barabási–Albert model, discrete maps and the Lorenz system.</p>
 
 <h3>2024 mid-sem</h3>
 
-<details class="q"><summary><span class="qt pyq">Mid Q3</span><span>(a) \(\dot x = rx - x^2\): describe the role of \(r\) and the type of bifurcation. (b) \(\dot x = 1 + rx + x^2\): describe the bifurcations as \(r\) varies. [3.5 + 3.5]</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Mid Q3(a) · 3.5 marks</span><span>A system is described by \(\dot x = rx - x^2\), where \(r\) is the parameter of the system. Describe the role of \(r\). What type of bifurcation do you expect?</span><span class="chev">›</span></summary>
 <div class="ans">
-<p>(a) Fixed points \(0\) and \(r\); \(f'(0) = r\), \(f'(r) = -r\). They exchange stability at \(r = 0\): a transcritical bifurcation. For \(r<0\) the system decays to 0; for \(r>0\) it settles at \(x^* = r\).</p>
-<p>(b) Fixed points \(\frac{-r\pm\sqrt{r^2-4}}{2}\), real only for \(|r|\ge2\), with \(f' = \pm\sqrt{r^2-4}\) (the + root unstable, the − root stable). A stable/unstable pair is born at \(r = 2\) and at \(r = -2\): two saddle-node bifurcations. For \(|r|<2\) there are no fixed points and \(x\) increases forever. Full working in <a href="#bif">§9</a>.</p>
+<p class="idea"><strong>The idea in plain words.</strong> Find where the system stops changing, then check whether a small push dies out. Here there are always two resting points, 0 and r. When r passes 0 the two points cross over and swap roles: the stable one becomes unstable and the unstable one becomes stable. That swap is what "transcritical" means.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Fixed points: solve \(f(x) = 0\).</li>
+<li>Stability: \(f'(x^*) < 0\) means stable, \(f'(x^*) > 0\) means unstable (<a href="#fixed">§8</a>).</li>
+<li>Transcritical bifurcation: two fixed points that cross and swap stability (<a href="#bif">§9</a>).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>Fixed points.</strong> \(rx - x^2 = x(r - x) = 0\), so \(x^* = 0\) or \(x^* = r\).</li>
+<li><strong>Slope.</strong> \(f(x) = rx - x^2\), so \(f'(x) = r - 2x\).</li>
+<li><strong>Put in each fixed point.</strong> \(f'(0) = r - 0 = r\). \(f'(r) = r - 2r = -r\).</li>
+<li><strong>Try numbers.</strong>
+<table class="tbl">
+<tr><th>\(r\)</th><th>Fixed point 0</th><th>Fixed point \(r\)</th></tr>
+<tr><td>\(r = -1\)</td><td>\(f'(0) = -1 < 0\), stable</td><td>\(x^* = -1\), \(f'(-1) = -1 - 2(-1) = 1 > 0\), unstable</td></tr>
+<tr><td>\(r = 0\)</td><td colspan="2">both fixed points are at 0, and \(f'(0) = 0\): the test cannot decide, so this is the bifurcation point</td></tr>
+<tr><td>\(r = 2\)</td><td>\(f'(0) = 2 > 0\), unstable</td><td>\(x^* = 2\), \(f'(2) = 2 - 4 = -2 < 0\), stable</td></tr>
+</table></li>
+<li><strong>Pattern.</strong> There are always two fixed points. They meet at \(r = 0\), and their stability swaps as \(r\) changes sign.</li>
+</ol>
+<h4>Final answer</h4>
+<p>A <strong>transcritical bifurcation</strong> at \(r = 0\). The role of \(r\): it works like a growth rate. For \(r < 0\) the stable state is \(x^* = 0\), so the system dies out. For \(r > 0\), 0 becomes unstable and the system settles at \(x^* = r\), which is larger the larger \(r\) is. Sketch the diagram: the line \(x^* = 0\) (stable for \(r<0\), unstable for \(r>0\)) and the line \(x^* = r\) (unstable for \(r<0\), stable for \(r>0\)), crossing at the origin.</p>
 </div></details>
 
-<details class="q"><summary><span class="qt pyq">Mid Q4</span><span>SIS: \(dI/dt = \beta SI - \gamma I\), \(S + I = 1\). (a) Solve for \(I(t)\). (b) Endemic equilibrium. (c) When does the disease not spread? [4 + 1.5 + 1.5]</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Mid Q3(b) · 3.5 marks</span><span>Another system is described by \(\dot x = 1 + rx + x^2\). Describe the bifurcations obtained from this system by varying the system parameter \(r\).</span><span class="chev">›</span></summary>
 <div class="ans">
-<p>(a) \(\dot I = (\beta-\gamma)I - \beta I^2\), logistic with \(a = \beta-\gamma\), \(K = 1-\gamma/\beta\). Separating variables gives</p>
-<div class="eq">\[I(t) = \frac{1-\gamma/\beta}{1 + \frac{1-\gamma/\beta-I_0}{I_0}\,e^{-(\beta-\gamma)t}}.\]</div>
-<p>(b) \(I^* = 1 - \gamma/\beta\) (for \(\beta > \gamma\)).</p>
-<p>(c) When \(\beta < \gamma\), i.e. \(R_0 = \beta/\gamma < 1\): then \(e^{-(\beta-\gamma)t}\to\infty\) and \(I\to0\). Equivalently \(f'(0) = \beta-\gamma<0\) makes the disease-free state stable. Full working in <a href="#epi">§11</a>.</p>
+<p class="idea"><strong>The idea in plain words.</strong> The resting points come from a quadratic equation, and a quadratic has real solutions only when the part under the square root is not negative. So for small r there are no resting points at all, and x just keeps growing. When r reaches 2 (or −2), a pair of resting points appears out of nowhere, one stable and one unstable. A pair appearing from nothing is a saddle-node.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Quadratic formula: \(ax^2 + bx + c = 0\) has solutions \(x = \frac{-b\pm\sqrt{b^2 - 4ac}}{2a}\), which are real only if \(b^2 - 4ac \ge 0\).</li>
+<li>Stability: sign of \(f'(x^*)\).</li>
+<li>Saddle-node bifurcation: a stable and an unstable fixed point appear together (or vanish together).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>Fixed points.</strong> \(x^2 + rx + 1 = 0\). Here \(a = 1\), \(b = r\), \(c = 1\), so \(x^* = \frac{-r\pm\sqrt{r^2 - 4}}{2}\).</li>
+<li><strong>When do they exist?</strong> Only if \(r^2 - 4\ge0\), that is \(r\ge2\) or \(r\le-2\).</li>
+<li><strong>Slope.</strong> \(f'(x) = r + 2x\). Putting in \(x^* = \frac{-r\pm\sqrt{r^2-4}}{2}\) gives \(f' = r + (-r\pm\sqrt{r^2-4}) = \pm\sqrt{r^2 - 4}\). So the "+" root is unstable and the "−" root is stable.</li>
+<li><strong>Try numbers.</strong>
+<table class="tbl">
+<tr><th>\(r\)</th><th>\(r^2 - 4\)</th><th>Fixed points</th><th>Stability</th></tr>
+<tr><td>1</td><td>\(-3\)</td><td>none</td><td>\(x\) keeps increasing</td></tr>
+<tr><td>2</td><td>0</td><td>\(x^* = -1\) (one, double)</td><td>\(f'(-1) = 2 - 2 = 0\): the bifurcation point</td></tr>
+<tr><td>3</td><td>5</td><td>\(\frac{-3+2.236}{2} = -0.382\) and \(\frac{-3-2.236}{2} = -2.618\)</td><td>\(f'(-0.382) = 3 - 0.764 = 2.236 > 0\), unstable. \(f'(-2.618) = 3 - 5.236 = -2.236 < 0\), stable.</td></tr>
+<tr><td>\(-3\)</td><td>5</td><td>\(\frac{3+2.236}{2} = 2.618\) and \(\frac{3-2.236}{2} = 0.382\)</td><td>\(f'(2.618) = -3 + 5.236 = 2.236\), unstable. \(f'(0.382) = -3 + 0.764 = -2.236\), stable.</td></tr>
+</table></li>
+</ol>
+<h4>Final answer</h4>
+<p><strong>Two saddle-node bifurcations</strong>, at \(r = 2\) and \(r = -2\). For \(-2 < r < 2\) there are no fixed points (\(\dot x > 0\) everywhere, so \(x\) grows forever). As \(|r|\) passes 2, a stable and an unstable fixed point are created together, at \(x^* = \frac{-r\pm\sqrt{r^2-4}}{2}\), with the "−" root stable and the "+" root unstable.</p>
 </div></details>
 
-<details class="q"><summary><span class="qt pyq">Mid Q5</span><span>Network SIS: \(\dot i_k = -\gamma i_k + \beta(1-i_k)\sum_j A_{kj}i_j\). (a) How does the network affect the infection at the initial stage? (b) When will the disease not spread? [3.5 + 3.5]</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Mid Q4 · 4 + 1.5 + 1.5 marks</span><span>An SIS model: \(\frac{dI}{dt} = \beta SI - \gamma I\), with \(S + I = 1\). (a) Solve this model and find \(I\) as a function of time, \(\beta\) and \(\gamma\). (b) What will be the endemic equilibrium (\(I^*\) as \(t\to\infty\))? (c) Explain in which condition the disease will not spread.</span><span class="chev">›</span></summary>
 <div class="ans">
-<p>(a) Early on all \(i_k\) are small, so drop \(i_k i_j\): \(\dot{\mathbf i} = (\beta A - \gamma I)\mathbf i\). Expanding in the eigenvectors of \(A\), each mode grows like \(e^{(\beta\kappa_r-\gamma)t}\), and the largest eigenvalue \(\kappa_1\) soon dominates: \(\mathbf i(t)\sim e^{(\beta\kappa_1-\gamma)t}\mathbf v_1\). The network sets the growth rate through \(\kappa_1\), and which nodes are infected first through the leading eigenvector \(\mathbf v_1\).</p>
-<p>(b) It does not spread when \(\beta\kappa_1 - \gamma < 0\), i.e. \(\beta/\gamma < 1/\kappa_1\). Denser or hub-heavy networks have larger \(\kappa_1\) and so a lower threshold. See <a href="#netdyn">§13</a>.</p>
+<p class="idea"><strong>The idea in plain words.</strong> Sick people infect healthy ones, which needs both kinds of people to meet (so the rate is β × S × I), and sick people recover (rate γ × I). Once you replace S by 1 − I, this is the same equation as a population growing towards a ceiling. So the infection rises in an S-shape and levels off. It levels off above zero only if people infect faster than they recover (β bigger than γ). Otherwise it fades away.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Substitute \(S = 1 - I\).</li>
+<li>Logistic equation \(\dot I = aI(1 - I/K)\) has solution \(I(t) = \dfrac{K}{1 + \frac{K - I_0}{I_0}e^{-at}}\) (derived in <a href="#epi">§11</a>).</li>
+<li>\(e^{-at}\to0\) if \(a > 0\), and \(e^{-at}\to\infty\) if \(a < 0\).</li>
+</ul>
+<h4>(a) Step by step</h4>
+<ol class="steps">
+<li><strong>Remove \(S\).</strong> \(\dot I = \beta(1 - I)I - \gamma I = (\beta - \gamma)I - \beta I^2\).</li>
+<li><strong>Match the logistic form.</strong> Set \(a = \beta - \gamma\) and \(K = 1 - \frac\gamma\beta\). Then \(aI(1 - I/K) = aI - \frac aK I^2\), and \(\frac aK = \frac{\beta-\gamma}{(\beta-\gamma)/\beta} = \beta\), so it matches.</li>
+<li><strong>Separate and integrate</strong> (show this in the exam): \(\frac{dI}{I(1 - I/K)} = a\,dt\), split into \(\frac1I + \frac{1/K}{1 - I/K}\), integrate to \(\ln I - \ln(1 - I/K) = at + c\), then use \(I(0) = I_0\).</li>
+<li><strong>Result.</strong> \[I(t) = \frac{1 - \frac\gamma\beta}{1 + \dfrac{1 - \frac\gamma\beta - I_0}{I_0}\,e^{-(\beta - \gamma)t}}\]</li>
+<li><strong>Numbers, as a check.</strong> Take \(\beta = 0.5\), \(\gamma = 0.2\), \(I_0 = 0.01\).
+<ul>
+<li>\(K = 1 - 0.2/0.5 = 0.6\) and \(a = 0.5 - 0.2 = 0.3\).</li>
+<li>\(\frac{K - I_0}{I_0} = \frac{0.6 - 0.01}{0.01} = 59\).</li>
+<li>At \(t = 0\): \(I = \frac{0.6}{1 + 59} = 0.01\). Correct.</li>
+<li>At \(t = 10\): \(e^{-0.3\times10} = e^{-3} = 0.0498\), so \(I = \frac{0.6}{1 + 59\times0.0498} = \frac{0.6}{3.94} = 0.152\).</li>
+<li>At \(t = 40\): \(e^{-12} \approx 0.000006\), so \(I \approx 0.6/1.0004 \approx 0.600\).</li>
+</ul></li>
+</ol>
+<h4>(b) Endemic equilibrium</h4>
+<p>As \(t\to\infty\) with \(\beta > \gamma\), \(e^{-(\beta-\gamma)t}\to0\), so the denominator goes to 1:</p>
+<div class="eq">\[I^* = 1 - \frac\gamma\beta = 1 - \frac1{R_0}, \qquad R_0 = \frac\beta\gamma .\]</div>
+<p>With the numbers above: \(I^* = 1 - 0.2/0.5 = 0.6\), so 60% of people are infected in the long run.</p>
+<h4>(c) When the disease does not spread</h4>
+<p>If \(\beta < \gamma\), then \(a = \beta - \gamma < 0\), so \(e^{-(\beta-\gamma)t}\) grows without limit, the denominator becomes huge, and \(I(t)\to0\). The same comes from the slope at the disease-free state, \(f'(0) = \beta - \gamma\), which is negative (stable) when \(\beta < \gamma\).</p>
+<p>Numbers: \(\beta = 0.2\), \(\gamma = 0.5\) gives \(R_0 = 0.4 < 1\). The formula \(1 - \gamma/\beta = 1 - 2.5 = -1.5\) is negative, which is impossible for a fraction, so the only steady state is \(I^* = 0\).</p>
+<h4>Final answer</h4>
+<p>(a) The formula for \(I(t)\) in step 4. (b) \(I^* = 1 - \gamma/\beta\). (c) The disease does not spread when \(\beta < \gamma\), that is \(R_0 = \beta/\gamma < 1\): people recover faster than they infect others.</p>
 </div></details>
 
-<details class="q"><summary><span class="qt pyq">Mid Q2</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\), \(z = x + iy\). (a) Transform into the \((r,\theta)\) plane. (b) Find when there is a stable limit cycle, with bifurcation analysis. [3 + 4]</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Mid Q5 · 3.5 + 3.5 marks</span><span>The SIS model on a network: \(\dot i_k = -\gamma i_k + \beta(1 - i_k)\sum_{j=1}^N A_{kj}i_j\), where \(i_k\) is the density of infected population in node \(k\), \(A\) is the adjacency matrix and \(N\) the number of nodes. (a) Explain how the network affects the infection at the initial stage (\(t\approx0\)). (b) Explain in which case the disease will not spread.</span><span class="chev">›</span></summary>
 <div class="ans">
-<p class="small">Limit cycles were not in this year's slides. The question is included because it reduces to the pitchfork of §9.</p>
-<p>(a) Write \(z = re^{i\theta}\). Then \(\dot z = \dot r e^{i\theta} + ir\dot\theta e^{i\theta}\), and the right side is \((\mu + i\omega - r^2)re^{i\theta}\). Cancel \(e^{i\theta}\) and match real and imaginary parts:</p>
-<div class="eq">\[\dot r = \mu r - r^3, \qquad \dot\theta = \omega .\]</div>
-<p>(b) The angle just turns at constant speed \(\omega\). The radius obeys the supercritical pitchfork normal form. For \(\mu<0\), \(r^* = 0\) is the only fixed point and it is stable (\(f'(0) = \mu < 0\)), so trajectories spiral into the origin. For \(\mu > 0\), \(r^*=0\) becomes unstable and \(r^* = \sqrt\mu\) appears with \(f'(\sqrt\mu) = -2\mu < 0\), stable. A circle of radius \(\sqrt\mu\) that attracts nearby trajectories is a stable limit cycle. So the condition is \(\mu > 0\). The change at \(\mu = 0\) is called a supercritical Hopf bifurcation.</p>
+<p class="idea"><strong>The idea in plain words.</strong> At the very start almost nobody is sick, so what matters is only how many sick neighbours each node has. That makes the equation linear, and a linear network equation grows fastest along one special direction, the leading eigenvector of A, at a speed set by the largest eigenvalue κ₁. A more connected network has a bigger κ₁, so a smaller infection rate is enough for the disease to take off.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Early on, every \(i_k\) is small, so a product of two of them is negligible.</li>
+<li>Eigenvectors of \(A\): \(A\mathbf v_r = \kappa_r\mathbf v_r\), with \(\kappa_1\) the largest eigenvalue (M9).</li>
+<li>\(\dot a = c\,a\) gives \(a(t) = a(0)e^{ct}\), growing if \(c > 0\) (M8).</li>
+</ul>
+<h4>(a) Step by step</h4>
+<ol class="steps">
+<li><strong>Multiply out.</strong> \(\dot i_k = -\gamma i_k + \beta\sum_j A_{kj}i_j - \beta i_k\sum_j A_{kj}i_j\).</li>
+<li><strong>Drop the small term.</strong> The last term contains \(i_k\times i_j\), small times small, so at \(t\approx0\): \(\dot i_k\approx\beta\sum_j A_{kj}i_j - \gamma i_k\). For all nodes at once: \(\dot{\mathbf i} = (\beta A - \gamma I)\,\mathbf i\), where \(I\) is the identity matrix.</li>
+<li><strong>Use the eigenvectors of \(A\).</strong> Write \(\mathbf i(t) = \sum_r a_r(t)\mathbf v_r\). Each part obeys \(\dot a_r = (\beta\kappa_r - \gamma)a_r\), so \(a_r(t) = a_r(0)e^{(\beta\kappa_r - \gamma)t}\).</li>
+<li><strong>Largest eigenvalue wins.</strong> The part with \(\kappa_1\) grows fastest, so after a short time \(\mathbf i(t)\sim e^{(\beta\kappa_1 - \gamma)t}\,\mathbf v_1\).</li>
+<li><strong>Numbers.</strong> For the five-node network of §0, \(\kappa_1 = 2.48\) and \(\mathbf v_1 = (0.36, 0.53, 0.53, 0.43, 0.36)\). With \(\beta = 1\), \(\gamma = 1\): growth rate \(= 1\times2.48 - 1 = 1.48 > 0\), so the infection grows like \(e^{1.48t}\), and nodes 2 and 3 (largest entries, 0.53) are hit first.</li>
+</ol>
+<h4>(b) When the disease does not spread</h4>
+<p>It dies out when even the fastest part shrinks: \(\beta\kappa_1 - \gamma < 0\), that is</p>
+<div class="eq">\[\frac\beta\gamma < \frac{1}{\kappa_1}.\]</div>
+<p>Numbers: for the five-node network, \(1/\kappa_1 = 1/2.48 = 0.40\). With \(\gamma = 1\), the disease dies out if \(\beta < 0.40\) and spreads if \(\beta > 0.40\). For a ring where every node has 2 links, \(\kappa_1 = 2\), so the threshold is \(\beta/\gamma = 0.5\).</p>
+<h4>Final answer</h4>
+<p>(a) At the start the network enters through the largest eigenvalue \(\kappa_1\) of \(A\), which sets the growth rate \(\beta\kappa_1 - \gamma\), and through its eigenvector \(\mathbf v_1\), which shows which nodes are infected first. Denser or hub-heavy networks have a larger \(\kappa_1\) and spread disease faster. (b) The disease does not spread when \(\beta/\gamma < 1/\kappa_1\).</p>
 </div></details>
 
-<details class="q"><summary><span class="qt pyq">Mid Q1</span><span>Two coupled phase oscillators \(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2-\theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1-\theta_2)\). (a) Critical coupling for a common frequency. (b) The common frequency; is it possible for \(k_1 = k_2 = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\)? [3 + 4]</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Mid Q2 · 3 + 4 marks</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\), with \(z = x + iy\). (a) Transform this equation into the \((r, \theta)\) plane. (b) Find the condition in which the system will reveal a stable limit cycle. Explain it with proper bifurcation analysis.</span><span class="chev">›</span></summary>
 <div class="ans">
-<p class="small">Coupled oscillators were not in this year's slides. The method is just the fixed-point analysis of §8, applied to the phase difference.</p>
-<p>(a) Let \(\phi = \theta_2 - \theta_1\). Subtract the equations: \(\dot\phi = (\omega_2-\omega_1) - (k_1+k_2)\sin\phi\). A common frequency means \(\phi\) stops changing, a fixed point: \(\sin\phi^* = \frac{\omega_2-\omega_1}{k_1+k_2}\). This has a solution only if \(|\omega_2-\omega_1| \le k_1+k_2\), so the critical coupling is \(k_1 + k_2 = |\omega_2 - \omega_1|\) (for equal couplings, \(k_c = |\omega_2-\omega_1|/2\)). The stable fixed point is the one with \(\cos\phi^*>0\), since \(\frac{d\dot\phi}{d\phi} = -(k_1+k_2)\cos\phi\).</p>
-<p>(b) At lock \(\dot\theta_1 = \dot\theta_2 = \Omega\). From \(\Omega = \omega_1 + k_1\sin\phi^* = \omega_2 - k_2\sin\phi^*\), eliminate \(\sin\phi^*\): \[\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}.\] With \(k = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\): \(|\Delta\omega| = 8 > k_1 + k_2 = 4\), so there is no fixed point and no common frequency. The phase difference keeps drifting. (If they could lock, \(\Omega\) would be 6.)</p>
+<p class="idea"><strong>The idea in plain words.</strong> Describe the point by its distance from the centre and its angle. The angle just keeps turning at speed ω. The distance obeys the pitchfork equation from §9: when μ is negative it shrinks to 0, and when μ is positive it settles at √μ. A point that keeps turning at a fixed distance goes round a circle, and that circle is the stable limit cycle.</p>
+<p class="small">Limit cycles are not in this year's slides. The question is kept because part (b) is just the supercritical pitchfork of §9 in disguise. Skip it if you are short on time.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Polar form: \(z = re^{i\theta}\), so \(|z| = r\). Here \(r\) is the distance from the origin and \(\theta\) the angle.</li>
+<li>Product rule for slopes: \(\dot z = \dot r\,e^{i\theta} + r\,i\dot\theta\,e^{i\theta}\).</li>
+<li>Supercritical pitchfork \(\dot r = \mu r - r^3\): fixed points 0 and \(\sqrt\mu\) (<a href="#bif">§9</a>).</li>
+</ul>
+<h4>(a) Step by step</h4>
+<ol class="steps">
+<li>Left side: \(\dot z = (\dot r + ir\dot\theta)e^{i\theta}\).</li>
+<li>Right side: \((\mu + i\omega - r^2)\,re^{i\theta}\).</li>
+<li>Cancel \(e^{i\theta}\) and match the real parts and the imaginary parts separately: \[\dot r = \mu r - r^3, \qquad \dot\theta = \omega .\]</li>
+</ol>
+<h4>(b) Step by step</h4>
+<ol class="steps">
+<li>\(\dot\theta = \omega\): the point turns around the origin at a constant speed \(\omega\).</li>
+<li>\(\dot r = \mu r - r^3 = r(\mu - r^2)\): fixed points \(r^* = 0\), and \(r^* = \sqrt\mu\) when \(\mu > 0\) (a radius cannot be negative).</li>
+<li>Slope \(f'(r) = \mu - 3r^2\). \(f'(0) = \mu\). \(f'(\sqrt\mu) = \mu - 3\mu = -2\mu\).</li>
+<li>Numbers: take \(\mu = 4\), \(\omega = 1\). Then \(r^* = \sqrt4 = 2\), with \(f'(2) = 4 - 12 = -8 < 0\), stable, and \(f'(0) = 4 > 0\), unstable. Every trajectory spirals out from near the origin, or in from far away, onto the circle of radius 2, going round once every \(2\pi/\omega = 6.28\) time units. With \(\mu = -1\) instead, \(r^* = 0\) is the only fixed point and \(f'(0) = -1 < 0\), so everything spirals into the origin.</li>
+</ol>
+<h4>Final answer</h4>
+<p>(a) \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\). (b) A stable limit cycle (a circle of radius \(\sqrt\mu\) that attracts nearby trajectories) exists when \(\mu > 0\). The radial equation is a supercritical pitchfork at \(\mu = 0\). In two dimensions this change, from a stable point to a stable circle, is called a supercritical Hopf bifurcation.</p>
 </div></details>
 
 <h3>2024 Quiz 2</h3>
 
-<details class="q"><summary><span class="qt pyq">Quiz 2 · 1a</span><span>Degree distribution \(P_k = Ck^{-\gamma}\). Find C and the condition for a finite C. [3]</span><span class="chev">›</span></summary>
-<div class="ans"><p>\(1 = \int_{k_{\min}}^\infty Ck^{-\gamma}dk = C\frac{k_{\min}^{1-\gamma}}{\gamma-1}\), valid only for \(\gamma > 1\) (otherwise the integral diverges at the upper limit). So \(C = (\gamma-1)k_{\min}^{\gamma-1}\), finite for \(\gamma>1\). See <a href="#moments">§1</a>.</p></div></details>
+<details class="q"><summary><span class="qt pyq">Quiz 2 · 1a · 3 marks</span><span>Assume the degree distribution of a network (symmetric and binary) follows a power law \(P_k = Ck^{-\gamma}\). Calculate the normalisation constant \(C\). Find the condition such that you can obtain a finite \(C\).</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> The probabilities of all the degrees must add up to exactly 1. We add them with an integral and choose C to make the total 1. That is only possible if the total is finite, which needs the probabilities to fall off quickly enough for large degrees: γ bigger than 1.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Normalisation: all probabilities add to 1, \(\int_{k_{\min}}^\infty P(k)\,dk = 1\).</li>
+<li>\(\int k^a\,dk = \frac{k^{a+1}}{a+1}\). At \(k = \infty\), \(k^{a+1}\) is 0 only if \(a + 1 < 0\) (M7).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>\(\int_{k_{\min}}^\infty Ck^{-\gamma}\,dk = C\left[\frac{k^{1-\gamma}}{1-\gamma}\right]_{k_{\min}}^\infty\).</li>
+<li>The upper limit is 0 only if \(1 - \gamma < 0\), that is \(\gamma > 1\). Then the bracket is \(0 - \frac{k_{\min}^{1-\gamma}}{1-\gamma} = \frac{k_{\min}^{1-\gamma}}{\gamma-1}\).</li>
+<li>Set it equal to 1: \(C\,\frac{k_{\min}^{1-\gamma}}{\gamma - 1} = 1\), so \(C = (\gamma - 1)k_{\min}^{\gamma-1}\).</li>
+<li><strong>Numbers.</strong> \(\gamma = 2.5\), \(k_{\min} = 1\): \(C = 1.5\times1^{1.5} = 1.5\). With \(k_{\min} = 2\): \(C = 1.5\times2^{1.5} = 1.5\times2.83 = 4.24\). With \(\gamma = 0.8\): \(1 - \gamma = 0.2 > 0\), the integral is infinite, and no \(C\) works.</li>
+</ol>
+<h4>Final answer</h4>
+<p>\(C = (\gamma - 1)\,k_{\min}^{\gamma - 1}\), which is finite only when \(\gamma > 1\).</p>
+</div></details>
 
-<details class="q"><summary><span class="qt pyq">Quiz 2 · 1b</span><span>Find ⟨k⟩ and ⟨k²⟩. When do they diverge? [4]</span><span class="chev">›</span></summary>
-<div class="ans"><p>\(\langle k\rangle = \frac{\gamma-1}{\gamma-2}k_{\min}\), finite for \(\gamma>2\). \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\), finite for \(\gamma>3\). So ⟨k⟩ diverges for \(\gamma\le2\) and ⟨k²⟩ for \(\gamma\le3\). Real networks usually have \(2<\gamma<3\): finite mean, diverging second moment.</p></div></details>
+<details class="q"><summary><span class="qt pyq">Quiz 2 · 1b · 4 marks</span><span>For the same power law, find the first moment ⟨k⟩ and the second moment ⟨k²⟩. Explain in which cases these moments will diverge.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> An average is "value times probability, added up". Multiplying by k, or by k², makes large degrees count more, so the probabilities have to fall off faster for the total to stay finite. For the average this needs γ > 2. For the average of squares it needs γ > 3.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>\(\langle k\rangle = \int_{k_{\min}}^\infty k\,P(k)\,dk\) and \(\langle k^2\rangle = \int_{k_{\min}}^\infty k^2P(k)\,dk\).</li>
+<li>\(C = (\gamma - 1)k_{\min}^{\gamma-1}\) from part 1a.</li>
+<li>The same integral rule: finite only if the new power plus one is negative.</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>⟨k⟩.</strong> \(\int k\cdot Ck^{-\gamma}dk = C\int k^{1-\gamma}dk = C\left[\frac{k^{2-\gamma}}{2-\gamma}\right]_{k_{\min}}^\infty\). Finite only if \(2 - \gamma < 0\), i.e. \(\gamma > 2\). Then \(\langle k\rangle = C\frac{k_{\min}^{2-\gamma}}{\gamma-2} = \frac{\gamma-1}{\gamma-2}k_{\min}\).</li>
+<li><strong>⟨k²⟩.</strong> \(C\int k^{2-\gamma}dk = C\left[\frac{k^{3-\gamma}}{3-\gamma}\right]_{k_{\min}}^\infty\). Finite only if \(\gamma > 3\). Then \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\).</li>
+<li><strong>Numbers.</strong>
+<table class="tbl">
+<tr><th>\(\gamma\), \(k_{\min} = 1\)</th><th>⟨k⟩ \(= \frac{\gamma-1}{\gamma-2}\)</th><th>⟨k²⟩ \(= \frac{\gamma-1}{\gamma-3}\)</th></tr>
+<tr><td>1.8</td><td>diverges (\(\gamma\le2\))</td><td>diverges</td></tr>
+<tr><td>2.5</td><td>\(1.5/0.5 = 3\)</td><td>diverges (\(\gamma\le3\))</td></tr>
+<tr><td>4</td><td>\(3/2 = 1.5\)</td><td>\(3/1 = 3\)</td></tr>
+</table></li>
+</ol>
+<h4>Final answer</h4>
+<p>\(\langle k\rangle = \frac{\gamma-1}{\gamma-2}k_{\min}\), diverging for \(\gamma\le2\). \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\), diverging for \(\gamma\le3\). Most real networks have \(2 < \gamma < 3\): a finite average degree but a diverging second moment, which reflects the presence of hubs.</p>
+</div></details>
 
-<details class="q"><summary><span class="qt pyq">Quiz 2 · 2</span><span>Prove that in an Erdős–Rényi graph the GCC appears if the mean degree is greater than 1. [5]</span><span class="chev">›</span></summary>
-<div class="ans"><p>Derive \(u = (1-p+pu)^{N-1}\to e^{-\langle k\rangle(1-u)}\), so \(S = 1-e^{-\langle k\rangle S}\). \(S=0\) always solves it. The right side has slope ⟨k⟩ at \(S=0\), is concave and stays below 1, so it crosses \(y = S\) a second time (\(S>0\)) only if its initial slope exceeds 1: \(\langle k\rangle > 1\). Full steps in <a href="#gcc">§5</a>.</p></div></details>
+<details class="q"><summary><span class="qt pyq">Quiz 2 · 2 · 5 marks</span><span>Prove that in an Erdős–Rényi graph the GCC will pop up if the mean degree ⟨k⟩ is greater than 1.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> A node is outside the giant piece only if none of its possible links leads into it. Writing that as a probability gives an equation in which S appears on both sides. S = 0 always works. A second, positive answer exists only if each node has more than one link on average, because only then does a growing cluster keep finding new members instead of dying out.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>\(u = 1 - S\) = probability a node is not in the giant component.</li>
+<li>\(p = \frac{\langle k\rangle}{N-1}\), and \(\left(1 - \frac xn\right)^n\to e^{-x}\) for large \(n\) (M5).</li>
+<li>Slope of \(1 - e^{-cS}\) is \(c\,e^{-cS}\) (M6).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>One other node.</strong> Node \(i\) avoids the giant component through node \(j\) if there is no link (probability \(1-p\)) or there is a link but \(j\) is outside (probability \(pu\)). Total: \(1 - p + pu\).</li>
+<li><strong>All \(N - 1\) other nodes</strong>, independently: \(u = (1 - p + pu)^{N-1} = [1 - p(1-u)]^{N-1}\).</li>
+<li><strong>Large \(N\).</strong> Put \(p = \frac{\langle k\rangle}{N-1}\): \(u = \left[1 - \frac{\langle k\rangle(1-u)}{N-1}\right]^{N-1}\to e^{-\langle k\rangle(1-u)}\).</li>
+<li><strong>In terms of \(S\):</strong> \(S = 1 - e^{-\langle k\rangle S}\).</li>
+<li><strong>Graphical argument.</strong> \(S = 0\) is always a solution. The curve \(y = 1 - e^{-\langle k\rangle S}\) starts at the origin with slope \(\langle k\rangle\), bends down, and stays below 1. The line \(y = S\) has slope 1. So the curve crosses the line a second time (a solution with \(S > 0\)) only if it starts steeper than the line: \(\langle k\rangle > 1\).</li>
+<li><strong>Numbers.</strong>
+<ul>
+<li>\(\langle k\rangle = 0.5\): start at \(S = 0.5\): \(1 - e^{-0.25} = 0.221\), then \(1 - e^{-0.11} = 0.105\), then 0.051, … shrinking to 0. Only \(S = 0\): no giant component.</li>
+<li>\(\langle k\rangle = 2\): start at 0.5: \(1 - e^{-1} = 0.632\), then \(1 - e^{-1.264} = 0.717\), 0.762, 0.782, … settling at \(S = 0.797\). About 80% of nodes are in the giant component.</li>
+</ul></li>
+</ol>
+<h4>Final answer</h4>
+<p>The fraction in the giant component satisfies \(S = 1 - e^{-\langle k\rangle S}\), which has a non-zero solution only when the slope at the origin, ⟨k⟩, exceeds 1. So the giant component appears exactly when \(\langle k\rangle > 1\) (equivalently \(p > 1/N\)). Just above this point \(S\approx2(\langle k\rangle - 1)\).</p>
+</div></details>
 
-<details class="q"><summary><span class="qt pyq">Quiz 2 · Set 2 · 2</span><span>Prove that the ER degree distribution is Poisson for small p and large N. What are the average degree and second moment? [3 + 1]</span><span class="chev">›</span></summary>
-<div class="ans"><p>Start from the binomial \(\binom{N-1}{k}p^k(1-p)^{N-1-k}\). Use \(\binom{N-1}{k}\approx\frac{(N-1)^k}{k!}\), \(p = \frac{\langle k\rangle}{N-1}\) and \((1-p)^{N-1-k}\approx e^{-\langle k\rangle}\). The \((N-1)^k\) cancels, leaving \(e^{-\langle k\rangle}\langle k\rangle^k/k!\). Average degree \(\langle k\rangle = p(N-1)\), second moment \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\). See <a href="#er">§4</a>.</p></div></details>
+<details class="q"><summary><span class="qt pyq">Quiz 2 · Set 2 · Q2 · 3 + 1 marks</span><span>Prove that in an Erdős–Rényi network the degree distribution follows a Poisson distribution if the connection probability is very small and the number of nodes is extremely large. What will be the average degree and second moment?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> A node's degree is the number of "link" results out of N − 1 coin flips, and counting successes in coin flips is the binomial distribution. When there are a huge number of flips and each success is rare, the binomial formula simplifies to the Poisson formula, which needs only the average.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Binomial: \(P(k) = \binom{N-1}{k}p^k(1-p)^{N-1-k}\).</li>
+<li>\(p = \frac{\langle k\rangle}{N-1}\), \(\ln(1-p)\approx-p\) for small \(p\).</li>
+<li>For Poisson, variance = ⟨k⟩, and \(\langle k^2\rangle = \operatorname{var} + \langle k\rangle^2\).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>\(\binom{N-1}{k}\approx\frac{(N-1)^k}{k!}\) because each of the \(k\) factors on top is close to \(N-1\).</li>
+<li>\(p^k = \frac{\langle k\rangle^k}{(N-1)^k}\).</li>
+<li>\((1-p)^{N-1-k}\approx e^{-p(N-1)} = e^{-\langle k\rangle}\), using \(\ln(1-p)\approx-p\) and \(k\ll N\).</li>
+<li>Multiply: the \((N-1)^k\) cancels, leaving \(P(k) = e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}\).</li>
+<li><strong>Numbers.</strong> \(N = 1001\), \(p = 0.01\).
+<ul>
+<li>\(\langle k\rangle = p(N-1) = 0.01\times1000 = 10\).</li>
+<li>\(P(10) = e^{-10}\frac{10^{10}}{10!} = 0.0000454\times\frac{10^{10}}{3{,}628{,}800} = 0.0000454\times2756 = 0.125\).</li>
+<li>The binomial gives almost the same (0.126), which shows the approximation works.</li>
+<li>\(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2 = 10 + 100 = 110\).</li>
+</ul></li>
+</ol>
+<h4>Final answer</h4>
+<p>For large \(N\) and small \(p\), \(P(k) = e^{-\langle k\rangle}\langle k\rangle^k/k!\). Average degree \(\langle k\rangle = p(N-1)\approx pN\). Second moment \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\) (because the variance equals the mean).</p>
+</div></details>
 
 <h3>2024 Quiz 1</h3>
 
-<details class="q"><summary><span class="qt pyq">Quiz 1</span><span>For a star graph with N = 5 (another set: N = 6), what is the average path length? What is the diameter? [2 + 1]</span><span class="chev">›</span></summary>
-<div class="ans"><p>\(\langle l\rangle = 2(N-1)/N\). For \(N=5\): 4 pairs at distance 1 and 6 at distance 2, so \(16/10 = 1.6\). For \(N=6\): \(10/6 = 5/3\approx1.67\). Diameter 2 in both. See <a href="#simple">§3</a>.</p></div></details>
+<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 + 1 marks</span><span>For a star graph with N = 5 nodes (another set: N = 6), what is the average path length of the graph? What is the diameter of the graph?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> In a star, every path goes through the hub. The hub is 1 step from everyone, and any two outer nodes are 2 steps apart (in to the hub and out again). Count how many pairs are of each kind and take the average.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>Number of pairs \(= \frac{N(N-1)}{2}\).</li>
+<li>\(\langle l\rangle = \frac{\sum(\text{distance}\times\text{number of pairs at that distance})}{\text{number of pairs}}\).</li>
+<li>For a star: \(N-1\) hub–leaf pairs at distance 1, \(\frac{(N-1)(N-2)}{2}\) leaf–leaf pairs at distance 2, giving \(\langle l\rangle = \frac{2(N-1)}{N}\).</li>
+</ul>
+<h4>Step by step, N = 5</h4>
+<ol class="steps">
+<li>Pairs: \(\frac{5\times4}{2} = 10\).</li>
+<li>Hub–leaf pairs: \(N - 1 = 4\), at distance 1.</li>
+<li>Leaf–leaf pairs: \(\frac{4\times3}{2} = 6\), at distance 2.</li>
+<li>\(\langle l\rangle = \frac{4\times1 + 6\times2}{10} = \frac{16}{10} = 1.6\). Formula check: \(\frac{2\times4}{5} = 1.6\).</li>
+<li>The largest distance is 2 (leaf to leaf).</li>
+</ol>
+<h4>Step by step, N = 6</h4>
+<ol class="steps">
+<li>Pairs: \(\frac{6\times5}{2} = 15\). Hub–leaf: 5 at distance 1. Leaf–leaf: \(\frac{5\times4}{2} = 10\) at distance 2.</li>
+<li>\(\langle l\rangle = \frac{5 + 20}{15} = \frac{25}{15} = \frac53\approx1.67\). Formula check: \(\frac{2\times5}{6} = 1.67\).</li>
+</ol>
+<h4>Final answer</h4>
+<p>\(N = 5\): average path length 1.6, diameter 2. \(N = 6\): average path length \(5/3\approx1.67\), diameter 2.</p>
+</div></details>
 
-<details class="q"><summary><span class="qt pyq">Quiz 1</span><span>Given the connection probability p, what is the relation between p, ⟨k⟩ and N? [2]</span><span class="chev">›</span></summary>
-<div class="ans"><p>\(\langle k\rangle = p(N-1)\). Each node has \(N-1\) possible links, each present with probability \(p\) (or, since \(p = L/\binom N2\), \(\langle k\rangle = 2L/N = p(N-1)\)).</p></div></details>
+<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 marks</span><span>For an all-to-all connected network (binary, undirected, without self-loops) with N nodes, which are true? (a) The network is symmetric. (b) The diameter is N. (c) The average path length is 1. (d) The average degree is N − 1. Give a one-line reason for each.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Everyone is directly linked to everyone else. So every distance is 1, the largest distance is also 1, and every node has all the other N − 1 nodes as neighbours.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>All-to-all means every pair is linked: \(L = \frac{N(N-1)}{2}\).</li>
+<li>\(\langle k\rangle = \frac{2L}{N}\).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>(a) Undirected means \(A_{ij} = A_{ji}\). <strong>True.</strong></li>
+<li>(b) Every pair is directly linked, so the largest distance is 1, not \(N\). <strong>False.</strong></li>
+<li>(c) Every one of the \(\frac{N(N-1)}{2}\) pairs is at distance 1, so the average is 1. <strong>True.</strong></li>
+<li>(d) \(\langle k\rangle = \frac{2L}{N} = \frac{2}{N}\cdot\frac{N(N-1)}{2} = N - 1\). With \(N = 5\): \(L = 10\), \(\langle k\rangle = 20/5 = 4\). <strong>True.</strong></li>
+</ol>
+<h4>Final answer</h4>
+<p>(a), (c) and (d) are true. (b) is false, since the diameter is 1.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 marks</span><span>Given a probability p representing the likelihood of a connection between two nodes (the ratio of existing links to the total potential links), what is the relationship between p, the average degree ⟨k⟩ and the number of nodes N?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Each node has N − 1 possible partners and is actually linked to a fraction p of them. So on average it has p times (N − 1) links.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>\(p = \frac{L}{N(N-1)/2}\) (existing links over possible links).</li>
+<li>\(\langle k\rangle = \frac{2L}{N}\).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>From the first formula, \(L = p\,\frac{N(N-1)}{2}\).</li>
+<li>Put it into the second: \(\langle k\rangle = \frac{2}{N}\cdot p\,\frac{N(N-1)}{2} = p(N-1)\).</li>
+<li><strong>Numbers.</strong> \(N = 100\), \(p = 0.05\): \(\langle k\rangle = 0.05\times99 = 4.95\). Check through \(L\): \(L = 0.05\times4950 = 247.5\), and \(2L/N = 495/100 = 4.95\).</li>
+</ol>
+<h4>Final answer</h4>
+<p>\(\langle k\rangle = p(N-1)\), or \(p = \frac{\langle k\rangle}{N-1}\). For large \(N\), \(\langle k\rangle\approx pN\).</p>
+</div></details>
 
 <h3>2024 surprise quiz (MS Forms)</h3>
 
-<details class="q"><summary><span class="qt pyq">Surprise</span><span>Adjacency matrix with rows A: 0 1 1 0 0, B: 1 0 0 0 1, C: 1 0 0 1 1, D: 0 0 1 0 0, E: 0 1 1 0 0. How many connected components? What is the nullity of the Laplacian?</span><span class="chev">›</span></summary>
-<div class="ans"><p>The rule is that the nullity of the Laplacian (number of zero eigenvalues) equals the number of components. As printed, the links are A–B, A–C, B–E, C–D, C–E, which form one connected graph, so the answer would be 1 component and nullity 1. The official key says 3 components, {A, B, C}, {D}, {E}, and nullity 3, which only fits if D and E had no links. Either way, the answer to the second part equals the answer to the first.</p></div></details>
+<details class="q"><summary><span class="qt pyq">Surprise</span><span>An undirected graph has adjacency matrix with rows A: 0 1 1 0 0, B: 1 0 0 0 1, C: 1 0 0 1 1, D: 0 0 1 0 0, E: 0 1 1 0 0. Determine the number of connected components. What is the nullity of the Laplacian?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> The Laplacian has exactly one zero eigenvalue for each separate piece of the network. So the nullity and the number of pieces are always the same number, and you can find it just by walking along the links to see which nodes you can reach.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>\(L = D - A\): degrees on the diagonal, \(-1\) for each link (<a href="#lap">§12</a>).</li>
+<li>Nullity of \(L\) (number of zero eigenvalues) = number of connected components.</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>Read the links</strong> from the 1s above the diagonal: A–B, A–C, B–E, C–D, C–E.</li>
+<li><strong>Degrees</strong> (row sums): A 2, B 2, C 3, D 1, E 2.</li>
+<li><strong>Laplacian.</strong> \[L = \begin{pmatrix}2 & -1 & -1 & 0 & 0\\ -1 & 2 & 0 & 0 & -1\\ -1 & 0 & 3 & -1 & -1\\ 0 & 0 & -1 & 1 & 0\\ 0 & -1 & -1 & 0 & 2\end{pmatrix}\] Each row adds to 0, as it must.</li>
+<li><strong>Count components by walking.</strong> From A you reach B and C; from C you reach D and E. All five nodes are reached, so there is 1 component.</li>
+<li>So the nullity is 1.</li>
+</ol>
+<h4>Final answer</h4>
+<p>As printed, the graph has 1 connected component and the Laplacian has nullity 1. The official key says 3 components, {A, B, C}, {D}, {E}, and nullity 3. That would only be true if D and E had no links, so the printed matrix and the key do not match. In either reading, the nullity equals the number of components, which is the point of the question.</p>
+</div></details>
 
-<details class="q"><summary><span class="qt pyq">Surprise</span><span>SIR: What is assumed about the infectious period? What happens to the number of susceptibles over time?</span><span class="chev">›</span></summary>
-<div class="ans"><p>The infectious period is the same for all individuals (constant recovery rate \(\gamma\)). The susceptible number decreases over time, since nobody returns to S (roughly exponentially during the epidemic).</p></div></details>
+<details class="q"><summary><span class="qt pyq">Surprise</span><span>SIR model: (1) What is the primary assumption about the infectious period? (2) What happens to the number of susceptible individuals as the epidemic progresses? (3) At a steady point, what is true?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> In SIR, people only move one way: susceptible, then infected, then removed. Nobody goes back, so the susceptible group can only shrink. And because people only move between groups, the total never changes, so the three rates of change always cancel out.</p>
+<h4>Formulas you need</h4>
+<ul>
+<li>\(\dot s = -\beta si\), \(\dot i = \beta si - \gamma i\), \(\dot r = \gamma i\), with \(s + i + r = 1\).</li>
+</ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>Recovery happens at a constant rate \(\gamma\), the same for everyone, so the infectious period is the same for all individuals on average (it is \(1/\gamma\)). With \(\gamma = 0.2\) per day, that is 5 days.</li>
+<li>\(\dot s = -\beta si\) is never positive (\(\beta\), \(s\), \(i\) are all \(\ge 0\)), so \(s\) only decreases.</li>
+<li>Add the three rates: \(-\beta si + (\beta si - \gamma i) + \gamma i = 0\). They always add to zero, including at a steady point.</li>
+</ol>
+<h4>Final answer</h4>
+<p>(1) It is constant, the same for all individuals. (2) It decreases (roughly exponentially while the epidemic runs). (3) The rates of change of the three compartments add to zero.</p>
+</div></details>
 </section>
