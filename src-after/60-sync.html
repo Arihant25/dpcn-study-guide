@@ -1,0 +1,114 @@
+
+<div class="part">Part 6<span>Synchronisation</span></div>
+<section>
+<h2 id="twoosc"><span class="num">15</span>Two coupled oscillators</h2>
+<span class="board">Deck 13 · slides 28–31 · 2024 mid-sem Q1</span>
+<p class="about">In 1665 Huygens noticed that two pendulum clocks hanging from the same beam end up swinging in step. Heart pacemaker cells, fireflies flashing together and audiences clapping in rhythm do the same: oscillators that interact weakly tend to <strong>synchronise</strong>. This section shows how two coupled limit-cycle oscillators reduce to equations for their angles (phases) alone, then finds when they lock to a common frequency.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Write two coupled Stuart–Landau oscillators in polar form and explain the weak-coupling (phase-only) approximation.</li>
+<li>For two phase oscillators, find the critical coupling for a common frequency, and the common frequency. (2024 mid-sem Q1, 7 marks)</li>
+</ul>
+</div>
+
+<h3>From oscillators to phases</h3>
+<p>Two limit-cycle oscillators (§9 with \(\mu = 1\)), each pulled towards the other with strength \(K\):</p>
+<div class="eq">\[\dot Z_1 = (1 + i\omega_1 - |Z_1|^2)Z_1 + K(Z_2 - Z_1), \qquad \dot Z_2 = (1 + i\omega_2 - |Z_2|^2)Z_2 + K(Z_1 - Z_2).\]</div>
+<div class="card exam"><span class="tag">Derivation to learn · polar form of the coupled pair</span>
+<ol class="steps">
+<li>Write \(Z_j = r_je^{i\theta_j}\). Then \(\dot Z_1 = (\dot r_1 + ir_1\dot\theta_1)e^{i\theta_1}\).</li>
+<li>Divide the first equation by \(e^{i\theta_1}\): \[\dot r_1 + ir_1\dot\theta_1 = (1 + i\omega_1 - r_1^2)r_1 - Kr_1 + Kr_2e^{i(\theta_2 - \theta_1)}.\] (Because \(Z_2/e^{i\theta_1} = r_2e^{i(\theta_2-\theta_1)}\).)</li>
+<li>Use \(e^{i\phi} = \cos\phi + i\sin\phi\) and match real parts: \[\dot r_1 = r_1(1 - K - r_1^2) + Kr_2\cos(\theta_2 - \theta_1).\]</li>
+<li>Match imaginary parts and divide by \(r_1\): \[\dot\theta_1 = \omega_1 + K\frac{r_2}{r_1}\sin(\theta_2 - \theta_1).\] The same for oscillator 2 with 1 and 2 swapped.</li>
+<li><strong>Weak coupling.</strong> The sizes \(r_1, r_2\) relax quickly back to the limit cycle, while the phases interact slowly. So set \(r_1\approx r_2\approx\) constant. Then \(r_2/r_1 = 1\) and only the phases remain: \[\dot\theta_1 = \omega_1 + K\sin(\theta_2 - \theta_1), \qquad \dot\theta_2 = \omega_2 + K\sin(\theta_1 - \theta_2).\]</li>
+</ol>
+</div>
+<p>This is the two-oscillator Kuramoto model. Each phase moves at its own natural speed \(\omega\), plus a pull towards the other: if oscillator 2 is ahead (\(\theta_2 > \theta_1\) by a little), \(\sin(\theta_2 - \theta_1) > 0\) speeds oscillator 1 up.</p>
+
+<h3>When do they lock?</h3>
+<p>The 2024 mid-sem used different couplings: \(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2 - \theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1 - \theta_2)\).</p>
+<div class="card exam"><span class="tag">Derivation to learn · locking condition and common frequency</span>
+<ol class="steps">
+<li><strong>Phase difference.</strong> Let \(\phi = \theta_2 - \theta_1\). Subtract the equations, using \(\sin(\theta_1 - \theta_2) = -\sin\phi\): \[\dot\phi = (\omega_2 - \omega_1) - (k_1 + k_2)\sin\phi.\]</li>
+<li><strong>Locking means a common frequency</strong>, so \(\theta_1\) and \(\theta_2\) grow at the same rate and \(\phi\) stops changing: a fixed point of the \(\phi\) equation. \(\dot\phi = 0\) gives \[\sin\phi^* = \frac{\omega_2 - \omega_1}{k_1 + k_2}.\]</li>
+<li><strong>A sine is between \(-1\) and 1</strong>, so a solution exists only if \(|\omega_2 - \omega_1| \le k_1 + k_2\). The <strong>critical coupling</strong> is \[k_1 + k_2 = |\omega_2 - \omega_1| \qquad (\text{for } k_1 = k_2 = k:\ k_c = |\omega_2 - \omega_1|/2).\]</li>
+<li><strong>Which fixed point is stable.</strong> The slope of \(\dot\phi\) with respect to \(\phi\) is \(-(k_1 + k_2)\cos\phi\). Negative (stable) when \(\cos\phi^* > 0\), the solution with \(\phi^*\) between \(-90°\) and \(90°\).</li>
+<li><strong>The common frequency \(\Omega\).</strong> When locked, \(\dot\theta_1 = \dot\theta_2 = \Omega\): \(\Omega = \omega_1 + k_1\sin\phi^*\) and \(\Omega = \omega_2 - k_2\sin\phi^*\). Multiply the first by \(k_2\), the second by \(k_1\), and add, so the \(\sin\phi^*\) terms cancel: \[(k_1 + k_2)\Omega = k_2\omega_1 + k_1\omega_2 \quad\Rightarrow\quad \Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}.\] With equal couplings this is the plain average \((\omega_1 + \omega_2)/2\).</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">With the exam's numbers · \(k_1 = k_2 = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\)</span>
+<ol>
+<li>Difference of natural frequencies: \(|\omega_2 - \omega_1| = 8\).</li>
+<li>Total coupling: \(k_1 + k_2 = 4\).</li>
+<li>Locking needs \(8\le4\), which is false. \(\sin\phi^* = 8/4 = 2\) has no solution.</li>
+<li>So there is <strong>no common, stable frequency</strong>: the phase difference keeps increasing and the oscillators drift. They would need \(k_1 + k_2\ge8\) (each \(k\ge4\)). If they did lock, the frequency would be \(\Omega = (2\times2 + 2\times10)/4 = 6\).</li>
+</ol>
+</div>
+<p>The loss of locking at \(k_1 + k_2 = |\Delta\omega|\) is a saddle-node bifurcation of the \(\phi\) equation: the stable and unstable values of \(\phi^*\) meet at \(90°\) and disappear.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(\dot\phi = \Delta\omega - (k_1 + k_2)\sin\phi\).</li>
+<li>Lock iff \(|\omega_2 - \omega_1|\le k_1 + k_2\). Common frequency \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>\(\omega_1 = 3\), \(\omega_2 = 5\), \(k_1 = 1\), \(k_2 = 3\). Do they lock? At what frequency, and at what phase difference?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(|\Delta\omega| = 2\le k_1 + k_2 = 4\): yes. \(\Omega = (3\times3 + 1\times5)/4 = 14/4 = 3.5\). \(\sin\phi^* = 2/4 = 0.5\), stable solution \(\phi^* = 30°\). Check: \(\omega_1 + k_1\sin\phi^* = 3 + 0.5 = 3.5\).</p></div></details>
+</section>
+
+<section>
+<h2 id="kuramoto"><span class="num">16</span>The Kuramoto model · many oscillators</h2>
+<span class="board">Deck 13 · slides 33–37, 46–48</span>
+<p class="about">Now take \(N\) oscillators, each with its own natural frequency, every one pulled towards every other. With weak coupling they ignore each other and drift; above a critical coupling a group of them starts moving together. Kuramoto's trick is to measure "how together" they are with one number, the <strong>order parameter</strong>, and to rewrite each oscillator's equation in terms of it.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Define the order parameter \(re^{i\psi}\) and explain \(r\) and \(\psi\).</li>
+<li>Derive the mean-field form \(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\).</li>
+<li>State the critical coupling \(K_c = 2/(\pi g(0))\).</li>
+</ul>
+</div>
+<div class="eq boxed">\[\dot\theta_i = \omega_i + \frac KN\sum_{j=1}^{N}\sin(\theta_j - \theta_i), \qquad i = 1, \dots, N\]</div>
+<p class="sym">\(\theta_i\) is the phase (angle) of oscillator \(i\); \(\omega_i\) its natural frequency, drawn from a distribution \(g(\omega)\) that is symmetric about 0, \(g(\omega) = g(-\omega)\); \(K\) the coupling strength.</p>
+
+<h3>The order parameter</h3>
+<div class="eq boxed">\[re^{i\psi} = \frac1N\sum_{j=1}^{N}e^{i\theta_j}\]</div>
+<p>Think of each oscillator as a dot on a circle of radius 1 at angle \(\theta_j\). The right side is the average position of the dots. Its distance from the centre, \(r\), measures coherence: \(r = 1\) if all dots are at the same angle (perfect sync), \(r\approx0\) if they are spread evenly (no sync). Its angle \(\psi\) is the average phase.</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · the mean-field equation</span>
+<ol class="steps">
+<li>Multiply the definition by \(e^{-i\theta_i}\): \(re^{i(\psi - \theta_i)} = \frac1N\sum_je^{i(\theta_j - \theta_i)}\).</li>
+<li>Take the imaginary part of both sides (\(e^{ia}\) has imaginary part \(\sin a\)): \[r\sin(\psi - \theta_i) = \frac1N\sum_j\sin(\theta_j - \theta_i).\]</li>
+<li>The right side is exactly the coupling sum in the model (divided by \(K\)). Substitute: \[\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i).\]</li>
+<li><strong>Meaning:</strong> each oscillator now feels only the average (the "mean field"), pulled towards the average phase \(\psi\) with strength \(Kr\). The more synchronised the population (larger \(r\)), the stronger the pull, which synchronises it further.</li>
+<li><strong>Rotating frame.</strong> Measure all phases relative to the average, so \(\psi = 0\): \[\dot\theta_i = \omega_i - Kr\sin\theta_i.\]</li>
+<li><strong>Who locks.</strong> Oscillator \(i\) stops drifting when \(\dot\theta_i = 0\), i.e. \(\sin\theta_i = \omega_i/(Kr)\), possible only if \(|\omega_i|\le Kr\). Oscillators with natural frequency close to the average lock; the others keep drifting (partial synchronisation).</li>
+</ol>
+</div>
+
+<h3>The critical coupling</h3>
+<div class="eq boxed">\[K_c = \frac{2}{\pi g(0)}\]</div>
+<p>Below \(K_c\), \(r = 0\) (incoherence). Above it, \(r\) grows continuously from 0, a phase transition like the giant component in random graphs. \(g(0)\) is the height of the frequency distribution at its centre: the more oscillators have similar frequencies (tall, narrow \(g\)), the smaller the coupling needed.</p>
+<p>For the Lorentzian distribution on the slides, \(g(\omega) = \frac{\gamma/\pi}{\gamma^2 + \omega^2}\), we get \(g(0) = \frac{1}{\pi\gamma}\), so \(K_c = 2\gamma\), and the exact result above it is \(r = \sqrt{1 - K_c/K}\). Example: \(\gamma = 1\) gives \(K_c = 2\); at \(K = 4\), \(r = \sqrt{0.5} = 0.71\).</p>
+<figure class="fig"><!--plot:kuramoto-r--><figcaption>Order parameter against coupling for the Lorentzian with \(\gamma = 1\): zero up to \(K_c = 2\), then rising continuously towards 1.</figcaption></figure>
+<div class="card watch"><span class="tag">Slide error and exam scope</span>
+<p>Slides 33 and 34 write the critical coupling as \(2/(\pi g(0)N)\). The extra \(N\) is wrong (the \(1/N\) is already inside the coupling term); slide 46 derives \(K_c = 2/(\pi g(0))\). The derivation of \(K_c\) for infinitely many oscillators (slides 39 to 46) is marked "Advanced Topics (Not for exam)" on slide 38, so learn the result, not the derivation.</p>
+</div>
+
+<h3>Explosive synchronisation (slides 47–48)</h3>
+<p>On a network, the coupling uses the adjacency matrix: \(\dot\theta_i = \omega_i + \lambda\sum_jA_{ij}\sin(\theta_j - \theta_i)\). In the paper on the slides (Gómez-Gardeñes et al., 2011) each node's natural frequency equals its degree. On random (ER) networks \(r\) rises smoothly with \(\lambda\). On scale-free (Barabási–Albert) networks it jumps suddenly from about 0 to about 0.9, at a different \(\lambda\) when increasing than when decreasing: a first-order, "explosive" transition with hysteresis.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(re^{i\psi} = \frac1N\sum_je^{i\theta_j}\): \(r\) = coherence (0 to 1), \(\psi\) = average phase.</li>
+<li>\(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\); rotating frame \(\dot\theta_i = \omega_i - Kr\sin\theta_i\); locked if \(|\omega_i|\le Kr\).</li>
+<li>\(K_c = 2/(\pi g(0))\); Lorentzian: \(K_c = 2\gamma\), \(r = \sqrt{1 - K_c/K}\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Derive \(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\) from the Kuramoto model.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Multiply \(re^{i\psi} = \frac1N\sum_je^{i\theta_j}\) by \(e^{-i\theta_i}\), take the imaginary part: \(r\sin(\psi - \theta_i) = \frac1N\sum_j\sin(\theta_j - \theta_i)\). Replace the sum in the model.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Three oscillators at angles 0°, 0° and 90°. Find r.</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(e^{i0} + e^{i0} + e^{i90°} = 1 + 1 + i = 2 + i\). Divide by 3: \(\frac23 + \frac13i\). \(r = \sqrt{(2/3)^2 + (1/3)^2} = \sqrt5/3\approx0.75\).</p></div></details>
+</section>

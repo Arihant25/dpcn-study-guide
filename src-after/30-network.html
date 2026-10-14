@@ -1,0 +1,61 @@
+
+<div class="part">Part 3<span>Stability on networks</span></div>
+<section>
+<h2 id="netstab"><span class="num">8</span>Stability of dynamics on a network</h2>
+<span class="board">Deck 12 · slides 9–24</span>
+<p class="about">In the Mid-sem guide (§13) every node of a network had a value that changed over time, influenced by its neighbours. Here we ask: if all the nodes sit at a fixed point and something pushes them slightly, does the network return? The answer depends on two things at once, the dynamics at each node and the shape of the network, and for an important special case it comes down to the largest eigenvalue of the graph Laplacian.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Linearise \(\dot x_i = f(x_i) + \sum_j A_{ij}g(x_i, x_j)\) around a fixed point.</li>
+<li>For a symmetric fixed point with coupling \(g(x_i, x_j) = g(x_i) - g(x_j)\), show that \(\dot{\boldsymbol\epsilon} = (\alpha I + \beta L)\boldsymbol\epsilon\) and derive the stability condition.</li>
+<li>Apply it to population growth with migration and get \(\lambda_n < r/(2a)\).</li>
+</ul>
+</div>
+
+<h3>The setting</h3>
+<div class="eq">\[\dot x_i = f(x_i) + \sum_j A_{ij}\,g(x_i, x_j)\]</div>
+<p class="sym">\(x_i\) is the value at node \(i\). \(f\) is what the node does alone. \(g(x_i, x_j)\) is the effect of neighbour \(j\) on node \(i\); \(A_{ij}\) (1 for neighbours, 0 otherwise) keeps only real neighbours. \(k_i = \sum_jA_{ij}\) is the degree of node \(i\). \(L\) is the graph Laplacian, \(L_{ij} = k_i\delta_{ij} - A_{ij}\), with eigenvalues \(0 = \lambda_1 \le \lambda_2 \le\dots\le \lambda_n\) (Mid-sem guide §12).</p>
+<p>A fixed point \(\{x_i^*\}\) is a value at every node such that nothing changes: \(f(x_i^*) + \sum_jA_{ij}g(x_i^*, x_j^*) = 0\) for every \(i\). Where it sits depends on both the dynamics and the network.</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · from the network model to the Laplacian condition</span>
+<ol class="steps">
+<li><strong>Push slightly.</strong> \(x_i = x_i^* + \epsilon_i\) with small \(\epsilon_i\). Then \(\dot x_i = \dot\epsilon_i\).</li>
+<li><strong>Taylor-expand</strong> \(f\) and \(g\) to first order: \[\dot\epsilon_i = f(x_i^*) + \epsilon_i f'(x_i^*) + \sum_jA_{ij}\Big[g(x_i^*, x_j^*) + \epsilon_i\frac{\partial g}{\partial u} + \epsilon_j\frac{\partial g}{\partial v}\Big],\] where \(u\) and \(v\) stand for the first and second arguments of \(g\).</li>
+<li><strong>The zero-order terms cancel</strong> because they add up to the fixed-point condition, which is 0.</li>
+<li><strong>Name the slopes</strong> (they are just numbers once the fixed point is known): \(\alpha_i = f'(x_i^*)\), \(\beta_{ij} = \partial g/\partial u\), \(\gamma_{ij} = \partial g/\partial v\). Then \[\dot\epsilon_i = \Big[\alpha_i + \sum_j\beta_{ij}A_{ij}\Big]\epsilon_i + \sum_j\gamma_{ij}A_{ij}\epsilon_j,\] a linear system \(\dot{\boldsymbol\epsilon} = M\boldsymbol\epsilon\). Its solution is \(\sum_r a_r(0)e^{\lambda_rt}\mathbf v_r\) over the eigenvalues of \(M\), as for diffusion. Stable if all eigenvalues of \(M\) are negative.</li>
+<li><strong>Symmetric fixed point.</strong> If every node has the same value, \(x_i^* = x^*\), then \(\alpha_i = \alpha\), \(\beta_{ij} = \beta\), \(\gamma_{ij} = \gamma\) for all nodes, and \(\sum_jA_{ij} = k_i\): \[\dot\epsilon_i = (\alpha + \beta k_i)\epsilon_i + \gamma\sum_jA_{ij}\epsilon_j.\]</li>
+<li><strong>Difference coupling.</strong> If \(g(x_i, x_j) = g(x_i) - g(x_j)\), then \(\partial g/\partial u = g'(x^*) = \beta\) and \(\partial g/\partial v = -g'(x^*) = -\beta\). So \(\gamma = -\beta\) and \[\dot\epsilon_i = \alpha\epsilon_i + \beta\Big(k_i\epsilon_i - \sum_jA_{ij}\epsilon_j\Big) = \alpha\epsilon_i + \beta\sum_j(k_i\delta_{ij} - A_{ij})\epsilon_j.\]</li>
+<li><strong>Matrix form.</strong> The bracket is the Laplacian: \[\dot{\boldsymbol\epsilon} = (\alpha I + \beta L)\,\boldsymbol\epsilon.\]</li>
+<li><strong>Eigenvalues.</strong> \(\alpha I + \beta L\) has the same eigenvectors as \(L\), with eigenvalues \(\alpha + \beta\lambda_r\). Stability needs \(\alpha + \beta\lambda_r < 0\) for every \(r\).</li>
+<li><strong>Read off the conditions.</strong> \(\lambda_1 = 0\) gives \(\alpha < 0\): each node must be stable on its own. With \(\beta > 0\), the hardest case is the largest eigenvalue \(\lambda_n\): \(\alpha + \beta\lambda_n < 0\), which rearranges to \[\frac{1}{\lambda_n} > -\frac{\beta}{\alpha}.\]</li>
+</ol>
+</div>
+<p>The point of the result: whether the network is stable depends on the dynamics (\(\alpha\), \(\beta\)) and on the structure, through one number, the largest Laplacian eigenvalue \(\lambda_n\).</p>
+<p class="small">Slide typos: slide 10 writes \(\epsilon_x\) for \(\epsilon_i\); slide 12's formula for \(M_{ij}\) reuses \(j\) as a summation index; slide 18 drops the minus sign in the middle of the \(\gamma_{ij}\) line (it should be \(-g'(x^*)\)).</p>
+
+<div class="card ex"><span class="tag">Worked example · population growth with migration (slides 21–24)</span>
+<p>Each node is a patch where a population grows logistically, \(f(x) = rx(1-x)\) with \(r > 0\), and individuals migrate between neighbouring patches with \(g(x_i, x_j) = ax_i^2 - ax_j^2\), \(a > 0\).</p>
+<ol>
+<li>Slopes: \(f'(x) = r - 2rx\), \(g'(x) = 2ax\).</li>
+<li>Symmetric fixed points: all patches equal makes the migration term zero, so \(f(x^*) = 0\): \(x^* = 0\) or \(x^* = 1\).</li>
+<li>\(x^* = 0\): \(\alpha = f'(0) = r > 0\), \(\beta = g'(0) = 0\). Every eigenvalue is \(r > 0\): always unstable (any small population starts to grow).</li>
+<li>\(x^* = 1\): \(\alpha = f'(1) = r - 2r = -r\), \(\beta = g'(1) = 2a\). Condition: \(\frac1{\lambda_n} > -\frac{\beta}{\alpha} = \frac{2a}{r}\), so \[\lambda_n < \frac{r}{2a}.\]</li>
+</ol>
+<p>Numbers: with \(r = 1\) and \(a = 0.1\), the full population is stable if \(\lambda_n < 5\). A ring of nodes with degree 2 has \(\lambda_n \le 4\), so it is stable; a star with 10 nodes has \(\lambda_n = 10\), so it is not. Strong migration (large \(a\)) or a network with a big \(\lambda_n\) (hubs) can destroy the stable state.</p>
+</div>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Linearise: \(\dot{\boldsymbol\epsilon} = M\boldsymbol\epsilon\), stable if all eigenvalues of \(M\) are negative.</li>
+<li>Symmetric fixed point, difference coupling: \(\dot{\boldsymbol\epsilon} = (\alpha I + \beta L)\boldsymbol\epsilon\), eigenvalues \(\alpha + \beta\lambda_r\).</li>
+<li>Stable iff \(\alpha < 0\) and \(1/\lambda_n > -\beta/\alpha\).</li>
+<li>Logistic + migration: \(x^* = 1\) stable iff \(\lambda_n < r/(2a)\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Starting from \(\dot\epsilon_i = (\alpha + \beta k_i)\epsilon_i + \gamma\sum_jA_{ij}\epsilon_j\) with \(\gamma = -\beta\), get to \((\alpha I + \beta L)\boldsymbol\epsilon\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\dot\epsilon_i = \alpha\epsilon_i + \beta k_i\epsilon_i - \beta\sum_jA_{ij}\epsilon_j = \alpha\epsilon_i + \beta\sum_j(k_i\delta_{ij} - A_{ij})\epsilon_j\), and \(k_i\delta_{ij} - A_{ij} = L_{ij}\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>With \(r = 2\) and \(a = 0.5\), what is the largest allowed \(\lambda_n\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\lambda_n < r/(2a) = 2/1 = 2\).</p></div></details>
+</section>

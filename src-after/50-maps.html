@@ -1,0 +1,184 @@
+
+<div class="part">Part 5<span>Maps and chaos</span></div>
+<section>
+<h2 id="euler"><span class="num">11</span>From a differential equation to a map</h2>
+<span class="board">Deck 13 · slides 1–2, 10–13</span>
+<p class="about">Computers solve differential equations by taking small steps in time. If the step is too large, the numerical answer can behave completely differently from the true one. The slides use this to connect the smooth logistic equation to the <strong>logistic map</strong>, a step-by-step rule that can behave chaotically. This section also gives the Runge–Kutta method that the slides list.</p>
+
+<h3>Euler's step and the logistic map</h3>
+<p>Euler's method replaces the slope by "change over one step": \(\dot x\approx\frac{x_{n+1} - x_n}{\Delta t}\), so \(x_{n+1} = x_n + \Delta t\cdot f(x_n)\).</p>
+<div class="card exam"><span class="tag">Derivation to learn · logistic equation → logistic map (slide 11)</span>
+<ol class="steps">
+<li>Start from \(\dot x = x(K - 1) - Kx^2\), a logistic equation with fixed point \(x^* = \frac{K-1}{K}\) (set \(x[(K-1) - Kx] = 0\)).</li>
+<li>Euler step: \(x_{n+1} = x_n + \Delta t\,[(K-1)x_n - Kx_n^2]\).</li>
+<li>Take the step size \(\Delta t = 1\): \(x_{n+1} = x_n + (K-1)x_n - Kx_n^2 = Kx_n - Kx_n^2\).</li>
+<li>So \(x_{n+1} = Kx_n(1 - x_n)\): the logistic map, with \(r = K\). Its non-zero fixed point \(1 - 1/K\) is the same as the equation's.</li>
+</ol>
+</div>
+<p>The smooth equation always settles at its fixed point. The map, as §12 and §13 show, can oscillate or become chaotic when \(K\) is large. The difference comes only from the large step. That is the point of the slide's question "what will be the ideal step size?": too large a step creates behaviour that is not in the real system.</p>
+<p class="small">For reference, the logistic equation \(\dot N = rN(1 - N/K)\) has the exact solution \(N(t) = \frac{K}{1 + Ae^{-rt}}\) with \(A = \frac{K - N_0}{N_0}\), the same S-shaped curve as the SIS solution in the Mid-sem guide.</p>
+
+<h3>The fourth-order Runge–Kutta method (RK4)</h3>
+<p>Euler uses the slope at the start of each step only. RK4 measures the slope at four places in the step and takes a weighted average:</p>
+<div class="eq">\[\begin{aligned} k_1 &= f(t_j,\ y_j) && \text{(slope at the start)}\\ k_2 &= f\!\left(t_j + \tfrac h2,\ y_j + \tfrac h2k_1\right) && \text{(slope at the middle, using } k_1)\\ k_3 &= f\!\left(t_j + \tfrac h2,\ y_j + \tfrac h2k_2\right) && \text{(slope at the middle, using } k_2)\\ k_4 &= f(t_j + h,\ y_j + hk_3) && \text{(slope at the end)}\\ y_{j+1} &= y_j + h\left(\tfrac{k_1}{6} + \tfrac{k_2}{3} + \tfrac{k_3}{3} + \tfrac{k_4}{6}\right) \end{aligned}\]</div>
+<p>The weights add to 1. The error for a fixed time span shrinks like the step size \(\Delta t\) for Euler, \((\Delta t)^2\) for improved Euler, and \((\Delta t)^4\) for RK4. Halving the step makes RK4 about 16 times more accurate.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Euler with \(\Delta t = 1\) turns \(\dot x = x(K-1) - Kx^2\) into \(x_{n+1} = Kx_n(1 - x_n)\).</li>
+<li>RK4: four slopes, weights \(\frac16, \frac13, \frac13, \frac16\). Error orders: Euler \(\Delta t\), improved Euler \((\Delta t)^2\), RK4 \((\Delta t)^4\).</li>
+</ul>
+</div>
+</section>
+
+<section>
+<h2 id="mapstab"><span class="num">12</span>Stability of a map, and cobweb diagrams</h2>
+<span class="board">Deck 13 · slides 13–21</span>
+<p class="about">For a map \(x_{n+1} = f(x_n)\), a fixed point is a value that maps to itself. Whether nearby values are pulled in or pushed away depends on the slope \(f'(x^*)\), but the rule is different from differential equations: what matters is whether the slope's <em>size</em> is less than 1. A <strong>cobweb diagram</strong> lets you see the iteration on paper.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Derive the condition for a stable fixed point of \(x_{n+1} = f(x_n)\). (2024 Quiz 2, 2 marks, both sets)</li>
+<li>Find the fixed points and their stability for \(f(x) = x^2\), \(f(x) = \cos x\), \(f(x) = rx(1-x)\). (2024 Quiz 2, 3 marks)</li>
+</ul>
+</div>
+
+<div class="card exam"><span class="tag">Derivation to learn · stability of a map's fixed point</span>
+<ol class="steps">
+<li><strong>Fixed point:</strong> \(x^* = f(x^*)\).</li>
+<li><strong>Small error.</strong> Write \(x_n = x^* + \varepsilon_n\), with \(\varepsilon_n\) small.</li>
+<li><strong>One step.</strong> \(x^* + \varepsilon_{n+1} = f(x^* + \varepsilon_n) \approx f(x^*) + f'(x^*)\,\varepsilon_n\) (value plus slope times change).</li>
+<li><strong>Cancel</strong> \(x^* = f(x^*)\) from both sides: \(\varepsilon_{n+1} = f'(x^*)\,\varepsilon_n\).</li>
+<li><strong>Repeat \(n\) times:</strong> \(\varepsilon_n = [f'(x^*)]^n\,\varepsilon_0\). Each step multiplies the error by the same number.</li>
+<li><strong>Conclusion.</strong> Repeated multiplication by a number shrinks to 0 only if the number's size is below 1: \[|f'(x^*)| < 1\ \Rightarrow\ \text{stable}, \qquad |f'(x^*)| > 1\ \Rightarrow\ \text{unstable}, \qquad |f'(x^*)| = 1\ \Rightarrow\ \text{bifurcation point}.\]</li>
+</ol>
+</div>
+<p>Compare with a differential equation (Mid-sem §8), where only the <em>sign</em> of the slope mattered. A map with slope \(-0.5\) is stable (error halves and flips sign each step), but a map with slope \(-2\) is unstable even though the slope is negative. A negative slope makes the iterates jump from one side of \(x^*\) to the other.</p>
+
+<div class="card ex"><span class="tag">Worked examples</span>
+<p><strong>\(f(x) = x^2\).</strong> Fixed points: \(x = x^2\Rightarrow x(x - 1) = 0\Rightarrow x^* = 0, 1\). Slope \(f'(x) = 2x\). \(|f'(0)| = 0 < 1\): stable. \(|f'(1)| = 2 > 1\): unstable. (Start at 0.9: 0.81, 0.66, 0.43, … goes to 0. Start at 1.1: 1.21, 1.46, … runs away.)</p>
+<p><strong>\(f(x) = \cos x\)</strong> (\(x\) in radians). Fixed point: \(x^* = \cos x^*\), solved by repeated substitution: start at 1: \(\cos1 = 0.540\), \(\cos0.540 = 0.858\), \(0.654\), \(0.794\), … settling at \(x^*\approx0.739\). Slope \(f'(x) = -\sin x\), \(|f'(0.739)| = \sin0.739 \approx 0.674 < 1\): stable. Negative slope, so the iterates zig-zag around 0.739 as they converge.</p>
+<p><strong>\(f(x) = rx(1 - x)\)</strong>, the logistic map. Fixed points: \(x = rx(1-x)\Rightarrow x^* = 0\) or \(1 = r(1 - x)\Rightarrow x^* = 1 - \frac1r\). Slope \(f'(x) = r(1 - 2x)\).</p>
+<ul>
+<li>\(f'(0) = r\): stable if \(r < 1\) (the population dies out).</li>
+<li>\(f'(1 - \frac1r) = r\left(1 - 2 + \frac2r\right) = 2 - r\): stable if \(|2 - r| < 1\), that is \(1 < r < 3\).</li>
+<li>At \(r = 3\), \(f' = -1\): a bifurcation (§13).</li>
+</ul>
+<p>Numbers: \(r = 2.5\) gives \(x^* = 1 - 0.4 = 0.6\) with slope \(2 - 2.5 = -0.5\), stable. The slide's table confirms it: starting from 0.5 the iterates go 0.625, 0.586, 0.607, 0.597, … → 0.6.</p>
+</div>
+
+<h3>Cobweb diagrams</h3>
+<p>Draw the curve \(y = f(x)\) and the diagonal \(y = x\). Start at \(x_0\) on the horizontal axis. Go vertically to the curve (that height is \(x_1 = f(x_0)\)), then horizontally to the diagonal (which moves you to \(x_1\) on the horizontal axis). Repeat. Fixed points are where the curve meets the diagonal.</p>
+<div class="figrow">
+<figure class="fig"><!--plot:cobweb-25--><figcaption>Logistic map, \(r = 2.5\): the cobweb spirals into \(x^* = 0.6\).</figcaption></figure>
+<figure class="fig"><!--plot:cobweb-cos--><figcaption>Cosine map: a square spiral into \(x^* = 0.739\).</figcaption></figure>
+<figure class="fig"><!--plot:cobweb-32--><figcaption>Logistic map, \(r = 3.2\): the fixed point is unstable and the cobweb settles on a square, a cycle of two values (§13).</figcaption></figure>
+</div>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Map fixed point \(x^* = f(x^*)\), stable iff \(|f'(x^*)| < 1\).</li>
+<li>Logistic map: \(x^* = 0\) stable for \(r < 1\); \(x^* = 1 - 1/r\) with \(f' = 2 - r\), stable for \(1 < r < 3\).</li>
+<li>\(\cos x\): \(x^* = 0.739\), stable. \(x^2\): 0 stable, 1 unstable.</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Derive \(\varepsilon_{n+1} = f'(x^*)\varepsilon_n\) and state the stability condition.</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(x^* + \varepsilon_{n+1} = f(x^* + \varepsilon_n)\approx f(x^*) + f'(x^*)\varepsilon_n\); cancel \(x^* = f(x^*)\). Then \(\varepsilon_n = [f'(x^*)]^n\varepsilon_0\), which shrinks iff \(|f'(x^*)| < 1\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Logistic map with \(r = 2.8\): fixed points and stability.</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(x^* = 0\): slope 2.8, unstable. \(x^* = 1 - 1/2.8 = 0.643\): slope \(2 - 2.8 = -0.8\), \(|-0.8| < 1\), stable (approached with zig-zags).</p></div></details>
+</section>
+
+<section>
+<h2 id="doubling"><span class="num">13</span>Period doubling and the route to chaos</h2>
+<span class="board">Deck 13 · slides 14, 22–26</span>
+<p class="about">As \(r\) increases past 3, the logistic map stops settling on one value and instead alternates between two values (a 2-cycle). Further on it alternates between 4, then 8, and so on, faster and faster, until about \(r = 3.57\) where the values never repeat: <strong>chaos</strong>. This sequence is the <strong>period-doubling route to chaos</strong>.</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · the 2-cycle</span>
+<ol class="steps">
+<li>A 2-cycle is a pair \(x_1, x_2\) with \(f(x_1) = x_2\) and \(f(x_2) = x_1\). So each is a fixed point of the twice-applied map: \(f(f(x)) = x\).</li>
+<li>For the logistic map this is a degree-4 equation. Two of its solutions are the ordinary fixed points (0 and \(1 - 1/r\)), which also satisfy it. Dividing those out leaves a quadratic, whose solutions are \[x_\pm = \frac{(r+1)\pm\sqrt{(r-3)(r+1)}}{2r}.\]</li>
+<li>These are real only if \((r - 3)(r + 1)\ge0\), that is \(r\ge3\). So the 2-cycle is born at \(r = 3\), exactly where the fixed point loses stability (its slope reaches \(-1\)). This is a <strong>period-doubling bifurcation</strong>.</li>
+<li><strong>Numbers, \(r = 3.2\):</strong> \(\sqrt{0.2\times4.2} = \sqrt{0.84} = 0.9165\). \(x_\pm = \frac{4.2\pm0.9165}{6.4} = 0.7995\) and \(0.5130\). The slide's table shows the iterates from 0.5 going 0.800, 0.512, 0.7995, 0.5129, … exactly these two values.</li>
+</ol>
+</div>
+<p class="small">Step 2 is quoted, not derived on the slides. The slides show it with plots of \(f(f(x))\): at \(r = 2.8\) it crosses the diagonal only at 0 and the fixed point; at \(r = 3.2\) it crosses at two more points, the 2-cycle.</p>
+
+<table class="tbl">
+<tr><th>\(r\)</th><th>Long-run behaviour</th><th>Example from the slides' table</th></tr>
+<tr><td>\(r < 1\)</td><td>extinction, \(x\to0\)</td><td>\(r = 0.5\): 0.125, 0.055, 0.026, … → 0</td></tr>
+<tr><td>\(1 < r < 3\)</td><td>one fixed value \(1 - 1/r\)</td><td>\(r = 1.5\) → 0.333; \(r = 2.5\) → 0.6</td></tr>
+<tr><td>\(3 < r < 3.449\)</td><td>2-cycle</td><td>\(r = 3.2\): 0.7995, 0.5130</td></tr>
+<tr><td>\(3.449 < r < 3.544\)</td><td>4-cycle</td><td>\(r = 3.5\): 0.875, 0.383, 0.827, 0.501</td></tr>
+<tr><td>\(3.544 < r < 3.57\)</td><td>8-cycle, 16-cycle, …</td><td>\(r = 3.55\): an 8-cycle</td></tr>
+<tr><td>\(3.57 < r < 4\)</td><td>chaos (with some periodic windows)</td><td>\(r = 3.9\): no pattern</td></tr>
+<tr><td>\(r > 4\)</td><td>values leave \([0, 1]\) and go to infinity</td><td></td></tr>
+</table>
+<figure class="fig"><!--plot:logistic-bif--><figcaption>Bifurcation diagram: for each \(r\), the values the map keeps visiting after a long time. One branch splits into two at \(r = 3\), four at 3.449, and so on until the chaotic band starts near 3.57. (The second split is at \(1 + \sqrt6 = 3.449\).)</figcaption></figure>
+<div class="figrow">
+<figure class="fig"><!--plot:logistic-ts-25--><figcaption>\(r = 2.5\), from \(x_0 = 0.5\): settles at 0.6.</figcaption></figure>
+<figure class="fig"><!--plot:logistic-ts-32--><figcaption>\(r = 3.2\): alternates between 0.80 and 0.51.</figcaption></figure>
+<figure class="fig"><!--plot:logistic-ts-39--><figcaption>\(r = 3.9\): no pattern (chaos).</figcaption></figure>
+</div>
+<p><strong>Chaos</strong> here means deterministic (a fixed rule, no randomness) yet never repeating, and extremely sensitive to the starting value: two starting values differing in the sixth decimal place give completely different sequences after a few dozen steps.</p>
+<p>The slides end this topic with the <strong>Mandelbrot set</strong>: the complex map \(z_{k+1} = z_k^2 + c\). A complex number \(c\) belongs to the set if the iterates starting from 0 stay bounded. Its boundary is endlessly detailed.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>2-cycle: \(f(f(x)) = x\); \(x_\pm = \frac{(r+1)\pm\sqrt{(r-3)(r+1)}}{2r}\), born at \(r = 3\) where \(f'(x^*) = -1\).</li>
+<li>Doublings at 3, 3.449, 3.544, …; chaos from about 3.57; escape for \(r > 4\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Find the 2-cycle of the logistic map at \(r = 3.4\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\sqrt{(0.4)(4.4)} = \sqrt{1.76} = 1.327\). \(x_\pm = \frac{4.4\pm1.327}{6.8} = 0.842\) and \(0.452\). Check: \(3.4\times0.452\times0.548 = 0.842\).</p></div></details>
+</section>
+
+<section>
+<h2 id="lorenz"><span class="num">14</span>The Lorenz system</h2>
+<span class="board">Deck 13 · slides 4–9</span>
+<p class="about">Lorenz's three-variable model of air convection was the first famous example of chaos in a differential equation. For some parameter values its path never settles and never repeats, looping around two centres in a butterfly shape. The exam-style task is the one from 2024 Quiz 2: find the fixed points and their Jacobians.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Find the fixed points of the Lorenz system and construct the Jacobian at each. (2024 Quiz 2, 4 marks; "eigenvalue analysis is not required")</li>
+<li>State when the origin is stable, and what the characteristic equation at \(P_1\) gives for given numbers.</li>
+</ul>
+</div>
+<div class="eq boxed">\[\dot x = \sigma(y - x), \qquad \dot y = \rho x - y - xz, \qquad \dot z = -\beta z + xy\]</div>
+<p class="sym">\(\sigma, \rho, \beta\) are positive constants (sigma, rho, beta). The usual values are \(\sigma = 10\), \(\beta = 8/3\). Slide 9 writes the same system with \(r\) for \(\rho\) and \(b\) for \(\beta\).</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · fixed points and Jacobians</span>
+<ol class="steps">
+<li><strong>\(\dot x = 0\)</strong> gives \(\sigma(y - x) = 0\), so \(y = x\).</li>
+<li><strong>\(\dot z = 0\)</strong> gives \(\beta z = xy = x^2\), so \(z = x^2/\beta\).</li>
+<li><strong>\(\dot y = 0\)</strong> gives \(\rho x - x - xz = x(\rho - 1 - z) = 0\). So \(x = 0\), or \(z = \rho - 1\).</li>
+<li><strong>Case \(x = 0\):</strong> then \(y = 0\), \(z = 0\). Fixed point \(P_0 = (0, 0, 0)\).</li>
+<li><strong>Case \(z = \rho - 1\):</strong> from step 2, \(x^2 = \beta z = \beta(\rho - 1)\), so \(x = \pm\sqrt{\beta(\rho - 1)}\), real only if \(\rho > 1\). Fixed points \[P_{1,2} = \left(\pm\sqrt{\beta(\rho-1)},\ \pm\sqrt{\beta(\rho-1)},\ \rho - 1\right).\]</li>
+<li><strong>Jacobian</strong> (partial derivatives of each rate with respect to \(x, y, z\)): \[J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}.\]</li>
+<li><strong>At \(P_0\):</strong> \(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho & -1 & 0\\ 0 & 0 & -\beta\end{pmatrix}\). One eigenvalue is \(-\beta\) (the \(z\) row is separate); the other two come from the top-left block, \(\lambda^2 + (\sigma + 1)\lambda + \sigma(1 - \rho) = 0\). Both are negative exactly when \(\rho < 1\). So the origin is stable for \(\rho < 1\).</li>
+<li><strong>At \(P_1\)</strong> (write \(c = \sqrt{\beta(\rho-1)}\), so \(\rho - z = 1\)): \[J(P_1) = \begin{pmatrix}-\sigma & \sigma & 0\\ 1 & -1 & -c\\ c & c & -\beta\end{pmatrix}.\] At \(P_2\), replace \(c\) by \(-c\).</li>
+</ol>
+</div>
+
+<div class="card ex"><span class="tag">With numbers · \(\sigma = 10,\ \beta = 8/3,\ \rho = 23\) (slides 6–8)</span>
+<ol>
+<li>\(c = \sqrt{\frac83\times22} = \sqrt{58.67} = 7.66\). So \(P_{1,2} = (\pm7.66,\ \pm7.66,\ 22)\).</li>
+<li>The characteristic equation at \(P_1\) is \(\lambda^3 + (\beta + \sigma + 1)\lambda^2 + \beta(\rho + \sigma)\lambda + 2\beta\sigma(\rho - 1) = 0\).</li>
+<li>Coefficients: \(\beta + \sigma + 1 = \frac83 + 11 = \frac{41}{3}\); \(\beta(\rho + \sigma) = \frac83\times33 = 88\); \(2\beta\sigma(\rho - 1) = 2\times\frac83\times10\times22 = \frac{3520}{3}\).</li>
+<li>So \(\lambda^3 + \frac{41}{3}\lambda^2 + 88\lambda + \frac{3520}{3} = 0\), with roots \(\lambda = -13.56\) and \(-0.054\pm9.30i\).</li>
+<li>All real parts are negative, and there is a complex pair: \(P_1\) (and \(P_2\)) is a <strong>stable spiral</strong>. (Check: the roots add to \(-13.67 = -41/3\).)</li>
+</ol>
+</div>
+<p>The two non-zero fixed points stay stable up to \(\rho_c = \frac{\sigma(\sigma + \beta + 3)}{\sigma - \beta - 1} = 24.74\) (slide 9). Above it, the motion becomes chaotic. The slides add that between \(\rho = 13.93\) and \(24.06\) the system shows <strong>transient chaos</strong> (chaotic for a while before settling), and from 24.06 a chaotic attractor exists alongside the stable points.</p>
+<figure class="fig"><!--plot:lorenz--><figcaption>The Lorenz attractor at the classic value \(\rho = 28\), seen in the \((x, z)\) plane. The path loops around the two unstable fixed points \(P_1\), \(P_2\) (hollow) in an irregular order that never repeats.</figcaption></figure>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Fixed points: \((0,0,0)\) and \(\left(\pm\sqrt{\beta(\rho-1)}, \pm\sqrt{\beta(\rho-1)}, \rho - 1\right)\) for \(\rho > 1\).</li>
+<li>\(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}\). Origin stable iff \(\rho < 1\).</li>
+<li>\(\rho = 23\): \(P_{1,2}\) stable spirals. Chaos for \(\rho > 24.74\) (\(\sigma = 10, \beta = 8/3\)).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>With \(\sigma = 10,\ \beta = 8/3,\ \rho = 28\), find \(P_1\) and write \(J(P_1)\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(c = \sqrt{\frac83\times27} = \sqrt{72} = 8.49\), so \(P_1 = (8.49, 8.49, 27)\). \(J(P_1) = \begin{pmatrix}-10 & 10 & 0\\ 1 & -1 & -8.49\\ 8.49 & 8.49 & -8/3\end{pmatrix}\).</p></div></details>
+</section>

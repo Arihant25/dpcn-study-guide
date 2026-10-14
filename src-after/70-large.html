@@ -1,0 +1,117 @@
+
+<div class="part">Part 7<span>Large systems and the double pendulum</span></div>
+<section>
+<h2 id="may"><span class="num">17</span>Will a large system be stable?</h2>
+<span class="board">Deck 13 · slides 50–71</span>
+<p class="about">An ecosystem has hundreds of species, each affecting many others. Writing down every interaction is impossible. In 1972 Robert May asked a different question: if the interactions were random, how likely is the whole system to be stable? His answer, using a result about the eigenvalues of large random matrices, is that too many species, too many connections or too-strong interactions make stability impossible.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Define the community matrix and explain the stability condition on its eigenvalues.</li>
+<li>Derive the Jacobian of the generalised Lotka–Volterra model, \(M = D(x^*)A\).</li>
+<li>State and explain May's criterion \(\sqrt{SC\sigma^2} < d\), and the effect of predator–prey vs competition/mutualism pairs.</li>
+</ul>
+</div>
+
+<h3>The community matrix</h3>
+<p>For many species, \(\dot x_i = f_i(\mathbf x)\). An equilibrium \(\mathbf x^*\) has \(f_i(\mathbf x^*) = 0\) for every species. Exactly as in §5, a small push \(\Delta\mathbf x\) obeys \(\frac{d\Delta\mathbf x}{dt}\approx M\Delta\mathbf x\), where \(M = J|_{\mathbf x^*}\) is the Jacobian at the equilibrium, called the <strong>community matrix</strong>. Its entry \(M_{ij}\) says how a small increase of species \(j\) changes the growth of species \(i\). The solution is \(\Delta\mathbf x(t) = e^{Mt}\Delta\mathbf x(0)\), a combination of \(e^{\lambda t}\) terms over the eigenvalues of \(M\). Stability depends on the eigenvalue furthest to the right: stable if its real part is negative.</p>
+<p class="small">Slide 52 writes the expansion as \(f(\Delta x(0))\); it should be \(f(\mathbf x^* + \Delta\mathbf x(0))\). Slide 54 writes \(\Delta x(0)e^{Mt}\); the matrix should come first, \(e^{Mt}\Delta\mathbf x(0)\).</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · the GLV community matrix</span>
+<ol class="steps">
+<li><strong>Generalised Lotka–Volterra model:</strong> \(\dot x_i = x_i\Big(r_i + \sum_ja_{ij}x_j\Big)\), or in matrix form \(\dot{\mathbf x} = D(\mathbf x)(\mathbf r + A\mathbf x)\), where \(D(\mathbf x)\) is the diagonal matrix with \(\mathbf x\) on the diagonal, \(r_i\) the growth rate of species \(i\) alone, and \(a_{ij}\) the effect of species \(j\) on species \(i\).</li>
+<li><strong>Off-diagonal entries</strong> (\(j\ne i\)): only the term \(x_ia_{ij}x_j\) contains \(x_j\), so \(\frac{\partial f_i}{\partial x_j} = a_{ij}x_i\).</li>
+<li><strong>Diagonal entries:</strong> by the product rule, \(\frac{\partial f_i}{\partial x_i} = \Big(r_i + \sum_ja_{ij}x_j\Big) + a_{ii}x_i\).</li>
+<li><strong>At an equilibrium where every species is present</strong>, the bracket is zero (that is what \(\dot x_i = 0\) with \(x_i\ne0\) means). So every entry is \(M_{ij} = a_{ij}x_i^*\): \[M = D(\mathbf x^*)\,A.\]</li>
+</ol>
+</div>
+
+<h3>May's random matrix and his criterion</h3>
+<p>May skipped the details and built the community matrix at random, for \(S\) species:</p>
+<ul>
+<li>Each off-diagonal entry is 0 with probability \(1 - C\) (species do not interact), and with probability \(C\) it is a random number with mean 0 and variance \(\sigma^2\). \(C\) is the <strong>connectance</strong>, the fraction of possible interactions that exist.</li>
+<li>Each diagonal entry is \(-d\) (self-regulation, like a carrying capacity).</li>
+</ul>
+<div class="card exam"><span class="tag">Derivation to learn · May's criterion</span>
+<ol class="steps">
+<li><strong>Circular law</strong> (a theorem about large random matrices): if an \(S\times S\) matrix has independent entries with mean 0 and variance 1, the eigenvalues of the matrix divided by \(\sqrt S\) fill a disc of radius 1 in the complex plane, evenly.</li>
+<li>May's off-diagonal entries have mean 0 and variance \(C\sigma^2\) (zero with probability \(1 - C\), variance \(\sigma^2\) otherwise). Dividing them by \(\sqrt{C\sigma^2}\) gives variance 1.</li>
+<li>So by the circular law, the off-diagonal part has eigenvalues in a disc of radius \(\sqrt{S}\sqrt{C\sigma^2} = \sqrt{SC\sigma^2}\), centred at 0.</li>
+<li>Adding \(-d\) on the diagonal shifts every eigenvalue left by \(d\): the disc is now centred at \(-d\).</li>
+<li>The rightmost eigenvalue is at about \(-d + \sqrt{SC\sigma^2}\). Stability needs this to be negative: \[\sqrt{SC\sigma^2} < d.\]</li>
+</ol>
+</div>
+<p>Meaning: more species \(S\), more connections \(C\) or stronger interactions \(\sigma\) all make the disc bigger, and past a point it crosses into the unstable right half. Complexity destabilises, unless self-regulation \(d\) is strong.</p>
+<div class="card ex"><span class="tag">Numbers</span>
+<p>\(S = 100\) species, \(C = 0.1\), \(\sigma = 0.5\), \(d = 1\). \(\sqrt{SC\sigma^2} = \sqrt{100\times0.1\times0.25} = \sqrt{2.5} = 1.58 > 1\): unstable. With \(C = 0.03\): \(\sqrt{0.75} = 0.87 < 1\): stable.</p>
+</div>
+<p class="small">Slide 61 writes the circular-law conditions as \(\mathbb E[X_{ij}] = 0\) and \(\mathbb E[X_{ij}] = 1\); the second should be \(\mathbb E[X_{ij}^2] = 1\) (unit variance).</p>
+
+<h3>The elliptic law · interaction types matter (Allesina and Tang, 2012)</h3>
+<p>If the pair \((M_{ij}, M_{ji})\) is correlated with correlation \(\rho\), the disc becomes an ellipse with horizontal half-width \(\sqrt{SC\sigma^2}(1 + \rho)\), and the criterion becomes \(\sqrt{SC\sigma^2}(1 + \rho) < d\).</p>
+<ul>
+<li><strong>Predator–prey pairs</strong> (one positive, one negative, so \(\rho < 0\)): the ellipse is tall and narrow, stretched along the imaginary axis. The criterion is easier to meet: predator–prey interactions stabilise.</li>
+<li><strong>Competition or mutualism pairs</strong> (same signs, \(\rho > 0\)): the ellipse is wide and flat, reaching further right. Harder to meet: these interactions destabilise.</li>
+</ul>
+<p>The slide formulas \(\sqrt{SC} < \theta/(1\mp\mathbb E^2(|X|)/\sigma^2)\) are the same criterion with \(\theta = d/\sigma\) and \(\rho = \mp\mathbb E^2(|X|)/\sigma^2\).</p>
+
+<h3>Real networks are not random (Meena et al., 2023)</h3>
+<p>The last paper on the slides argues that Jacobians of real network dynamics are not random: their entries scale with node degrees, \(J_{ii}\sim -C\,d_i^{\mu}\) and \(J_{ij}\sim d_i^{\nu}A_{ij}d_j^{\rho}\), with exponents set by the dynamics (epidemic, gene regulation, population, and so on). A single number built from these exponents and the network's degree distribution sorts systems into three classes: always unstable, sensitive (stable only for some parameters), and stable, where large, heterogeneous networks are guaranteed stable. So scale and hubs can help stability, the opposite of May's random-matrix picture.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Community matrix \(M = J|_{\mathbf x^*}\); stable iff rightmost eigenvalue has negative real part.</li>
+<li>GLV: \(\dot{\mathbf x} = D(\mathbf x)(\mathbf r + A\mathbf x)\), \(M = D(\mathbf x^*)A\).</li>
+<li>May: stable iff \(\sqrt{SC\sigma^2} < d\). Elliptic law: \(\sqrt{SC\sigma^2}(1 + \rho) < d\); predator–prey (\(\rho<0\)) stabilises.</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>\(S = 400\), \(\sigma = 0.1\), \(d = 1\). What is the largest connectance C that keeps the random system stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Need \(\sqrt{400\times C\times0.01} < 1\), i.e. \(\sqrt{4C} < 1\), \(C < 0.25\).</p></div></details>
+</section>
+
+<section>
+<h2 id="pendulum"><span class="num">18</span>The double pendulum</h2>
+<span class="board">Deck 13 · slides 73–79</span>
+<p class="about">A double pendulum is one pendulum hanging from the end of another. For large swings it is a classic chaotic system. For small swings it behaves simply: its motion is a mix of two "normal modes", one where the two parts swing together and one where they swing opposite each other. The slides derive these from the energy (the Lagrangian method).</p>
+
+<h3>Setting up</h3>
+<p class="sym">Two rods of length \(L_1, L_2\) with masses \(m_1, m_2\) at their ends. \(\phi_1\) and \(\phi_2\) are the angles of the rods from the vertical. \(g\) is the acceleration due to gravity.</p>
+<ul>
+<li>Positions: \(x_1 = L_1\sin\phi_1\), \(y_1 = -L_1\cos\phi_1\), \(x_2 = x_1 + L_2\sin\phi_2\), \(y_2 = y_1 - L_2\cos\phi_2\).</li>
+<li>Kinetic energy \(T = \frac12(m_1 + m_2)L_1^2\dot\phi_1^2 + \frac{m_2}2L_2^2\dot\phi_2^2 + m_2L_1L_2\dot\phi_1\dot\phi_2\cos(\phi_1 - \phi_2)\).</li>
+<li>Potential energy \(V = -(m_1 + m_2)gL_1\cos\phi_1 - m_2gL_2\cos\phi_2\).</li>
+<li>The Lagrangian is \(\mathcal L = T - V\), and the equations of motion come from \(\frac{d}{dt}\frac{\partial\mathcal L}{\partial\dot\phi_i} - \frac{\partial\mathcal L}{\partial\phi_i} = 0\).</li>
+</ul>
+
+<div class="card exam"><span class="tag">Derivation to learn · small swings and normal modes</span>
+<ol class="steps">
+<li><strong>Small angles.</strong> Use \(\cos(\phi_1 - \phi_2)\approx1\) in \(T\) and \(\cos\phi\approx1 - \frac{\phi^2}{2}\) in \(V\). The equations become linear: \[(m_1 + m_2)L_1^2\ddot\phi_1 + m_2L_1L_2\ddot\phi_2 + (m_1 + m_2)gL_1\phi_1 = 0,\] \[m_2L_1L_2\ddot\phi_1 + m_2L_2^2\ddot\phi_2 + m_2gL_2\phi_2 = 0.\]</li>
+<li><strong>Matrix form.</strong> \(M\ddot{\boldsymbol\phi} = -K\boldsymbol\phi\) with \(M = \begin{pmatrix}(m_1+m_2)L_1^2 & m_2L_1L_2\\ m_2L_1L_2 & m_2L_2^2\end{pmatrix}\), \(K = \begin{pmatrix}(m_1+m_2)gL_1 & 0\\ 0 & m_2gL_2\end{pmatrix}\).</li>
+<li><strong>Try an oscillation</strong> \(\boldsymbol\phi = \mathbf He^{i\omega t}\): then \(\ddot{\boldsymbol\phi} = -\omega^2\boldsymbol\phi\), so \((K - \omega^2M)\mathbf H = 0\), which needs \(\det(K - \omega^2M) = 0\).</li>
+<li><strong>Equal lengths</strong> \(L_1 = L_2 = L\), mass ratio \(\mu = m_2/m_1\). Writing \(\lambda = \omega^2L/g\), the determinant condition becomes \((1 + \mu)(1 - \lambda)^2 = \mu\lambda^2\), with solutions \(\lambda = 1 + \mu\pm\sqrt{\mu(1 + \mu)}\). So \[\omega_{1,2}^2 = \frac gL\Big[1 + \mu\pm\sqrt{(1 + \mu)\mu}\Big].\]</li>
+<li><strong>Equal masses</strong> (\(\mu = 1\)): \(\omega_{1,2} = \sqrt{\frac gL}\sqrt{2\pm\sqrt2}\).</li>
+<li><strong>Mode shapes.</strong> The fast mode \(\omega_1\) has \(\mathbf H = \big(1,\ -\sqrt{(1+\mu)/\mu}\big)\): the two rods swing in opposite directions. The slow mode \(\omega_2\) has \(\big(1,\ +\sqrt{(1+\mu)/\mu}\big)\): they swing together. The general small motion is \(A_1\mathbf H_1\cos(\omega_1t + \alpha_1) + A_2\mathbf H_2\cos(\omega_2t + \alpha_2)\).</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">With the slide's starting condition · \(\phi_1(0) = 0\), \(\phi_2(0) = \pi/6\), both at rest</span>
+<ol>
+<li>At rest, so both phases \(\alpha = 0\). Let \(s = \sqrt{(1+\mu)/\mu}\).</li>
+<li>\(\phi_1(0) = A_1 + A_2 = 0\), so \(A_2 = -A_1\).</li>
+<li>\(\phi_2(0) = -sA_1 + sA_2 = -2sA_1 = \pi/6\), so \(A_1 = -\frac{\pi}{12}\sqrt{\frac{\mu}{1+\mu}}\) and \(A_2 = +\frac{\pi}{12}\sqrt{\frac{\mu}{1+\mu}}\).</li>
+<li>Equal masses, \(L = 0.25\) m: \(\sqrt{g/L} = 6.26\), \(\omega_1 = 11.6\), \(\omega_2 = 4.8\) rad/s. In degrees, \(\phi_2(t) = 15°(\cos\omega_1t + \cos\omega_2t)\) and \(\phi_1(t) = \frac{15°}{\sqrt2}(\cos\omega_2t - \cos\omega_1t)\).</li>
+</ol>
+</div>
+<figure class="fig"><!--plot:pendulum--><figcaption>The two angles for equal masses, matching slide 78. Each is a sum of two cosines with different frequencies, so the swing pattern beats: energy moves back and forth between the two rods.</figcaption></figure>
+<div class="card watch"><span class="tag">Slide errors</span>
+<p>Slide 77 writes the eigenvector entry as \(\mp\frac{\sqrt{1+\mu}}{\mu}\); it should be \(\mp\sqrt{\frac{1+\mu}{\mu}}\) (the two agree only for \(\mu = 1\)). It also writes both modes with \(A_1\) and the same phase \(\alpha\), and gives \(A_2\) with a minus sign; \(A_2 = -A_1 = +\frac{\pi}{12}\sqrt{\mu/(1+\mu)}\).</p>
+</div>
+<p>For large swings the small-angle steps fail, the equations stay nonlinear, and the motion becomes chaotic: tiny changes in the starting angles lead to completely different motion.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Small angles: \(M\ddot{\boldsymbol\phi} = -K\boldsymbol\phi\), \(\det(K - \omega^2M) = 0\).</li>
+<li>\(\omega_{1,2}^2 = \frac gL[1 + \mu\pm\sqrt{\mu(1+\mu)}]\); equal masses \(\sqrt{g/L}\sqrt{2\pm\sqrt2}\).</li>
+<li>Fast mode: opposite swings. Slow mode: together.</li>
+</ul>
+</div>
+</section>

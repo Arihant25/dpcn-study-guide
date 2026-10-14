@@ -164,6 +164,7 @@ details.q{border:1px solid var(--border); border-radius:var(--radius); margin:12
 details.q>summary{cursor:pointer; list-style:none; padding:13px 16px; display:flex; gap:11px; align-items:flex-start; font-weight:550}
 details.q>summary::-webkit-details-marker{display:none}
 details.q>summary:hover{background:var(--muted)}
+details.q>summary>span:not(.qt):not(.chev){min-width:0; overflow-wrap:anywhere}
 .qt{flex:none; font-size:.6rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:4px 8px; border-radius:6px; margin-top:2px;
   background:var(--muted); color:var(--muted-fg); border:1px solid var(--border)}
 .qt.pyq{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
@@ -204,6 +205,7 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 <div class="wrap">
 <aside class="toc" aria-label="Contents">
   <div class="brand">DPCN Mid-sem Guide<small>Mid-sem syllabus only</small></div>
+  <a class="other" href="after-midsem/">Open the After mid-sem guide →</a>
   <a class="other" href="quiz1/">Open the Quiz 1 guide →</a>
   <nav id="tocnav">
     <a href="#start">Start here · the syllabus</a>
@@ -315,7 +317,7 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 <p>If a piece of maths looks unfamiliar, it is explained in <a href="#maths">section M</a> just below. Read that first if you have not done calculus or probability recently.</p>
 
 <div class="card"><span class="tag">Not on the mid-sem</span>
-<p>Eulerian and Hamiltonian paths, the four centralities, bipartite graphs and spanning trees, Euler's numerical method, predator–prey and the "love affairs" model, discrete maps, the Barabási–Albert model and the Lorenz system are not on the mid-sem board. They are covered in the <a href="quiz1/">Quiz 1 guide</a>, which you may need again for Quiz 2 and the end-sem.</p>
+<p>Eulerian and Hamiltonian paths, the four centralities, bipartite graphs and spanning trees, Euler's numerical method, predator–prey and the "love affairs" model, discrete maps, the Barabási–Albert model and the Lorenz system are not on the mid-sem board. They are covered in the <a href="quiz1/">Quiz 1 guide</a>, which you may need again for Quiz 2 and the end-sem. Material taught after the mid-sem (2-D systems, limit cycles, chaos, synchronisation) is in the <a href="after-midsem/">After mid-sem guide</a>.</p>
 </div>
 </section>
 

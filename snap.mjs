@@ -8,7 +8,7 @@ const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chro
 const p = await b.newPage();
 await p.setViewport({ width: 1300, height: 900, deviceScaleFactor: 1 });
 await p.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: theme }]);
-await p.goto(pathToFileURL(path.resolve('index.html')).href, { waitUntil: 'networkidle0' });
+await p.goto(pathToFileURL(path.resolve(process.env.PAGE || 'index.html')).href, { waitUntil: 'networkidle0' });
 const els = await p.$$(sel);
 for (let i = 0; i < els.length; i++) await els[i].screenshot({ path: `${out}/${theme}-${String(i).padStart(2, '0')}.png` });
 console.log(els.length, 'shots');

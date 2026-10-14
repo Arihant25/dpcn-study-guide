@@ -1,0 +1,114 @@
+
+<div class="part">Part 4<span>Limit cycles</span></div>
+<section>
+<h2 id="cycle"><span class="num">9</span>Limit cycles and the Hopf bifurcation</h2>
+<span class="board">Deck 12 · slides 25–33</span>
+<p class="about">A heartbeat, a body-temperature rhythm or a firing neuron oscillates by itself, with no outside push, and returns to the same rhythm after a disturbance. Such a self-sustained oscillation is a <strong>limit cycle</strong>: a closed loop in the phase plane that nearby paths are pulled onto. The standard example (called the Stuart–Landau oscillator) becomes easy once you switch to polar coordinates, and its birth as a parameter changes is the <strong>Hopf bifurcation</strong>.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Convert \(\dot z = (\mu + i\omega - |z|^2)z\) to polar form and find the limit cycle. (2024 mid-sem Q2, 7 marks)</li>
+<li>Write the Cartesian form, the Jacobian at the origin, and its eigenvalues.</li>
+<li>Explain the bifurcation at \(\mu = 0\) (supercritical Hopf), and the difference from subcritical.</li>
+</ul>
+</div>
+
+<h3>What a limit cycle is</h3>
+<p>A limit cycle is an <strong>isolated</strong> closed path: the paths next to it are not closed themselves but spiral towards it or away from it. That is the difference from a center (§2), where every nearby path is its own closed loop. A limit cycle is <strong>stable</strong> if paths on both sides spiral onto it, <strong>unstable</strong> if they spiral away, and <strong>half-stable</strong> if one side approaches and the other leaves.</p>
+
+<h3>The model</h3>
+<div class="eq boxed">\[\dot z = (\mu + i\omega - |z|^2)\,z, \qquad z = x + iy\]</div>
+<p class="sym">\(z\) is the point \((x, y)\) written as one complex number (M3). \(\mu\) (Greek "mu") is the parameter we will vary. \(\omega\) (Greek "omega", written \(w\) on the slides) sets the speed of rotation. \(|z| = \sqrt{x^2 + y^2}\) is the distance from the origin.</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · polar form and the limit cycle</span>
+<ol class="steps">
+<li><strong>Polar form.</strong> Write \(z = re^{i\theta}\), so \(|z| = r\).</li>
+<li><strong>Left side.</strong> By the product rule (M3): \(\dot z = (\dot r + ir\dot\theta)\,e^{i\theta}\).</li>
+<li><strong>Right side.</strong> \((\mu + i\omega - r^2)\,re^{i\theta}\).</li>
+<li><strong>Cancel \(e^{i\theta}\)</strong> (never zero) and compare: \(\dot r + ir\dot\theta = (\mu - r^2)r + i\omega r\).</li>
+<li><strong>Match real parts and imaginary parts</strong> separately (two complex numbers are equal only if both parts are equal): \[\dot r = (\mu - r^2)\,r = \mu r - r^3, \qquad \dot\theta = \omega .\]</li>
+<li><strong>The angle</strong> just increases at constant speed \(\omega\): the point always turns around the origin.</li>
+<li><strong>The distance</strong> obeys a 1-D equation. Fixed points: \(r^* = 0\), and \(r^* = \sqrt\mu\) when \(\mu > 0\) (a distance cannot be negative). Slope: \(f'(r) = \mu - 3r^2\). So \(f'(0) = \mu\) and \(f'(\sqrt\mu) = \mu - 3\mu = -2\mu\).</li>
+<li><strong>\(\mu < 0\):</strong> only \(r^* = 0\), with \(f'(0) = \mu < 0\): stable. Every path spirals into the origin.</li>
+<li><strong>\(\mu > 0\):</strong> \(r^* = 0\) is unstable (\(f'(0) = \mu > 0\)) and \(r^* = \sqrt\mu\) is stable (\(f'(\sqrt\mu) = -2\mu < 0\)). Every path (except the origin itself) approaches the circle of radius \(\sqrt\mu\) and goes round it at speed \(\omega\). That circle is a <strong>stable limit cycle</strong>.</li>
+</ol>
+</div>
+<p>Notice that \(\dot r = \mu r - r^3\) is exactly the supercritical pitchfork from the Mid-sem guide (§9). The slides point this out with a double arrow. The difference is that \(r\) cannot be negative, so the two prongs \(\pm\sqrt\mu\) of the pitchfork become one circle.</p>
+<div class="figrow">
+<figure class="fig"><!--plot:sl-radial--><figcaption>\(\dot r\) against \(r\) for \(\mu = 1\). Arrows show \(r\) grows below 1 and shrinks above 1, so \(r = 1\) is stable.</figcaption></figure>
+<figure class="fig"><!--plot:ph-limit-cycle--><figcaption>Phase portrait for \(\mu = 1\), \(\omega = 1\). A path starting near the origin spirals out, paths starting outside spiral in, and both end on the unit circle.</figcaption></figure>
+</div>
+
+<h3>The same system in \(x, y\), and its Jacobian</h3>
+<p>Multiplying out \((\mu + i\omega - (x^2 + y^2))(x + iy)\) and separating real and imaginary parts:</p>
+<div class="eq">\[\dot x = \mu x - \omega y - x(x^2 + y^2), \qquad \dot y = \omega x + \mu y - y(x^2 + y^2).\]</div>
+<div class="card exam"><span class="tag">Derivation to learn · the origin is an unstable spiral (slides 30–31, \(\mu = 1\))</span>
+<ol class="steps">
+<li>With \(\mu = 1\): \(f_1 = x - \omega y - x^3 - xy^2\), \(f_2 = \omega x + y - x^2y - y^3\).</li>
+<li>Jacobian: \[J = \begin{pmatrix}1 - 3x^2 - y^2 & -\omega - 2xy\\ \omega - 2xy & 1 - x^2 - 3y^2\end{pmatrix}.\]</li>
+<li>At \((0,0)\): \(J = \begin{pmatrix}1 & -\omega\\ \omega & 1\end{pmatrix}\), \(\tau = 2\), \(\Delta = 1 + \omega^2\).</li>
+<li>\(\lambda = \frac{2\pm\sqrt{4 - 4(1 + \omega^2)}}{2} = 1\pm i\omega\). Positive real part with rotation: <strong>unstable spiral</strong>.</li>
+<li>So paths starting near the origin spiral away from it, consistent with \(\dot r = r - r^3 > 0\) for small \(r\). They end on the circle \(r = 1\).</li>
+</ol>
+</div>
+
+<h3>The Hopf bifurcation</h3>
+<p>As \(\mu\) passes 0, the eigenvalues at the origin, \(\mu\pm i\omega\), cross from the left half (negative real part) to the right half of the complex plane, and a limit cycle is born. A stable point turning into a stable oscillation this way is a <strong>supercritical Hopf bifurcation</strong>. The cycle's radius grows like \(\sqrt\mu\).</p>
+<figure class="fig"><!--plot:hopf-super--><figcaption>Supercritical Hopf: for \(\mu < 0\) the origin is stable; for \(\mu > 0\) it is unstable and a stable cycle of radius \(\sqrt\mu\) appears. (Course convention: stable dashed, unstable solid.)</figcaption></figure>
+<p>The slides also give the general form \(\dot z = (a + i\omega + b|z|^2)z\) with \(b = \alpha + i\beta\). In polar form \(\dot r = (a + \alpha r^2)r\).</p>
+<ul>
+<li>\(\alpha < 0\): <strong>supercritical</strong>. For \(a > 0\) a stable cycle of radius \(\sqrt{-a/\alpha}\) exists around an unstable origin. (Our model is \(\alpha = -1\).)</li>
+<li>\(\alpha > 0\): <strong>subcritical</strong>. For \(a < 0\) an unstable cycle surrounds a stable origin; as \(a\) passes 0 the cycle shrinks onto the origin and disappears, and for \(a > 0\) paths spiral out with nothing nearby to stop them. This is the 2-D version of the subcritical pitchfork: a sudden jump.</li>
+</ul>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(z = re^{i\theta}\): \(\dot z = (\mu + i\omega - |z|^2)z\) becomes \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\).</li>
+<li>\(\mu > 0\): stable limit cycle \(r = \sqrt\mu\), unstable origin. \(\mu < 0\): stable origin.</li>
+<li>Jacobian at the origin: eigenvalues \(\mu\pm i\omega\). Supercritical Hopf at \(\mu = 0\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Without looking, convert \(\dot z = (\mu + i\omega - |z|^2)z\) into equations for \(r\) and \(\theta\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(z = re^{i\theta}\), \(\dot z = (\dot r + ir\dot\theta)e^{i\theta}\). Right side \((\mu + i\omega - r^2)re^{i\theta}\). Cancel \(e^{i\theta}\); real part \(\dot r = \mu r - r^3\), imaginary part \(r\dot\theta = \omega r\), so \(\dot\theta = \omega\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>For \(\mu = 9\), \(\omega = 2\): radius of the limit cycle and time for one turn?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Radius \(\sqrt9 = 3\). The angle grows at 2 per unit time, so one turn (\(2\pi\)) takes \(\pi\approx3.14\).</p></div></details>
+</section>
+
+<section>
+<h2 id="vdp"><span class="num">10</span>Van der Pol, the Poincaré–Bendixson theorem, and networks of oscillators</h2>
+<span class="board">Deck 12 · slides 34–43</span>
+<p class="about">Most limit cycles are not perfect circles and cannot be found with a formula; they are found by simulation. This section covers the classic example (van der Pol), a theorem that proves a limit cycle exists without finding it (Poincaré–Bendixson), and what happens when many oscillators are coupled on a network and some of them stop working.</p>
+
+<h3>The van der Pol oscillator</h3>
+<div class="eq">\[\ddot x + \mu(x^2 - 1)\dot x + x = 0\]</div>
+<p>\(\ddot x\) is the acceleration (slope of the slope). Without the middle term this is a simple spring, \(\ddot x = -x\). The middle term is a "friction" that changes sign: for small \(|x| < 1\) it is negative (it pumps energy in, so small swings grow), and for large \(|x| > 1\) it is positive (it removes energy, so large swings shrink). The balance is a limit cycle. Written as two first-order equations with \(v = \dot x\): \(\dot x = v\), \(\dot v = -x - \mu(x^2 - 1)v\).</p>
+<figure class="fig"><!--plot:ph-vdp--><figcaption>Van der Pol with \(\mu = 1.5\) in the \((x, v)\) plane. Paths from inside and outside settle on a distorted, non-circular loop, and \(x(t)\) becomes a non-sinusoidal oscillation of amplitude about 2.</figcaption></figure>
+
+<h3>The Poincaré–Bendixson theorem</h3>
+<div class="card"><span class="tag">Statement</span>
+<p>If a path stays forever inside a closed, bounded region of the plane that contains no fixed points, then the path must approach a closed orbit.</p>
+</div>
+<p>How to use it: build a <strong>trapping region</strong>, a ring-shaped area such that on both its inner and outer edges the flow points into the ring. Then every path inside stays inside. If there is no fixed point in the ring, the theorem guarantees a closed orbit in it.</p>
+<div class="card ex"><span class="tag">Worked example · the model of §9 with \(\mu = 1\)</span>
+<p>Take the ring \(0.5 \le r \le 2\). On the inner edge \(r = 0.5\): \(\dot r = 0.5 - 0.125 = 0.375 > 0\), the flow points outwards, into the ring. On the outer edge \(r = 2\): \(\dot r = 2 - 8 = -6 < 0\), the flow points inwards, into the ring. The only fixed point is the origin, which is outside the ring. So by Poincaré–Bendixson there is a closed orbit in the ring. (We know it is \(r = 1\).)</p>
+</div>
+<p>The theorem works only in two dimensions. In three dimensions paths can wander forever without settling, which is how chaos becomes possible (§14).</p>
+
+<h3>Networks of oscillators that "age" (slides 38–43)</h3>
+<p>The slides couple \(N\) Stuart–Landau oscillators all-to-all:</p>
+<div class="eq">\[\dot z_i = (\mu_i + i\omega - |z_i|^2)z_i + \frac KN\sum_{k=1}^{N}(z_k - z_i).\]</div>
+<p>A fraction \(p\) of the oscillators are "inactive" (\(\mu < 0\): alone they would stop at 0), the rest "active" (\(\mu > 0\): alone they oscillate). The collective oscillation is measured by the order parameter \(Z = \frac1N\sum_jz_j\), and \(Q = |Z(p)|/|Z(0)|\) compares it with the case of no inactive oscillators. The simulation on the slides (\(N = 50\)) shows \(Q\) falling as \(p\) grows; with strong coupling (\(K = 30\)) it drops to exactly 0 at about \(p \approx 0.7\): the whole network stops oscillating. This is the <strong>aging transition</strong> (Daido and Nakanishi, 2004). Related papers on the slides show that in networks with hubs, losing low-degree nodes can kill the collective oscillation (Tanaka et al., 2012), and that targeted interventions control epidemics in patch networks better than random ones (Tanaka et al., 2014).</p>
+<p class="small">The plot on slide 41 labels \(\mu_a = -0.5\), \(\mu_{ia} = 1\); by slide 40's definitions these look swapped (inactive should be negative).</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Van der Pol: \(\ddot x + \mu(x^2 - 1)\dot x + x = 0\); negative damping for small \(x\), positive for large \(x\), limit cycle in between.</li>
+<li>Poincaré–Bendixson: trapping region with no fixed point ⇒ closed orbit. Only in 2-D.</li>
+<li>Aging transition: enough inactive oscillators stop the whole network.</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>Why can there be no chaos in a 2-D system?</span><span class="chev">›</span></summary>
+<div class="ans"><p>By Poincaré–Bendixson, a path trapped in a bounded region of the plane must approach a fixed point or a closed orbit. It cannot wander irregularly forever. Chaos needs at least three dimensions (like Lorenz) or a map.</p></div></details>
+</section>

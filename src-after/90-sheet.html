@@ -1,0 +1,24 @@
+
+<section>
+<h2 id="sheet"><span class="num">20</span>Formula sheet</h2>
+<p class="about">Every "What to remember" box in one table. If a line means nothing to you, go back to its section.</p>
+<table class="tbl">
+<tr><th>Topic</th><th>Formula or fact</th></tr>
+<tr><td><a href="#eigen">2-D linear</a></td><td>\(\dot{\mathbf x} = A\mathbf x\); try \(e^{\lambda t}\mathbf v\) ⇒ \(A\mathbf v = \lambda\mathbf v\); \(\lambda^2 - \tau\lambda + \Delta = 0\), \(\tau = a + d\), \(\Delta = ad - bc\); \(\mathbf x = c_1e^{\lambda_1t}\mathbf v_1 + c_2e^{\lambda_2t}\mathbf v_2\).</td></tr>
+<tr><td><a href="#classify">Classification</a></td><td>\(\Delta<0\) saddle. \(\Delta>0\): node if \(\tau^2>4\Delta\), spiral if \(\tau^2<4\Delta\); stable if \(\tau<0\). \(\tau=0,\Delta>0\) center. Spiral turns counterclockwise if \(c>0\).</td></tr>
+<tr><td><a href="#jacobian">Jacobian</a></td><td>\(J_{ij} = \partial f_i/\partial x_j\) at the fixed point. All real parts negative ⇒ stable.</td></tr>
+<tr><td><a href="#rabbits">Rabbits/sheep</a></td><td>\((0,0)\) unstable node, \((3,0)\), \((0,2)\) stable nodes, \((1,1)\) saddle \((\lambda = -1\pm\sqrt2)\). Competitive exclusion.</td></tr>
+<tr><td><a href="#lv">Predator–prey</a></td><td>\(\dot N = N(a - bP)\), \(\dot P = P(cN - d)\). \((0,0)\) saddle; \((d/c, a/b)\) center, \(\lambda = \pm i\sqrt{ad}\).</td></tr>
+<tr><td><a href="#netstab">Network stability</a></td><td>\(\dot{\boldsymbol\epsilon} = (\alpha I + \beta L)\boldsymbol\epsilon\); stable iff \(\alpha<0\) and \(1/\lambda_n > -\beta/\alpha\). Logistic + migration: \(\lambda_n < r/(2a)\).</td></tr>
+<tr><td><a href="#cycle">Limit cycle</a></td><td>\(\dot z = (\mu + i\omega - |z|^2)z\) ⇒ \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\). Stable cycle \(r = \sqrt\mu\) for \(\mu>0\). Origin eigenvalues \(\mu\pm i\omega\). Supercritical Hopf at \(\mu = 0\).</td></tr>
+<tr><td><a href="#vdp">Van der Pol, P–B</a></td><td>\(\ddot x + \mu(x^2-1)\dot x + x = 0\). Trapping region with no fixed point ⇒ closed orbit (2-D only).</td></tr>
+<tr><td><a href="#euler">Euler and RK4</a></td><td>\(\Delta t = 1\) turns \(\dot x = x(K-1) - Kx^2\) into \(x_{n+1} = Kx_n(1 - x_n)\). RK4 weights \(\frac16,\frac13,\frac13,\frac16\).</td></tr>
+<tr><td><a href="#mapstab">Map stability</a></td><td>\(x^* = f(x^*)\), stable iff \(|f'(x^*)|<1\). Logistic: \(0\) (\(r<1\)), \(1 - 1/r\) with \(f' = 2 - r\) (\(1<r<3\)). \(\cos x\): 0.739 stable.</td></tr>
+<tr><td><a href="#doubling">Period doubling</a></td><td>2-cycle \(x_\pm = \frac{(r+1)\pm\sqrt{(r-3)(r+1)}}{2r}\). Doublings at 3, 3.449, 3.544; chaos from 3.57.</td></tr>
+<tr><td><a href="#lorenz">Lorenz</a></td><td>\((0,0,0)\) stable iff \(\rho<1\); \(P_{1,2} = (\pm\sqrt{\beta(\rho-1)}, \pm\sqrt{\beta(\rho-1)}, \rho-1)\). \(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}\). Chaos above 24.74.</td></tr>
+<tr><td><a href="#twoosc">Two oscillators</a></td><td>\(\dot\phi = \Delta\omega - (k_1 + k_2)\sin\phi\); lock iff \(|\Delta\omega|\le k_1 + k_2\); \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\).</td></tr>
+<tr><td><a href="#kuramoto">Kuramoto</a></td><td>\(re^{i\psi} = \frac1N\sum e^{i\theta_j}\); \(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\); \(K_c = 2/(\pi g(0))\); Lorentzian \(K_c = 2\gamma\), \(r = \sqrt{1 - K_c/K}\).</td></tr>
+<tr><td><a href="#may">Large systems</a></td><td>GLV \(M = D(\mathbf x^*)A\). May: stable iff \(\sqrt{SC\sigma^2} < d\). Elliptic: \(\sqrt{SC\sigma^2}(1+\rho) < d\).</td></tr>
+<tr><td><a href="#pendulum">Double pendulum</a></td><td>\(\omega_{1,2}^2 = \frac gL[1 + \mu\pm\sqrt{\mu(1+\mu)}]\); equal masses \(\sqrt{g/L}\sqrt{2\pm\sqrt2}\).</td></tr>
+</table>
+</section>

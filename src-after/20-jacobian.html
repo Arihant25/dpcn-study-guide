@@ -1,0 +1,144 @@
+
+<div class="part">Part 2<span>Nonlinear 2-D systems</span></div>
+<section>
+<h2 id="jacobian"><span class="num">5</span>The Jacobian · zooming in on a fixed point</h2>
+<span class="board">Deck 11 · slides 31–34, 54–57 · Deck 12 · slides 7–8</span>
+<p class="about">Real models are not linear: they contain terms like \(x^2\) or \(xy\). Such systems usually cannot be solved exactly. But if you zoom in very close to a fixed point, every smooth curve looks like a straight line, so the system looks linear there. The matrix of that linear approximation is called the <strong>Jacobian</strong>. Its eigenvalues then classify the fixed point exactly as in §2. This is the most used tool in the second half of the course.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Derive the linearisation \(\delta\dot{\mathbf x} = J\,\delta\mathbf x\) using a Taylor expansion.</li>
+<li>Write the Jacobian of a given system and evaluate it at each fixed point.</li>
+<li>State the stability rule in terms of the eigenvalues.</li>
+</ul>
+</div>
+
+<h3>The system</h3>
+<div class="eq">\[\dot x_1 = f_1(x_1, x_2), \qquad \dot x_2 = f_2(x_1, x_2).\]</div>
+<p>A fixed point \((x_1^*, x_2^*)\) is where both rates are zero: \(f_1(x_1^*, x_2^*) = 0\) and \(f_2(x_1^*, x_2^*) = 0\).</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · linearisation</span>
+<ol class="steps">
+<li><strong>Push the system a little.</strong> Write \(x_1 = x_1^* + \delta x_1\), \(x_2 = x_2^* + \delta x_2\), where \(\delta x_1, \delta x_2\) are small. Since \(x_1^*\) is constant, \(\dot x_1 = \delta\dot x_1\).</li>
+<li><strong>Taylor-expand each rate</strong> (the 2-variable version of "value plus slope times change"): \[\delta\dot x_1 = f_1(x_1^* + \delta x_1,\ x_2^* + \delta x_2) = f_1(x_1^*, x_2^*) + \frac{\partial f_1}{\partial x_1}\delta x_1 + \frac{\partial f_1}{\partial x_2}\delta x_2 + \dots\] and the same for \(f_2\). The partial derivatives are evaluated at the fixed point.</li>
+<li><strong>Use the fixed-point condition.</strong> \(f_1(x_1^*, x_2^*) = 0\), and the "…" terms (products of small numbers) are tiny, so drop them.</li>
+<li><strong>Write it as a matrix:</strong> \[\begin{pmatrix}\delta\dot x_1\\ \delta\dot x_2\end{pmatrix} = \underbrace{\begin{pmatrix}\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2}\\[3pt] \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2}\end{pmatrix}}_{J\ \text{(Jacobian)}}\begin{pmatrix}\delta x_1\\ \delta x_2\end{pmatrix}.\]</li>
+<li><strong>This is a linear system</strong> (§1), so the push behaves like \(c_1e^{\lambda_1t}\mathbf v_1 + c_2e^{\lambda_2t}\mathbf v_2\) with \(\lambda\) the eigenvalues of \(J\).</li>
+<li><strong>Stability rule.</strong> If every eigenvalue has negative real part, the push dies out: stable. If any has positive real part: unstable. Then classify the type (saddle, node, spiral) with \(\tau\) and \(\Delta\) of \(J\), as in §2.</li>
+</ol>
+</div>
+<p>The slide's equation (5) has a small typo: it writes \(x_2^* + \delta x_1\) as the second argument; it should be \(x_2^* + \delta x_2\). The slide also says stability needs "the largest eigenvalue" negative; strictly it is the largest <em>real part</em>.</p>
+<p>One limitation: if the eigenvalues are purely imaginary (a center for \(J\)), the linear picture cannot decide what the nonlinear system does, because the tiny dropped terms can tip it either way. The predator–prey model in §7 is an example.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(J_{ij} = \partial f_i/\partial x_j\), evaluated at the fixed point.</li>
+<li>All eigenvalues with negative real part: stable. Any with positive real part: unstable.</li>
+<li>Recipe: fixed points → \(J\) in general → \(J\) at each point → \(\tau, \Delta\) or eigenvalues → type.</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Write the Jacobian of \(\dot x = x - xy,\ \dot y = xy - y\), and evaluate it at \((1, 1)\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(J = \begin{pmatrix}1 - y & -x\\ y & x - 1\end{pmatrix}\). At \((1,1)\): \(\begin{pmatrix}0 & -1\\ 1 & 0\end{pmatrix}\), \(\tau = 0\), \(\Delta = 1\), \(\lambda = \pm i\): a center for the linear approximation.</p></div></details>
+</section>
+
+<section>
+<h2 id="rabbits"><span class="num">6</span>Rabbits vs sheep · a complete worked analysis</h2>
+<span class="board">Deck 11 · slides 35–47</span>
+<p class="about">Rabbits and sheep eat the same grass. Each would grow to a natural limit on its own, but they compete. Rabbits breed faster; sheep win the fights over grass. The question is whether both can survive together. Working through this model is exactly the kind of long derivation an exam asks for, so it is shown here in full.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Find all four fixed points, the Jacobian, the eigenvalues and eigenvectors at each fixed point, and classify them.</li>
+<li>Sketch the phase portrait and explain the outcome (competitive exclusion).</li>
+</ul>
+</div>
+
+<div class="eq boxed">\[\dot x = x(3 - x - 2y), \qquad \dot y = y(2 - x - y)\]</div>
+<p class="sym">\(x\) = rabbits, \(y\) = sheep. Read the rabbit equation: on their own (\(y = 0\)) rabbits grow logistically, \(\dot x = x(3 - x)\), up to 3. Each meeting with a sheep costs them, the \(-2xy\) term. Sheep on their own grow to 2, and meeting rabbits costs them less, \(-xy\). (Logistic growth is explained in §8 of the Mid-sem guide.)</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · the full analysis</span>
+<ol class="steps">
+<li><strong>Fixed points.</strong> \(\dot x = 0\) when \(x = 0\) or \(x + 2y = 3\). \(\dot y = 0\) when \(y = 0\) or \(x + y = 2\). Combine one condition from each:
+<ul>
+<li>\(x = 0,\ y = 0\): \((0, 0)\), nobody.</li>
+<li>\(x = 0,\ x + y = 2\): \((0, 2)\), sheep only.</li>
+<li>\(x + 2y = 3,\ y = 0\): \((3, 0)\), rabbits only.</li>
+<li>\(x + 2y = 3,\ x + y = 2\): subtract to get \(y = 1\), then \(x = 1\). \((1, 1)\), both.</li>
+</ul></li>
+<li><strong>Jacobian.</strong> Multiply out: \(f_1 = 3x - x^2 - 2xy\), \(f_2 = 2y - xy - y^2\). Partial derivatives (M4): \[J = \begin{pmatrix}3 - 2x - 2y & -2x\\ -y & 2 - x - 2y\end{pmatrix}.\]</li>
+<li><strong>At \((0,0)\):</strong> \(J = \begin{pmatrix}3 & 0\\ 0 & 2\end{pmatrix}\). Diagonal, so \(\lambda = 3\) (eigenvector \((1,0)\)) and \(\lambda = 2\) (eigenvector \((0,1)\)). Both positive: <strong>unstable node</strong>. Paths leave along the slower direction, \((0,1)\), the \(y\)-axis.</li>
+<li><strong>At \((3,0)\):</strong> \(J = \begin{pmatrix}3 - 6 & -6\\ 0 & 2 - 3\end{pmatrix} = \begin{pmatrix}-3 & -6\\ 0 & -1\end{pmatrix}\). Triangular, so \(\lambda = -3, -1\). Both negative: <strong>stable node</strong>. Eigenvector for \(-1\): row 1 of \(J + I\) is \(-2v_1 - 6v_2 = 0\), so \(\mathbf v = (3, -1)\). For \(-3\): \((1, 0)\). Paths come in along the slow direction \((3, -1)\).</li>
+<li><strong>At \((0,2)\):</strong> \(J = \begin{pmatrix}3 - 4 & 0\\ -2 & 2 - 4\end{pmatrix} = \begin{pmatrix}-1 & 0\\ -2 & -2\end{pmatrix}\). Triangular, \(\lambda = -1, -2\): <strong>stable node</strong>. Eigenvector for \(-1\): row 2 of \(J + I\) is \(-2v_1 - v_2 = 0\), so \((1, -2)\). For \(-2\): \((0, 1)\).</li>
+<li><strong>At \((1,1)\):</strong> \(J = \begin{pmatrix}3 - 2 - 2 & -2\\ -1 & 2 - 1 - 2\end{pmatrix} = \begin{pmatrix}-1 & -2\\ -1 & -1\end{pmatrix}\). \(\tau = -2\), \(\Delta = (-1)(-1) - (-2)(-1) = 1 - 2 = -1 < 0\): <strong>saddle</strong>. Eigenvalues from \(\lambda^2 + 2\lambda - 1 = 0\): \(\lambda = -1\pm\sqrt2\approx0.41,\ -2.41\).</li>
+<li><strong>Conclusion.</strong> The only stable states are "rabbits only" and "sheep only". The coexistence point is a saddle, so it is never reached in practice.</li>
+</ol>
+</div>
+
+<figure class="fig"><!--plot:ph-rabbits-->
+<figcaption>Phase portrait, rabbits (x) across, sheep (y) up. Hollow points are unstable, filled are stable. The thick curve through the saddle \((1,1)\) is its <strong>stable manifold</strong>: the only paths that reach the saddle. Starting above it leads to \((0, 2)\) (rabbits die out). Starting below it leads to \((3, 0)\) (sheep die out).</figcaption></figure>
+<p>This is the <strong>principle of competitive exclusion</strong>: two species competing for the same limited resource generally cannot coexist; one drives the other to extinction. Which one wins depends on where you start relative to the stable manifold.</p>
+<p class="small">The slides label the eigenvalues at \((3,0)\) and \((0,2)\) inconsistently (the subscripts 1 and 2 are swapped in places). The eigenvalues and eigenvectors themselves, as given above, are correct.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>Fixed points \((0,0)\) unstable node, \((3,0)\) and \((0,2)\) stable nodes, \((1,1)\) saddle.</li>
+<li>\(J = \begin{pmatrix}3 - 2x - 2y & -2x\\ -y & 2 - x - 2y\end{pmatrix}\).</li>
+<li>Competitive exclusion; the saddle's stable manifold separates the two outcomes.</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Without looking: find the fixed points of \(\dot x = x(3 - x - 2y),\ \dot y = y(2 - x - y)\) and classify \((1,1)\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\((0,0), (0,2), (3,0), (1,1)\). At \((1,1)\), \(J = \begin{pmatrix}-1 & -2\\ -1 & -1\end{pmatrix}\), \(\Delta = -1 < 0\): saddle, \(\lambda = -1\pm\sqrt2\).</p></div></details>
+</section>
+
+<section>
+<h2 id="lv"><span class="num">7</span>Predator and prey (Lotka–Volterra)</h2>
+<span class="board">Deck 11 · slides 48–60</span>
+<p class="about">Records of Canadian lynx (predators) and snowshoe hares (prey) show both populations rising and falling in a roughly 10-year cycle, with the lynx peaks just after the hare peaks. More hares feed more lynx; more lynx eat more hares; the hares crash; the lynx starve; the hares recover. Volterra's model reproduces this cycle.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Write the model from its assumptions and explain each parameter.</li>
+<li>Find the fixed points and the Jacobian, and classify the fixed points.</li>
+</ul>
+</div>
+
+<h3>The model</h3>
+<p>Volterra's two assumptions: (1) per prey, the prey growth rate is a constant \(a\) without predators and falls in proportion to the number of predators; (2) per predator, the predator growth rate is negative (\(-d\)) without prey and rises in proportion to the number of prey.</p>
+<div class="eq boxed">\[\frac1N\frac{dN}{dt} = a - bP, \quad \frac1P\frac{dP}{dt} = cN - d \qquad\Longleftrightarrow\qquad \dot N = N(a - bP),\quad \dot P = P(cN - d)\]</div>
+<table class="tbl">
+<tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(N\), \(P\)</td><td>prey and predator populations</td></tr>
+<tr><td>\(a\)</td><td>how fast prey reproduce</td></tr>
+<tr><td>\(b\)</td><td>how fast prey are killed by predators</td></tr>
+<tr><td>\(c\)</td><td>how fast predators reproduce when fed on prey</td></tr>
+<tr><td>\(d\)</td><td>how fast predators die</td></tr>
+</table>
+
+<div class="card exam"><span class="tag">Derivation to learn · fixed points and stability</span>
+<ol class="steps">
+<li><strong>Fixed points.</strong> \(\dot N = 0\) when \(N = 0\) or \(P = a/b\). \(\dot P = 0\) when \(P = 0\) or \(N = d/c\). Combining: \((0, 0)\) and \((d/c,\ a/b)\).</li>
+<li><strong>Jacobian.</strong> \(f_1 = aN - bNP\), \(f_2 = cNP - dP\): \[J = \begin{pmatrix}a - bP & -bN\\ cP & cN - d\end{pmatrix}.\]</li>
+<li><strong>At \((0,0)\):</strong> \(J = \begin{pmatrix}a & 0\\ 0 & -d\end{pmatrix}\), \(\lambda = a > 0\) and \(-d < 0\): <strong>saddle</strong>. (Prey alone grow; predators alone die.)</li>
+<li><strong>At \((d/c,\ a/b)\):</strong> \(a - b\cdot\frac ab = 0\), \(-b\cdot\frac dc\), \(c\cdot\frac ab\), \(c\cdot\frac dc - d = 0\): \[J = \begin{pmatrix}0 & -\frac{bd}{c}\\ \frac{ac}{b} & 0\end{pmatrix}.\]</li>
+<li>\(\tau = 0\), \(\Delta = 0 - \left(-\frac{bd}{c}\right)\left(\frac{ac}{b}\right) = ad > 0\). So \(\lambda^2 + ad = 0\Rightarrow\lambda = \pm i\sqrt{ad}\): purely imaginary, a <strong>center</strong>. The populations cycle around \((d/c, a/b)\).</li>
+</ol>
+</div>
+<div class="card watch"><span class="tag">Slide error</span>
+<p>Slide 58 gives the eigenvalues at \((d/c, a/b)\) as \(\pm i\sqrt{ca}\). The correct value is \(\pm i\sqrt{ad}\), from \(\Delta = ad\) above. The conclusion (center) is unchanged. The small cycles near the fixed point have angular frequency \(\sqrt{ad}\), period \(2\pi/\sqrt{ad}\).</p>
+</div>
+<figure class="fig"><!--plot:ph-lv-->
+<figcaption>Closed cycles around the coexistence point, using the slide's simulation values \(a = 2/3\), \(b = 4/3\), \(c = d = 1\). The fixed point is \((d/c, a/b) = (1, 0.5)\) and \(\sqrt{ad} = 0.82\), so small cycles take about \(2\pi/0.82\approx7.7\) time units.</figcaption></figure>
+<p>As noted in §5, a linear center does not by itself prove the nonlinear orbits close. For this model they do close, because the quantity \(cN - d\ln N + bP - a\ln P\) stays constant along every path (not on the slides; mention only if asked). The slide's MATLAB code comment says "Runge–Kutta 4th order", but the code is plain Euler, which makes the simulated cycles slowly spiral outwards.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(\dot N = N(a - bP)\), \(\dot P = P(cN - d)\).</li>
+<li>\((0,0)\): saddle. \((d/c, a/b)\): center, \(\lambda = \pm i\sqrt{ad}\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>With \(a = 1,\ b = 0.5,\ c = 0.2,\ d = 0.8\), find the coexistence point and the eigenvalues there.</span><span class="chev">›</span></summary>
+<div class="ans"><p>\((d/c, a/b) = (4, 2)\). \(\lambda = \pm i\sqrt{ad} = \pm i\sqrt{0.8}\approx\pm0.89i\): a center, period about \(2\pi/0.89\approx7\).</p></div></details>
+</section>

@@ -1,0 +1,108 @@
+
+<div class="part">Finish<span>Practice</span></div>
+<section>
+<h2 id="pyq"><span class="num">19</span>Past-paper questions on this half</h2>
+<p class="about">The 2024 papers asked these questions on the material in this guide. Each answer gives the idea in plain words, the formulas, the steps with numbers, and the final answer. Write your own answer first, then compare.</p>
+<p class="small">Not covered here: 2024 Quiz 2 Set 2 Q1 (Barabási–Albert growth model), which is not in this year's slides so far.</p>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · Set 1 · Q3 · 2 + 3 marks</span><span>If \(x_{n+1} = f(x_n)\), find the condition (show the derivation) where the system shows a stable fixed point \(x_{n+1} = f(x_n) = x^*\). For (i) \(f(x) = x^2\) and (ii) \(f(x) = \cos x\), find the fixed points and the stability conditions.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> A fixed point of a map is a value that maps to itself. Start a tiny distance away and apply the map once: the distance gets multiplied by the slope at the fixed point. Repeating multiplies again and again, so the distance dies out only if that slope is smaller than 1 in size.</p>
+<h4>Formulas you need</h4>
+<ul><li>Fixed point \(x^* = f(x^*)\). Taylor: \(f(x^* + \varepsilon)\approx f(x^*) + f'(x^*)\varepsilon\).</li><li>Stable iff \(|f'(x^*)| < 1\) (<a href="#mapstab">§12</a>).</li></ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>Derivation.</strong> \(x_n = x^* + \varepsilon_n\). Then \(x^* + \varepsilon_{n+1} = f(x^* + \varepsilon_n)\approx x^* + f'(x^*)\varepsilon_n\), so \(\varepsilon_{n+1} = f'(x^*)\varepsilon_n\) and \(\varepsilon_n = [f'(x^*)]^n\varepsilon_0\). This goes to 0 iff \(|f'(x^*)| < 1\).</li>
+<li><strong>(i) \(f(x) = x^2\).</strong> \(x = x^2\Rightarrow x^* = 0\) or 1. \(f'(x) = 2x\). \(|f'(0)| = 0 < 1\): stable. \(|f'(1)| = 2 > 1\): unstable. Numbers: from 0.9 the iterates are 0.81, 0.66, 0.43, 0.19 → 0; from 1.1 they are 1.21, 1.46, 2.14 → ∞.</li>
+<li><strong>(ii) \(f(x) = \cos x\).</strong> \(x^* = \cos x^*\). Solve by iterating from 1: 0.540, 0.858, 0.654, 0.794, 0.701, 0.764, … → \(x^*\approx0.739\). \(f'(x) = -\sin x\), \(|f'(0.739)| = \sin(0.739) = 0.674 < 1\): stable. The slope is negative, so the iterates alternate above and below 0.739 while converging.</li>
+</ol>
+<h4>Final answer</h4>
+<p>Stable iff \(|f'(x^*)| < 1\). (i) \(x^* = 0\) stable, \(x^* = 1\) unstable. (ii) \(x^*\approx0.739\), stable since \(|{-\sin0.739}|\approx0.67 < 1\).</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · Set 2 · Q3 · 2 + 3 marks</span><span>If \(x_{n+1} = f(x_n)\), find the condition where the system shows a stable fixed point. If \(f(x_n) = rx_n(1 - x_n)\), find the fixed points and the stability conditions.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Same rule as the previous question: stable when the slope at the fixed point is smaller than 1 in size. For the logistic map there are two fixed points, "extinct" and "settled population", and the slope at each depends on \(r\). That gives the range of \(r\) where each one is stable.</p>
+<h4>Formulas you need</h4>
+<ul><li>Stable iff \(|f'(x^*)| < 1\).</li><li>\(f(x) = rx - rx^2\), so \(f'(x) = r - 2rx = r(1 - 2x)\).</li></ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li><strong>Condition</strong>: derive \(\varepsilon_{n+1} = f'(x^*)\varepsilon_n\) as in the previous answer.</li>
+<li><strong>Fixed points.</strong> \(x = rx(1 - x)\). Either \(x^* = 0\), or divide by \(x\): \(1 = r(1 - x)\Rightarrow x^* = 1 - \frac1r\).</li>
+<li><strong>At \(x^* = 0\):</strong> \(f'(0) = r\). Stable iff \(r < 1\) (for \(r > 0\)).</li>
+<li><strong>At \(x^* = 1 - 1/r\):</strong> \(f' = r\left(1 - 2 + \frac2r\right) = 2 - r\). Stable iff \(|2 - r| < 1\iff1 < r < 3\).</li>
+<li><strong>Numbers.</strong> \(r = 0.5\): only 0 is stable (0.5 → 0.125 → 0.055 → … → 0). \(r = 2.5\): \(x^* = 0.6\), slope \(-0.5\), stable (0.5 → 0.625 → 0.586 → 0.607 → 0.6). \(r = 3.2\): slope \(-1.2\), unstable; the map settles on the 2-cycle 0.7995, 0.5130.</li>
+<li><strong>At \(r = 3\)</strong> the slope is \(-1\): a period-doubling bifurcation (<a href="#doubling">§13</a>).</li>
+</ol>
+<h4>Final answer</h4>
+<p>Fixed points \(x^* = 0\) (stable for \(0 < r < 1\)) and \(x^* = 1 - 1/r\) (stable for \(1 < r < 3\)). At \(r = 3\) it loses stability to a 2-cycle.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Quiz 2 · Set 2 · Q4 · 4 marks</span><span>Find the fixed points of the Lorenz oscillator \(\dot x = \sigma(y - x)\), \(\dot y = \rho x - y - xz\), \(\dot z = -\beta z + xy\). Construct the associated Jacobians. (Eigenvalue analysis is not required.)</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Set all three rates to zero and solve one equation at a time: the first says \(y = x\), the third then gives \(z\) in terms of \(x\), and the middle one either forces \(x = 0\) or fixes \(z = \rho - 1\). Then the Jacobian is the table of partial derivatives, evaluated at each fixed point.</p>
+<h4>Formulas you need</h4>
+<ul><li>Fixed point: all rates zero. Jacobian \(J_{ij} = \partial f_i/\partial x_j\) (<a href="#jacobian">§5</a>, <a href="#lorenz">§14</a>).</li></ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>\(\sigma(y - x) = 0\Rightarrow y = x\).</li>
+<li>\(xy - \beta z = 0\Rightarrow z = x^2/\beta\).</li>
+<li>\(\rho x - x - xz = x(\rho - 1 - z) = 0\Rightarrow x = 0\) or \(z = \rho - 1\).</li>
+<li>\(x = 0\): \(P_0 = (0, 0, 0)\). \(z = \rho - 1\): \(x^2 = \beta(\rho - 1)\), \(P_{1,2} = (\pm\sqrt{\beta(\rho-1)}, \pm\sqrt{\beta(\rho-1)}, \rho - 1)\), existing for \(\rho > 1\).</li>
+<li>General Jacobian: \(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}\).</li>
+<li>\(J(P_0) = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho & -1 & 0\\ 0 & 0 & -\beta\end{pmatrix}\). \(J(P_{1,2}) = \begin{pmatrix}-\sigma & \sigma & 0\\ 1 & -1 & \mp c\\ \pm c & \pm c & -\beta\end{pmatrix}\) with \(c = \sqrt{\beta(\rho-1)}\).</li>
+<li><strong>Numbers</strong>, \(\sigma = 10\), \(\beta = 8/3\), \(\rho = 28\): \(c = \sqrt{72} = 8.49\), \(P_{1,2} = (\pm8.49, \pm8.49, 27)\), \(J(P_1) = \begin{pmatrix}-10 & 10 & 0\\ 1 & -1 & -8.49\\ 8.49 & 8.49 & -2.67\end{pmatrix}\).</li>
+</ol>
+<h4>Final answer</h4>
+<p>\(P_0 = (0,0,0)\) and, for \(\rho > 1\), \(P_{1,2} = (\pm\sqrt{\beta(\rho-1)}, \pm\sqrt{\beta(\rho-1)}, \rho - 1)\), with the Jacobians above.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Mid-sem · Q1 · 3 + 4 marks</span><span>Two coupled phase oscillators: \(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2 - \theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1 - \theta_2)\). (a) Calculate the critical coupling strength at which both oscillators follow the common frequency. (b) Calculate the common frequency. Can one obtain a common (and stable) frequency at \(k_1 = k_2 = k = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\)?</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> The oscillators share a frequency when the gap between their angles stops changing. The gap changes because of the difference in natural speeds, and the coupling pulls against it, but the pull is at most \(k_1 + k_2\) (a sine is never more than 1). So they can lock only if the coupling is at least as big as the speed difference.</p>
+<h4>Formulas you need</h4>
+<ul><li>\(\phi = \theta_2 - \theta_1\), \(\dot\phi = (\omega_2 - \omega_1) - (k_1 + k_2)\sin\phi\) (<a href="#twoosc">§15</a>).</li><li>\(|\sin\phi|\le1\).</li></ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>Subtract the equations to get \(\dot\phi\) above.</li>
+<li>Locked means \(\dot\phi = 0\): \(\sin\phi^* = \frac{\omega_2 - \omega_1}{k_1 + k_2}\). Needs \(|\omega_2 - \omega_1|\le k_1 + k_2\). Critical coupling: \(k_1 + k_2 = |\omega_2 - \omega_1|\).</li>
+<li>Stable lock: slope \(-(k_1 + k_2)\cos\phi^* < 0\), i.e. \(\cos\phi^* > 0\).</li>
+<li>Common frequency: from \(\Omega = \omega_1 + k_1\sin\phi^* = \omega_2 - k_2\sin\phi^*\), eliminate \(\sin\phi^*\): \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\).</li>
+<li><strong>Numbers.</strong> \(|\omega_2 - \omega_1| = 8\), \(k_1 + k_2 = 4\). \(\sin\phi^* = 2\) is impossible. No lock.</li>
+</ol>
+<h4>Final answer</h4>
+<p>(a) Lock iff \(k_1 + k_2\ge|\omega_2 - \omega_1|\); critical coupling \(k_1 + k_2 = |\omega_2 - \omega_1|\) (equal couplings: \(k_c = |\omega_2 - \omega_1|/2\)). (b) \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\). With \(k = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\): \(4 < 8\), so no common stable frequency; each \(k\) would need to be at least 4. (If they locked, \(\Omega\) would be 6.)</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">Mid-sem · Q2 · 3 + 4 marks</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\), with \(z = x + iy\). (a) Transform this equation into the \((r, \theta)\) plane. (b) Find the condition in which the system will reveal a stable limit cycle. Explain it with proper bifurcation analysis.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Describe the point by its distance from the centre and its angle. The angle just keeps turning. The distance follows the pitchfork equation: it shrinks to 0 when \(\mu\) is negative, and settles at \(\sqrt\mu\) when \(\mu\) is positive. Turning forever at a fixed distance is a circle, the limit cycle.</p>
+<h4>Formulas you need</h4>
+<ul><li>\(z = re^{i\theta}\), \(\dot z = (\dot r + ir\dot\theta)e^{i\theta}\) (M3).</li><li>1-D stability: sign of the slope (Mid-sem §8).</li></ul>
+<h4>Step by step</h4>
+<ol class="steps">
+<li>Substitute: \((\dot r + ir\dot\theta)e^{i\theta} = (\mu + i\omega - r^2)re^{i\theta}\). Cancel \(e^{i\theta}\).</li>
+<li>Real parts: \(\dot r = \mu r - r^3\). Imaginary parts: \(\dot\theta = \omega\).</li>
+<li>Radial fixed points \(r^* = 0\), and \(r^* = \sqrt\mu\) for \(\mu > 0\). Slope \(\mu - 3r^2\): at 0 it is \(\mu\); at \(\sqrt\mu\) it is \(-2\mu\).</li>
+<li><strong>Numbers.</strong> \(\mu = -1\): \(r^* = 0\) with slope \(-1\), stable; paths spiral in. \(\mu = 4\), \(\omega = 1\): origin unstable (slope 4), circle \(r = 2\) stable (slope \(-8\)), one turn every \(2\pi\approx6.3\) time units.</li>
+<li>The eigenvalues at the origin are \(\mu\pm i\omega\) (Cartesian Jacobian, <a href="#cycle">§9</a>); they cross into the right half-plane at \(\mu = 0\).</li>
+</ol>
+<h4>Final answer</h4>
+<p>(a) \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\). (b) A stable limit cycle of radius \(\sqrt\mu\) exists when \(\mu > 0\). At \(\mu = 0\) the stable origin becomes unstable and the cycle is born: a supercritical Hopf bifurcation (the radial equation is a supercritical pitchfork).</p>
+</div></details>
+
+<h3>One more in the exam's style</h3>
+<details class="q"><summary><span class="qt">Practice</span><span>Two species compete: \(\dot x = x(3 - 2x - y)\), \(\dot y = y(2 - x - y)\). Find all fixed points, classify them, and say whether the species can coexist.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Same method as rabbits vs sheep (§6), but here each species hurts itself more than it hurts the other, so the coexistence point comes out stable instead of a saddle.</p>
+<ol class="steps">
+<li>Fixed points: \(x = 0\) or \(2x + y = 3\); \(y = 0\) or \(x + y = 2\). Gives \((0,0)\), \((0,2)\), \((3/2, 0)\), and \(2x + y = 3,\ x + y = 2\Rightarrow x = 1, y = 1\).</li>
+<li>\(J = \begin{pmatrix}3 - 4x - y & -x\\ -y & 2 - x - 2y\end{pmatrix}\).</li>
+<li>\((0,0)\): \(\begin{pmatrix}3&0\\0&2\end{pmatrix}\), unstable node.</li>
+<li>\((3/2, 0)\): \(\begin{pmatrix}-3 & -1.5\\ 0 & 0.5\end{pmatrix}\), eigenvalues \(-3, 0.5\): saddle.</li>
+<li>\((0, 2)\): \(\begin{pmatrix}1 & 0\\ -2 & -2\end{pmatrix}\), eigenvalues \(1, -2\): saddle.</li>
+<li>\((1,1)\): \(\begin{pmatrix}-2 & -1\\ -1 & -1\end{pmatrix}\), \(\tau = -3\), \(\Delta = 2 - 1 = 1\), \(\tau^2 - 4\Delta = 5 > 0\): stable node, \(\lambda = \frac{-3\pm\sqrt5}{2} = -0.38, -2.62\).</li>
+</ol>
+<p><strong>Final answer:</strong> the coexistence point \((1,1)\) is a stable node, so both species survive together; the single-species states are saddles.</p>
+</div></details>
+</section>

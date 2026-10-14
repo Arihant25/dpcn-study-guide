@@ -1,0 +1,168 @@
+<aside class="toc" aria-label="Contents">
+  <div class="brand">DPCN After Mid-sem Guide<small>Classes 13 to 18</small></div>
+  <a class="other" href="../">Open the Mid-sem guide →</a>
+  <a class="other" href="../quiz1/">Open the Quiz 1 guide →</a>
+  <nav id="tocnav">
+    <a href="#start">Start here · what is covered</a>
+    <a href="#maths">M · The new maths you need</a>
+    <div class="grp">Part 1 · 2-D linear systems</div>
+    <a href="#eigen">1 · Straight-line solutions</a>
+    <a href="#classify">2 · Saddles, nodes, spirals, centers</a>
+    <a href="#ivp">3 · Solving an initial value problem</a>
+    <a href="#romeo">4 · Romeo and Juliet</a>
+    <div class="grp">Part 2 · Nonlinear 2-D systems</div>
+    <a href="#jacobian">5 · The Jacobian</a>
+    <a href="#rabbits">6 · Rabbits vs sheep</a>
+    <a href="#lv">7 · Predator and prey</a>
+    <div class="grp">Part 3 · Stability on networks</div>
+    <a href="#netstab">8 · Stability of network dynamics</a>
+    <div class="grp">Part 4 · Limit cycles</div>
+    <a href="#cycle">9 · Limit cycles and the Hopf bifurcation</a>
+    <a href="#vdp">10 · Van der Pol, Poincaré–Bendixson, networks</a>
+    <div class="grp">Part 5 · Maps and chaos</div>
+    <a href="#euler">11 · From a differential equation to a map</a>
+    <a href="#mapstab">12 · Stability of a map, cobwebs</a>
+    <a href="#doubling">13 · Period doubling to chaos</a>
+    <a href="#lorenz">14 · The Lorenz system</a>
+    <div class="grp">Part 6 · Synchronisation</div>
+    <a href="#twoosc">15 · Two coupled oscillators</a>
+    <a href="#kuramoto">16 · The Kuramoto model</a>
+    <div class="grp">Part 7 · Large systems</div>
+    <a href="#may">17 · Will a large system be stable?</a>
+    <a href="#pendulum">18 · The double pendulum</a>
+    <div class="grp">Finish</div>
+    <a href="#pyq">19 · Past-paper questions</a>
+    <a href="#sheet">20 · Formula sheet</a>
+  </nav>
+</aside>
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Classes 13 to 18</div>
+  <h1>DPCN After Mid-sem Guide</h1>
+  <p class="lead">This guide covers the slides taught after the mid-sem. It assumes you know nothing. Because the exams in this course ask for proofs and derivations, every topic is built around a derivation you can learn line by line: what each step does is written in words next to it, and each derivation is then worked with real numbers.</p>
+  <p class="small" style="margin-top:14px">Earlier material is in the <a href="../">Mid-sem guide</a> (power laws, random graphs, 1-D bifurcations, SIS, the Laplacian) and the <a href="../quiz1/">Quiz 1 guide</a>.</p>
+</header>
+<div class="tocwrap-mobile">
+  <details class="mtoc"><summary>Jump to a section</summary>
+    <a href="#start">Start here · what is covered</a>
+    <a href="#maths">M · The new maths you need</a>
+    <a href="#eigen">1 · Straight-line solutions</a>
+    <a href="#classify">2 · Saddles, nodes, spirals, centers</a>
+    <a href="#ivp">3 · Solving an initial value problem</a>
+    <a href="#romeo">4 · Romeo and Juliet</a>
+    <a href="#jacobian">5 · The Jacobian</a>
+    <a href="#rabbits">6 · Rabbits vs sheep</a>
+    <a href="#lv">7 · Predator and prey</a>
+    <a href="#netstab">8 · Stability of network dynamics</a>
+    <a href="#cycle">9 · Limit cycles and the Hopf bifurcation</a>
+    <a href="#vdp">10 · Van der Pol, Poincaré–Bendixson, networks</a>
+    <a href="#euler">11 · From a differential equation to a map</a>
+    <a href="#mapstab">12 · Stability of a map, cobwebs</a>
+    <a href="#doubling">13 · Period doubling to chaos</a>
+    <a href="#lorenz">14 · The Lorenz system</a>
+    <a href="#twoosc">15 · Two coupled oscillators</a>
+    <a href="#kuramoto">16 · The Kuramoto model</a>
+    <a href="#may">17 · Will a large system be stable?</a>
+    <a href="#pendulum">18 · The double pendulum</a>
+    <a href="#pyq">19 · Past-paper questions</a>
+    <a href="#sheet">20 · Formula sheet</a>
+  </details>
+</div>
+
+<section>
+<h2 id="start"><span class="num">·</span>Start here · what is covered</h2>
+<p class="about">These are the three slide decks posted on Moodle after the mid-sem: "Class 13-16: 1d and 2d systems + stability" (two decks) and "Class 17-18: Chaos: Lorenz, Logistic Map, Kuramoto". In your Drive they are files 11, 12 and 13 in the Slides folder.</p>
+
+<table class="tbl">
+<tr><th>Slide deck</th><th>Topics</th><th>Sections</th></tr>
+<tr><td>11 · Class 13-14 (ODE, bifurcation, 2-D)</td><td>2-D linear systems, eigenvalues, classification, Romeo and Juliet, the Jacobian, rabbits vs sheep, predator–prey</td><td><a href="#eigen">§1</a> to <a href="#lv">§7</a></td></tr>
+<tr><td>12 · Class 15-16</td><td>Stability of dynamics on a network, population growth with migration, limit cycles, Hopf bifurcation, van der Pol, Poincaré–Bendixson, networks of oscillators</td><td><a href="#netstab">§8</a> to <a href="#vdp">§10</a></td></tr>
+<tr><td>13 · Class 17-18</td><td>Runge–Kutta, Lorenz system, logistic map and chaos, cobwebs, synchronisation and the Kuramoto model, stability of large systems (May), double pendulum</td><td><a href="#euler">§11</a> to <a href="#pendulum">§18</a></td></tr>
+</table>
+<p class="small">Deck 13 marks the infinite-N Kuramoto material (slides 38 to 48) "Advanced Topics (Not for exam)". This guide gives only its final result. The research-paper slides (aging transition, explosive synchronisation, the dynamic Jacobian ensemble) are summarised in a few lines each, since they show results rather than derivations.</p>
+
+<div class="card goal"><span class="tag">The derivations most likely to be asked</span>
+<p>Past papers (2024 Quiz 2 and mid-sem) asked exactly these kinds of questions. If you are short on time, learn these first.</p>
+<ol>
+<li>Find all fixed points of a 2-D system, write the Jacobian, and classify each fixed point (<a href="#rabbits">§6</a>, <a href="#lv">§7</a>).</li>
+<li>Fixed points of a map \(x_{n+1} = f(x_n)\) and the condition \(|f'(x^*)| < 1\), for the logistic map and \(\cos x\) (<a href="#mapstab">§12</a>). Asked in 2024 Quiz 2.</li>
+<li>Fixed points and Jacobians of the Lorenz system (<a href="#lorenz">§14</a>). Asked in 2024 Quiz 2.</li>
+<li>Convert \(\dot z = (\mu + i\omega - |z|^2)z\) to polar form and find the limit cycle (<a href="#cycle">§9</a>). Asked in the 2024 mid-sem.</li>
+<li>Two coupled phase oscillators: when do they lock, and at what frequency (<a href="#twoosc">§15</a>). Asked in the 2024 mid-sem.</li>
+<li>Solve a 2-D linear initial value problem with eigenvectors (<a href="#ivp">§3</a>).</li>
+</ol>
+</div>
+
+<h4>How each section is laid out</h4>
+<ol>
+<li><strong>What this is about</strong>, in plain words.</li>
+<li><strong>What the exam can ask</strong>.</li>
+<li><strong>The explanation</strong>, built from a small example.</li>
+<li><strong>The derivation to learn</strong>, in a black-bordered box: numbered steps, each with the reason written next to it. This is what to reproduce in the exam.</li>
+<li><strong>What to remember</strong>, the formulas in one box.</li>
+<li><strong>Check yourself</strong>, including a "derivation drill": try writing the derivation from memory, then compare.</li>
+</ol>
+<p>How to practise a derivation: read it once with the reasons, then cover it and write the steps on paper, then check. Repeat until you can write it without looking. Being able to reproduce five or six derivations is worth more marks than understanding twenty topics loosely.</p>
+</section>
+
+<section>
+<h2 id="maths"><span class="num">M</span>The new maths you need</h2>
+<p class="about">This half of the course uses a few tools that the first half did not: the determinant and eigenvalues of a 2×2 matrix, complex numbers, partial derivatives and iterated maps. Each is explained here with an example. Sums, integrals, e, ln and ordinary slopes are explained in <a href="../#maths">section M of the Mid-sem guide</a>.</p>
+
+<h3>M1 · Trace and determinant of a 2×2 matrix</h3>
+<p>For a 2×2 matrix \(A = \begin{pmatrix} a & b\\ c & d\end{pmatrix}\):</p>
+<ul>
+<li>the <strong>trace</strong> is the sum of the diagonal, \(\tau = a + d\) (\(\tau\) is Greek "tau");</li>
+<li>the <strong>determinant</strong> is "down-diagonal minus up-diagonal", \(\Delta = ad - bc\) (\(\Delta\) is Greek "delta").</li>
+</ul>
+<p>Example: \(A = \begin{pmatrix}1 & 1\\ 4 & -2\end{pmatrix}\) has \(\tau = 1 + (-2) = -1\) and \(\Delta = 1\times(-2) - 1\times4 = -6\).</p>
+
+<h3>M2 · Eigenvalues and eigenvectors of a 2×2 matrix, step by step</h3>
+<p>Recall (<a href="../#maths">Mid-sem guide M9</a>): an eigenvector \(\mathbf v\) is a direction that the matrix only stretches, \(A\mathbf v = \lambda\mathbf v\), and the stretch \(\lambda\) is the eigenvalue. To find them:</p>
+<ol class="steps">
+<li><strong>Eigenvalues.</strong> Solve the quadratic \(\lambda^2 - \tau\lambda + \Delta = 0\). By the quadratic formula, \[\lambda = \frac{\tau\pm\sqrt{\tau^2 - 4\Delta}}{2}.\] (Why this equation: \(A\mathbf v = \lambda\mathbf v\) means \((A - \lambda I)\mathbf v = 0\) for a non-zero \(\mathbf v\), which happens only when \(\det(A - \lambda I) = 0\). Multiplying out \((a - \lambda)(d - \lambda) - bc = 0\) gives exactly this quadratic.)</li>
+<li><strong>Eigenvector for each \(\lambda\).</strong> Write \((A - \lambda I)\mathbf v = 0\), meaning subtract \(\lambda\) from both diagonal entries and multiply by \(\mathbf v = (v_1, v_2)\). The two rows give the same condition; use one of them to find the ratio \(v_2/v_1\). Any multiple of an eigenvector is also an eigenvector, so pick a simple one.</li>
+</ol>
+<div class="card ex"><span class="tag">Worked example</span>
+<p>\(A = \begin{pmatrix}1 & 1\\ 4 & -2\end{pmatrix}\), with \(\tau = -1\), \(\Delta = -6\).</p>
+<ol>
+<li>\(\lambda^2 + \lambda - 6 = 0\), which factorises as \((\lambda - 2)(\lambda + 3) = 0\). So \(\lambda_1 = 2\), \(\lambda_2 = -3\).</li>
+<li>For \(\lambda = 2\): \(A - 2I = \begin{pmatrix}-1 & 1\\ 4 & -4\end{pmatrix}\). The first row says \(-v_1 + v_2 = 0\), so \(v_2 = v_1\). Take \(\mathbf v_1 = (1, 1)\).</li>
+<li>For \(\lambda = -3\): \(A + 3I = \begin{pmatrix}4 & 1\\ 4 & 1\end{pmatrix}\). The first row says \(4v_1 + v_2 = 0\), so \(v_2 = -4v_1\). Take \(\mathbf v_2 = (1, -4)\).</li>
+<li>Check: \(A(1,1) = (1 + 1,\ 4 - 2) = (2, 2) = 2\times(1,1)\). Correct.</li>
+</ol>
+</div>
+<p>Two shortcuts: the eigenvalues always add up to the trace (\(2 + (-3) = -1\)) and multiply to the determinant (\(2\times(-3) = -6\)). For a triangular matrix (zeros above or below the diagonal), the eigenvalues are just the diagonal entries.</p>
+
+<h3>M3 · Complex numbers</h3>
+<p>Some quadratics have no real solution, for example \(\lambda^2 + 1 = 0\). We write \(i\) for a number with \(i^2 = -1\), so the solutions are \(\lambda = \pm i\). A <strong>complex number</strong> is \(a + ib\), with real part \(a\) and imaginary part \(b\). When \(\tau^2 - 4\Delta < 0\), the eigenvalues are a pair \(\lambda = \frac{\tau}{2}\pm i\frac{\sqrt{4\Delta - \tau^2}}{2}\).</p>
+<p>The key fact is <strong>Euler's formula</strong>: \(e^{i\theta} = \cos\theta + i\sin\theta\). So</p>
+<div class="eq">\[e^{(a + ib)t} = e^{at}\big(\cos bt + i\sin bt\big).\]</div>
+<p>This is what a complex eigenvalue does to a solution. The real part \(a\) decides growth (\(a > 0\)) or decay (\(a < 0\)), and the imaginary part \(b\) makes it rotate (oscillate) at angular speed \(b\). If \(a = 0\), it just rotates forever.</p>
+<p><strong>Polar form.</strong> A complex number \(z = x + iy\) can be described by its distance \(r\) from 0 and its angle \(\theta\): \(z = re^{i\theta}\), with \(x = r\cos\theta\), \(y = r\sin\theta\), \(r = |z| = \sqrt{x^2 + y^2}\). Multiplying by \(e^{i\theta}\) rotates; multiplying by a positive number stretches.</p>
+<p>Rate of change in polar form (by the product rule for slopes): if \(z = re^{i\theta}\) with \(r\) and \(\theta\) changing in time, then</p>
+<div class="eq">\[\dot z = \dot r\,e^{i\theta} + r\,i\dot\theta\,e^{i\theta} = (\dot r + ir\dot\theta)\,e^{i\theta}.\]</div>
+
+<h3>M4 · Partial derivatives</h3>
+<p>For a formula with two variables, \(f(x, y)\), the <strong>partial derivative</strong> \(\frac{\partial f}{\partial x}\) is the slope in the \(x\) direction: differentiate as usual, treating \(y\) as a fixed number. Example with \(f = 3x - x^2 - 2xy\):</p>
+<ul>
+<li>\(\frac{\partial f}{\partial x} = 3 - 2x - 2y\) (the \(-2xy\) term behaves like \(-2y\times x\), slope \(-2y\));</li>
+<li>\(\frac{\partial f}{\partial y} = -2x\) (only the \(-2xy\) term contains \(y\)).</li>
+</ul>
+
+<h3>M5 · Maps (step-by-step systems)</h3>
+<p>A differential equation \(\dot x = f(x)\) changes smoothly in time. A <strong>map</strong> \(x_{n+1} = f(x_n)\) jumps in steps: given this year's value \(x_n\), the formula gives next year's \(x_{n+1}\). Example: \(x_{n+1} = 2x_n\) starting from \(x_0 = 1\) gives 1, 2, 4, 8, … A <strong>fixed point</strong> of a map is a value that maps to itself, \(x^* = f(x^*)\).</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(\tau = a + d\), \(\Delta = ad - bc\). Eigenvalues \(\lambda = \frac{\tau\pm\sqrt{\tau^2 - 4\Delta}}{2}\). Eigenvectors from one row of \((A - \lambda I)\mathbf v = 0\).</li>
+<li>\(e^{(a+ib)t} = e^{at}(\cos bt + i\sin bt)\): real part = grow or decay, imaginary part = rotate.</li>
+<li>\(z = re^{i\theta}\), \(\dot z = (\dot r + ir\dot\theta)e^{i\theta}\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Find the eigenvalues of \(\begin{pmatrix}3 & 0\\ 0 & 2\end{pmatrix}\) and of \(\begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix}\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>The first is diagonal, so the eigenvalues are 3 and 2. The second has \(\tau = 0\), \(\Delta = 0 - (1)(-1) = 1\), so \(\lambda^2 + 1 = 0\) and \(\lambda = \pm i\).</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>What does \(e^{(-0.5 + 2i)t}\) do as time passes?</span><span class="chev">›</span></summary>
+<div class="ans"><p>It equals \(e^{-0.5t}(\cos2t + i\sin2t)\): it rotates with angular speed 2 while its size shrinks like \(e^{-0.5t}\). A spiral inwards.</p></div></details>
+</section>

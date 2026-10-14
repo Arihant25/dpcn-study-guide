@@ -1,0 +1,187 @@
+
+<div class="part">Part 1<span>2-D linear systems</span></div>
+<section>
+<h2 id="eigen"><span class="num">1</span>Two variables at once · straight-line solutions</h2>
+<span class="board">Deck 11 · slides 4–15</span>
+<p class="about">In the first half, one quantity \(x\) changed over time. Now two quantities change together, \(x\) and \(y\), and each one's rate depends on both. The simplest case is a <strong>linear system</strong>, where each rate is just a weighted sum of \(x\) and \(y\). Such a system can be solved exactly, and the solution is built from the eigenvalues and eigenvectors of a 2×2 matrix.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Show that \(\mathbf x(t) = e^{\lambda t}\mathbf v\) solves \(\dot{\mathbf x} = A\mathbf x\) when \(\mathbf v\) is an eigenvector, and derive \(\lambda^2 - \tau\lambda + \Delta = 0\).</li>
+<li>Write the general solution.</li>
+<li>For \(\dot x = ax,\ \dot y = -y\), describe what happens for different values of \(a\) (node, star, line of fixed points, saddle).</li>
+</ul>
+</div>
+
+<h3>The system</h3>
+<div class="eq">\[\dot x = ax + by, \qquad \dot y = cx + dy \qquad\Longleftrightarrow\qquad \dot{\mathbf x} = A\mathbf x,\quad A = \begin{pmatrix}a & b\\ c & d\end{pmatrix},\quad \mathbf x = \begin{pmatrix}x\\ y\end{pmatrix}.\]</div>
+<p class="sym">\(a, b, c, d\) are fixed numbers. \(\mathbf x\) is the point \((x, y)\). The plane of all possible points is called the <strong>phase plane</strong>, and a drawing of how points move in it is a <strong>phase portrait</strong>. The origin \((0,0)\) is always a fixed point, because there both rates are 0.</p>
+
+<h3>A first example with no coupling</h3>
+<p>Take \(b = c = 0\) and \(d = -1\): \(\dot x = ax\), \(\dot y = -y\). Each equation involves only one variable, so each is the basic equation \(\dot y = ay\) from the maths primer (<a href="../#maths">Mid-sem M8</a>):</p>
+<div class="eq">\[x(t) = x_0e^{at}, \qquad y(t) = y_0e^{-t}.\]</div>
+<p>\(y\) always shrinks. What \(x\) does depends on \(a\), and that gives five pictures, all on the slides.</p>
+<div class="figrow">
+<figure class="fig"><!--plot:ph-stable-node--><figcaption><strong>\(a < -1\) or \(-1 < a < 0\) · stable node.</strong> Both shrink, at different speeds. The faster one dies first, so paths arrive along the slower direction.</figcaption></figure>
+<figure class="fig"><!--plot:ph-star--><figcaption><strong>\(a = -1\) · star.</strong> Both shrink at exactly the same rate, so \(y/x\) stays fixed and every path is a straight line into the origin.</figcaption></figure>
+<figure class="fig"><!--plot:ph-line--><figcaption><strong>\(a = 0\) · line of fixed points.</strong> \(x\) never changes, \(y\) shrinks. Every point on the \(x\)-axis is a fixed point.</figcaption></figure>
+<figure class="fig"><!--plot:ph-saddle--><figcaption><strong>\(a > 0\) · saddle.</strong> One direction grows, the other shrinks. Paths come in along one line and leave along the other. (Drawn here for the matrix of §3.)</figcaption></figure>
+</div>
+<p>In the node case, which direction is "slower"? For \(a < -1\), \(x\) shrinks faster than \(y\) (rate \(|a| > 1\)), so the \(x\)-part disappears first and paths come into the origin along the \(y\)-axis. For \(-1 < a < 0\) it is the other way round: they come in along the \(x\)-axis.</p>
+
+<h3>The general case · looking for straight-line solutions</h3>
+<p>In the uncoupled example, a point on an axis stays on that axis and just slides in or out. Those are straight-line solutions. The idea for any matrix \(A\) is to find the straight lines that the motion keeps, which turn out to be the eigenvectors.</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · eigen-solutions and the characteristic equation</span>
+<ol class="steps">
+<li><strong>Guess a solution that stays on one line and grows or shrinks exponentially:</strong> \(\mathbf x(t) = e^{\lambda t}\mathbf v\), where \(\mathbf v\) is a fixed vector and \(\lambda\) a fixed number.</li>
+<li><strong>Put it into the equation.</strong> Left side: \(\dot{\mathbf x} = \lambda e^{\lambda t}\mathbf v\) (slope of \(e^{\lambda t}\) is \(\lambda e^{\lambda t}\)). Right side: \(A\mathbf x = e^{\lambda t}A\mathbf v\). So \(\lambda e^{\lambda t}\mathbf v = e^{\lambda t}A\mathbf v\).</li>
+<li><strong>Cancel \(e^{\lambda t}\)</strong>, which is never zero: \(A\mathbf v = \lambda\mathbf v\). So the guess works exactly when \(\mathbf v\) is an eigenvector of \(A\) and \(\lambda\) is its eigenvalue. This is called an eigen-solution.</li>
+<li><strong>Find \(\lambda\).</strong> \(A\mathbf v = \lambda\mathbf v\) with \(\mathbf v\neq0\) needs \(\det(A - \lambda I) = 0\): \[\det\begin{pmatrix}a - \lambda & b\\ c & d - \lambda\end{pmatrix} = (a-\lambda)(d-\lambda) - bc = 0.\]</li>
+<li><strong>Multiply out:</strong> \(\lambda^2 - (a + d)\lambda + (ad - bc) = 0\), that is \[\lambda^2 - \tau\lambda + \Delta = 0, \qquad \tau = a + d,\quad \Delta = ad - bc.\]</li>
+<li><strong>Solve:</strong> \(\lambda_{1,2} = \dfrac{\tau\pm\sqrt{\tau^2 - 4\Delta}}{2}\).</li>
+<li><strong>General solution.</strong> The equation is linear, so adding two solutions gives another solution: \[\mathbf x(t) = c_1e^{\lambda_1t}\mathbf v_1 + c_2e^{\lambda_2t}\mathbf v_2,\] where the numbers \(c_1, c_2\) are fixed by the starting point.</li>
+</ol>
+</div>
+<p>Reading the general solution: each part grows if its \(\lambda\) is positive and shrinks if negative. After a long time the part with the larger \(\lambda\) dominates. That single observation gives every picture in §2.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(\dot{\mathbf x} = A\mathbf x\). Try \(e^{\lambda t}\mathbf v\) and get \(A\mathbf v = \lambda\mathbf v\).</li>
+<li>\(\lambda^2 - \tau\lambda + \Delta = 0\), \(\tau = a + d\), \(\Delta = ad - bc\).</li>
+<li>\(\mathbf x(t) = c_1e^{\lambda_1t}\mathbf v_1 + c_2e^{\lambda_2t}\mathbf v_2\).</li>
+<li>\(\dot x = ax,\ \dot y = -y\): node (\(a<0,\ a\ne-1\)), star (\(a = -1\)), line of fixed points (\(a = 0\)), saddle (\(a > 0\)).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Without looking, derive the equation \(\lambda^2 - \tau\lambda + \Delta = 0\) starting from \(\dot{\mathbf x} = A\mathbf x\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>Guess \(e^{\lambda t}\mathbf v\); substitute to get \(\lambda e^{\lambda t}\mathbf v = e^{\lambda t}A\mathbf v\); cancel to get \(A\mathbf v = \lambda\mathbf v\); non-zero \(\mathbf v\) needs \(\det(A - \lambda I) = 0\); expand \((a-\lambda)(d-\lambda) - bc = \lambda^2 - (a+d)\lambda + (ad - bc)\).</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>For \(\dot x = -3x,\ \dot y = -y\), along which axis do paths enter the origin?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(x\) shrinks like \(e^{-3t}\), faster than \(y\) (\(e^{-t}\)). The \(x\)-part vanishes first, so paths come in along the \(y\)-axis. It is a stable node.</p></div></details>
+</section>
+
+<section>
+<h2 id="classify"><span class="num">2</span>Classifying a fixed point · saddles, nodes, spirals, centers</h2>
+<span class="board">Deck 11 · slides 25–28 · Deck 12 · slides 2–5</span>
+<p class="about">Every 2-D linear system has the origin as a fixed point, and the shape of the motion around it falls into a few types. You can tell which type from just two numbers, the trace \(\tau\) and the determinant \(\Delta\), without finding any eigenvectors.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Classify the fixed point of a given matrix (saddle, node, spiral, center) and say whether it is stable.</li>
+<li>Draw or explain the trace–determinant diagram.</li>
+</ul>
+</div>
+
+<h3>The rules, and why</h3>
+<p>Everything follows from the eigenvalue formula \(\lambda = \frac{\tau\pm\sqrt{\tau^2-4\Delta}}{2}\), together with two facts: \(\lambda_1\lambda_2 = \Delta\) and \(\lambda_1 + \lambda_2 = \tau\).</p>
+<table class="tbl">
+<tr><th>Condition</th><th>Eigenvalues</th><th>Type</th><th>Why</th></tr>
+<tr><td>\(\Delta < 0\)</td><td>real, one positive, one negative</td><td><strong>saddle</strong> (always unstable)</td><td>The product \(\lambda_1\lambda_2 = \Delta\) is negative, so they have opposite signs: one direction grows, one shrinks.</td></tr>
+<tr><td>\(0 < \Delta < \tau^2/4\)</td><td>real, same sign</td><td><strong>node</strong>: stable if \(\tau < 0\), unstable if \(\tau > 0\)</td><td>Positive product means same sign; the sum \(\tau\) tells you which sign.</td></tr>
+<tr><td>\(\Delta > \tau^2/4\)</td><td>complex pair \(\frac\tau2\pm i\,\cdot\)</td><td><strong>spiral</strong>: stable if \(\tau < 0\), unstable if \(\tau > 0\)</td><td>\(\tau^2 - 4\Delta < 0\), so the square root is imaginary: rotation, with real part \(\tau/2\) deciding growth or decay (M3).</td></tr>
+<tr><td>\(\tau = 0,\ \Delta > 0\)</td><td>\(\pm i\sqrt\Delta\)</td><td><strong>center</strong></td><td>Pure rotation with no growth or decay: closed loops around the origin.</td></tr>
+<tr><td>\(\tau^2 = 4\Delta\)</td><td>repeated</td><td>star or degenerate node</td><td>The borderline between nodes and spirals.</td></tr>
+</table>
+<figure class="fig"><!--plot:td-diagram-->
+<figcaption>The trace–determinant diagram from the slides. Left of the vertical axis (\(\Delta < 0\)): saddles. Right of it: nodes outside the parabola \(\tau^2 = 4\Delta\), spirals inside it, stable below the horizontal axis and unstable above. The positive \(\Delta\)-axis itself (\(\tau = 0\)) holds the centers.</figcaption></figure>
+<div class="figrow">
+<figure class="fig"><!--plot:ph-stable-spiral--><figcaption><strong>Stable spiral</strong>, \(\tau < 0\), \(\Delta > \tau^2/4\).</figcaption></figure>
+<figure class="fig"><!--plot:ph-unstable-spiral--><figcaption><strong>Unstable spiral</strong>, \(\tau > 0\), \(\Delta > \tau^2/4\).</figcaption></figure>
+<figure class="fig"><!--plot:ph-center--><figcaption><strong>Center</strong>, \(\tau = 0\), \(\Delta > 0\). Closed loops.</figcaption></figure>
+<figure class="fig"><!--plot:ph-unstable-node--><figcaption><strong>Unstable node</strong>, \(\tau > 0\), \(0 < \Delta < \tau^2/4\).</figcaption></figure>
+</div>
+<div class="card watch"><span class="tag">A slide statement to avoid</span>
+<p>The slides say a spiral "rotates counterclockwise for \(a > d\) and clockwise for \(a < d\)". That rule comes from a book that writes the matrix differently, and it is wrong for \(\dot{\mathbf x} = A\mathbf x\) with \(A = \begin{pmatrix}a & b\\ c & d\end{pmatrix}\). The correct test: look at \(c\). If \(c > 0\) the rotation is counterclockwise, if \(c < 0\) it is clockwise. (At the point \((1, 0)\), \(\dot y = c\), so a positive \(c\) pushes the point upwards, which is counterclockwise.)</p>
+</div>
+
+<div class="card exam"><span class="tag">Derivation to learn · classifying a fixed point</span>
+<ol class="steps">
+<li>Write \(A\), compute \(\tau = a + d\) and \(\Delta = ad - bc\).</li>
+<li>If \(\Delta < 0\): saddle. Stop.</li>
+<li>Otherwise compute \(\tau^2 - 4\Delta\). If negative: spiral (or center if \(\tau = 0\)). If positive: node.</li>
+<li>Stability from the sign of \(\tau\): negative means stable, positive means unstable.</li>
+<li>Back it up by writing the eigenvalues \(\lambda = \frac{\tau\pm\sqrt{\tau^2-4\Delta}}{2}\).</li>
+</ol>
+</div>
+
+<div class="card ex"><span class="tag">Worked examples</span>
+<table class="tbl">
+<tr><th>Matrix</th><th>\(\tau\)</th><th>\(\Delta\)</th><th>\(\tau^2 - 4\Delta\)</th><th>Result</th></tr>
+<tr><td>\(\begin{pmatrix}1&1\\4&-2\end{pmatrix}\)</td><td>\(-1\)</td><td>\(-6\)</td><td>(not needed)</td><td>saddle, \(\lambda = 2, -3\)</td></tr>
+<tr><td>\(\begin{pmatrix}-2&0\\0&-0.5\end{pmatrix}\)</td><td>\(-2.5\)</td><td>\(1\)</td><td>\(6.25 - 4 = 2.25\)</td><td>stable node, \(\lambda = -2, -0.5\)</td></tr>
+<tr><td>\(\begin{pmatrix}0.1&1\\-1&0\end{pmatrix}\)</td><td>\(0.1\)</td><td>\(1\)</td><td>\(0.01 - 4 < 0\)</td><td>unstable spiral, \(\lambda\approx0.05\pm0.999i\)</td></tr>
+<tr><td>\(\begin{pmatrix}0&2\\-3&0\end{pmatrix}\)</td><td>\(0\)</td><td>\(6\)</td><td>\(-24\)</td><td>center, \(\lambda = \pm i\sqrt6\)</td></tr>
+</table>
+</div>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul>
+<li>\(\Delta < 0\): saddle. \(\Delta > 0\): node if \(\tau^2 > 4\Delta\), spiral if \(\tau^2 < 4\Delta\); stable if \(\tau < 0\). \(\tau = 0,\ \Delta > 0\): center.</li>
+<li>Rotation direction: counterclockwise if \(c > 0\).</li>
+</ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Classify \(A = \begin{pmatrix}-1 & 3\\ -3 & -1\end{pmatrix}\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\tau = -2\), \(\Delta = 1 + 9 = 10\), \(\tau^2 - 4\Delta = 4 - 40 < 0\). Spiral, and \(\tau < 0\) so stable. \(\lambda = -1\pm3i\). \(c = -3 < 0\), so it turns clockwise.</p></div></details>
+<details class="q"><summary><span class="qt">Concept</span><span>Why can a saddle never be stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\Delta = \lambda_1\lambda_2 < 0\) means one eigenvalue is positive. The part of the solution along that eigenvector grows like \(e^{\lambda t}\), so almost every starting point is pushed away.</p></div></details>
+</section>
+
+<section>
+<h2 id="ivp"><span class="num">3</span>Solving an initial value problem</h2>
+<span class="board">Deck 11 · slides 16–19</span>
+<p class="about">An <strong>initial value problem</strong> gives the equations and a starting point, and asks for the exact formulas \(x(t)\) and \(y(t)\). The method: find eigenvalues and eigenvectors, write the general solution, then choose \(c_1, c_2\) so it starts at the given point. This is the worked example on the slides.</p>
+
+<div class="card exam"><span class="tag">Worked derivation · \(\dot x = x + y,\ \dot y = 4x - 2y\), starting at \((2, -3)\)</span>
+<ol class="steps">
+<li><strong>Matrix form.</strong> \(A = \begin{pmatrix}1 & 1\\ 4 & -2\end{pmatrix}\), so \(\tau = -1\), \(\Delta = (1)(-2) - (1)(4) = -6\).</li>
+<li><strong>Eigenvalues.</strong> \(\lambda^2 + \lambda - 6 = 0\Rightarrow(\lambda - 2)(\lambda + 3) = 0\Rightarrow\lambda_1 = 2,\ \lambda_2 = -3\).</li>
+<li><strong>Eigenvectors.</strong> \(\lambda = 2\): first row of \(A - 2I\) gives \(-v_1 + v_2 = 0\), so \(\mathbf v_1 = (1, 1)\). \(\lambda = -3\): first row of \(A + 3I\) gives \(4v_1 + v_2 = 0\), so \(\mathbf v_2 = (1, -4)\).</li>
+<li><strong>General solution.</strong> \(\begin{pmatrix}x\\y\end{pmatrix} = c_1\begin{pmatrix}1\\1\end{pmatrix}e^{2t} + c_2\begin{pmatrix}1\\-4\end{pmatrix}e^{-3t}\).</li>
+<li><strong>Use the starting point.</strong> At \(t = 0\), \(e^0 = 1\): \(x(0) = c_1 + c_2 = 2\) and \(y(0) = c_1 - 4c_2 = -3\). Subtract the second from the first: \(5c_2 = 5\), so \(c_2 = 1\), and then \(c_1 = 1\).</li>
+<li><strong>Answer.</strong> \[x(t) = e^{2t} + e^{-3t}, \qquad y(t) = e^{2t} - 4e^{-3t}.\]</li>
+<li><strong>Check.</strong> At \(t = 0\): \(x = 2\), \(y = 1 - 4 = -3\). Correct. And \(\dot x = 2e^{2t} - 3e^{-3t}\), while \(x + y = 2e^{2t} - 3e^{-3t}\). Correct.</li>
+</ol>
+</div>
+<p>What it means: \(\Delta < 0\), so the origin is a saddle (picture in §1). The \(e^{-3t}\) part dies away and the \(e^{2t}\) part takes over, so the point ends up moving out along the line \(y = x\) (the direction \(\mathbf v_1\)). The slide's red note asks what happens if you start at \((1, -4)\) instead. That point is exactly on \(\mathbf v_2\), so \(c_1 = 0\), \(c_2 = 1\), and the solution \((e^{-3t}, -4e^{-3t})\) slides straight into the origin, the only way to reach a saddle.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<p>Eigenvalues → eigenvectors → general solution → two equations for \(c_1, c_2\) from \(t = 0\) → check by substituting back.</p>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Solve \(\dot x = x + y,\ \dot y = 4x - 2y\) starting at \((0, 5)\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(c_1 + c_2 = 0\) and \(c_1 - 4c_2 = 5\). Subtract: \(5c_2 = -5\), \(c_2 = -1\), \(c_1 = 1\). So \(x = e^{2t} - e^{-3t}\), \(y = e^{2t} + 4e^{-3t}\). Check at 0: \(x = 0\), \(y = 5\).</p></div></details>
+</section>
+
+<section>
+<h2 id="romeo"><span class="num">4</span>Romeo and Juliet · a linear system as a story</h2>
+<span class="board">Deck 11 · slides 21–29</span>
+<p class="about">The slides use a love story to practise classification. \(R(t)\) is Romeo's love for Juliet and \(J(t)\) is Juliet's love for Romeo (positive means love, negative means hate). Each person's feelings change according to their own feelings and the other's. Classifying the fixed point \(R = J = 0\) (mutual indifference) tells you how the romance goes.</p>
+
+<h3>The fickle Juliet model</h3>
+<p>Romeo echoes Juliet: he warms up when she loves him (\(\dot R = bJ\), \(b > 0\)). Juliet runs away when he loves her and is attracted when he backs off (\(\dot J = -cR\), \(c > 0\)).</p>
+<div class="card exam"><span class="tag">Derivation to learn · the center</span>
+<ol class="steps">
+<li>\(A = \begin{pmatrix}0 & b\\ -c & 0\end{pmatrix}\).</li>
+<li>\(\tau = 0 + 0 = 0\). \(\Delta = 0\cdot0 - b(-c) = bc > 0\).</li>
+<li>\(\lambda^2 + bc = 0\Rightarrow\lambda = \pm i\sqrt{bc}\): purely imaginary.</li>
+<li>So the origin is a <strong>center</strong>: closed loops. Love and hate cycle forever. They love each other at the same time for about a quarter of each cycle (when both \(R\) and \(J\) are positive).</li>
+</ol>
+</div>
+<p>(The slide writes \(\dot J = -CR\) with a capital \(C\); it is the same constant \(c\). Since \(-c < 0\), the loops run clockwise in the \((R, J)\) plane.)</p>
+
+<h3>The general model and the slide's scenario</h3>
+<p>The general version is \(\dot R = aR + bJ\), \(\dot J = cR + dJ\). \(a\) and \(d\) say how each person reacts to their own feelings (enthusiasm if positive, caution if negative); \(b\) and \(c\) say how they react to the other's.</p>
+<div class="card ex"><span class="tag">Worked example · slide 29</span>
+<p>Romeo is not afraid to love (\(a = 0.1 > 0\)) and is an enthusiastic lover (\(b = 1\)); Juliet is cautious (\(c = -1\), \(d = 0\)).</p>
+<ol>
+<li>\(A = \begin{pmatrix}0.1 & 1\\ -1 & 0\end{pmatrix}\), \(\tau = 0.1\), \(\Delta = 0 - (1)(-1) = 1\).</li>
+<li>\(\tau^2 - 4\Delta = 0.01 - 4 = -3.99 < 0\): a spiral. \(\tau > 0\): unstable.</li>
+<li>\(\lambda = 0.05\pm i\frac{\sqrt{3.99}}{2}\approx0.05\pm0.999i\).</li>
+</ol>
+<p>An unstable spiral: the cycles of love and hate grow bigger and bigger over time.</p>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Calc</span><span>Romeo and Juliet are both cautious (\(a = d = -1\)) and both respond to each other's love (\(b = c = 2\)). What happens?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(A = \begin{pmatrix}-1 & 2\\ 2 & -1\end{pmatrix}\), \(\tau = -2\), \(\Delta = 1 - 4 = -3 < 0\): a saddle, \(\lambda = 1\) and \(-3\). Their feelings run away, either to ever-growing mutual love or ever-growing mutual hate, depending on where they start.</p></div></details>
+</section>
