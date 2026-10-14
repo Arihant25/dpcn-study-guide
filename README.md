@@ -4,7 +4,7 @@ A study guide for **Dynamical Processes of Complex Networks (SC1.440)** at IIIT 
 
 **Live page:** https://arihant25.github.io/dpcn-study-guide/
 **After mid-sem guide** (classes 13 to 18): https://arihant25.github.io/dpcn-study-guide/after-midsem/
-**Quiz 1 guide** (classes 1 to 6, rewritten in the same style): https://arihant25.github.io/dpcn-study-guide/quiz1/ (the original version is at quiz1/original.html)
+**Quiz 1 guide** (classes 1 to 6, rewritten in the same style): https://arihant25.github.io/dpcn-study-guide/quiz1/
 
 Quiz 2 and the end-sem cover the whole course; every guide opens with the same whole-course map and list of derivations to learn (`shared/course-map.html`).
 
