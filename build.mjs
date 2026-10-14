@@ -297,6 +297,21 @@ Object.assign(plots, {
   'ph-vdp': () => phase({ label: 'Van der Pol limit cycle', w: 320, h: 320, f: (x, v) => [v, -x - 1.5 * (x * x - 1) * v], x: [-3, 3], y: [-4, 4], T: 30, dt: 0.004, starts: [[0.1, 0], [3, 4]], marks: [{ x: 0, y: 0 }], arrowAt: 0.15 }),
 });
 
+/* ---------------- plots for the 2026 mid-sem answers ---------------- */
+Object.assign(plots, {
+  'l-vs-n': () => {
+    const Ns = range(1, 6, 100).map(e => 10 ** e);
+    return plot({ label: 'Average path length of an ER graph against N', x: [10, 1e6], y: [0, 7], logx: false, w: 460, h: 260,
+      xticks: [[10, ''], [2e5, '200k'], [4e5, '400k'], [6e5, '600k'], [8e5, '800k'], [1e6, '1M']], yticks: [[0], [2], [4], [6]], xlabel: 'number of nodes N', ylabel: '⟨ℓ⟩',
+      series: [{ pts: range(10, 1e6, 400).map(N => [N, Math.log(N) / Math.log(10)]), c: '--c1', w: 2.6 }],
+      texts: [{ x: 3e5, y: 4.5, t: '⟨ℓ⟩ = ln N / ln⟨k⟩, ⟨k⟩ = 10', c: '--c1' }] });
+  },
+  'c-vs-n': () => plot({ label: 'Average clustering of an ER graph against N', x: [10, 1e6], y: [1e-5, 1], logx: true, logy: true, w: 460, h: 260,
+    xticks: logTicks(1, 6), yticks: logTicks(-5, 0), xlabel: 'number of nodes N', ylabel: 'C̄',
+    series: [{ pts: range(1, 6, 50).map(e => [10 ** e, Math.min(1, 10 / 10 ** e)]), c: '--c2', w: 2.6 }, { pts: [[10, 0.3], [1e6, 0.3]], c: '--c1', dash: '6 4', w: 2 }],
+    texts: [{ x: 3e2, y: 0.45, t: 'real social networks: C̄ stays about 0.1–0.6', c: '--c1' }, { x: 14, y: 3e-4, t: 'ER: C̄ = 10/N, slope −1', c: '--c2' }] }),
+});
+
 /* ---------------- plots for the After mid-sem guide ---------------- */
 function cobweb(f, x0, n, label, extra = {}) {
   const pts = [[x0, 0]]; let x = x0;

@@ -1,9 +1,225 @@
 
 <div class="part">Part 5<span>Practice</span></div>
 <section>
-<h2 id="pyq"><span class="num">14</span>Past-paper questions on this syllabus</h2>
-<p class="about">Every 2024 question that is on this year's mid-sem syllabus, with a full model answer. Each answer is laid out the same way: first the formulas you need, then the numbers put into them step by step, then the final answer. Where a question has no numbers of its own, a numerical example is added so you can see the formula working. Try each question before opening the answer.</p>
+<h2 id="pyq"><span class="num">14</span>Past papers · the 2026 mid-sem and the 2024 papers</h2>
+<p class="about">Your 2026 mid-sem first, with the TAs' marking scheme, then every 2024 question on this syllabus. Each answer is laid out the same way: first the formulas you need, then the numbers put into them step by step, then the final answer. Where a question has no numbers of its own, a numerical example is added so you can see the formula working. Try each question before opening the answer.</p>
 <p class="small">Left out because they are not in this year's slides: coupled phase oscillators (2024 mid-sem Q1); the Quiz 1 questions on centralities, clustering of drawn figures, in/out-degree sequences and Eulerian paths; the Quiz 2 questions on the Barabási–Albert model, discrete maps and the Lorenz system.</p>
+
+
+<h3>2026 mid-sem (your paper, 25 marks)</h3>
+<p>The questions and marking scheme below come from the TAs' answer key and marking scheme. For each question: the question as set, the idea in plain words, the formulas, the steps with numbers, the final answer, and exactly what earned the marks.</p>
+<div class="card watch"><span class="tag">How this paper was marked · read this first</span>
+<ul>
+<li><strong>A formula with no derivation or no reason scored 0.</strong> The rubric says this again and again ("Formula quoted with no derivation: 0", "Answer with no reasoning: 0", "Final answer 0 with no reasoning: 0"). Every line you write needs its reason.</li>
+<li>Marks came in steps of 0.5, and most items gave <strong>no partial marks</strong>: each 0.5 or 1 needed every listed piece to be right.</li>
+<li>Any correct method was accepted if the explanation was clear. Untidy presentation was not penalised.</li>
+<li>Sketches counted: Q1, Q5 and Q6 each had marks for a sketch with the right shape and labels.</li>
+</ul>
+</div>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q1 · 1 mark</span><span>A power-law distribution \(P(k)\propto k^{-\gamma}\) with \(\gamma = 2.5\) is sampled for \(10^5\) nodes. Explain, with a sketch, why a log-log histogram with linear bin widths produces a noisy right tail, and why logarithmic binning cures this.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Large degrees are rare. With bins of equal width, the bins far out on the right hold only 0 or 1 node each, so their heights jump around: that is the noise. Log bins get wider as \(k\) grows, so each far-out bin collects many nodes and its height is reliable.</p>
+<h4>Formulas</h4><ul><li>On log-log axes a power law is a straight line: \(\log P = \log C - \gamma\log k\), slope \(-\gamma = -2.5\).</li><li>Log bins: width grows in proportion to \(k\) (\(\Delta k\propto k\)), e.g. edges 1, 2, 4, 8, …; divide each count by \(N\times\) bin width.</li></ul>
+<h4>The two sketches</h4>
+<figure class="fig"><!--plot:binning--><figcaption>(a) Linear bins (orange): straight at small \(k\), then a noisy scattered tail sitting on a floor (bins with one node, height \(1/(N\Delta k)\)). (b) Log bins normalised by width (teal): evenly spaced points on a clean straight line of slope \(-2.5\). (Drawn here with \(2\times10^4\) samples; with \(10^5\) the picture is the same.)</figcaption></figure>
+<h4>Answer</h4>
+<p>Linear bins have a constant width \(\Delta k\), so tail bins hold 0 or 1 nodes, giving a noisy tail (and empty bins cannot be plotted on log axes). Log bins have \(\Delta k\propto k\), so tail bins collect many nodes, which reduces the noise and gives a smooth straight tail of slope \(-2.5\).</p>
+<h4>What earned the marks</h4>
+<ul><li>0.5: both sketches correct: (a) log-log, straight at small \(k\), noisy right tail; (b) log-log, evenly spaced points on a straight line of slope about \(-2.5\).</li><li>0.5: both reasons: constant \(\Delta k\) ⇒ 0 or 1 nodes per tail bin ⇒ noise; \(\Delta k\propto k\) ⇒ many nodes per tail bin ⇒ smooth.</li><li>No partial marks: each 0.5 needed both parts of its row.</li></ul>
+<p class="small">Full topic: <a href="#binning">§2</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q2 · 2 marks</span><span>Star graph with \(N\) nodes. (a) Find the average path length \(\langle\ell\rangle\) and its limit for large \(N\). (b) Find the clustering coefficient of the hub, of a leaf, and the average \(\langle C\rangle\), and explain the result.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="small">The answer key does not reproduce this question's wording; it is reconstructed here from the key's model answer and rubric.</p>
+<p class="idea"><strong>The idea in plain words.</strong> In a star everything goes through the hub. The hub is 1 step from everyone and any two leaves are 2 steps apart, so the average distance creeps up towards 2 but never passes it. A triangle would need two of the hub's neighbours to be linked, and leaves are never linked, so there are no triangles and the clustering is 0 everywhere.</p>
+<h4>Formulas</h4><ul><li>\(\langle\ell\rangle = \dfrac{\text{sum of distances over all pairs}}{N(N-1)/2}\).</li><li>\(C_i = \dfrac{\text{links among } i\text{'s neighbours}}{k_i(k_i-1)/2}\).</li></ul>
+<h4>(a) Steps</h4>
+<ol class="steps">
+<li><strong>Two kinds of pairs.</strong> Hub–leaf: directly linked, distance 1, and there are \(N-1\) of them. Leaf–leaf: connected only through the hub (leaf → hub → leaf), distance 2, and there are \(\frac{(N-1)(N-2)}{2}\) of them.</li>
+<li><strong>Total distance:</strong> \((N-1)\times1 + \frac{(N-1)(N-2)}{2}\times2 = (N-1) + (N-1)(N-2) = (N-1)^2\).</li>
+<li><strong>Divide by the number of pairs</strong> \(\frac{N(N-1)}{2}\): \[\langle\ell\rangle = \frac{(N-1)^2}{N(N-1)/2} = \frac{2(N-1)}{N} = 2 - \frac2N.\]</li>
+<li><strong>Limit:</strong> as \(N\) grows, \(2/N\to0\), so \(\langle\ell\rangle\to2\). Meaning: any two nodes are at most 2 steps apart, however big the star.</li>
+<li><strong>Numbers:</strong> \(N = 5\): \(8/5 = 1.6\). \(N = 100\): \(1.98\).</li>
+</ol>
+<h4>(b) Steps</h4>
+<ol class="steps">
+<li>Clustering asks "are my friends also friends with each other?"</li>
+<li><strong>Hub:</strong> its neighbours are the \(N-1\) leaves, and no two leaves are linked: \(C_{\text{hub}} = 0\).</li>
+<li><strong>Leaf:</strong> it has only one neighbour, so there are no pairs to check: \(C_{\text{leaf}} = 0\) by convention.</li>
+<li>Every node is 0, so \(\langle C\rangle = 0\).</li>
+<li><strong>Why:</strong> a triangle needs two of a node's neighbours to be linked. In a star every link goes through the hub, so no triangle can form. The star is a tree (no loops): very short paths but zero clustering.</li>
+</ol>
+<h4>What earned the marks</h4>
+<ul><li>(a) 0.5: both pair types with correct counts, distances and the reason (leaves link only via the hub). 0.5: correct sum, division, formula and limit with its meaning. Formula quoted with no derivation: 0.</li><li>(b) 0.5: what clustering measures, and hub = 0, leaf = 0, \(\langle C\rangle = 0\). 0.5: the reason (no triangles, all links through the hub, a tree). "It is a star" alone: 0.</li></ul>
+<p class="small">Full topic: <a href="#simple">§3</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q3 · 4 marks</span><span>Three empirical networks report: protein-interaction ⟨k⟩ = 3.4, ⟨k²⟩ = 212; power grid ⟨k⟩ = 2.7, ⟨k²⟩ = 7.5; random wiring model ⟨k⟩ = 6.0, ⟨k²⟩ = 42. (i) Compute Var(k)/⟨k⟩ for each. Which is consistent with ER? Which is most indicative of a power-law (heavy-tailed) degree distribution? Justify. (ii) For the protein-interaction network, estimate the mean ⟨k_nn⟩ if the graph were ER with the same ⟨k⟩. Compare with the true value ⟨k_nn⟩ = ⟨k²⟩/⟨k⟩ and comment on the friendship paradox in this network. [2 + 2]</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> For a random (ER) network, the spread of degrees equals the average (variance = mean), so Var/⟨k⟩ = 1. A much bigger ratio means a few nodes have huge degrees (hubs), which is what a power law looks like. A ratio below 1 means the degrees are more uniform than random. Your neighbours' average degree is ⟨k⟩ plus this same ratio, so hubs make the friendship paradox enormous.</p>
+<h4>Formulas</h4><ul><li>\(\operatorname{Var}(k) = \langle k^2\rangle - \langle k\rangle^2\).</li><li>ER (Poisson): \(\operatorname{Var} = \langle k\rangle\), ratio 1, and \(\langle k_{nn}\rangle = \langle k\rangle + 1\).</li><li>Any network: \(\langle k_{nn}\rangle = \frac{\langle k^2\rangle}{\langle k\rangle} = \langle k\rangle + \frac{\operatorname{Var}(k)}{\langle k\rangle}\).</li></ul>
+<h4>(i) Steps</h4>
+<table class="tbl">
+<tr><th>Network</th><th>⟨k⟩²</th><th>Var = ⟨k²⟩ − ⟨k⟩²</th><th>Var / ⟨k⟩</th></tr>
+<tr><td>Protein-interaction</td><td>\(3.4^2 = 11.56\)</td><td>\(212 - 11.56 = 200.44\)</td><td>\(200.44/3.4\approx59\)</td></tr>
+<tr><td>Power grid</td><td>\(2.7^2 = 7.29\)</td><td>\(7.5 - 7.29 = 0.21\)</td><td>\(0.21/2.7\approx0.08\)</td></tr>
+<tr><td>Random wiring</td><td>\(6^2 = 36\)</td><td>\(42 - 36 = 6\)</td><td>\(6/6 = 1.0\)</td></tr>
+</table>
+<ul>
+<li><strong>Consistent with ER: the random wiring model.</strong> ER has a Poisson degree distribution, whose variance equals its mean, so the ratio is 1, exactly what we get.</li>
+<li><strong>Most power-law-like: the protein network.</strong> A ratio of about 59 (≫ 1) means ⟨k²⟩ is dominated by a few hubs; for a power law with \(2<\gamma<3\), ⟨k²⟩ grows without limit as the network grows.</li>
+<li>(The power grid, ratio ≪ 1, is narrower than random: physical constraints keep every node's degree similar.)</li>
+</ul>
+<h4>(ii) Steps</h4>
+<ol class="steps">
+<li>If it were ER: \(\langle k_{nn}\rangle_{\text{ER}} = \langle k\rangle + 1 = 3.4 + 1 = 4.4\).</li>
+<li>True value: \(\langle k_{nn}\rangle = 212/3.4\approx62.4\), about 14 times larger.</li>
+<li>Check with the other form: \(\langle k\rangle + \operatorname{Var}/\langle k\rangle = 3.4 + 59\approx62.4\).</li>
+<li><strong>Friendship paradox:</strong> neighbours have more neighbours than the average node. Its size is set by degree heterogeneity (Var/⟨k⟩). In ER it is mild (4.4 vs 3.4). In the protein network it is extreme (62.4 vs 3.4), because following a random link reaches a node with probability proportional to its degree, so you usually land on a hub.</li>
+</ol>
+<h4>What earned the marks</h4>
+<ul><li>(i) 1: all three ratios (≈59, ≈0.08, 1.0) using Var = ⟨k²⟩ − ⟨k⟩². 1: random wiring = ER (Poisson, ratio 1) and protein = heavy-tailed (ratio ≫ 1, hubs), both justified.</li><li>(ii) 1: \(\langle k_{nn}\rangle_{\text{ER}} = 4.4\) and true 62.4, with the comparison. 1: the paradox comment, attributed to hubs (reached in proportion to \(k\)), contrasted with ER.</li><li>No partial marks within an item; 58.9–59 and 62.3–62.4 accepted.</li></ul>
+<p class="small">Full topic: <a href="#knn">§7</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q4 · 4 marks</span><span>Giant connected component. Let \(S\) = fraction of nodes in the giant component and \(u = 1 - S\). For an ER graph, \(\langle k\rangle = (N-1)p\). (i) Derive the self-consistency equation. (ii) Show that \(S = 0\) is always a solution and that a positive solution exists if and only if the average degree is greater than 1. (iii) Find the critical exponent \(\beta\).</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> A node is outside the big piece only if none of its possible links leads into it. Writing that as a probability gives an equation with \(S\) on both sides. Drawing both sides as curves, the curve starts with slope ⟨k⟩ and the line with slope 1, so the curve can rise above the line (and cross it again at a positive \(S\)) only if ⟨k⟩ > 1. Just past that point, \(S\) grows in a straight line, so \(\beta = 1\).</p>
+<h4>(i) Steps</h4>
+<ol class="steps">
+<li>For a node not to be in the giant component, for <em>each</em> other node either there is no link (probability \(1-p\)) or there is a link but that node is also outside (probability \(pu\)): together \(1 - p + pu\).</li>
+<li>The \(N-1\) other nodes are independent, so multiply: \(u = (1 - p + pu)^{N-1} = [1 - p(1-u)]^{N-1}\).</li>
+<li>Put \(p = \frac{\langle k\rangle}{N-1}\): \(u = \left(1 - \frac{\langle k\rangle(1-u)}{N-1}\right)^{N-1}\).</li>
+<li>Large \(N\): \(\left(1 - \frac{x}{N-1}\right)^{N-1}\to e^{-x}\), so \(u = e^{-\langle k\rangle(1-u)}\).</li>
+<li>With \(S = 1 - u\): \(\boxed{S = 1 - e^{-\langle k\rangle S}}\). (Using \(N\) instead of \(N-1\) is also accepted.)</li>
+</ol>
+<h4>(ii) Steps</h4>
+<ol class="steps">
+<li>Call the two sides \(y_1 = S\) and \(y_2 = 1 - e^{-\langle k\rangle S}\). Solutions are where the curves meet.</li>
+<li>At \(S = 0\): \(y_1 = 0\) and \(y_2 = 1 - 1 = 0\). So <strong>\(S = 0\) is always a solution</strong>.</li>
+<li>Slopes at 0: \(y_1\) has slope 1. \(y_2\) has slope \(\langle k\rangle e^{-\langle k\rangle S}\), which is ⟨k⟩ at \(S = 0\).</li>
+<li>Bending: \(\frac{d^2y_2}{dS^2} = -\langle k\rangle^2e^{-\langle k\rangle S} < 0\), so \(y_2\) is concave (bends downward) and its slope only decreases.</li>
+<li><strong>Case ⟨k⟩ < 1:</strong> \(y_2\) starts less steep than \(y_1\) and only gets flatter, so \(y_2 < y_1\) for all \(S > 0\). No positive solution.</li>
+<li><strong>Case ⟨k⟩ = 1:</strong> the slopes are equal at 0 (tangent), and concavity puts \(y_2\) below \(y_1\) for \(S > 0\). No positive solution.</li>
+<li><strong>Case ⟨k⟩ > 1:</strong> \(y_2\) starts steeper, so \(y_2 > y_1\) for small \(S > 0\). But at \(S = 1\), \(y_1 = 1\) while \(y_2 = 1 - e^{-\langle k\rangle} < 1\), so \(y_2 < y_1\). Both curves are continuous, so they cross somewhere in \(0 < S < 1\). A positive solution exists.</li>
+<li>Hence \(S > 0\iff\langle k\rangle > 1\); the critical point is \(\langle k\rangle_c = 1\).</li>
+</ol>
+<p class="small">The key notes that writing only the tangency condition \(\langle k\rangle e^{-\langle k\rangle S} = 1\) does not by itself prove that a positive solution exists; you need the case argument above (and a sketch helps).</p>
+<h4>(iii) Steps</h4>
+<ol class="steps">
+<li>Near the critical point \(S\) is small, so \(e^{-\langle k\rangle S}\approx1 - \langle k\rangle S + \frac{\langle k\rangle^2S^2}{2}\).</li>
+<li>Substitute: \(S\approx\langle k\rangle S - \frac{\langle k\rangle^2S^2}{2}\).</li>
+<li>Divide by \(S\neq0\) and solve: \(S\approx\frac{2(\langle k\rangle - 1)}{\langle k\rangle^2}\).</li>
+<li>With \(\langle k\rangle\approx1\): \(S\sim(\langle k\rangle - 1)^1\), so comparing with \(S\sim(\langle k\rangle-1)^\beta\) gives \(\boxed{\beta = 1}\).</li>
+<li>Numbers: ⟨k⟩ = 1.1 gives \(S\approx0.2/1.21 = 0.165\) (exact 0.176).</li>
+</ol>
+<p class="small">Full topic: <a href="#gcc">§5</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q5 · 2 marks</span><span>Average path length of an ER graph. (i) Show that the average shortest-path length scales as \(\langle\ell\rangle\approx\frac{\ln N}{\ln\langle k\rangle}\). (ii) Sketch the average shortest-path length as a function of \(N\).</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> From one node you reach about ⟨k⟩ nodes in one step, ⟨k⟩² in two, ⟨k⟩^d in d steps. That number explodes, so very few steps are enough to reach all N nodes: the number of steps grows only like the logarithm of N.</p>
+<h4>(i) Steps</h4>
+<ol class="steps">
+<li>The neighbourhood of a node in an ER graph is locally tree-like (no loops nearby), so the number of nodes at distance \(r\) is about \(\langle k\rangle^r\).</li>
+<li>Nodes within distance \(d\): \(N\sim1 + \langle k\rangle + \langle k\rangle^2 + \dots + \langle k\rangle^d = \frac{\langle k\rangle^{d+1} - 1}{\langle k\rangle - 1}\).</li>
+<li>For large \(N\) and ⟨k⟩ > 1 the last term dominates: \(N\sim\langle k\rangle^d\).</li>
+<li>Take logs: \(\ln N\sim d\ln\langle k\rangle\), so \(d\sim\frac{\ln N}{\ln\langle k\rangle}\).</li>
+<li>Identify \(d\) with the typical distance: \(\langle\ell\rangle\approx\frac{\ln N}{\ln\langle k\rangle}\). (A scaling argument, so "≈".)</li>
+<li>Numbers: \(N = 10^6\), ⟨k⟩ = 10: \(\langle\ell\rangle\approx6\).</li>
+</ol>
+<h4>(ii) Sketch</h4>
+<figure class="fig"><!--plot:l-vs-n--><figcaption>For fixed ⟨k⟩, \(\langle\ell\rangle\propto\ln N\): an increasing curve that bends over (concave down). Going from \(10^5\) to \(10^6\) nodes adds only one step.</figcaption></figure>
+<p class="small">Full topic: <a href="#erlc">§6</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q6 · 3 marks</span><span>This question is related to G(n, p) (Erdős–Rényi graph). (i) Fix node \(i\) with degree \(k_i\ge2\). There are \(\binom{k_i}{2}\) potential edges among its neighbours. Each is independently present with probability \(p\). Show that the local clustering coefficient \(C_i = p\), independent of \(k_i\). (ii) Sketch the average local clustering coefficient \(\bar C\) as a function of \(N\) for fixed ⟨k⟩ = 10. Describe the qualitative difference between this scaling and what is observed in real social networks.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> In a random graph, whether two of your friends know each other is just another coin flip with probability \(p\); being your friends doesn't change it. So on average a fraction \(p\) of your friend-pairs are linked, whatever your degree. With fixed ⟨k⟩, \(p = 10/N\), which shrinks to 0 in big networks, while real social networks keep high clustering however big they get.</p>
+<h4>(i) Steps</h4>
+<ol class="steps">
+<li><strong>Definition:</strong> \(C_i = \frac{e_i}{\binom{k_i}{2}}\), where \(\binom{k_i}{2} = \frac{k_i(k_i-1)}{2}\) is the number of neighbour pairs and \(e_i\) the number of those pairs that are linked.</li>
+<li><strong>In G(n, p)</strong> each of the \(\binom{k_i}{2}\) pairs is linked independently with probability \(p\), so \(e_i\) is binomial with mean \(p\binom{k_i}{2}\).</li>
+<li><strong>Expected clustering:</strong> \(E[C_i\mid k_i] = \frac{p\binom{k_i}{2}}{\binom{k_i}{2}} = p\). The \(\binom{k_i}{2}\) cancels, so the result does not depend on \(k_i\).</li>
+</ol>
+<h4>(ii) Steps</h4>
+<ol class="steps">
+<li>\(\langle k\rangle = (N-1)p\approx Np\), so \(p\approx\frac{\langle k\rangle}{N}\) and \(\bar C = p\approx\frac{10}{N}\).</li>
+<li>So \(\bar C\propto1/N\): on log-log axes a straight line of slope \(-1\), and \(\bar C\to0\) as \(N\to\infty\). Numbers: \(N = 1000\): 0.01; \(N = 10^6\): \(10^{-5}\).</li>
+<li><strong>Real social networks:</strong> \(\bar C\) stays high (about 0.1 to 0.6) and does not shrink with \(N\). Also, in real networks \(C(k)\) usually falls with degree (roughly \(1/k\)), while in ER \(C(k) = p\) is flat.</li>
+<li>ER gets the short paths (\(\ln N\)) right but not the clustering. Real networks have both, which the Watts–Strogatz model captures.</li>
+</ol>
+<figure class="fig"><!--plot:c-vs-n--><figcaption>\(\bar C\) against \(N\) on log-log axes for ⟨k⟩ = 10: the ER line falls with slope −1, while real social networks stay roughly flat at a high value.</figcaption></figure>
+<h4>What earned the marks</h4>
+<ul><li>(i) 0.5: the correct clustering formula. 0.5: the final result \(C_i = p\).</li><li>(ii) 0.5: \(\bar C\approx\langle k\rangle/N = 10/N\). 0.5: a sketch of either curve (\(1/N\), or slope −1 on log-log). 1: stating that real networks keep \(\bar C = \Theta(1)\) (high, independent of \(N\)).</li></ul>
+<p class="small">Full topic: <a href="#erlc">§6</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q7 · 2 marks</span><span>This question is related to G(n, p) (Erdős–Rényi graph). Following a random edge from node \(i\), you arrive at node \(j\). Let \(q_k = kP(k)/\langle k\rangle\) be the size-biased degree distribution. (i) Show that the expected degree of \(j\) is \(\langle k_{nn}\rangle = \frac{\langle k^2\rangle}{\langle k\rangle} = \langle k\rangle + \frac{\operatorname{Var}(k)}{\langle k\rangle}\ge\langle k\rangle\). (The inequality is strict for any non-constant degree sequence.)</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> Following a link is more likely to land on a well-connected node (it has more links pointing to it). Averaging degree with that bias gives ⟨k²⟩/⟨k⟩. Splitting ⟨k²⟩ into "average squared plus spread" shows the result is ⟨k⟩ plus something that can't be negative.</p>
+<ol class="steps">
+<li><strong>Expected degree under \(q_k\)</strong> (0.5): \(\langle k_{nn}\rangle = \sum_kk\,q_k\).</li>
+<li><strong>Substitute</strong> \(q_k = \frac{kP(k)}{\langle k\rangle}\): \(\langle k_{nn}\rangle = \frac{1}{\langle k\rangle}\sum_kk^2P(k) = \frac{\langle k^2\rangle}{\langle k\rangle}\) (0.5).</li>
+<li><strong>Use the variance:</strong> \(\operatorname{Var}(k) = \langle k^2\rangle - \langle k\rangle^2\), so \(\langle k^2\rangle = \langle k\rangle^2 + \operatorname{Var}(k)\) and \(\langle k_{nn}\rangle = \frac{\langle k\rangle^2 + \operatorname{Var}(k)}{\langle k\rangle} = \langle k\rangle + \frac{\operatorname{Var}(k)}{\langle k\rangle}\) (0.5).</li>
+<li><strong>Inequality:</strong> a variance is never negative and ⟨k⟩ > 0, so the extra term is \(\ge0\) and \(\langle k_{nn}\rangle\ge\langle k\rangle\). It is equal only if every node has the same degree (variance 0) (0.5).</li>
+<li><strong>ER special case:</strong> Poisson has Var = ⟨k⟩, so \(\langle k_{nn}\rangle = \langle k\rangle + 1\). E.g. ⟨k⟩ = 6 gives 7.</li>
+</ol>
+<p class="small">Full topic: <a href="#knn">§7</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q8 · 2 marks</span><span>An empirical network has ⟨k⟩ = 5 and Var(k) = 120. State whether this network is consistent with the ER null model, give the numerical evidence, and name the class of networks for which this ratio can diverge with system size. (⟨k⟩: average degree.)</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> A random network's degrees spread out about as much as their average (Var ≈ ⟨k⟩). Here the spread is 24 times bigger than that, so there must be hubs, and hubs come from power-law (scale-free) networks.</p>
+<ol class="steps">
+<li><strong>ER test:</strong> ER has a Poisson degree distribution, so Var = mean and Var(k)/⟨k⟩ ≈ 1. An ER graph with ⟨k⟩ = 5 would have Var ≈ 5.</li>
+<li><strong>Here:</strong> Var(k)/⟨k⟩ = 120/5 = 24, about 24 times the Poisson value. So the network is <strong>not consistent with ER</strong>: degrees are far more spread out than random wiring allows, pointing to hubs.</li>
+<li><strong>Divergent ratio:</strong> scale-free (power-law) networks, \(P(k)\propto k^{-\gamma}\) with \(2 < \gamma\le3\). There ⟨k⟩ is finite but \(\langle k^2\rangle\sim k_{\max}^{3-\gamma}\), and the largest degree \(k_{\max}\) grows with \(N\), so Var(k)/⟨k⟩ → ∞ as \(N\to\infty\).</li>
+</ol>
+<h4>What earned the marks</h4>
+<ul><li>1: says not ER, computes 120/5 = 24, and compares with the Poisson value 1 (or says ER would give Var ≈ 5).</li><li>1: names scale-free networks with \(P(k)\propto k^{-\gamma}\), \(2<\gamma\le3\) (the exponent range is required; "heavy-tailed" alone is not enough).</li></ul>
+<p class="small">The key's model answer writes \(P(k)\propto k^{-1}\) at one point; it should be \(k^{-\gamma}\). Full topic: <a href="#moments">§1</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q9 · 1 mark</span><span>Power-law distributions: divergent moments. For \(P(k)\propto k^{-\gamma}\) (\(k\ge k_{\min} > 0\)), show by direct integration that \(\langle k^2\rangle\) diverges for \(\gamma\le3\).</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="idea"><strong>The idea in plain words.</strong> ⟨k²⟩ is the area under \(k^2\times Ck^{-\gamma} = Ck^{2-\gamma}\) out to infinity. That area is finite only if the curve falls fast enough. At \(\gamma = 3\) the curve is \(1/k\), whose area grows like \(\ln k\) forever, and for \(\gamma < 3\) it falls even more slowly. The marker noted that everyone missed treating \(\gamma = 3\) as its own case.</p>
+<ol class="steps">
+<li><strong>Normalise:</strong> \(\int_{k_{\min}}^\infty Ck^{-\gamma}dk = 1\) gives \(C = (\gamma - 1)k_{\min}^{\gamma-1}\) (needs \(\gamma > 1\)).</li>
+<li><strong>Set up:</strong> \(\langle k^2\rangle = \int_{k_{\min}}^\infty k^2Ck^{-\gamma}dk = C\int_{k_{\min}}^\infty k^{2-\gamma}dk\) (0.5 for this integral).</li>
+<li><strong>Case \(\gamma < 3\):</strong> \(\int k^{2-\gamma}dk = \frac{k^{3-\gamma}}{3-\gamma}\). Since \(3 - \gamma > 0\), \(k^{3-\gamma}\to\infty\) as \(k\to\infty\). So \(\langle k^2\rangle = \infty\) (power-law divergence).</li>
+<li><strong>Case \(\gamma = 3\) (do this separately):</strong> the integrand is \(k^{-1}\) and \(\int_{k_{\min}}^\infty\frac{dk}{k} = [\ln k]_{k_{\min}}^\infty = \infty\). So \(\langle k^2\rangle = \infty\) (logarithmic divergence). The power-rule formula \(\frac{k^{3-\gamma}}{3-\gamma}\) cannot be used here because it would divide by 0.</li>
+<li><strong>Contrast \(\gamma > 3\):</strong> \(k^{3-\gamma}\to0\), giving the finite value \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\).</li>
+</ol>
+<p>0.5 was for the integral and 0.5 for handling the cases around \(\gamma = 3\) correctly.</p>
+<p class="small">Full topic: <a href="#moments">§1</a>.</p>
+</div></details>
+
+<details class="q"><summary><span class="qt pyq">2026 · Q10 · 4 marks</span><span>SIS model of hand, foot and mouth disease (HFMD) spreading among students. Each student has on average ⟨k⟩ contacts, the infection rate per contact is β, the recovery rate is δ, and λ = β/δ. (i) Write the equation for the infected fraction \(i(t)\), explaining each term. (ii) Find the steady states and the epidemic threshold \(\lambda_c\); explain what the threshold means and how ⟨k⟩ affects it.</span><span class="chev">›</span></summary>
+<div class="ans">
+<p class="small">The answer key does not reproduce this question's wording; it is reconstructed here from the key's model answer and rubric.</p>
+<p class="idea"><strong>The idea in plain words.</strong> The infected fraction changes by "new infections minus recoveries". New infections need a healthy student who has infected contacts; recoveries are just a fixed rate. Setting the change to zero gives either nobody infected or a steady endemic level, and that level only makes sense (is positive) when each infected student infects more than one other on average.</p>
+<h4>(i) Steps, one term at a time</h4>
+<ol class="steps">
+<li><strong>Recovery term:</strong> each infected student recovers at rate δ, so the infected pool loses \(\delta i\) per unit time: the term \(-\delta i\).</li>
+<li><strong>Infection term:</strong> a susceptible student (fraction \(1 - i\)) has ⟨k⟩ contacts; a fraction \(i\) of them are infected, so it has \(\langle k\rangle i\) infected contacts, each transmitting at rate β. Multiply by the susceptible fraction: \(+\beta\langle k\rangle i(1 - i)\).</li>
+<li><strong>Full equation</strong> (net balance = gains − losses): \[\frac{di}{dt} = \beta\langle k\rangle\,i(1 - i) - \delta\,i.\]</li>
+</ol>
+<h4>(ii) Steps</h4>
+<ol class="steps">
+<li><strong>Steady states</strong> mean no net change, \(\frac{di}{dt} = 0\): \(i\,[\beta\langle k\rangle(1 - i) - \delta] = 0\). So \(i = 0\) (nobody infected) or \(\beta\langle k\rangle(1 - i) = \delta\), i.e. \[i^* = 1 - \frac{\delta}{\beta\langle k\rangle} = 1 - \frac{1}{\lambda\langle k\rangle}.\]</li>
+<li><strong>Existence:</strong> a fraction cannot be negative, so the endemic state exists only when \(\lambda\langle k\rangle > 1\). The threshold is \[\lambda_c = \frac{1}{\langle k\rangle}.\]</li>
+<li><strong>Meaning:</strong> one infected student infects about \(R_0 = \lambda\langle k\rangle\) others (rate β to ⟨k⟩ contacts, for an average infectious time 1/δ). If \(R_0 > 1\) the disease replaces itself and persists; if \(R_0 < 1\) it fades out.</li>
+<li><strong>Effect of ⟨k⟩:</strong> \(\lambda_c = 1/\langle k\rangle\) falls as ⟨k⟩ rises. More contacts give the disease more chances to spread, so even a weakly infectious disease can become endemic in a well-mixed class.</li>
+<li><strong>Numbers:</strong> ⟨k⟩ = 10, β = 0.05, δ = 0.2: λ = 0.25, \(\lambda\langle k\rangle = 2.5 > 1\), endemic at \(i^* = 1 - 1/2.5 = 0.6\). With ⟨k⟩ = 3 instead: \(\lambda\langle k\rangle = 0.75 < 1\), it dies out.</li>
+</ol>
+<h4>What earned the marks</h4>
+<ul><li>(i) 0.5: recovery term explained. 1: infection term with all three factors (\(1-i\), \(\langle k\rangle i\), β) explained; two of three = 0.5; using \(i\) instead of \(1-i\) = 0. 0.5: net-balance idea and the full equation.</li><li>(ii) 0.5: both fixed points from \(di/dt = 0\) (only one = 0). 0.5: \(i^* > 0\) leads to \(\lambda_c = 1/\langle k\rangle\) (no reasoning = 0). 0.5: interprets \(\lambda\langle k\rangle\) as \(R_0\) (or via stability). 0.5: \(\lambda_c\) falls as ⟨k⟩ rises, with the reason.</li></ul>
+<p class="small">Full topic: <a href="#epi">§11</a> (same model with \(\beta\langle k\rangle\) in place of β).</p>
+</div></details>
+
 
 <h3>2024 mid-sem</h3>
 
