@@ -16,7 +16,7 @@
 <h3>How the network is built</h3>
 <p>Start with \(N\) nodes and no links. Go through every pair of nodes (there are \(\frac{N(N-1)}{2}\) pairs). For each pair, flip a biased coin that says "link" with probability \(p\) and "no link" with probability \(1 - p\). Every flip is independent of the others. The result is called \(G(N, p)\).</p>
 <p class="sym">\(N\) = number of nodes. \(p\) = probability that any given pair is linked. The slides also mention \(G(N, M)\), where you place exactly \(M\) links at random. For large networks the two behave the same.</p>
-<p>Each node has \(N - 1\) possible partners, and each is linked with probability \(p\). By the expected-value rule (<a href="#maths">M3</a>, "\(n\) tries each succeeding with probability \(p\) give \(np\) on average"):</p>
+<p>Each node has \(N - 1\) possible partners, and each is linked with probability \(p\). By the expected-value rule (<a href="quiz1/#maths">M3</a>, "\(n\) tries each succeeding with probability \(p\) give \(np\) on average"):</p>
 <div class="eq boxed">\[\langle k\rangle = p\,(N - 1)\]</div>
 
 <h3>Warm-up · coin flips</h3>

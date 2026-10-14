@@ -18,7 +18,7 @@
 <p class="sym">\(a, b, c, d\) are fixed numbers. \(\mathbf x\) is the point \((x, y)\). The plane of all possible points is called the <strong>phase plane</strong>, and a drawing of how points move in it is a <strong>phase portrait</strong>. The origin \((0,0)\) is always a fixed point, because there both rates are 0.</p>
 
 <h3>A first example with no coupling</h3>
-<p>Take \(b = c = 0\) and \(d = -1\): \(\dot x = ax\), \(\dot y = -y\). Each equation involves only one variable, so each is the basic equation \(\dot y = ay\) from the maths primer (<a href="../#maths">Mid-sem M8</a>):</p>
+<p>Take \(b = c = 0\) and \(d = -1\): \(\dot x = ax\), \(\dot y = -y\). Each equation involves only one variable, so each is the basic equation \(\dot y = ay\) from the maths primer (<a href="../quiz1/#maths">M8 on page 1</a>):</p>
 <div class="eq">\[x(t) = x_0e^{at}, \qquad y(t) = y_0e^{-t}.\]</div>
 <p>\(y\) always shrinks. What \(x\) does depends on \(a\), and that gives five pictures, all on the slides.</p>
 <div class="figrow">
@@ -78,7 +78,7 @@
 <tr><th>Condition</th><th>Eigenvalues</th><th>Type</th><th>Why</th></tr>
 <tr><td>\(\Delta < 0\)</td><td>real, one positive, one negative</td><td><strong>saddle</strong> (always unstable)</td><td>The product \(\lambda_1\lambda_2 = \Delta\) is negative, so they have opposite signs: one direction grows, one shrinks.</td></tr>
 <tr><td>\(0 < \Delta < \tau^2/4\)</td><td>real, same sign</td><td><strong>node</strong>: stable if \(\tau < 0\), unstable if \(\tau > 0\)</td><td>Positive product means same sign; the sum \(\tau\) tells you which sign.</td></tr>
-<tr><td>\(\Delta > \tau^2/4\)</td><td>complex pair \(\frac\tau2\pm i\,\cdot\)</td><td><strong>spiral</strong>: stable if \(\tau < 0\), unstable if \(\tau > 0\)</td><td>\(\tau^2 - 4\Delta < 0\), so the square root is imaginary: rotation, with real part \(\tau/2\) deciding growth or decay (M3).</td></tr>
+<tr><td>\(\Delta > \tau^2/4\)</td><td>complex pair \(\frac\tau2\pm i\,\cdot\)</td><td><strong>spiral</strong>: stable if \(\tau < 0\), unstable if \(\tau > 0\)</td><td>\(\tau^2 - 4\Delta < 0\), so the square root is imaginary: rotation, with real part \(\tau/2\) deciding growth or decay (M12).</td></tr>
 <tr><td>\(\tau = 0,\ \Delta > 0\)</td><td>\(\pm i\sqrt\Delta\)</td><td><strong>center</strong></td><td>Pure rotation with no growth or decay: closed loops around the origin.</td></tr>
 <tr><td>\(\tau^2 = 4\Delta\)</td><td>repeated</td><td>star or degenerate node</td><td>The borderline between nodes and spirals.</td></tr>
 </table>

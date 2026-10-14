@@ -38,7 +38,7 @@
 <p>Nodes with degree 1 are very common. Degree 100 is 10,000 times rarer, but it still happens. In a network with a million nodes, you expect about one node with 1000 links. That is a hub. Compare people's heights, which all sit near an average and never reach ten times the average. A power law has no "typical" size, which is why such networks are called <strong>scale-free</strong>.</p>
 
 <h3>Step 2 · why we use integrals ("not discrete!")</h3>
-<p>Degrees are whole numbers, so strictly we should add up \(P(1) + P(2) + P(3) + \dots\) with a sum. Those sums are hard to work out exactly. Instead, the course pretends \(k\) can take any value and uses an integral (the smooth version of a sum, see <a href="#maths">M7</a>). The answers are close, and the conditions for being finite are exactly the same. This is what "not discrete!" in your notes means: treat \(k\) as continuous.</p>
+<p>Degrees are whole numbers, so strictly we should add up \(P(1) + P(2) + P(3) + \dots\) with a sum. Those sums are hard to work out exactly. Instead, the course pretends \(k\) can take any value and uses an integral (the smooth version of a sum, see <a href="quiz1/#maths">M7</a>). The answers are close, and the conditions for being finite are exactly the same. This is what "not discrete!" in your notes means: treat \(k\) as continuous.</p>
 <p>We will use one rule from M7 three times:</p>
 <div class="eq boxed">\[\int_{k_{\min}}^{\infty} k^{a}\,dk = \left[\frac{k^{a+1}}{a+1}\right]_{k_{\min}}^{\infty}\]</div>
 <p>At the top limit (\(k = \infty\)), \(k^{a+1}\) is 0 if the power \(a+1\) is negative, and infinite if it is positive or zero. So:</p>
@@ -161,7 +161,7 @@
 <p>On a normal axis, equal distances mean equal differences: 0, 10, 20, 30. On a <strong>logarithmic (log) axis</strong>, equal distances mean equal multiples: 1, 10, 100, 1000. Each step to the right multiplies by 10. This lets one chart show both tiny and huge values. A <strong>log-log plot</strong> uses a log scale on both axes.</p>
 
 <h3>Why a power law is a straight line on log-log axes</h3>
-<p>Take the logarithm of both sides of \(P(k) = Ck^{-\gamma}\). Using the rules \(\log(ab) = \log a + \log b\) and \(\log(k^n) = n\log k\) from <a href="#maths">M5</a>:</p>
+<p>Take the logarithm of both sides of \(P(k) = Ck^{-\gamma}\). Using the rules \(\log(ab) = \log a + \log b\) and \(\log(k^n) = n\log k\) from <a href="quiz1/#maths">M5</a>:</p>
 <div class="eq boxed">\[\log P(k) = \log C - \gamma\,\log k\]</div>
 <p>Call \(y = \log P(k)\) and \(x = \log k\). Then \(y = \log C - \gamma x\), which is the equation of a straight line (like \(y = c + mx\)) with slope \(-\gamma\). A log-log plot draws exactly \(\log P\) against \(\log k\). So <strong>a power law appears as a straight line, and its slope is minus the exponent</strong>. Other distributions, such as the Poisson distribution of a random network, curve sharply downwards on these axes.</p>
 <figure class="fig"><!--plot:loglog-compare-->
@@ -248,7 +248,7 @@
 
 <h3>The method</h3>
 <ol class="steps">
-<li>Count the pairs. With \(N\) nodes there are \(\frac{N(N-1)}{2}\) pairs (<a href="#maths">M3</a>).</li>
+<li>Count the pairs. With \(N\) nodes there are \(\frac{N(N-1)}{2}\) pairs (<a href="quiz1/#maths">M3</a>).</li>
 <li>Group the pairs by distance: how many are 1 step apart, how many 2 steps apart, and so on.</li>
 <li>Add up (distance × number of pairs at that distance), then divide by the number of pairs.</li>
 </ol>
@@ -271,7 +271,7 @@
 <h3>Open chain</h3>
 <p>Take 4 nodes in a line, A–B–C–D, as on the slide. The pairs at distance 1 are AB, BC, CD (3 pairs). At distance 2: AC, BD (2 pairs). At distance 3: AD (1 pair). So</p>
 <div class="eq">\[\langle l\rangle = \frac{3\times1 + 2\times2 + 1\times3}{6} = \frac{10}{6} = \frac53 .\]</div>
-<p>The pattern (3, 2, 1 pairs for \(N = 4\); 4, 3, 2, 1 for \(N = 5\)) is that there are \(N - j\) pairs at distance \(j\). Using the two sums from <a href="#maths">M2</a>, the slide's calculation gives</p>
+<p>The pattern (3, 2, 1 pairs for \(N = 4\); 4, 3, 2, 1 for \(N = 5\)) is that there are \(N - j\) pairs at distance \(j\). Using the two sums from <a href="quiz1/#maths">M2</a>, the slide's calculation gives</p>
 <div class="eq">\[\langle l\rangle = \frac{2}{N(N-1)}\sum_{j=1}^{N-1} j\,(N-j) = \frac{2}{N(N-1)}\left[N\cdot\frac{N(N-1)}{2} - \frac{(N-1)N(2N-1)}{6}\right] = N - \frac{2N-1}{3}\]</div>
 <p>(Inside the bracket, \(\sum j(N - j) = N\sum j - \sum j^2\), and each sum runs up to \(n = N - 1\).)</p>
 <div class="eq boxed">\[\langle l\rangle_{\text{chain}} = \frac{N+1}{3}, \qquad \text{diameter} = N - 1\]</div>
