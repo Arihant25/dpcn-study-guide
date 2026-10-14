@@ -287,7 +287,39 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 </table>
 <p class="small">Deck 13 marks the infinite-N Kuramoto material (slides 38 to 48) "Advanced Topics (Not for exam)". This guide gives only its final result. The research-paper slides (aging transition, explosive synchronisation, the dynamic Jacobian ensemble) are summarised in a few lines each, since they show results rather than derivations.</p>
 
-<div class="card goal"><span class="tag">The derivations most likely to be asked</span>
+<div class="card goal" id="coursemap"><span class="tag">The whole course · Quiz 2 and the end-sem cover all of it</span>
+<p>The course material is split across three guides. Quiz 2 and the end-sem can ask about anything in any of them.</p>
+<table class="tbl">
+<tr><th>Classes</th><th>Topics</th><th>Guide</th></tr>
+<tr><td>1–4</td><td>What networks are, adjacency matrix, degree and the handshaking lemma, walks and paths, Eulerian and Hamiltonian paths, distance and BFS, clustering, the four centralities, special graphs</td><td><a href="../quiz1/">Quiz 1 guide</a></td></tr>
+<tr><td>5–6</td><td>Fixed points and stability, numerical derivatives and Euler's method, the four 1-D bifurcations, bistability, SIS and SIR, the Laplacian, diffusion and SI on networks</td><td><a href="../quiz1/#numeric">Quiz 1 guide §10</a> and <a href="../#fixed">Mid-sem guide §8–13</a></td></tr>
+<tr><td>6–9</td><td>Degree distributions and power laws, binning, path length of star, chain and ring, Erdős–Rényi random graphs</td><td><a href="../#moments">Mid-sem guide §1–7</a></td></tr>
+<tr><td>13–16</td><td>2-D systems, Jacobian, competition and predator–prey, stability on networks, limit cycles and Hopf</td><td><a href="../after-midsem/">After mid-sem guide §1–10</a></td></tr>
+<tr><td>17–18</td><td>Maps and chaos, Lorenz, synchronisation and Kuramoto, May's criterion, double pendulum</td><td><a href="../after-midsem/#euler">After mid-sem guide §11–18</a></td></tr>
+</table>
+<h4>The derivations to learn for Quiz 2 and the end-sem</h4>
+<p>Past papers ask for proofs and derivations. These are the ones the 2024 papers asked, or that the slides work through, roughly in order of how likely they are. Learn to write each one from memory.</p>
+<ol>
+<li>Solve the SIS model, endemic level, when the disease dies out · <a href="../#epi">Mid-sem §11</a></li>
+<li>Fixed points, stability and the type of bifurcation for a 1-D system · <a href="../#bif">Mid-sem §9</a></li>
+<li>Fixed points and Jacobian of a 2-D or 3-D system, and classification (rabbits vs sheep, predator–prey, Lorenz) · <a href="../after-midsem/#rabbits">After §6</a>, <a href="../after-midsem/#lorenz">§14</a></li>
+<li>Stability of a map <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>; the logistic map · <a href="../after-midsem/#mapstab">After §12</a></li>
+<li>Power law: the constant <math><mi>C</mi></math>, ⟨k⟩, ⟨k²⟩ and when they diverge · <a href="../#moments">Mid-sem §1</a></li>
+<li>Giant component <math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow></msup></mrow></math> and the threshold ⟨k⟩ = 1 · <a href="../#gcc">Mid-sem §5</a></li>
+<li>Binomial to Poisson · <a href="../#er">Mid-sem §4</a></li>
+<li>Limit cycle in polar form, Hopf bifurcation · <a href="../after-midsem/#cycle">After §9</a></li>
+<li>Two coupled oscillators: locking condition and common frequency · <a href="../after-midsem/#twoosc">After §15</a></li>
+<li>SIS on a network and the threshold <math><mrow><mn>1</mn><mi>/</mi><msub><mi>κ</mi><mn>1</mn></msub></mrow></math> · <a href="../#netdyn">Mid-sem §13</a></li>
+<li>Number of triangles <math><mrow><mo>=</mo><mfrac><mn>1</mn><mn>6</mn></mfrac><mi>tr</mi><mo>⁡</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>A</mi><mn class="tml-lrg-pad">3</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, and <math><msub><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>A</mi><mi class="tml-lrg-pad">n</mi></msup><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub></math> counts walks · <a href="../quiz1/#walks">Quiz 1 §4</a></li>
+<li>Handshaking lemma and Euler's theorem on Eulerian paths · <a href="../quiz1/#degree">Quiz 1 §3</a>, <a href="../quiz1/#euler">§5</a></li>
+<li>Closeness and betweenness on a path or star; eigenvector centrality by the power method · <a href="../quiz1/#cent">Quiz 1 §8</a></li>
+<li>Average path length of star, chain and ring · <a href="../#simple">Mid-sem §3</a></li>
+<li>⟨k_nn⟩ = ⟨k²⟩/⟨k⟩ and the friendship paradox · <a href="../#knn">Mid-sem §7</a></li>
+</ol>
+</div>
+
+
+<div class="card goal"><span class="tag">The derivations most likely to be asked (this half)</span>
 <p>Past papers (2024 Quiz 2 and mid-sem) asked exactly these kinds of questions. If you are short on time, learn these first.</p>
 <ol>
 <li>Find all fixed points of a 2-D system, write the Jacobian, and classify each fixed point (<a href="#rabbits">§6</a>, <a href="#lv">§7</a>).</li>

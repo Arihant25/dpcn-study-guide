@@ -6,9 +6,12 @@ import path from 'node:path';
 import temml from 'temml';
 
 // Each page is built from the parts in its src folder.
+// {{ROOT}} in any part is replaced by the path from that page back to the site root, and
+// <!--include:shared/x.html--> pulls in a shared part (used for the whole-course map).
 const PAGES = [
-  { src: 'src', out: 'index.html' },                    // Mid-sem guide
-  { src: 'src-after', out: 'after-midsem/index.html' }, // After mid-sem guide
+  { src: 'src', out: 'index.html', root: '' },                       // Mid-sem guide
+  { src: 'src-after', out: 'after-midsem/index.html', root: '../' }, // After mid-sem guide
+  { src: 'src-quiz1', out: 'quiz1/index.html', root: '../' },        // Quiz 1 guide
 ];
 
 /* ---------------- plotting helpers (static SVG, colours from CSS tokens) ---------------- */
@@ -376,6 +379,8 @@ for (const page of PAGES) {
   if (!fs.existsSync(page.src)) continue;
   const files = fs.readdirSync(page.src).filter(f => f.endsWith('.html')).sort();
   let html = files.map(f => fs.readFileSync(path.join(page.src, f), 'utf8')).join('\n');
+  html = html.replace(/<!--include:([\w\/.-]+)-->/g, (m, f) => fs.readFileSync(f, 'utf8'));
+  html = html.replace(/\{\{ROOT\}\}/g, page.root);
   html = html.replace(/<!--plot:([\w-]+)-->/g, (m, name) => {
     if (!plots[name]) throw new Error('unknown plot ' + name);
     return plots[name]();

@@ -1,0 +1,288 @@
+
+<div class="part">Part 1<span>Describing a network</span></div>
+<section>
+<h2 id="networks"><span class="num">1</span>What a network is</h2>
+<span class="board">Network Introduction · Module 2a, slides 1–18</span>
+<p class="about">Many systems are made of parts that interact: people who know each other, computers joined by cables, web pages linking to each other, proteins binding to each other. A <strong>network</strong> (also called a graph) is the diagram you get by drawing each part as a dot and each interaction as a line. Once a system is drawn this way, the same tools describe all of them.</p>
+
+<h3>The words</h3>
+<ul>
+<li>A <strong>node</strong> (or vertex) is one of the parts. \(N\) is the number of nodes.</li>
+<li>A <strong>link</strong> (or edge) is an interaction between two nodes. \(L\) is the number of links.</li>
+<li>Two nodes joined by a link are <strong>adjacent</strong> (neighbours). A link and a node it touches are <strong>incident</strong>.</li>
+<li>Links are <strong>undirected</strong> if they work both ways (co-authorship, power lines, internet cables) or <strong>directed</strong> if they point one way (citations, web hyperlinks, emails, phone calls). Directed links are drawn as arrows.</li>
+<li>A link is <strong>weighted</strong> if it carries a number (strength, distance, number of calls).</li>
+<li>A <strong>simple graph</strong> has no self-loops (a link from a node to itself) and no repeated links between the same two nodes.</li>
+</ul>
+<figure class="fig">
+<svg class="gr" viewBox="0 0 320 180" role="img" aria-label="Four nodes and four links" data-spec='{"r":16,"nodes":{"1":[60,60],"2":[170,40],"3":[110,150],"4":[270,110]},"edges":[["1","2"],["1","3"],["2","3"],["2","4"]]}'></svg>
+<figcaption>The slides' first example: \(N = 4\) nodes, \(L = 4\) links. The same drawing could be four computers, four proteins or four actors.</figcaption>
+</figure>
+
+<h3>Complex systems</h3>
+<p>A <strong>complex system</strong> has many interconnected parts whose interactions change over time; the whole is not just the sum of the parts. A property of the whole that no single part has is called <strong>emergence</strong> ("More is different", P. W. Anderson, 1972). Example: a single neuron does not think, but a network of them does.</p>
+
+<h3>Landmarks (possible one-line quiz facts)</h3>
+<table class="tbl">
+<tr><th>Year</th><th>Who</th><th>What</th></tr>
+<tr><td>1735</td><td>Euler</td><td>Seven bridges of Königsberg: the start of graph theory (§5)</td></tr>
+<tr><td>1959–60</td><td>Erdős and Rényi</td><td>Random graphs: link each pair with probability \(p\) (Mid-sem guide §4)</td></tr>
+<tr><td>1967</td><td>Milgram</td><td>Letters passed hand to hand reached a stranger in about 5.5 to 6 steps: "six degrees of separation"</td></tr>
+<tr><td>1998</td><td>Watts and Strogatz</td><td>Small-world networks: short paths and high clustering together</td></tr>
+<tr><td>1999</td><td>Barabási and Albert</td><td>Scale-free networks, grown by "the rich get richer"</td></tr>
+</table>
+<p>Other examples on the slides: Karinthy (1929) first guessed five intermediaries; Microsoft Messenger data (2008, 240 million people) gave about 6 steps on average; the Kevin Bacon game counts film links to Kevin Bacon.</p>
+<div class="card ex"><span class="tag">Worked example · why six steps is plausible (slide 16)</span>
+<p>Suppose everyone knows 100 people and the friend lists do not overlap. Then you reach \(100\) people directly, \(100^2 = 10^4\) through one intermediary, and \(100^{k+1}\) through \(k\) intermediaries. With 4 intermediaries that is \(100^5 = 10^{10}\), more than the world population (about \(8\times10^9\)). Real friend lists overlap, so more steps are needed, but the number grows so fast that a handful is enough.</p>
+</div>
+</section>
+
+<section>
+<h2 id="adj"><span class="num">2</span>The adjacency matrix and other ways to store a network</h2>
+<span class="board">Module 2a · slides 19–30, 78–83</span>
+<p class="about">To compute anything about a network, you store it as a table of numbers called the <strong>adjacency matrix</strong> \(A\). It has one row and one column for each node, and the entry in row \(i\), column \(j\) says whether there is a link from \(i\) to \(j\). Almost every later formula (degree, walks, triangles, centralities) is read off this table.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Write the adjacency matrix of a drawn graph, or draw the graph from a matrix.</li>
+<li>True/false statements: symmetric? zero diagonal? square? block-diagonal for separate components?</li>
+<li>Read in- and out-degrees from a directed matrix (Quiz 1 Q4 and Q7).</li>
+</ul>
+</div>
+
+<h3>Definition</h3>
+<div class="eq boxed">\[A_{ij} = \begin{cases}1 & \text{if there is a link from node } i \text{ to node } j\\ 0 & \text{otherwise}\end{cases}\]</div>
+<div class="figrow">
+<figure class="fig"><svg class="gr" viewBox="0 0 280 200" role="img" aria-label="Undirected example graph" data-spec='{"r":15,"nodes":{"1":[50,60],"2":[150,50],"3":[250,40],"4":[90,160],"5":[210,150]},"edges":[["1","2"],["2","3"],["1","4"],["2","4"],["2","5"],["4","5"]]}'></svg><figcaption>Undirected (slide 21): links 1–2, 2–3, 1–4, 2–4, 2–5, 4–5.</figcaption></figure>
+<figure class="fig"><svg class="gr" viewBox="0 0 280 200" role="img" aria-label="Directed example graph" data-spec='{"directed":true,"r":15,"nodes":{"1":[50,60],"2":[150,50],"3":[250,40],"4":[90,160],"5":[210,150]},"edges":[["2","1"],["2","3"],["2","4",14],["4","1"],["4","2",14],["4","5"],["5","2"]]}'></svg><figcaption>Directed (slide 26): 2→1, 2→3, 2→4, 4→1, 4→2, 4→5, 5→2.</figcaption></figure>
+</div>
+<div class="eq">\[A_{\text{undirected}} = \begin{pmatrix}0&1&0&1&0\\1&0&1&1&1\\0&1&0&0&0\\1&1&0&0&1\\0&1&0&1&0\end{pmatrix}, \qquad A_{\text{directed}} = \begin{pmatrix}0&0&0&0&0\\1&0&1&1&0\\0&0&0&0&0\\1&1&0&0&1\\0&1&0&0&0\end{pmatrix}\]</div>
+<p>Row 2 of the directed matrix has 1s in columns 1, 3, 4 because node 2 sends arrows to nodes 1, 3, 4.</p>
+
+<h3>Properties</h3>
+<ul>
+<li>It is always square, \(N\times N\).</li>
+<li><strong>Undirected ⇒ symmetric</strong>: \(A_{ij} = A_{ji}\), because a link between \(i\) and \(j\) is also a link between \(j\) and \(i\). A directed matrix is usually not symmetric.</li>
+<li><strong>No self-loops ⇒ zero diagonal</strong>: \(A_{ii} = 0\).</li>
+<li><strong>Weighted</strong> networks put the weight \(w_{ij}\) in place of the 1.</li>
+<li><strong>Separate pieces ⇒ block-diagonal</strong>: if you number the nodes piece by piece, the matrix is made of square blocks on the diagonal with zeros everywhere else, because no link joins two pieces.</li>
+<li>Nothing forces \(A\) to be invertible (Surprise Quiz 1 Q11, Q12): its rank can be less than \(N\) even if the graph is connected.</li>
+</ul>
+<div class="card watch"><span class="tag">Which way do rows go?</span>
+<p>The slides use two opposite conventions for directed graphs. Slides 22, 23 and 26 (and the 2024 quiz answers) use "row = from, column = to", so <strong>row sums are out-degrees and column sums are in-degrees</strong>. Slide 16's caption and slide 24 (from the Barabási book) use the reverse. This guide uses row = from. In an exam, state your convention in one line.</p>
+</div>
+
+<h3>Other ways to store a network (slides 80–83)</h3>
+<ul>
+<li><strong>Edge list</strong>: a list of pairs, e.g. (1,2), (2,3), …, with a weight if needed. Compact for large sparse networks.</li>
+<li><strong>Adjacency list</strong>: for each node, the list of its neighbours.</li>
+<li><strong>Incidence matrix</strong>: \(N\times L\), entry 1 if node \(i\) is an end of link \(\ell\). Every column has exactly two 1s; row sums are degrees.</li>
+<li><strong>Complement</strong> \(\overline G\): same nodes, and two nodes are linked in \(\overline G\) exactly when they are not linked in \(G\).</li>
+</ul>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>\(A_{ij} = 1\) if \(i\to j\). Undirected: symmetric. No loops: zero diagonal. Components: block-diagonal.</li><li>Row sums = out-degree, column sums = in-degree (row = from).</li></ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Quick</span><span>Write the adjacency matrix of the triangle 1–2–3 with an extra node 4 linked only to 3.</span><span class="chev">›</span></summary>
+<div class="ans"><div class="eq">\[\begin{pmatrix}0&1&1&0\\1&0&1&0\\1&1&0&1\\0&0&1&0\end{pmatrix}\]</div><p>Symmetric, zero diagonal; row sums give degrees 2, 2, 3, 1.</p></div></details>
+</section>
+
+<section>
+<h2 id="degree"><span class="num">3</span>Degree and the handshaking lemma</h2>
+<span class="board">Module 2a · slides 20–36</span>
+<p class="about">The <strong>degree</strong> of a node is how many links it has. In a directed network you count incoming and outgoing links separately. One simple fact about degrees, the <strong>handshaking lemma</strong>, has a two-line proof that the course asks for.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Find degrees or in/out-degree sequences from a drawing or a matrix.</li>
+<li>Prove \(\sum_ik_i = 2L\), and deduce that the number of odd-degree nodes is even.</li>
+<li>Average degree: \(\langle k\rangle = 2L/N\) (undirected), \(L/N\) (directed).</li>
+<li>Interpret in- and out-degree in a citation or co-authorship network.</li>
+</ul>
+</div>
+
+<h3>Formulas</h3>
+<div class="eq">\[k_i = \sum_j A_{ij}\ \ (\text{undirected}), \qquad k_i^{\text{out}} = \sum_j A_{ij}\ \ (\text{row sum}), \qquad k_i^{\text{in}} = \sum_j A_{ji}\ \ (\text{column sum}).\]</div>
+<p>Undirected example above: degrees 2, 4, 1, 3, 2. Directed example: out-degrees 0, 3, 0, 3, 1 and in-degrees 2, 2, 1, 1, 1. Both lists add to 7, the number of arrows.</p>
+
+<div class="card exam"><span class="tag">Proof to learn · the handshaking lemma</span>
+<ol class="steps">
+<li><strong>Claim:</strong> \(\sum_i k_i = 2L\) in any undirected graph.</li>
+<li><strong>Count the link-ends.</strong> Every link has exactly two ends. So the total number of link-ends is \(2L\).</li>
+<li><strong>Count them node by node.</strong> Node \(i\) is touched by \(k_i\) link-ends (that is what degree means). So the total is also \(\sum_ik_i\).</li>
+<li><strong>Same quantity counted two ways</strong>, so \(\sum_ik_i = 2L\). ∎</li>
+<li><strong>Corollary.</strong> \(2L\) is even. A sum of whole numbers is even only if an even number of them are odd. So <strong>the number of odd-degree nodes is always even</strong>. (No graph has exactly 1 or 3 odd nodes.)</li>
+<li><strong>Directed version.</strong> Every arrow adds 1 to one out-degree and 1 to one in-degree, so \(\sum_ik_i^{\text{in}} = \sum_ik_i^{\text{out}} = L\).</li>
+</ol>
+</div>
+<p>Dividing by \(N\): \(\langle k\rangle = \frac{2L}{N}\) for undirected graphs and \(\langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = \frac LN\) for directed ones. Directed example: \(7/5 = 1.4\).</p>
+
+<h3>What in- and out-degree mean</h3>
+<p>In a citation network an arrow goes from the citing paper to the cited one. A highly cited, influential paper has <strong>high in-degree</strong>. A review article or book that cites many others has <strong>high out-degree</strong>. Any positive degree in a co-authorship network means the person has collaborated with someone.</p>
+
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>\(\sum_ik_i = 2L\); odd-degree nodes come in even numbers; \(\langle k\rangle = 2L/N\).</li><li>Directed: \(\sum k^{\text{in}} = \sum k^{\text{out}} = L\).</li></ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Prove that every graph has an even number of odd-degree nodes.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Each link has two ends, so adding all degrees counts each link twice: \(\sum k_i = 2L\), which is even. A sum of integers is even only when an even number of terms are odd. ∎</p></div></details>
+<details class="q"><summary><span class="qt">Surprise quiz</span><span>Directed network with nodes A, B, C. A has in 1, out 2; B has in 1, out 1. Which options for C are impossible: (in 1, out 1), (in 0, out 2), (in 2, out 1), (in 1, out 0)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Total in must equal total out. A and B give in 2, out 3, so C must have in = out + 1. Possible: (2, 1) and (1, 0). Impossible (the "wrong" statements): (1, 1) and (0, 2).</p></div></details>
+</section>
+
+<section>
+<h2 id="walks"><span class="num">4</span>Walks, paths, and counting them with powers of A</h2>
+<span class="board">Module 2a · slides 37–40, 72–75 · surprise quiz</span>
+<p class="about">Moving through a network one link at a time gives a sequence of nodes. Depending on what you allow to repeat, it is called a walk, trail or path. A neat fact connects this to matrices: multiplying the adjacency matrix by itself counts walks. From that comes a formula for the number of triangles, which the course asked to prove in a surprise quiz.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Say whether a given sequence is a walk, trail, path, circuit or cycle.</li>
+<li>Prove that \([A^n]_{ij}\) is the number of walks of length \(n\) from \(i\) to \(j\).</li>
+<li>Prove that the number of triangles is \(\frac16\operatorname{tr}(A^3)\).</li>
+</ul>
+</div>
+
+<table class="tbl">
+<tr><th>Name</th><th>Rule</th></tr>
+<tr><td>Walk</td><td>Any sequence of nodes where each step follows a link. Anything may repeat.</td></tr>
+<tr><td>Trail</td><td>A walk with no repeated <em>link</em> (nodes may repeat).</td></tr>
+<tr><td>Path</td><td>A walk with no repeated <em>node</em>.</td></tr>
+<tr><td>Circuit (closed trail)</td><td>A trail that ends where it started.</td></tr>
+<tr><td>Cycle</td><td>A path that ends where it started (only the start node is repeated). A triangle is a cycle of length 3.</td></tr>
+</table>
+<p>The <strong>length</strong> of a walk is its number of steps (links used). Every path is a trail and every trail is a walk, but not the other way round.</p>
+
+<div class="card exam"><span class="tag">Proof to learn · \([A^n]_{ij}\) counts walks of length \(n\)</span>
+<ol class="steps">
+<li><strong>Length 2.</strong> By the rule for multiplying matrices, \([A^2]_{ij} = \sum_kA_{ik}A_{kj}\).</li>
+<li>Each term \(A_{ik}A_{kj}\) is 1 only if both \(A_{ik} = 1\) (link \(i\)–\(k\)) and \(A_{kj} = 1\) (link \(k\)–\(j\)), i.e. exactly when \(i\to k\to j\) is a walk of length 2. Otherwise it is 0.</li>
+<li>Summing over all middle nodes \(k\) counts every 2-step walk from \(i\) to \(j\) once.</li>
+<li><strong>Longer walks.</strong> \(A^{n} = A^{n-1}A\), so \([A^n]_{ij} = \sum_k[A^{n-1}]_{ik}A_{kj}\): (walks of length \(n-1\) from \(i\) to \(k\)) × (a final step \(k\to j\)), summed over \(k\). By repeating the argument (induction), \([A^n]_{ij}\) is the number of walks of length \(n\). ∎</li>
+</ol>
+</div>
+<p>Two consequences. The diagonal \([A^2]_{ii}\) counts walks "out along a link and straight back", so \([A^2]_{ii} = k_i\). And the distance between \(i\) and \(j\) is the smallest \(n\) for which \([A^n]_{ij} > 0\).</p>
+
+<div class="card exam"><span class="tag">Proof to learn · number of triangles \(= \frac16\operatorname{tr}(A^3)\)</span>
+<ol class="steps">
+<li>\([A^3]_{ii}\) counts walks of length 3 that start and end at node \(i\) (step 4 above).</li>
+<li>In a simple graph, a closed walk of length 3, \(i\to a\to b\to i\), must visit three different nodes that are all linked to each other: a triangle.</li>
+<li>The trace adds the diagonal: \(\operatorname{tr}(A^3) = \sum_i[A^3]_{ii}\) = total number of closed 3-walks.</li>
+<li><strong>How often is one triangle counted?</strong> A triangle on nodes \(a, b, c\) gives a closed 3-walk for each choice of starting corner (3 choices) and each direction around it (2 choices): \(3\times2 = 6\) walks.</li>
+<li>So \(\operatorname{tr}(A^3) = 6\times(\text{number of triangles})\), and \[\text{number of triangles} = \frac16\operatorname{tr}(A^3). \quad∎\]</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">Worked example · the slide-21 graph</span>
+<p>Links 1–2, 2–3, 1–4, 2–4, 2–5, 4–5. Computing \(A^2\) and \(A^3\):</p>
+<div class="eq">\[A^2 = \begin{pmatrix}2&1&1&1&2\\1&4&0&2&1\\1&0&1&1&1\\1&2&1&3&1\\2&1&1&1&2\end{pmatrix}, \qquad \operatorname{diag}(A^3) = (2, 4, 0, 4, 2).\]</div>
+<ul>
+<li>The diagonal of \(A^2\) is the degrees 2, 4, 1, 3, 2.</li>
+<li>\([A^2]_{15} = 2\): the walks 1–2–5 and 1–4–5. Nodes 1 and 5 are not linked, so their distance is 2.</li>
+<li>\(\operatorname{tr}(A^3) = 2 + 4 + 0 + 4 + 2 = 12\), so there are \(12/6 = 2\) triangles: 1–2–4 and 2–4–5. Node 2 is in both, so \([A^3]_{22} = 2\times2 = 4\).</li>
+</ul>
+</div>
+<p class="small">Slide 72 says \([A^d]_{ij}\) counts "paths"; strictly it counts walks, which may revisit nodes.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>Walk (anything) ⊇ trail (no repeated link) ⊇ path (no repeated node).</li><li>\([A^n]_{ij}\) = number of walks of length \(n\). \([A^2]_{ii} = k_i\). Triangles \(= \frac16\operatorname{tr}(A^3)\).</li></ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Why is each triangle counted 6 times in \(\operatorname{tr}(A^3)\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>3 possible starting corners × 2 directions around the triangle.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>How many triangles does the complete graph on 4 nodes have? Check with \(\operatorname{tr}(A^3)\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>Every 3 of the 4 nodes form a triangle: \(\binom43 = 4\). Each node is in 3 triangles, so \([A^3]_{ii} = 3\times2 = 6\), \(\operatorname{tr}(A^3) = 24\), and \(24/6 = 4\).</p></div></details>
+</section>
+
+<section>
+<h2 id="euler"><span class="num">5</span>Eulerian and Hamiltonian paths</h2>
+<span class="board">Network Introduction · slides 45–52 · Module 2a · slides 5–8, 41–63</span>
+<p class="about">Can you walk through a city crossing every bridge exactly once? Euler answered this in 1735 for Königsberg, and the answer depends only on how many land masses have an odd number of bridges. A walk using every <em>link</em> once is <strong>Eulerian</strong>; a walk visiting every <em>node</em> once is <strong>Hamiltonian</strong>. Euler's rule, with its proof, is a standard exam question.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>"What is the main difference between an Eulerian path and a Hamiltonian path?" (Quiz 1)</li>
+<li>For a drawn graph: is there a Hamiltonian path, an Eulerian path, an Eulerian cycle? Justify. If not, how can you make an Eulerian path? (Quiz 1)</li>
+<li>Prove the even-degree condition.</li>
+</ul>
+</div>
+
+<table class="tbl">
+<tr><th></th><th>Uses every</th><th>Exactly once</th><th>Closed version</th></tr>
+<tr><td><strong>Eulerian</strong> trail</td><td>link</td><td>each link</td><td>Eulerian circuit (ends at the start)</td></tr>
+<tr><td><strong>Hamiltonian</strong> path</td><td>node</td><td>each node</td><td>Hamiltonian cycle</td></tr>
+</table>
+<p>A graph with an Eulerian circuit is called Eulerian; one with an Eulerian trail but no circuit is semi-Eulerian. There is a simple test for Eulerian, but no simple test for Hamiltonian: you must find one or argue none exists.</p>
+
+<div class="card exam"><span class="tag">Theorem and proof to learn · Euler's rule</span>
+<p><strong>For a connected graph:</strong> 0 odd-degree nodes ⇔ an Eulerian circuit exists. Exactly 2 odd-degree nodes ⇔ an Eulerian trail exists (but no circuit), and it must start at one odd node and end at the other. More than 2 odd nodes ⇒ neither exists. (1, 3, 5 … odd nodes never happen, by the handshaking lemma.)</p>
+<ol class="steps">
+<li>Suppose a trail uses every link exactly once. Look at any node \(v\) that is not the start or the end.</li>
+<li>Every time the trail arrives at \(v\) along one link, it leaves along a different, unused link. So the links at \(v\) are used in pairs (in, out).</li>
+<li>All links at \(v\) are used, so \(k_v = 2\times(\text{number of visits})\): <strong>even</strong>.</li>
+<li>At the start node the trail leaves once more than it arrives, and at the end node it arrives once more than it leaves, so those two have <strong>odd</strong> degree.</li>
+<li>If the trail is closed (start = end), the extra departure and extra arrival pair up, and that node is even too.</li>
+<li>So: circuit ⇒ all degrees even; open trail ⇒ exactly two odd degrees (the ends). More than two odd nodes ⇒ impossible. (The converse, that these conditions are enough for a connected graph, is stated on the slides without proof. Fleury's algorithm builds the trail.)</li>
+</ol>
+</div>
+
+<div class="card ex"><span class="tag">Worked example · Königsberg</span>
+<p>Land masses A (island), B, C (river banks), D (east). Bridges A–B ×2, A–C ×2, A–D, B–D, C–D: 7 bridges. Degrees A = 5, B = 3, C = 3, D = 3 (sum 14 = 2 × 7). Four odd nodes, so no walk crosses every bridge exactly once.</p>
+<p>Remove the A–D bridge: A = 4, B = 3, C = 3, D = 2. Two odd nodes (B, C), so a walk exists from B to C: B–A–B–D–C–A–C.</p>
+<p class="small">Slide 8 labels the land masses "A-4, B-3, C-3, D-2", which are the degrees with that bridge removed, not the original 7-bridge city.</p>
+</div>
+
+<h3>Fleury's algorithm (how to find the trail)</h3>
+<ol>
+<li>Check there are 0 or 2 odd nodes. Start at an odd node if there are 2, anywhere if 0.</li>
+<li>Walk along links one at a time, deleting each link after using it.</li>
+<li>Never cross a <strong>bridge</strong> (a link whose removal would cut the remaining graph in two) if another choice is available.</li>
+<li>Stop when no links remain.</li>
+</ol>
+
+<div class="card ex"><span class="tag">Worked example · 2024 Quiz 1 (Figure 2 of Set II, Figure 3 of Set IV)</span>
+<figure class="fig" style="margin:6px 0 12px"><svg class="gr" viewBox="0 0 340 180" role="img" aria-label="Quiz figure for Euler question" data-spec='{"r":16,"nodes":{"6":[45,45],"4":[135,65],"5":[225,65],"3":[135,150],"2":[225,150],"1":[305,108]},"edges":[["6","4"],["4","5"],["4","3"],["5","1"],["5","2"],["3","2"],["2","1"]]}'></svg><figcaption>Links 6–4, 4–5, 4–3, 5–2, 3–2, 5–1, 1–2.</figcaption></figure>
+<ol>
+<li>Degrees: node 6: 1, node 4: 3, node 5: 3, node 3: 2, node 2: 3, node 1: 2.</li>
+<li>Odd nodes: 6, 4, 5, 2 (four of them). More than two, so <strong>no Eulerian trail and no Eulerian circuit</strong>.</li>
+<li><strong>Hamiltonian path: yes</strong>, for example 6–4–3–2–1–5 (each node once). No Hamiltonian cycle, because node 6 has only one link.</li>
+<li><strong>To make an Eulerian trail</strong>, reduce the odd nodes to two: add one link between two odd nodes, e.g. 6–5. Then 6 and 5 become even and only 4 and 2 are odd, so a trail from 4 to 2 exists. (Removing link 4–5 also works: then only 6 and 2 are odd.)</li>
+</ol>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>Eulerian = every link once. Hamiltonian = every node once.</li><li>Connected graph: 0 odd ⇒ Euler circuit; 2 odd ⇒ Euler trail between them; more ⇒ none.</li><li>Proof: links at a middle node are used in in/out pairs.</li></ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Surprise quiz</span><span>In a connected graph, when does the existence of an Euler path imply an Euler circuit?</span><span class="chev">›</span></summary>
+<div class="ans"><p>When no node has odd degree. With exactly two odd nodes you get a trail but not a circuit.</p></div></details>
+</section>
+
+<section>
+<h2 id="dist"><span class="num">6</span>Distance, BFS and connected components</h2>
+<span class="board">Module 2a · slides 65–79</span>
+<p class="about">The <strong>distance</strong> between two nodes is the fewest links you must cross to get from one to the other. The <strong>diameter</strong> is the largest distance in the network and the <strong>average path length</strong> is the average over all pairs. A systematic way to find distances is breadth-first search. If some nodes cannot reach each other at all, the network is split into <strong>components</strong>.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul><li>Compute distances, diameter and average path length of a small graph.</li><li>Run BFS from a node.</li><li>Count components (and connect this to the Laplacian, Mid-sem guide §12).</li></ul>
+</div>
+<div class="eq boxed">\[d_{\max} = \max_{i,j}d_{ij}, \qquad \langle d\rangle = \frac{1}{N(N-1)}\sum_{i\ne j}d_{ij} = \frac{\sum_{\text{pairs}}d_{ij}}{N(N-1)/2}\ \ (\text{undirected})\]</div>
+<p>In a directed network you must follow arrows, so \(d_{ij}\) and \(d_{ji}\) can differ (with A→B, B→C, C→A: \(d_{AB} = 1\) but \(d_{BA} = 2\)). If no route exists, \(d_{ij} = \infty\).</p>
+
+<div class="card exam"><span class="tag">Method to learn · breadth-first search (BFS)</span>
+<ol class="steps">
+<li>Label the starting node 0.</li>
+<li>Label every unlabelled neighbour of a node labelled 0 with 1.</li>
+<li>Label every unlabelled neighbour of a node labelled 1 with 2, and so on.</li>
+<li>Stop when no new node can be labelled. Each label is that node's distance from the start; unlabelled nodes are unreachable (in another component).</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">Worked example · slides 70–71</span>
+<figure class="fig" style="margin:6px 0 12px"><svg class="gr" viewBox="0 0 300 170" role="img" aria-label="Five-node graph for distances" data-spec='{"r":16,"nodes":{"1":[40,85],"2":[120,85],"3":[200,35],"4":[270,85],"5":[200,135]},"edges":[["1","2"],["2","3"],["2","5"],["3","4"],["4","5"]]}'></svg><figcaption>Links 1–2, 2–3, 2–5, 3–4, 4–5.</figcaption></figure>
+<p>BFS from node 1: node 1 → 0; node 2 → 1; nodes 3, 5 → 2; node 4 → 3.</p>
+<p>All 10 pairs: \(d_{12} = 1, d_{13} = 2, d_{14} = 3, d_{15} = 2, d_{23} = 1, d_{24} = 2, d_{25} = 1, d_{34} = 1, d_{35} = 2, d_{45} = 1\). Sum = 16, so \(\langle d\rangle = 16/10 = 1.6\). Diameter \(d_{14} = 3\).</p>
+</div>
+
+<h3>Connected components</h3>
+<p>A graph is <strong>connected</strong> if every pair of nodes has a path between them. Otherwise it splits into <strong>components</strong>, the largest pieces that are each connected. Numbered piece by piece, the adjacency matrix is block-diagonal; one extra link between two blocks joins them, and that link is a bridge. The number of components equals the number of zero eigenvalues of the Laplacian \(L = D - A\) (its nullity), see <a href="../#lap">Mid-sem guide §12</a>.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>Distance = fewest links. Diameter = largest distance. \(\langle d\rangle\) = average over all pairs.</li><li>BFS labels 0, 1, 2, … give distances. Components = pieces; count = Laplacian nullity.</li></ul>
+</div>
+</section>

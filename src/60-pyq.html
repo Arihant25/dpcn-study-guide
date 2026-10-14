@@ -249,7 +249,7 @@
 
 <h3>2024 Quiz 1</h3>
 
-<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 + 1 marks</span><span>For a star graph with N = 5 nodes (another set: N = 6), what is the average path length of the graph? What is the diameter of the graph?</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 + 1 marks</span><span>For a star graph with N = 5 nodes, what is the average path length of the graph? What is the diameter of the graph?</span><span class="chev">›</span></summary>
 <div class="ans">
 <p class="idea"><strong>The idea in plain words.</strong> In a star, every path goes through the hub. The hub is 1 step from everyone, and any two outer nodes are 2 steps apart (in to the hub and out again). Count how many pairs are of each kind and take the average.</p>
 <h4>Formulas you need</h4>
@@ -266,13 +266,13 @@
 <li>\(\langle l\rangle = \frac{4\times1 + 6\times2}{10} = \frac{16}{10} = 1.6\). Formula check: \(\frac{2\times4}{5} = 1.6\).</li>
 <li>The largest distance is 2 (leaf to leaf).</li>
 </ol>
-<h4>Step by step, N = 6</h4>
+<h4>The same method for a bigger star, N = 6 (practice)</h4>
 <ol class="steps">
 <li>Pairs: \(\frac{6\times5}{2} = 15\). Hub–leaf: 5 at distance 1. Leaf–leaf: \(\frac{5\times4}{2} = 10\) at distance 2.</li>
 <li>\(\langle l\rangle = \frac{5 + 20}{15} = \frac{25}{15} = \frac53\approx1.67\). Formula check: \(\frac{2\times5}{6} = 1.67\).</li>
 </ol>
 <h4>Final answer</h4>
-<p>\(N = 5\): average path length 1.6, diameter 2. \(N = 6\): average path length \(5/3\approx1.67\), diameter 2.</p>
+<p>Average path length 1.6, diameter 2. (Both sets of the 2024 paper used \(N = 5\); the \(N = 6\) case above is for practice: \(5/3\approx1.67\), diameter 2.)</p>
 </div></details>
 
 <details class="q"><summary><span class="qt pyq">Quiz 1 · 2 marks</span><span>For an all-to-all connected network (binary, undirected, without self-loops) with N nodes, which are true? (a) The network is symmetric. (b) The diameter is N. (c) The average path length is 1. (d) The average degree is N − 1. Give a one-line reason for each.</span><span class="chev">›</span></summary>

@@ -1,0 +1,82 @@
+
+<div class="part">Part 3<span>Numerical methods</span></div>
+<section>
+<h2 id="numeric"><span class="num">10</span>Derivatives on a computer, Euler's method, and two solved models</h2>
+<span class="board">Module 2c1 · slides 1–21 · Module 2c2 · slides 1–3</span>
+<p class="about">Most equations in this course cannot be solved with a formula, so a computer steps the solution forward in small time steps. This needs an approximation of the slope (derivative) from nearby values. This section derives the two standard approximations and their errors, gives Euler's stepping method, and solves the two simple models the slides use to test it. Fixed points and stability of these models are in <a href="../#fixed">Mid-sem guide §8</a>.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Derive the forward and central difference formulas and show their errors are of order \(h\) and \(h^2\).</li>
+<li>Write Euler's update rule and do one or two steps by hand.</li>
+<li>Name and explain the two kinds of numerical error.</li>
+<li>Solve \(\dot u = a - bu\) or the RC circuit exactly and find the fixed point.</li>
+</ul>
+</div>
+
+<h3>Taylor's formula</h3>
+<p>Near a point \(x_0\), a smooth function is well approximated by its value, plus slope times the step, plus a correction for curvature, and so on:</p>
+<div class="eq">\[f(x_0 + h) = f(x_0) + hf'(x_0) + \frac{h^2}{2}f''(x_0) + \frac{h^3}{6}f'''(x_0) + \dots\]</div>
+<p class="sym">\(h\) is a small step. \(f'\), \(f''\), \(f'''\) are the first, second and third derivatives (slope, slope of the slope, and so on).</p>
+
+<div class="card exam"><span class="tag">Derivation to learn · forward and central differences</span>
+<ol class="steps">
+<li><strong>Forward difference.</strong> Rearrange Taylor's formula: \[\frac{f(x_0 + h) - f(x_0)}{h} = f'(x_0) + \frac h2f''(x_0) + \dots\] So "rise over run" equals the slope plus an error proportional to \(h\): <strong>first order</strong>, written \(O(h)\). Halving \(h\) halves the error.</li>
+<li><strong>Step backwards too:</strong> \(f(x_0 - h) = f(x_0) - hf'(x_0) + \frac{h^2}{2}f''(x_0) - \frac{h^3}{6}f'''(x_0) + \dots\) (odd powers change sign).</li>
+<li><strong>Subtract the two expansions.</strong> The \(f(x_0)\) and \(\frac{h^2}{2}f''\) terms cancel: \(f(x_0 + h) - f(x_0 - h) = 2hf'(x_0) + \frac{h^3}{3}f'''(x_0) + \dots\)</li>
+<li><strong>Divide by \(2h\):</strong> \[\frac{f(x_0 + h) - f(x_0 - h)}{2h} = f'(x_0) + \frac{h^2}{6}f'''(x_0) + \dots\] The error is proportional to \(h^2\): <strong>second order</strong>, \(O(h^2)\). Halving \(h\) quarters the error.</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">Worked example · \(f = \sin x\) at \(x_0 = 1\), \(h = 0.1\)</span>
+<p>True slope \(\cos1 = 0.5403\).</p>
+<ul>
+<li>Forward: \(\frac{\sin1.1 - \sin1}{0.1} = \frac{0.8912 - 0.8415}{0.1} = 0.4974\), error \(-0.043\).</li>
+<li>Central: \(\frac{\sin1.1 - \sin0.9}{0.2} = \frac{0.8912 - 0.7833}{0.2} = 0.5394\), error \(-0.0009\), about 50 times smaller for the same \(h\).</li>
+</ul>
+</div>
+
+<h3>Euler's method (the tangent-line method)</h3>
+<p>To solve \(\dot y = f(t, y)\) from a starting value \(y(t_0) = y_0\): at the current point you know the slope (the equation gives it), so move a small step \(h\) along that straight line, then repeat from the new point.</p>
+<div class="eq boxed">\[y_{n+1} = y_n + h\,f(t_n, y_n)\]</div>
+<p>It is the forward difference used backwards: \(\frac{y_{n+1} - y_n}{h}\approx f(t_n, y_n)\). Its error over a fixed time span is proportional to \(h\) (first order). The Runge–Kutta method (RK4, <a href="../after-midsem/#euler">After mid-sem guide §11</a>) averages four slopes per step and is much more accurate. (A MATLAB comment on slide 14 says "Runge–Kutta", but the code is plain Euler.)</p>
+<div class="card ex"><span class="tag">Worked example · \(\dot y = 1 - y\), \(y_0 = 0.2\), \(h = 0.1\)</span>
+<ol>
+<li>\(y_1 = 0.2 + 0.1(1 - 0.2) = 0.28\).</li>
+<li>\(y_2 = 0.28 + 0.1(1 - 0.28) = 0.352\).</li>
+<li>Exact answer (below): \(y(0.2) = 1 - 0.8e^{-0.2} = 0.345\). Euler's 0.352 is close; a smaller \(h\) gets closer.</li>
+</ol>
+</div>
+
+<h3>The two kinds of error</h3>
+<ul>
+<li><strong>Truncation (discretisation) error</strong>: from dropping the higher terms of the Taylor series, i.e. from using a straight line instead of the curve. It would happen even on a perfect computer, and shrinks as \(h\) shrinks.</li>
+<li><strong>Round-off error</strong>: from the computer storing numbers with finitely many digits. A tiny \(h\) means many more steps and more rounding, so making \(h\) extremely small can make this worse.</li>
+</ul>
+
+<h3>Two models solved exactly</h3>
+<div class="card exam"><span class="tag">Derivation to learn · \(\dot u = a - bu\) (Model 1)</span>
+<ol class="steps">
+<li><strong>Fixed point:</strong> \(a - bu^* = 0\Rightarrow u^* = a/b\). Slope \(f'(u) = -b < 0\) (for \(b > 0\)): stable.</li>
+<li><strong>Separate:</strong> \(\frac{du}{a - bu} = dt\).</li>
+<li><strong>Integrate</strong> from 0 to \(t\): \(-\frac1b\ln\frac{a - bu(t)}{a - bu(0)} = t\).</li>
+<li><strong>Remove the log:</strong> \(a - bu(t) = (a - bu(0))e^{-bt}\), so \[u(t) = \frac ab + \left(u(0) - \frac ab\right)e^{-bt}.\]</li>
+<li><strong>Check:</strong> at \(t = 0\) it gives \(u(0)\); as \(t\to\infty\) it gives \(a/b\), the fixed point. With \(a = b = 1\), \(u(0) = 0.2\): \(u(t) = 1 - 0.8e^{-t}\).</li>
+</ol>
+</div>
+<div class="card exam"><span class="tag">Derivation to learn · charging a capacitor (Model 2, the RC circuit)</span>
+<ol class="steps">
+<li><strong>Kirchhoff's law</strong> around the loop: battery voltage = capacitor voltage + resistor voltage, \(V_0 = \frac qC + iR\), where \(q\) is the charge and \(i = \dot q\) the current.</li>
+<li><strong>Rearrange:</strong> \(\dot q = \frac{V_0}{R} - \frac{q}{RC}\). This is Model 1 with \(a = V_0/R\), \(b = 1/(RC)\).</li>
+<li><strong>Fixed point:</strong> \(q^* = a/b = CV_0\) (fully charged). Slope \(-\frac1{RC} < 0\): stable.</li>
+<li><strong>Solution</strong> with \(q(0) = 0\): \(q(t) = CV_0\big(1 - e^{-t/RC}\big)\). It rises from 0 to the maximum \(CV_0\); \(RC\) is the time scale.</li>
+<li><strong>Numbers</strong> (slide 20): \(V_0 = 1.5\), \(C = 0.5\), \(R = 1\): \(q^* = 0.75\), \(RC = 0.5\), and at \(t = 0.5\), \(q = 0.75(1 - e^{-1}) = 0.474\).</li>
+</ol>
+</div>
+<p class="small">Slide 17 says a perturbation "decreases if \(f'(u^*) > 0\)"; it should be "\(< 0\)". Slide 26 writes the SIS recovery as \(i\to r\); for SIS it is \(i\to s\).</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>Forward \(\frac{f(x+h) - f(x)}{h}\): error \(O(h)\). Central \(\frac{f(x+h) - f(x-h)}{2h}\): error \(O(h^2)\).</li><li>Euler: \(y_{n+1} = y_n + hf(t_n, y_n)\). Errors: truncation (method) and round-off (digits).</li><li>\(\dot u = a - bu\): \(u = \frac ab + (u_0 - \frac ab)e^{-bt}\). RC: \(q = CV_0(1 - e^{-t/RC})\).</li></ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Drill</span><span>Show that the central difference has error of order \(h^2\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>Expand \(f(x\pm h)\) by Taylor. Subtracting cancels \(f(x)\) and the \(h^2f''\) terms, leaving \(2hf' + \frac{h^3}3f'''\). Dividing by \(2h\) gives \(f' + \frac{h^2}6f'''\).</p></div></details>
+</section>

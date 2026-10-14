@@ -1,0 +1,120 @@
+</main>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('themebtn');
+  var ico=btn.querySelector('.ico'), lbl=btn.querySelector('.lbl');
+  var ICONS={auto:'◐',light:'☀',dark:'☾'}, ORDER=['auto','light','dark'];
+  function apply(mode){
+    if(mode==='light'||mode==='dark') document.documentElement.setAttribute('data-theme',mode);
+    else { document.documentElement.removeAttribute('data-theme'); mode='auto'; }
+    if(ico) ico.textContent=ICONS[mode];
+    if(lbl) lbl.textContent=mode.charAt(0).toUpperCase()+mode.slice(1);
+    return mode;
+  }
+  var saved='auto'; try{ saved=localStorage.getItem('dpcn-theme')||'auto'; }catch(e){}
+  var current=apply(saved);
+  btn.addEventListener('click',function(){
+    current=apply(ORDER[(ORDER.indexOf(current)+1)%ORDER.length]);
+    try{ current==='auto' ? localStorage.removeItem('dpcn-theme') : localStorage.setItem('dpcn-theme',current); }catch(e){}
+  });
+  var links=[].slice.call(document.querySelectorAll('#tocnav a'));
+  var map={}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active');});
+        var a=map[en.target.id]; if(a){a.classList.add('active'); a.scrollIntoView({block:'nearest'});}
+      }});
+    },{rootMargin:'-8% 0px -80% 0px',threshold:0});
+    document.querySelectorAll('main [id]').forEach(function(el){ if(map[el.id]) obs.observe(el); });
+  }
+  // Reveal correct MCQ options only when the answer is opened (fallback for browsers without :has())
+  document.querySelectorAll('.qitem .ansd').forEach(function(d){
+    d.addEventListener('toggle',function(){
+      var qi=d.closest('.qitem'); if(qi) qi.classList.toggle('revealed', d.open);
+    });
+  });
+})();
+</script>
+<script>
+/* Graph illustration engine: renders every <svg class="gr" data-spec='{...}'>.
+   spec = { nodes:{A:[x,y],...}, edges:[ ["A","B"] | ["A","B",curve] | {u,v,c,w,d} ],
+            directed:bool, hi:["X",...], dim:["Y",...], r:number, labels:{A:"..."} } */
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function C(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function E(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function ensureArrow(svg,color){
+    var id="arrow-"+Math.random().toString(36).slice(2,7);
+    var defs=E("defs",{});
+    var m=E("marker",{id:id,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"});
+    m.appendChild(E("path",{d:"M0,0 L10,5 L0,10 z",fill:color}));
+    defs.appendChild(m); svg.appendChild(defs); return id;
+  }
+  function draw(svg){
+    var spec; try{ spec=JSON.parse(svg.getAttribute("data-spec")); }catch(e){ return; }
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    var edgeCol=C("--edge"), nodeFill=C("--node"), nodeStroke=C("--node-stroke"),
+        fg=C("--fg"), brand=C("--brand"), brandFg=C("--brand-fg"), mutedFg=C("--muted-fg");
+    var r = spec.r || 15;
+    var arrowId = spec.directed ? ensureArrow(svg, edgeCol) : null;
+    var N = spec.nodes;
+    function pt(k){ return N[k]; }
+    // shorten a line by radius at both ends so it meets circle edges
+    function trim(x1,y1,x2,y2,pad1,pad2){
+      var dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy)||1;
+      return [x1+dx/L*pad1, y1+dy/L*pad1, x2-dx/L*pad2, y2-dy/L*pad2];
+    }
+    (spec.edges||[]).forEach(function(ed){
+      var u,v,curve=0,w=null,dir=spec.directed;
+      if(Array.isArray(ed)){ u=ed[0]; v=ed[1]; curve=ed[2]||0; }
+      else { u=ed.u; v=ed.v; curve=ed.c||0; w=ed.w; if(ed.d!==undefined) dir=ed.d; }
+      var a=pt(u), b=pt(v); if(!a||!b) return;
+      var col = ed.col? C(ed.col) : edgeCol;
+      if(curve){
+        // quadratic curve; control point offset perpendicular to the chord
+        var mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy)||1;
+        var cx=mx - dy/L*curve, cy=my + dx/L*curve;
+        // trim endpoints toward control point
+        var s=trim(a[0],a[1],cx,cy,r,0), e2=trim(cx,cy,b[0],b[1],0,r);
+        var p=E("path",{d:"M"+s[0]+","+s[1]+" Q"+cx+","+cy+" "+e2[2]+","+e2[3],
+          fill:"none",stroke:col,"stroke-width":2});
+        if(dir&&arrowId) p.setAttribute("marker-end","url(#"+arrowId+")");
+        svg.appendChild(p);
+        if(w!=null){ var t=E("text",{x:cx,y:cy-4,"text-anchor":"middle","font-size":12,fill:mutedFg,"font-family":"STIX Two Text, serif","font-style":"italic"}); t.textContent=w; svg.appendChild(t); }
+      } else {
+        var c=trim(a[0],a[1],b[0],b[1],dir?r:0,r);
+        var ln=E("line",{x1:c[0],y1:c[1],x2:c[2],y2:c[3],stroke:col,"stroke-width":2});
+        if(dir&&arrowId) ln.setAttribute("marker-end","url(#"+arrowId+")");
+        svg.appendChild(ln);
+        if(w!=null){ var mx2=(a[0]+b[0])/2,my2=(a[1]+b[1])/2; var t2=E("text",{x:mx2,y:my2-5,"text-anchor":"middle","font-size":12,fill:mutedFg,"font-family":"STIX Two Text, serif","font-style":"italic"}); t2.textContent=w; svg.appendChild(t2); }
+      }
+    });
+    var hi=spec.hi||[], dim=spec.dim||[], labels=spec.labels||{};
+    Object.keys(N).forEach(function(k){
+      var p=N[k], on=hi.indexOf(k)>=0, faded=dim.indexOf(k)>=0;
+      var fill = on? brand : nodeFill;
+      var stroke = on? brand : nodeStroke;
+      var g=E("circle",{cx:p[0],cy:p[1],r:r,fill:fill,stroke:stroke,"stroke-width":on?2:1.6});
+      if(faded) g.setAttribute("opacity",".45");
+      svg.appendChild(g);
+      var lab = (k in labels)? labels[k] : k;
+      if(lab!==""){
+        var tx=E("text",{x:p[0],y:p[1],"text-anchor":"middle","dominant-baseline":"central",
+          "font-size":Math.round(r*0.95),fill:on?brandFg:fg,"font-family":"STIX Two Text, serif","font-style":"italic"});
+        if(faded) tx.setAttribute("opacity",".55");
+        tx.textContent=lab; svg.appendChild(tx);
+      }
+    });
+  }
+  function drawAll(){ document.querySelectorAll("svg.gr").forEach(draw); }
+  if(document.readyState!=="loading") drawAll(); else document.addEventListener("DOMContentLoaded",drawAll);
+  window.__redrawGraphs=drawAll;
+  var mo=new MutationObserver(drawAll);
+  mo.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",drawAll); }catch(e){} }
+})();
+</script>
+</body>
+</html>

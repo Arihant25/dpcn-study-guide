@@ -1,0 +1,151 @@
+
+<div class="part">Part 2<span>Measuring a network</span></div>
+<section>
+<h2 id="cluster"><span class="num">7</span>Clustering coefficient</h2>
+<span class="board">Module 2b · slides 2–7</span>
+<p class="about">Clustering asks whether your neighbours are also neighbours of each other ("are my friends friends with each other?"). It is a number between 0 (none of your neighbours know each other) and 1 (all of them do).</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul><li>Compute the clustering of given nodes in a drawn graph (Quiz 1 Q1, both sets).</li><li>Average clustering; clustering of special graphs (complete = 1, tree or bipartite = 0).</li></ul>
+</div>
+<div class="eq boxed">\[C_i = \frac{L_i}{k_i(k_i - 1)/2} = \frac{2L_i}{k_i(k_i-1)}, \qquad \langle C\rangle = \frac1N\sum_iC_i\]</div>
+<p class="sym">\(k_i\) is the degree of node \(i\), so it has \(k_i(k_i-1)/2\) pairs of neighbours. \(L_i\) is how many of those pairs are actually linked. \(C_i\) is defined only when \(k_i\ge2\); for \(k_i < 2\) the slides set it to 0.</p>
+
+<div class="card exam"><span class="tag">Method to learn</span>
+<ol class="steps">
+<li>List the neighbours of node \(i\) and count them: \(k_i\).</li>
+<li>List every pair of neighbours: there are \(k_i(k_i-1)/2\).</li>
+<li>Count how many of those pairs are linked: \(L_i\).</li>
+<li>Divide: \(C_i = L_i\big/\frac{k_i(k_i-1)}{2}\).</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">Worked example · slides 5–6</span>
+<figure class="fig" style="margin:6px 0 12px"><svg class="gr" viewBox="0 0 330 200" role="img" aria-label="Clustering example graph" data-spec='{"r":15,"nodes":{"a":[30,100],"b":[110,100],"t":[110,25],"l":[190,60],"r":[190,150],"d":[270,25],"c":[290,120]},"edges":[["a","b"],["b","t"],["b","l"],["b","r"],["l","r"],["l","d"],["l","c"],["r","c"]]}'></svg><figcaption>Links a–b, b–t, b–l, b–r, l–r, l–d, l–c, r–c.</figcaption></figure>
+<table class="tbl">
+<tr><th>Node</th><th>Neighbours</th><th>\(k\)</th><th>Pairs</th><th>Linked pairs</th><th>\(C\)</th></tr>
+<tr><td>b</td><td>a, t, l, r</td><td>4</td><td>6</td><td>l–r</td><td>1/6</td></tr>
+<tr><td>l</td><td>b, r, d, c</td><td>4</td><td>6</td><td>b–r, r–c</td><td>2/6 = 1/3</td></tr>
+<tr><td>r</td><td>b, l, c</td><td>3</td><td>3</td><td>b–l, l–c</td><td>2/3</td></tr>
+<tr><td>c</td><td>l, r</td><td>2</td><td>1</td><td>l–r</td><td>1</td></tr>
+<tr><td>a, t, d</td><td>one each</td><td>1</td><td>0</td><td>–</td><td>0</td></tr>
+</table>
+<p>Average over the 7 nodes: \((\frac16 + \frac13 + \frac23 + 1)/7 = \frac{13}{6}/7 = \frac{13}{42}\approx0.31\).</p>
+</div>
+<p>A second, whole-network version is the <strong>transitivity</strong>: \(3\times\)(number of triangles) ÷ (number of connected triples, i.e. paths of two links). It weighs high-degree nodes more than the plain average does.</p>
+<div class="card remember"><span class="tag">What to remember</span>
+<p>\(C_i = 2L_i/(k_i(k_i-1))\); \(\langle C\rangle\) = average. Complete graph: 1. Tree, star or bipartite graph: 0.</p>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Surprise quiz</span><span>Node A has neighbours B, C, D, and B and C are not linked. Options for the minimum possible clustering of A: 0, 1, 2/3, 1/2, 1/3.</span><span class="chev">›</span></summary>
+<div class="ans"><p>A has \(3\) pairs of neighbours (B–C, B–D, C–D), and B–C is missing. The smallest value is 0 (if B–D and C–D are also missing). The 2024 key marked 1/3, which is the value with exactly one of the other two pairs linked; mathematically the minimum is 0. Write the reasoning either way.</p></div></details>
+</section>
+
+<section>
+<h2 id="cent"><span class="num">8</span>The four centralities</h2>
+<span class="board">Module 2b · slides 8–41</span>
+<p class="about">A <strong>centrality</strong> is a score that says how important a node is. "Important" can mean different things, so there are four standard scores: how many links a node has (degree), how close it is to everyone (closeness), how often it lies on shortest routes between others (betweenness), and how well connected its neighbours are (eigenvector). They pick out influencers in a social network, critical routers on the internet, or super-spreaders of a disease.</p>
+
+<div class="card goal"><span class="tag">What the exam can ask</span>
+<ul>
+<li>Match each centrality to its idea (multiple choice).</li>
+<li>Compute betweenness and closeness of given nodes (Quiz 1, both sets).</li>
+<li>Compute eigenvector centrality by the power method.</li>
+</ul>
+</div>
+<table class="tbl">
+<tr><th>Centrality</th><th>Idea</th><th>Formula</th></tr>
+<tr><td><strong>Degree</strong></td><td>Many direct connections</td><td>\(C_D(v) = k_v\); normalised \(k_v/(N-1)\) (slide 14 divides by \(N\))</td></tr>
+<tr><td><strong>Closeness</strong></td><td>Close to everyone (spreads information fast)</td><td>\(C_C(v) = \dfrac{1}{\sum_u d(v,u)}\); normalised \(\dfrac{N-1}{\sum_u d(v,u)}\)</td></tr>
+<tr><td><strong>Betweenness</strong></td><td>Lies on many shortest routes (a broker or bottleneck)</td><td>\(C_B(v) = \displaystyle\sum_{s\ne v\ne t}\frac{\sigma_{st}(v)}{\sigma_{st}}\); normalised by dividing by \(\frac{(N-1)(N-2)}{2}\)</td></tr>
+<tr><td><strong>Eigenvector</strong></td><td>Linked to important nodes</td><td>\(\lambda x_i = \sum_jA_{ij}x_j\), i.e. \(A\mathbf x = \lambda\mathbf x\) with the largest \(\lambda\)</td></tr>
+</table>
+<p class="sym">\(d(v,u)\) is the distance from \(v\) to \(u\). \(\sigma_{st}\) is the number of shortest paths between \(s\) and \(t\), and \(\sigma_{st}(v)\) the number of those that pass through \(v\). The betweenness sum is over pairs \(\{s,t\}\) not containing \(v\).</p>
+
+<div class="card exam"><span class="tag">Method to learn · betweenness and closeness by hand</span>
+<ol class="steps">
+<li><strong>Closeness of \(v\):</strong> find the distance from \(v\) to every other node (BFS, §6), add them, take \(1/\text{sum}\) (or \((N-1)/\text{sum}\) normalised).</li>
+<li><strong>Betweenness of \(v\):</strong> list every pair of <em>other</em> nodes. For each pair, count the shortest paths between them and how many pass through \(v\). Add up the fractions.</li>
+<li><strong>Shortcut on a path (a line of nodes):</strong> there is exactly one route between any two nodes, so a node at position \(i\) of \(N\) lies between every node on its left and every node on its right: \(C_B = (i-1)(N-i)\).</li>
+<li><strong>Shortcut for an end node or a node whose neighbours are all linked to each other:</strong> betweenness 0 (no shortest path needs to pass through it).</li>
+</ol>
+</div>
+
+<div class="card ex"><span class="tag">Worked example · 2024 Quiz 1, the path of 5 nodes</span>
+<figure class="fig" style="margin:6px 0 12px"><svg class="gr" viewBox="0 0 380 80" role="img" aria-label="Path of five nodes" data-spec='{"r":15,"nodes":{"1":[40,40],"2":[115,40],"3":[190,40],"4":[265,40],"5":[340,40]},"edges":[["1","2"],["2","3"],["3","4"],["4","5"]]}'></svg><figcaption>Nodes numbered 1 to 5 from the left. Set II labels Y = node 3 and X = node 5. Set IV labels X = node 2 and Y = node 3.</figcaption></figure>
+<table class="tbl">
+<tr><th>Node</th><th>Distances to the others</th><th>Sum</th><th>Closeness \(1/\text{sum}\) · normalised \(4/\text{sum}\)</th><th>Betweenness \((i-1)(N-i)\) · normalised \(/6\)</th></tr>
+<tr><td>2</td><td>1, 1, 2, 3</td><td>7</td><td>0.143 · 0.571</td><td>\(1\times3 = 3\) · 0.5</td></tr>
+<tr><td>3 (middle)</td><td>2, 1, 1, 2</td><td>6</td><td>0.167 · 0.667</td><td>\(2\times2 = 4\) · 0.667</td></tr>
+<tr><td>5 (end)</td><td>4, 3, 2, 1</td><td>10</td><td>0.1 · 0.4</td><td>0</td></tr>
+</table>
+<p>Node 3's betweenness, listed in full: the pairs with one node on each side are (1,4), (1,5), (2,4), (2,5), each with one shortest path through 3. That is 4.</p>
+</div>
+
+<div class="card ex"><span class="tag">Worked example · 2024 Quiz 1 Q1, the bowtie</span>
+<figure class="fig" style="margin:6px 0 12px"><svg class="gr" viewBox="0 0 300 180" role="img" aria-label="Bowtie graph" data-spec='{"r":15,"nodes":{"X":[95,32],"L":[45,98],"Y":[140,118],"U":[242,78],"D":[246,152]},"labels":{"L":"","U":"","D":""},"edges":[["X","L"],["X","Y"],["L","Y"],["Y","U"],["Y","D"],["U","D"]]}'></svg><figcaption>Two triangles sharing node Y.</figcaption></figure>
+<ol>
+<li><strong>Clustering.</strong> X has neighbours L and Y, which are linked: \(C_X = 1/1 = 1\). Y has 4 neighbours (6 pairs), of which 2 pairs are linked (X–L and U–D): \(C_Y = 2/6 = 1/3\).</li>
+<li><strong>(a) Degree of Y > X?</strong> \(k_Y = 4\), \(k_X = 2\). True.</li>
+<li><strong>(b) Betweenness of X > Y?</strong> X's neighbours are linked, so no shortest path needs X: \(C_B(X) = 0\). Every route from {X, L} to {U, D} passes through Y: 4 pairs, \(C_B(Y) = 4\). False.</li>
+<li><strong>(c) Closeness of X smaller than Y?</strong> X's distances 1, 1, 2, 2 (sum 6); Y's distances 1, 1, 1, 1 (sum 4). \(C_C(X) = 1/6 < C_C(Y) = 1/4\). True.</li>
+</ol>
+</div>
+
+<h3>Eigenvector centrality and the power method</h3>
+<p>Degree counts each neighbour as 1. Eigenvector centrality counts each neighbour by its own importance: \(x_i\propto\sum_jA_{ij}x_j\). Writing the proportionality constant as \(1/\lambda\) gives \(A\mathbf x = \lambda\mathbf x\): the scores form an eigenvector of \(A\). We take the eigenvector of the largest eigenvalue, which for a connected network has all positive entries.</p>
+<div class="card exam"><span class="tag">Method to learn · the power method</span>
+<ol class="steps">
+<li>Start with all scores equal: \(\mathbf x_0 = (1, 1, \dots, 1)\).</li>
+<li>Multiply by \(A\): each node's new score is the sum of its neighbours' scores. (The first step gives the degrees.)</li>
+<li>Divide by the vector's length \(\sqrt{\sum x_i^2}\) so the numbers stay small. That length is the "normalised value".</li>
+<li>Repeat. The normalised value settles at the largest eigenvalue \(\lambda\), and the vector settles at the eigenvector centrality. (The slides: "for exam purposes, stop when the normalised value converges".)</li>
+<li><strong>Why it works:</strong> write \(\mathbf x_0\) as a mix of eigenvectors. Each multiplication by \(A\) multiplies the part along eigenvector \(r\) by \(\lambda_r\). After many steps the part with the largest \(|\lambda|\) outgrows all others.</li>
+</ol>
+</div>
+<div class="card ex"><span class="tag">Worked example · slide 28, a 2×2 matrix</span>
+<p>\(A = \begin{pmatrix}2 & -12\\ 1 & -5\end{pmatrix}\), start \((1, 1)\). Dividing each result by its second entry:</p>
+<p>\((-10, -4)\to(2.50, 1)\); \((28, 10)\to(2.80, 1)\); \((-64, -22)\to(2.91, 1)\); \((136, 46)\to(2.96, 1)\); … → \((3, 1)\).</p>
+<p>Check: eigenvalues from \(\lambda^2 + 3\lambda + 2 = 0\) are \(-1, -2\); the dominant one is \(-2\), with eigenvector \((3, 1)\). The signs flip each step because \(\lambda = -2\) is negative.</p>
+</div>
+<div class="card ex"><span class="tag">Worked example · 2024 Surprise Quiz 2 Q2</span>
+<p>Links A–B, A–C, A–D, B–C, C–D. A and C have degree 3, B and D degree 2. By symmetry write \(\mathbf x = (a, b, a, b)\). Then \(\lambda a = b + a + b\) (A's neighbours B, C, D) and \(\lambda b = 2a\) (B's neighbours A, C). Eliminating \(\lambda\) with \(t = a/b\): \(2t^2 - t - 2 = 0\), \(t = \frac{1 + \sqrt{17}}{4} = 1.28\), \(\lambda = 2t = 2.56\). Normalised: A, C ≈ 0.56 and B, D ≈ 0.44.</p>
+<p>The official key gave 0.5 for every node, which is only right if all degrees were equal. Write the correct calculation and note the difference.</p>
+</div>
+<div class="card watch"><span class="tag">Slide errors in this part</span>
+<ul>
+<li>Slide 30 (8-node power method), iteration 3: node 2's entry should be \(0.428 + 0.321 + 0.428 = 1.177\), not 1.284. The final 7-iteration vector on the slide is right, but its normalised value is about 2.66, not 2.64.</li>
+<li>Slide 37's betweenness column cannot be reproduced from the drawn 16-node graph; the closeness column and the Gephi table (slides 9, 36) are correct.</li>
+</ul>
+</div>
+<div class="card remember"><span class="tag">What to remember</span>
+<ul><li>Degree: \(k_v\). Closeness: \(1/\sum d\) (×\((N-1)\) normalised). Betweenness: \(\sum\sigma_{st}(v)/\sigma_{st}\) (÷\(\frac{(N-1)(N-2)}2\)). Eigenvector: \(A\mathbf x = \lambda_{\max}\mathbf x\).</li><li>Path: betweenness \((i-1)(N-i)\). Power method: multiply by \(A\), normalise, repeat.</li></ul>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Concept</span><span>Which centrality: (a) counts direct connections, (b) counts shortest paths through a node, (c) important if linked to important nodes, (d) close to many nodes?</span><span class="chev">›</span></summary>
+<div class="ans"><p>(a) degree, (b) betweenness, (c) eigenvector, (d) closeness.</p></div></details>
+<details class="q"><summary><span class="qt">Calc</span><span>Star with 5 nodes: betweenness and closeness of the hub and of a leaf.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Hub: every leaf–leaf pair (6 pairs) goes through it, betweenness 6 (normalised 6/6 = 1); distances 1, 1, 1, 1, closeness 1/4 (normalised 1). Leaf: betweenness 0; distances 1, 2, 2, 2 = 7, closeness 1/7 (normalised 4/7).</p></div></details>
+</section>
+
+<section>
+<h2 id="special"><span class="num">9</span>Special graphs</h2>
+<span class="board">Module 2b · slides 42–45 · Module 3 · slides 12–18</span>
+<p class="about">A few graph shapes come up so often that they have names and their properties can be written down at once.</p>
+<table class="tbl">
+<tr><th>Graph</th><th>What it is</th><th>Key facts</th></tr>
+<tr><td><strong>Complete graph</strong> \(K_N\)</td><td>Every pair of nodes linked</td><td>\(L = \frac{N(N-1)}{2}\), every degree \(N-1\), every distance 1, clustering 1, adjacency matrix all 1s off the diagonal</td></tr>
+<tr><td><strong>Regular graph</strong></td><td>Every node has the same degree \(k\)</td><td>Ring (\(k = 2\)), lattices. \(\langle k_{nn}\rangle = \langle k\rangle\).</td></tr>
+<tr><td><strong>Bipartite graph</strong></td><td>Nodes in two groups; links only go between groups</td><td>No odd cycles, so no triangles: clustering 0. Examples: users–movies, authors–papers, customers–products, stars, square lattices.</td></tr>
+<tr><td><strong>Tree</strong></td><td>Connected, no cycles</td><td>Exactly \(N - 1\) links. Removing any link disconnects it. Clustering 0.</td></tr>
+<tr><td><strong>Spanning tree</strong></td><td>A tree inside a connected graph that reaches every node</td><td>\(N - 1\) links; found by removing one link from each cycle while keeping everything connected</td></tr>
+<tr><td><strong>Clique</strong></td><td>A group of nodes all linked to each other</td><td>A complete graph inside a bigger graph</td></tr>
+</table>
+<p><strong>Bipartite projection.</strong> From a bipartite graph with groups U and V, the U-projection links two U-nodes if they share at least one V-neighbour (e.g. two actors who appeared in the same film).</p>
+<div class="card ex"><span class="tag">Worked example · 2024 Surprise Quiz 2, spanning tree</span>
+<figure class="fig" style="margin:6px 0 12px"><svg class="gr" viewBox="0 0 320 210" role="img" aria-label="Graph for the spanning tree question" data-spec='{"r":16,"nodes":{"A":[90,60],"B":[180,30],"C":[170,115],"D":[285,85],"E":[30,160],"F":[245,180]},"edges":[["A","B"],["A","C"],["B","C"],["B","E"],["C","D"],["C","F"],["D","F"],["E","F"]]}'></svg><figcaption>Links A–B, A–C, B–C, B–E, C–D, C–F, D–F, E–F: 6 nodes, 8 links.</figcaption></figure>
+<p>A spanning tree needs \(6 - 1 = 5\) links, so remove 3, one from each cycle, without disconnecting anything. Removing B–C, C–D and E–F leaves A–B, A–C, B–E, C–F, D–F: connected, no cycles, 5 links. A spanning tree must cover all nodes, be connected, be acyclic and have \(N-1\) links; "must have a cycle" is the one property that does not describe it.</p>
+</div>
+<div class="checkrow">Check yourself</div>
+<details class="q"><summary><span class="qt">Surprise quiz</span><span>Which are naturally bipartite: friendships between people; users and the movies they watched; employees and projects; papers and authors?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Users–movies, employees–projects, papers–authors (two different kinds of node). Friendships link people to people: one kind, not bipartite.</p></div></details>
+</section>

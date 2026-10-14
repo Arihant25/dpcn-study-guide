@@ -1,0 +1,64 @@
+<aside class="toc" aria-label="Contents">
+  <div class="brand">DPCN Quiz 1 Guide<small>Classes 1 to 6 · network basics</small></div>
+  <a class="other" href="../">Open the Mid-sem guide →</a>
+  <a class="other" href="../after-midsem/">Open the After mid-sem guide →</a>
+  <nav id="tocnav">
+    <a href="#start">Start here · the whole course</a>
+    <div class="grp">Describing a network</div>
+    <a href="#networks">1 · What a network is</a>
+    <a href="#adj">2 · The adjacency matrix</a>
+    <a href="#degree">3 · Degree and the handshaking lemma</a>
+    <a href="#walks">4 · Walks, paths and powers of A</a>
+    <a href="#euler">5 · Eulerian and Hamiltonian paths</a>
+    <a href="#dist">6 · Distance, BFS and components</a>
+    <div class="grp">Measuring a network</div>
+    <a href="#cluster">7 · Clustering coefficient</a>
+    <a href="#cent">8 · The four centralities</a>
+    <a href="#special">9 · Special graphs</a>
+    <div class="grp">Numerical methods</div>
+    <a href="#numeric">10 · Derivatives, Euler's method, errors</a>
+    <div class="grp">Finish</div>
+    <a href="#pyq">11 · Past-paper questions</a>
+    <a href="#sheet">12 · Formula sheet</a>
+    <a href="original.html" style="margin-top:14px">The original Quiz 1 guide</a>
+  </nav>
+</aside>
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Classes 1 to 6</div>
+  <h1>DPCN Quiz 1 Guide</h1>
+  <p class="lead">This guide covers the first part of the course: how to describe a network and how to measure it. It assumes you know nothing. Every topic starts in plain words with a small example, every symbol is explained when it first appears, and every proof the course uses is written as numbered steps with the reason for each step next to it.</p>
+  <p class="small" style="margin-top:14px">The earlier, longer version of this guide is still available as <a href="original.html">the original Quiz 1 guide</a>.</p>
+</header>
+<div class="tocwrap-mobile">
+  <details class="mtoc"><summary>Jump to a section</summary>
+    <a href="#start">Start here · the whole course</a>
+    <a href="#networks">1 · What a network is</a>
+    <a href="#adj">2 · The adjacency matrix</a>
+    <a href="#degree">3 · Degree and the handshaking lemma</a>
+    <a href="#walks">4 · Walks, paths and powers of A</a>
+    <a href="#euler">5 · Eulerian and Hamiltonian paths</a>
+    <a href="#dist">6 · Distance, BFS and components</a>
+    <a href="#cluster">7 · Clustering coefficient</a>
+    <a href="#cent">8 · The four centralities</a>
+    <a href="#special">9 · Special graphs</a>
+    <a href="#numeric">10 · Derivatives, Euler's method, errors</a>
+    <a href="#pyq">11 · Past-paper questions</a>
+    <a href="#sheet">12 · Formula sheet</a>
+  </details>
+</div>
+
+<section>
+<h2 id="start"><span class="num">·</span>Start here · the whole course</h2>
+<p class="about">Quiz 2 and the end-sem cover the whole syllabus from the first class. This guide covers classes 1 to 6 (the slides "Network Introduction", "Module 2a", "Module 2b" and the numerical-methods part of "Module 2c1"). The table below shows where every other topic is.</p>
+<!--include:shared/course-map.html-->
+<h4>How each section is laid out</h4>
+<ol>
+<li><strong>What this is about</strong>, in plain words.</li>
+<li><strong>What the exam can ask</strong>.</li>
+<li><strong>The explanation</strong>, built from a small example.</li>
+<li><strong>The derivation or method to learn</strong>, in a black-bordered box, as numbered steps.</li>
+<li><strong>What to remember</strong>, then <strong>Check yourself</strong> questions with hidden answers.</li>
+</ol>
+<p>The maths used here (sums, averages, matrices, eigenvectors) is explained in <a href="../#maths">section M of the Mid-sem guide</a> and <a href="../after-midsem/#maths">section M of the After mid-sem guide</a>.</p>
+</section>

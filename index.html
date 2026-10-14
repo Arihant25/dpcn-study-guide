@@ -292,7 +292,39 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 <p>Always check which one a question means from the context.</p>
 </div>
 
-<div class="card goal"><span class="tag">If you are short on time</span>
+<div class="card goal" id="coursemap"><span class="tag">The whole course · Quiz 2 and the end-sem cover all of it</span>
+<p>The course material is split across three guides. Quiz 2 and the end-sem can ask about anything in any of them.</p>
+<table class="tbl">
+<tr><th>Classes</th><th>Topics</th><th>Guide</th></tr>
+<tr><td>1–4</td><td>What networks are, adjacency matrix, degree and the handshaking lemma, walks and paths, Eulerian and Hamiltonian paths, distance and BFS, clustering, the four centralities, special graphs</td><td><a href="quiz1/">Quiz 1 guide</a></td></tr>
+<tr><td>5–6</td><td>Fixed points and stability, numerical derivatives and Euler's method, the four 1-D bifurcations, bistability, SIS and SIR, the Laplacian, diffusion and SI on networks</td><td><a href="quiz1/#numeric">Quiz 1 guide §10</a> and <a href="#fixed">Mid-sem guide §8–13</a></td></tr>
+<tr><td>6–9</td><td>Degree distributions and power laws, binning, path length of star, chain and ring, Erdős–Rényi random graphs</td><td><a href="#moments">Mid-sem guide §1–7</a></td></tr>
+<tr><td>13–16</td><td>2-D systems, Jacobian, competition and predator–prey, stability on networks, limit cycles and Hopf</td><td><a href="after-midsem/">After mid-sem guide §1–10</a></td></tr>
+<tr><td>17–18</td><td>Maps and chaos, Lorenz, synchronisation and Kuramoto, May's criterion, double pendulum</td><td><a href="after-midsem/#euler">After mid-sem guide §11–18</a></td></tr>
+</table>
+<h4>The derivations to learn for Quiz 2 and the end-sem</h4>
+<p>Past papers ask for proofs and derivations. These are the ones the 2024 papers asked, or that the slides work through, roughly in order of how likely they are. Learn to write each one from memory.</p>
+<ol>
+<li>Solve the SIS model, endemic level, when the disease dies out · <a href="#epi">Mid-sem §11</a></li>
+<li>Fixed points, stability and the type of bifurcation for a 1-D system · <a href="#bif">Mid-sem §9</a></li>
+<li>Fixed points and Jacobian of a 2-D or 3-D system, and classification (rabbits vs sheep, predator–prey, Lorenz) · <a href="after-midsem/#rabbits">After §6</a>, <a href="after-midsem/#lorenz">§14</a></li>
+<li>Stability of a map <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>; the logistic map · <a href="after-midsem/#mapstab">After §12</a></li>
+<li>Power law: the constant <math><mi>C</mi></math>, ⟨k⟩, ⟨k²⟩ and when they diverge · <a href="#moments">Mid-sem §1</a></li>
+<li>Giant component <math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow></msup></mrow></math> and the threshold ⟨k⟩ = 1 · <a href="#gcc">Mid-sem §5</a></li>
+<li>Binomial to Poisson · <a href="#er">Mid-sem §4</a></li>
+<li>Limit cycle in polar form, Hopf bifurcation · <a href="after-midsem/#cycle">After §9</a></li>
+<li>Two coupled oscillators: locking condition and common frequency · <a href="after-midsem/#twoosc">After §15</a></li>
+<li>SIS on a network and the threshold <math><mrow><mn>1</mn><mi>/</mi><msub><mi>κ</mi><mn>1</mn></msub></mrow></math> · <a href="#netdyn">Mid-sem §13</a></li>
+<li>Number of triangles <math><mrow><mo>=</mo><mfrac><mn>1</mn><mn>6</mn></mfrac><mi>tr</mi><mo>⁡</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>A</mi><mn class="tml-lrg-pad">3</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, and <math><msub><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>A</mi><mi class="tml-lrg-pad">n</mi></msup><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub></math> counts walks · <a href="quiz1/#walks">Quiz 1 §4</a></li>
+<li>Handshaking lemma and Euler's theorem on Eulerian paths · <a href="quiz1/#degree">Quiz 1 §3</a>, <a href="quiz1/#euler">§5</a></li>
+<li>Closeness and betweenness on a path or star; eigenvector centrality by the power method · <a href="quiz1/#cent">Quiz 1 §8</a></li>
+<li>Average path length of star, chain and ring · <a href="#simple">Mid-sem §3</a></li>
+<li>⟨k_nn⟩ = ⟨k²⟩/⟨k⟩ and the friendship paradox · <a href="#knn">Mid-sem §7</a></li>
+</ol>
+</div>
+
+
+<div class="card goal"><span class="tag">If you are short on time (mid-sem material)</span>
 <p>These derivations have been asked in past papers. Each one is a likely 4 to 7 mark question. Learn them in this order.</p>
 <ol>
 <li>Solve the SIS disease model and say when the disease dies out (<a href="#epi">§11</a>). 2024 mid-sem.</li>
@@ -316,8 +348,8 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 </ol>
 <p>If a piece of maths looks unfamiliar, it is explained in <a href="#maths">section M</a> just below. Read that first if you have not done calculus or probability recently.</p>
 
-<div class="card"><span class="tag">Not on the mid-sem</span>
-<p>Eulerian and Hamiltonian paths, the four centralities, bipartite graphs and spanning trees, Euler's numerical method, predator–prey and the "love affairs" model, discrete maps, the Barabási–Albert model and the Lorenz system are not on the mid-sem board. They are covered in the <a href="quiz1/">Quiz 1 guide</a>, which you may need again for Quiz 2 and the end-sem. Material taught after the mid-sem (2-D systems, limit cycles, chaos, synchronisation) is in the <a href="after-midsem/">After mid-sem guide</a>.</p>
+<div class="card"><span class="tag">Not on the mid-sem, but on Quiz 2 and the end-sem</span>
+<p>Eulerian and Hamiltonian paths, the four centralities, bipartite graphs and spanning trees, and Euler's numerical method were not on the mid-sem board. Quiz 2 and the end-sem cover the whole course, so learn them from the <a href="quiz1/">Quiz 1 guide</a>. Predator–prey, Romeo and Juliet, discrete maps and the Lorenz system are in the <a href="after-midsem/">After mid-sem guide</a>. The Barabási–Albert model has not been taught yet this year.</p>
 </div>
 </section>
 
@@ -688,7 +720,7 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 
 <div class="card goal"><span class="tag">What the exam can ask</span>
 <ul>
-<li>Average path length and diameter of a star with a given number of nodes. (2024 Quiz 1: 5 nodes and 6 nodes)</li>
+<li>Average path length and diameter of a star with a given number of nodes. (2024 Quiz 1, with 5 nodes)</li>
 <li>Derive the average path length of the open chain, the ring, or the ring with degree <math><mi>k</mi></math>. Give their degrees and clustering.</li>
 <li>Say how the average path length changes as the network gets bigger.</li>
 </ul>
@@ -1908,7 +1940,7 @@ So <math><mn>𝟏</mn></math> is always an eigenvector with eigenvalue 0.</li>
 
 <h3>2024 Quiz 1</h3>
 
-<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 + 1 marks</span><span>For a star graph with N = 5 nodes (another set: N = 6), what is the average path length of the graph? What is the diameter of the graph?</span><span class="chev">›</span></summary>
+<details class="q"><summary><span class="qt pyq">Quiz 1 · 2 + 1 marks</span><span>For a star graph with N = 5 nodes, what is the average path length of the graph? What is the diameter of the graph?</span><span class="chev">›</span></summary>
 <div class="ans">
 <p class="idea"><strong>The idea in plain words.</strong> In a star, every path goes through the hub. The hub is 1 step from everyone, and any two outer nodes are 2 steps apart (in to the hub and out again). Count how many pairs are of each kind and take the average.</p>
 <h4>Formulas you need</h4>
@@ -1925,13 +1957,13 @@ So <math><mn>𝟏</mn></math> is always an eigenvector with eigenvalue 0.</li>
 <li><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>l</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mfrac><mrow><mn>4</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>6</mn><mo>×</mo><mn>2</mn></mrow><mn>10</mn></mfrac><mo>=</mo><mfrac><mn>16</mn><mn>10</mn></mfrac><mo>=</mo><mn>1.6</mn></mrow></math>. Formula check: <math><mrow><mfrac><mrow><mn>2</mn><mo>×</mo><mn>4</mn></mrow><mn>5</mn></mfrac><mo>=</mo><mn>1.6</mn></mrow></math>.</li>
 <li>The largest distance is 2 (leaf to leaf).</li>
 </ol>
-<h4>Step by step, N = 6</h4>
+<h4>The same method for a bigger star, N = 6 (practice)</h4>
 <ol class="steps">
 <li>Pairs: <math><mrow><mfrac><mrow><mn>6</mn><mo>×</mo><mn>5</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>15</mn></mrow></math>. Hub–leaf: 5 at distance 1. Leaf–leaf: <math><mrow><mfrac><mrow><mn>5</mn><mo>×</mo><mn>4</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>10</mn></mrow></math> at distance 2.</li>
 <li><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>l</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mfrac><mrow><mn>5</mn><mo>+</mo><mn>20</mn></mrow><mn>15</mn></mfrac><mo>=</mo><mfrac><mn>25</mn><mn>15</mn></mfrac><mo>=</mo><mfrac><mn>5</mn><mn>3</mn></mfrac><mo>≈</mo><mn>1.67</mn></mrow></math>. Formula check: <math><mrow><mfrac><mrow><mn>2</mn><mo>×</mo><mn>5</mn></mrow><mn>6</mn></mfrac><mo>=</mo><mn>1.67</mn></mrow></math>.</li>
 </ol>
 <h4>Final answer</h4>
-<p><math><mrow><mi>N</mi><mo>=</mo><mn>5</mn></mrow></math>: average path length 1.6, diameter 2. <math><mrow><mi>N</mi><mo>=</mo><mn>6</mn></mrow></math>: average path length <math><mrow><mn>5</mn><mi>/</mi><mn>3</mn><mo>≈</mo><mn>1.67</mn></mrow></math>, diameter 2.</p>
+<p>Average path length 1.6, diameter 2. (Both sets of the 2024 paper used <math><mrow><mi>N</mi><mo>=</mo><mn>5</mn></mrow></math>; the <math><mrow><mi>N</mi><mo>=</mo><mn>6</mn></mrow></math> case above is for practice: <math><mrow><mn>5</mn><mi>/</mi><mn>3</mn><mo>≈</mo><mn>1.67</mn></mrow></math>, diameter 2.)</p>
 </div></details>
 
 <details class="q"><summary><span class="qt pyq">Quiz 1 · 2 marks</span><span>For an all-to-all connected network (binary, undirected, without self-loops) with N nodes, which are true? (a) The network is symmetric. (b) The diameter is N. (c) The average path length is 1. (d) The average degree is N − 1. Give a one-line reason for each.</span><span class="chev">›</span></summary>
