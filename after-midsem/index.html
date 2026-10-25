@@ -199,14 +199,56 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 }
 @media print{.toc,.themebtn,.tocwrap-mobile{display:none} details{open:true}}
 </style>
+<style>
+/* page switcher, shared by the sidebar and the phone menu */
+.pages{display:grid; gap:4px; margin-top:16px}
+.pages a{display:flex; gap:10px; align-items:flex-start; padding:7px 10px; border:1px solid var(--border); border-radius:8px; color:var(--fg); text-decoration:none; line-height:1.3; font-weight:600; font-size:.86rem}
+.pages a:hover{background:var(--muted)}
+.pages b{flex:none; width:22px; height:22px; border-radius:6px; display:grid; place-items:center; font-size:.74rem; background:var(--muted); color:var(--muted-fg)}
+.pages small{display:block; font-weight:400; font-size:.74rem; color:var(--muted-fg); margin-top:2px}
+body[data-pg="remember"] .pages a[data-pg="remember"], body[data-pg="quiz1"] .pages a[data-pg="quiz1"],
+body[data-pg="mid"] .pages a[data-pg="mid"], body[data-pg="after"] .pages a[data-pg="after"]{border-color:var(--brand); background:var(--brand-soft)}
+body[data-pg="remember"] .pages a[data-pg="remember"] b, body[data-pg="quiz1"] .pages a[data-pg="quiz1"] b,
+body[data-pg="mid"] .pages a[data-pg="mid"] b, body[data-pg="after"] .pages a[data-pg="after"] b{background:var(--brand); color:var(--brand-fg)}
+.toc .pages a{padding:6px 9px}
+
+/* phone and tablet: a sticky bar that opens a menu of pages and sections */
+@media(max-width:1059px){
+  .themebtn{top:auto; bottom:14px}
+  .tocwrap-mobile{position:sticky; top:0; z-index:15; background:var(--bg); border-bottom:1px solid var(--border);
+    margin:0 calc(-1 * clamp(18px,5vw,72px)); padding:8px clamp(18px,5vw,72px)}
+  details.mtoc{border:0; padding:0; background:transparent}
+  details.mtoc>summary{list-style:none; display:flex; align-items:center; gap:10px; padding:4px 0; font-size:.9rem}
+  details.mtoc>summary::-webkit-details-marker{display:none}
+  details.mtoc .here{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted-fg); font-weight:500}
+  details.mtoc .mbtn{flex:none; border:1px solid var(--border-2); border-radius:8px; padding:6px 12px; font-weight:600; background:var(--card); color:var(--fg)}
+  details.mtoc[open] .mbtn{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+  .mpanel{max-height:calc(100vh - 70px); max-height:calc(100dvh - 70px); overflow-y:auto; padding:6px 0 14px; overscroll-behavior:contain}
+  .mpanel .pages{margin-top:4px}
+  .mpanel .pages a{padding:10px 12px; font-size:.95rem}
+  .mgrp{text-transform:uppercase; letter-spacing:.11em; font-size:.66rem; color:var(--muted-fg); font-weight:700; margin:14px 0 4px}
+  details.mtoc .mpanel>a{display:block; padding:8px 4px; color:var(--fg); text-decoration:none; border-bottom:1px solid var(--border); font-size:.95rem}
+}
+@media(max-width:700px){
+  html,body{overflow-x:clip}
+  .tocwrap-mobile{margin:0 -16px; padding:8px 16px}
+}
+</style>
+
 </head>
-<body>
+<body data-pg="after">
 <button class="themebtn" id="themebtn" aria-label="Switch colour theme (auto, light, dark)"><span class="ico" aria-hidden="true">◐</span> <span class="lbl">Auto</span></button>
 <div class="wrap">
 
 <aside class="toc" aria-label="Contents">
   <div class="brand">DPCN study notes<small>Page 3 of 3 · Classes 13 to 18</small></div>
-  <a class="other" href="../">← Previous page: Mid-sem guide</a>
+  <div class="pages">
+  <a href="../remember/" data-pg="remember"><b>★</b><span>Memory sheet<small>The short version, with flashcards</small></span></a>
+  <a href="../quiz1/" data-pg="quiz1"><b>1</b><span>Quiz 1 guide<small>Classes 1 to 6, network basics</small></span></a>
+  <a href=".././" data-pg="mid"><b>2</b><span>Mid-sem guide<small>Power laws, random graphs, bifurcations</small></span></a>
+  <a href="../after-midsem/" data-pg="after"><b>3</b><span>After mid-sem guide<small>Classes 13 to 18, 2-D systems to chaos</small></span></a>
+</div>
+
   <nav id="tocnav">
     <a href="#start">Start here · classes 13 to 18</a>
     <a href="#maths">M · More maths for this page</a>
@@ -245,9 +287,20 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
   <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Page 3 of 3</div>
   <h1>DPCN After Mid-sem Guide</h1>
   <p class="lead">This last page covers the classes after the mid-sem, 13 to 18. Until now a system had one changing quantity. Here there are two or three, and their motion can oscillate or turn chaotic. Exam questions on this material have been derivations, so each section is built around one derivation to learn line by line.</p>
+  <p class="small">Can't hold it all in your head? The <a href="../remember/">Memory sheet</a> puts the whole course on one page, with flashcards.</p>
 </header>
 <div class="tocwrap-mobile">
-  <details class="mtoc"><summary>Jump to a section</summary>
+  <details class="mtoc" id="mtoc"><summary><span class="here">Page 3 of 3 · After mid-sem guide</span><span class="mbtn">Pages · Sections</span></summary>
+  <div class="mpanel">
+    <div class="mgrp">Pages</div>
+    <div class="pages">
+  <a href="../remember/" data-pg="remember"><b>★</b><span>Memory sheet<small>The short version, with flashcards</small></span></a>
+  <a href="../quiz1/" data-pg="quiz1"><b>1</b><span>Quiz 1 guide<small>Classes 1 to 6, network basics</small></span></a>
+  <a href=".././" data-pg="mid"><b>2</b><span>Mid-sem guide<small>Power laws, random graphs, bifurcations</small></span></a>
+  <a href="../after-midsem/" data-pg="after"><b>3</b><span>After mid-sem guide<small>Classes 13 to 18, 2-D systems to chaos</small></span></a>
+</div>
+
+    <div class="mgrp">Sections on this page</div>
     <a href="#start">Start here · classes 13 to 18</a>
     <a href="#maths">M · More maths for this page</a>
     <a href="#eigen">1 · Straight-line solutions</a>
@@ -270,6 +323,7 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
     <a href="#pendulum">18 · The double pendulum</a>
     <a href="#pyq">19 · Past-paper questions</a>
     <a href="#sheet">20 · Formula sheet</a>
+  </div>
   </details>
 </div>
 
@@ -1542,5 +1596,14 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
   if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",drawAll); }catch(e){} }
 })();
 </script>
+<script>
+/* Phone menu: close it after a link is tapped, or on Escape */
+(function(){
+  var m=document.getElementById('mtoc'); if(!m) return;
+  m.addEventListener('click',function(e){ if(e.target.closest('a')) m.open=false; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') m.open=false; });
+})();
+</script>
+
 </body>
 </html>

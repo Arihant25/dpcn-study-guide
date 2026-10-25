@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DPCN Memory Sheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The whole DPCN course on one page: the formulas to remember, the two ideas behind most answers, short derivations, and flashcards.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#ffffff; --card:#ffffff; --muted:#f4f4f5; --muted-2:#fafafa;
+  --fg:#09090b; --muted-fg:#6b6b75; --border:#e4e4e7; --border-2:#d4d4d8;
+  --primary:#18181b; --primary-fg:#fafafa;
+  --brand:#0f766e; --brand-fg:#ffffff; --brand-soft:#effaf8;
+  --stable:#0f766e; --unstable:#c2410c; --destructive:#dc2626; --destructive-soft:#fef2f2;
+  --amber-soft:#fffbeb; --amber:#b45309;
+  --c1:#0f766e; --c2:#c2410c; --c3:#4f46e5; --c4:#a21caf;
+  --grid:#efeff1; --axis:#a1a1aa;
+  --node:#f4f4f5; --node-stroke:#3f3f46; --edge:#a1a1aa;
+  --radius:0.7rem;
+  --shadow-sm:0 1px 2px 0 rgb(9 9 11 / .05);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0b0b0d; --card:#121215; --muted:#1c1c20; --muted-2:#16161a;
+  --fg:#f4f4f5; --muted-fg:#a1a1aa; --border:#27272a; --border-2:#3f3f46;
+  --primary:#f4f4f5; --primary-fg:#18181b;
+  --brand:#2dd4bf; --brand-fg:#09090b;
+  --brand-soft:#112926;
+  --stable:#2dd4bf; --unstable:#fb923c; --destructive:#f87171; --destructive-soft:#2a1414;
+  --amber-soft:#2a2110; --amber:#fbbf24;
+  --c1:#2dd4bf; --c2:#fb923c; --c3:#a5b4fc; --c4:#f0abfc;
+  --grid:#1f1f24; --axis:#52525b;
+  --node:#1c1c20; --node-stroke:#a1a1aa; --edge:#5b5b63;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / .4);
+}}
+:root[data-theme="dark"]{
+  --bg:#0b0b0d; --card:#121215; --muted:#1c1c20; --muted-2:#16161a;
+  --fg:#f4f4f5; --muted-fg:#a1a1aa; --border:#27272a; --border-2:#3f3f46;
+  --primary:#f4f4f5; --primary-fg:#18181b;
+  --brand:#2dd4bf; --brand-fg:#09090b; --brand-soft:#112926;
+  --stable:#2dd4bf; --unstable:#fb923c; --destructive:#f87171; --destructive-soft:#2a1414;
+  --amber-soft:#2a2110; --amber:#fbbf24;
+  --c1:#2dd4bf; --c2:#fb923c; --c3:#a5b4fc; --c4:#f0abfc;
+  --grid:#1f1f24; --axis:#52525b;
+  --node:#1c1c20; --node-stroke:#a1a1aa; --edge:#5b5b63;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / .4);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--bg); color:var(--fg);
+  font-family:"Hanken Grotesk",system-ui,-apple-system,sans-serif;
+  font-size:16.5px; line-height:1.68; -webkit-font-smoothing:antialiased}
+.wrap{display:grid; grid-template-columns:minmax(0,1fr)}
+@media(min-width:1060px){.wrap{grid-template-columns:280px minmax(0,1fr); align-items:start}}
+
+/* sidebar */
+.toc{position:sticky; top:0; align-self:start; max-height:100vh; overflow-y:auto; padding:26px 18px 48px;
+  border-right:1px solid var(--border); background:var(--card); display:none; scrollbar-width:thin; scrollbar-color:var(--border-2) transparent}
+@media(min-width:1060px){.toc{display:block}}
+.toc .brand{font-weight:700; font-size:1.02rem; letter-spacing:-.02em}
+.toc .brand small{display:block; font-weight:500; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-fg); margin-top:6px}
+.toc nav{margin-top:20px; font-size:.86rem}
+.toc .grp{text-transform:uppercase; letter-spacing:.11em; font-size:.64rem; color:var(--muted-fg); font-weight:700; margin:20px 0 6px; padding:0 10px}
+.toc a{display:block; color:var(--muted-fg); text-decoration:none; padding:5px 10px; border-radius:7px; line-height:1.35; margin:1px 0}
+.toc a:hover{color:var(--fg); background:var(--muted)}
+.toc a.other{margin:12px 0 0; padding:7px 10px; border:1px solid var(--border); border-radius:8px; color:var(--brand); font-size:.84rem; font-weight:600}
+.toc a.other:hover{background:var(--muted)}
+.toc a.active{color:var(--fg); background:var(--muted); font-weight:600}
+
+main{padding:0 clamp(18px,5vw,72px) 128px; max-width:900px}
+.hero{padding:clamp(44px,8vw,84px) 0 30px; border-bottom:1px solid var(--border)}
+.kicker{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-fg); font-weight:600}
+h1{font-weight:700; font-size:clamp(2.1rem,6vw,3.2rem); line-height:1.05; letter-spacing:-.035em; margin:.34em 0 .3em; text-wrap:balance}
+.hero .lead{font-size:1.12rem; color:var(--muted-fg); max-width:62ch; line-height:1.6}
+.part{margin:4.2em 0 0; padding:14px 0 0; border-top:2px solid var(--fg); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700}
+.part span{color:var(--muted-fg); font-weight:600; margin-left:.6em}
+h2{font-weight:700; font-size:clamp(1.55rem,3.4vw,2rem); letter-spacing:-.03em; margin:2.4em 0 .2em; padding-top:.3em; text-wrap:balance; scroll-margin-top:14px}
+.part+section h2{margin-top:.9em}
+h2 .num{color:var(--muted-fg); font-size:.56em; font-weight:600; margin-right:.55em; font-variant-numeric:tabular-nums}
+h3{font-weight:650; font-size:1.25rem; margin:2em 0 .35em; letter-spacing:-.02em; scroll-margin-top:14px}
+h4{font-weight:700; font-size:1.02rem; margin:1.5em 0 .3em}
+.oneline{font-size:1.1rem; line-height:1.55; max-width:64ch; margin:.6em 0 1em}
+p{max-width:70ch}
+a{color:var(--brand); text-underline-offset:2px}
+em.t{font-style:normal; font-weight:650; border-bottom:2px solid var(--brand)}
+ul,ol{max-width:68ch; padding-left:1.35em}
+li{margin:.35em 0}
+li::marker{color:var(--muted-fg)}
+.small{font-size:.87rem; color:var(--muted-fg)}
+.board{font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft);
+  border:1px solid color-mix(in srgb,var(--amber) 35%,var(--border)); border-radius:6px; padding:3px 9px; display:inline-block; margin-top:6px}
+
+/* math */
+math{font-family:"Cambria Math","STIX Two Math","Latin Modern Math",math,serif; font-style:normal}
+p math, li math, td math, summary math, figcaption math{font-size:1.07em}
+.eq{display:block; margin:18px 0; text-align:center; overflow-x:auto; overflow-y:hidden; padding:6px 2px}
+.eq math{font-size:1.36em}
+.eq.boxed{background:var(--muted-2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px}
+.eq .label{display:block; margin-top:6px; font-size:.8rem; color:var(--muted-fg)}
+math .tml-box, math menclose{border:1px solid var(--border-2); padding:3px}
+
+/* cards */
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 22px; margin:20px 0; box-shadow:var(--shadow-sm)}
+.card>*:first-child{margin-top:0} .card>*:last-child{margin-bottom:0}
+.card.ex{background:var(--muted-2)}
+.card.watch{border-color:color-mix(in srgb,var(--destructive) 40%,var(--border)); background:var(--destructive-soft)}
+.card.goal{border-left:4px solid var(--brand)}
+.card.exam{border:1.5px solid var(--fg)}
+.card.remember{background:var(--brand-soft); border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.remember .tag{background:var(--brand); color:var(--brand-fg); border-color:var(--brand)}
+.about{font-size:1.08rem; line-height:1.6; max-width:66ch; margin:.6em 0 1em}
+.idea{background:var(--brand-soft); border:1px solid color-mix(in srgb,var(--brand) 30%,var(--border)); border-radius:8px; padding:10px 14px; max-width:none}
+.sym{font-size:.93rem; color:var(--muted-fg); border-left:3px solid var(--border-2); padding:2px 0 2px 12px; margin:10px 0}
+.tag{display:inline-flex; font-size:.66rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:3px 9px; border-radius:6px;
+  border:1px solid var(--border); background:var(--muted); color:var(--muted-fg); margin-bottom:10px}
+.goal .tag{background:var(--brand-soft); color:var(--brand); border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.exam .tag{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.watch .tag{background:transparent; color:var(--destructive); border-color:color-mix(in srgb,var(--destructive) 45%,var(--border))}
+.card h4:first-of-type{margin-top:.1em}
+.goal ul{margin:.2em 0}
+
+.steps{counter-reset:s; list-style:none; padding-left:0; max-width:72ch}
+.steps>li{counter-increment:s; position:relative; padding-left:42px; margin:.95em 0}
+.steps>li::before{content:counter(s); position:absolute; left:0; top:0; width:27px; height:27px; border-radius:8px;
+  background:var(--primary); color:var(--primary-fg); font-size:.8rem; font-weight:700; display:grid; place-items:center}
+
+/* tables */
+.tbl{width:100%; border-collapse:collapse; margin:16px 0; font-size:.92rem; display:block; overflow-x:auto}
+.tbl th,.tbl td{border:1px solid var(--border); padding:9px 12px; text-align:left; vertical-align:top}
+.tbl th{background:var(--muted); font-weight:650; font-size:.82rem}
+.tbl tr:nth-child(even) td{background:var(--muted-2)}
+.tbl td.c, .tbl th.c{text-align:center}
+
+/* figures */
+figure.fig{margin:20px 0; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm)}
+figure.fig svg{width:100%; height:auto; display:block; margin:0 auto}
+figure.fig svg.gr{max-width:460px}
+figure.fig svg.plot{max-width:620px}
+figure.fig figcaption{font-size:.86rem; color:var(--muted-fg); margin-top:10px; line-height:1.5; max-width:70ch}
+.figrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:20px 0}
+.figrow figure.fig{margin:0}
+svg.plot text{font-family:"Hanken Grotesk",sans-serif}
+svg.plot .tk{font-size:11px; fill:var(--muted-fg)}
+svg.plot .al{font-size:12.5px; fill:var(--muted-fg)}
+svg.plot .lb{font-size:12px; font-weight:600}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.82rem; color:var(--muted-fg); margin:4px 0 10px}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.sw{width:24px; height:0; border-top:3px solid; display:inline-block}
+
+/* collapsibles */
+details.opt{border:1px dashed var(--border-2); border-radius:var(--radius); background:var(--muted-2); margin:16px 0; overflow:hidden}
+details.opt>summary{cursor:pointer; list-style:none; padding:10px 16px; font-weight:600; font-size:.92rem; color:var(--brand)}
+details.opt>summary::-webkit-details-marker{display:none}
+details.opt>summary::before{content:"▸  "; font-size:.8em}
+details.opt[open]>summary::before{content:"▾  "}
+details.opt[open]>summary{border-bottom:1px solid var(--border)}
+details.opt .body{padding:2px 16px 14px}
+.checkrow{display:flex; align-items:center; gap:12px; margin:34px 0 10px; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-fg)}
+.checkrow::before,.checkrow::after{content:""; flex:1; height:1px; background:var(--border)}
+details.q{border:1px solid var(--border); border-radius:var(--radius); margin:12px 0; background:var(--card); overflow:hidden}
+details.q>summary{cursor:pointer; list-style:none; padding:13px 16px; display:flex; gap:11px; align-items:flex-start; font-weight:550}
+details.q>summary::-webkit-details-marker{display:none}
+details.q>summary:hover{background:var(--muted)}
+details.q>summary>span:not(.qt):not(.chev){min-width:0; overflow-wrap:anywhere}
+.qt{flex:none; font-size:.6rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:4px 8px; border-radius:6px; margin-top:2px;
+  background:var(--muted); color:var(--muted-fg); border:1px solid var(--border)}
+.qt.pyq{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.chev{margin-left:auto; flex:none; color:var(--muted-fg); transition:transform .2s}
+details.q[open] .chev{transform:rotate(90deg)}
+details.q .ans{padding:2px 18px 16px; border-top:1px solid var(--border); background:var(--muted-2)}
+details.q .ans>*:first-child{margin-top:12px}
+
+/* theme toggle */
+.themebtn{position:fixed; top:14px; right:14px; z-index:20; background:var(--card); border:1px solid var(--border); color:var(--fg);
+  border-radius:8px; padding:7px 12px; font:inherit; font-size:.8rem; font-weight:500; cursor:pointer; box-shadow:var(--shadow-sm)}
+.themebtn:hover{background:var(--muted)}
+:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:4px}
+.tocwrap-mobile{display:block; padding:18px clamp(16px,5vw,72px) 0}
+@media(min-width:1060px){.tocwrap-mobile{display:none}}
+details.mtoc{border:1px solid var(--border); border-radius:var(--radius); background:var(--card); padding:2px 6px}
+details.mtoc>summary{padding:11px; font-weight:600; cursor:pointer}
+details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-decoration:none}
+
+@media (max-width:700px){
+  html,body{overflow-x:hidden}
+  body{font-size:16px}
+  main{padding:0 16px 96px}
+  .themebtn{top:auto; bottom:14px}
+  .card{padding:15px 15px}
+  .steps>li{padding-left:34px}
+  .steps>li::before{width:23px; height:23px; font-size:.72rem}
+  .eq math{font-size:1.15em}
+  .tbl{font-size:.85rem}
+  .tbl th,.tbl td{padding:7px 9px}
+  figure.fig{padding:10px}
+}
+@media print{.toc,.themebtn,.tocwrap-mobile{display:none} details{open:true}}
+
+/* memory sheet */
+.fl{list-style:none; padding:0; max-width:none; margin:10px 0 0}
+.fl>li{display:grid; grid-template-columns:minmax(0,15em) minmax(0,1fr); gap:4px 18px; padding:10px 2px; margin:0; border-bottom:1px solid var(--border); align-items:baseline}
+.fl>li>span:first-child{color:var(--muted-fg); font-size:.93rem}
+.fl>li>span:last-child{overflow-x:auto; overflow-y:hidden}
+@media(max-width:700px){.fl>li{grid-template-columns:minmax(0,1fr)}}
+.grouphead{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin:2em 0 0}
+.grouphead h3{margin:0}
+.grouphead a{font-size:.85rem}
+.chain{list-style:none; padding:0; margin:12px 0; max-width:none}
+.chain>li{padding:6px 0; margin:0; border-bottom:1px dashed var(--border)}
+.chain>li:last-child{border-bottom:0}
+.chain .why{display:inline-block; margin-left:14px; color:var(--muted-fg); font-size:.88rem}
+.chain .why::before{content:"∵ "}
+.drill{border:1.5px solid var(--fg); border-radius:var(--radius); padding:18px 20px; margin:18px 0; background:var(--card)}
+.drill .meta{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:.8rem; color:var(--muted-fg); font-weight:600}
+.drill .dq{font-size:1.12rem; font-weight:600; margin:14px 0 10px; min-height:2.4em}
+.drill .da{background:var(--muted-2); border:1px solid var(--border); border-radius:8px; padding:4px 14px; margin:8px 0 12px}
+.drill .btns{display:flex; gap:8px; flex-wrap:wrap}
+.drill button, .filters button{font:inherit; font-size:.88rem; font-weight:600; border-radius:8px; padding:9px 16px; cursor:pointer; border:1px solid var(--border-2); background:var(--card); color:var(--fg)}
+.drill button.go{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.drill button.yes{background:var(--brand); color:var(--brand-fg); border-color:var(--brand)}
+.filters{display:flex; gap:6px; flex-wrap:wrap; margin:10px 0}
+.filters button[aria-pressed="true"]{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.bar{height:6px; border-radius:3px; background:var(--muted); overflow:hidden; margin-top:8px}
+.bar>i{display:block; height:100%; width:0; background:var(--brand); transition:width .2s}
+</style>
+<style>
+/* page switcher, shared by the sidebar and the phone menu */
+.pages{display:grid; gap:4px; margin-top:16px}
+.pages a{display:flex; gap:10px; align-items:flex-start; padding:7px 10px; border:1px solid var(--border); border-radius:8px; color:var(--fg); text-decoration:none; line-height:1.3; font-weight:600; font-size:.86rem}
+.pages a:hover{background:var(--muted)}
+.pages b{flex:none; width:22px; height:22px; border-radius:6px; display:grid; place-items:center; font-size:.74rem; background:var(--muted); color:var(--muted-fg)}
+.pages small{display:block; font-weight:400; font-size:.74rem; color:var(--muted-fg); margin-top:2px}
+body[data-pg="remember"] .pages a[data-pg="remember"], body[data-pg="quiz1"] .pages a[data-pg="quiz1"],
+body[data-pg="mid"] .pages a[data-pg="mid"], body[data-pg="after"] .pages a[data-pg="after"]{border-color:var(--brand); background:var(--brand-soft)}
+body[data-pg="remember"] .pages a[data-pg="remember"] b, body[data-pg="quiz1"] .pages a[data-pg="quiz1"] b,
+body[data-pg="mid"] .pages a[data-pg="mid"] b, body[data-pg="after"] .pages a[data-pg="after"] b{background:var(--brand); color:var(--brand-fg)}
+.toc .pages a{padding:6px 9px}
+
+/* phone and tablet: a sticky bar that opens a menu of pages and sections */
+@media(max-width:1059px){
+  .themebtn{top:auto; bottom:14px}
+  .tocwrap-mobile{position:sticky; top:0; z-index:15; background:var(--bg); border-bottom:1px solid var(--border);
+    margin:0 calc(-1 * clamp(18px,5vw,72px)); padding:8px clamp(18px,5vw,72px)}
+  details.mtoc{border:0; padding:0; background:transparent}
+  details.mtoc>summary{list-style:none; display:flex; align-items:center; gap:10px; padding:4px 0; font-size:.9rem}
+  details.mtoc>summary::-webkit-details-marker{display:none}
+  details.mtoc .here{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted-fg); font-weight:500}
+  details.mtoc .mbtn{flex:none; border:1px solid var(--border-2); border-radius:8px; padding:6px 12px; font-weight:600; background:var(--card); color:var(--fg)}
+  details.mtoc[open] .mbtn{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+  .mpanel{max-height:calc(100vh - 70px); max-height:calc(100dvh - 70px); overflow-y:auto; padding:6px 0 14px; overscroll-behavior:contain}
+  .mpanel .pages{margin-top:4px}
+  .mpanel .pages a{padding:10px 12px; font-size:.95rem}
+  .mgrp{text-transform:uppercase; letter-spacing:.11em; font-size:.66rem; color:var(--muted-fg); font-weight:700; margin:14px 0 4px}
+  details.mtoc .mpanel>a{display:block; padding:8px 4px; color:var(--fg); text-decoration:none; border-bottom:1px solid var(--border); font-size:.95rem}
+}
+@media(max-width:700px){
+  html,body{overflow-x:clip}
+  .tocwrap-mobile{margin:0 -16px; padding:8px 16px}
+}
+</style>
+
+</head>
+<body data-pg="remember">
+<button class="themebtn" id="themebtn" aria-label="Switch colour theme (auto, light, dark)"><span class="ico" aria-hidden="true">◐</span> <span class="lbl">Auto</span></button>
+<div class="wrap">
+
+<aside class="toc" aria-label="Contents">
+  <div class="brand">DPCN study notes<small>Memory sheet · the whole course</small></div>
+  <div class="pages">
+  <a href="../remember/" data-pg="remember"><b>★</b><span>Memory sheet<small>The short version, with flashcards</small></span></a>
+  <a href="../quiz1/" data-pg="quiz1"><b>1</b><span>Quiz 1 guide<small>Classes 1 to 6, network basics</small></span></a>
+  <a href=".././" data-pg="mid"><b>2</b><span>Mid-sem guide<small>Power laws, random graphs, bifurcations</small></span></a>
+  <a href="../after-midsem/" data-pg="after"><b>3</b><span>After mid-sem guide<small>Classes 13 to 18, 2-D systems to chaos</small></span></a>
+</div>
+
+  <nav id="tocnav">
+    <a href="#how">How to use this page</a>
+    <div class="grp">Formulas to remember</div>
+    <a href="#f1">Page 1 · Network basics</a>
+    <a href="#f2">Page 2 · Mid-sem topics</a>
+    <a href="#f3">Page 3 · After mid-sem</a>
+    <div class="grp">Making sense of it</div>
+    <a href="#ideas">The two questions behind most answers</a>
+    <a href="#recipe">One recipe for stability</a>
+    <a href="#derive">Six derivations, the short way</a>
+    <div class="grp">Practice</div>
+    <a href="#cards">Flashcards</a>
+  </nav>
+</aside>
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Memory sheet</div>
+  <h1>DPCN Memory Sheet</h1>
+  <p class="lead">The whole course on one page. The three guides explain everything in detail. This page only has what you need to carry in your head, plus flashcards to check that it stuck.</p>
+</header>
+<div class="tocwrap-mobile">
+  <details class="mtoc" id="mtoc"><summary><span class="here">Memory sheet · whole course</span><span class="mbtn">Pages · Sections</span></summary>
+  <div class="mpanel">
+    <div class="mgrp">Pages</div>
+    <div class="pages">
+  <a href="../remember/" data-pg="remember"><b>★</b><span>Memory sheet<small>The short version, with flashcards</small></span></a>
+  <a href="../quiz1/" data-pg="quiz1"><b>1</b><span>Quiz 1 guide<small>Classes 1 to 6, network basics</small></span></a>
+  <a href=".././" data-pg="mid"><b>2</b><span>Mid-sem guide<small>Power laws, random graphs, bifurcations</small></span></a>
+  <a href="../after-midsem/" data-pg="after"><b>3</b><span>After mid-sem guide<small>Classes 13 to 18, 2-D systems to chaos</small></span></a>
+</div>
+
+    <div class="mgrp">Sections on this page</div>
+    <a href="#how">How to use this page</a>
+    <a href="#f1">Formulas · Page 1, network basics</a>
+    <a href="#f2">Formulas · Page 2, mid-sem topics</a>
+    <a href="#f3">Formulas · Page 3, after mid-sem</a>
+    <a href="#ideas">The two questions behind most answers</a>
+    <a href="#recipe">One recipe for stability</a>
+    <a href="#derive">Six derivations, the short way</a>
+    <a href="#cards">Flashcards</a>
+  </div>
+  </details>
+</div>
+
+<section>
+<h2 id="how">How to use this page</h2>
+<p class="about">Reading the guides again and again won't make them stick. Testing yourself will. So here's the plan.</p>
+<ol>
+<li>Read the formula lists below once. Don't try to memorise them yet.</li>
+<li>Read <a href="#ideas">the two questions</a> and <a href="#recipe">the recipe</a>. They tie most of the formulas together, so you have far fewer separate things to remember than it looks.</li>
+<li>Go to the <a href="#cards">flashcards</a>. Say the answer out loud (or write it) before you tap "Show answer". Cards you miss come back later in the round.</li>
+<li>When a card keeps beating you, follow its link to the full explanation in the guides.</li>
+</ol>
+<p>Ten minutes of flashcards a day beats two hours of rereading the night before. (Annoying, but true.)</p>
+</section>
+
+
+<section>
+<h2 id="formulas">Formulas to remember</h2>
+<p class="about">Every formula the past papers have needed, grouped by the guide that teaches it. Tap a group's link if a line makes no sense.</p>
+
+<div class="grouphead"><h3 id="f1">Page 1 · Network basics (classes 1 to 6)</h3><a href="../quiz1/">Open the Quiz 1 guide →</a></div>
+<ul class="fl">
+<li><span>Degree of node <math><mi>i</mi></math></span><span><math><mrow><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow></math> (the row sum of the adjacency matrix)</span></li>
+<li><span>Handshaking lemma</span><span><math><mrow><msub><mo movablelimits="false">∑</mo><mi>i</mi></msub><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi></mrow></math>, so <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mn>2</mn><mi>L</mi><mi>/</mi><mi>N</mi></mrow></math></span></li>
+<li><span>Walks</span><span><math><msub><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>A</mi><mi class="tml-lrg-pad">n</mi></msup><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub></math> = number of walks of length <math><mi>n</mi></math> from <math><mi>i</mi></math> to <math><mi>j</mi></math></span></li>
+<li><span>Triangles</span><span><math><mrow><mfrac><mn>1</mn><mn>6</mn></mfrac><mi>tr</mi><mo>⁡</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>A</mi><mn class="tml-lrg-pad">3</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Euler paths</span><span>0 odd-degree nodes gives a circuit, 2 gives a trail, more gives none</span></li>
+<li><span>Clustering of node <math><mi>i</mi></math></span><span><math><mrow><msub><mi>C</mi><mi>i</mi></msub><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mn>2</mn><msub><mi>L</mi><mi>i</mi></msub></mrow><mrow><msub><mi>k</mi><mi>i</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></mfrac></mstyle></mrow></math>, where <math><msub><mi>L</mi><mi>i</mi></msub></math> = links among <math><mi>i</mi></math>'s neighbours</span></li>
+<li><span>Closeness</span><span><math><mrow><mn>1</mn><mi>/</mi><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow></math></span></li>
+<li><span>Betweenness</span><span><math><mrow><msub><mo movablelimits="false">∑</mo><mrow><mi>s</mi><mo separator="true">,</mo><mi>t</mi></mrow></msub><msub><mi>σ</mi><mrow><mi>s</mi><mi>t</mi></mrow></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>v</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>/</mi><msub><mi>σ</mi><mrow><mi>s</mi><mi>t</mi></mrow></msub></mrow></math> (share of shortest paths through <math><mi>v</mi></math>)</span></li>
+<li><span>Eigenvector centrality</span><span><math><mrow><mi>A</mi><mi>𝐱</mi><mo>=</mo><msub><mi>λ</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mi>𝐱</mi></mrow></math></span></li>
+<li><span>Complete graph, tree</span><span><math><mrow><mi>N</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>/</mi><mn>2</mn></mrow></math> links, and <math><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></math> links</span></li>
+<li><span>Euler's method</span><span><math><mrow><msub><mi>y</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>y</mi><mi>n</mi></msub><mo>+</mo><mi>h</mi><mspace width="0.1667em"></mspace><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>y</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Derivative errors</span><span>Forward difference <math><mrow><mi>O</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>h</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, central difference <math><mrow><mi>O</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>h</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+</ul>
+
+<div class="grouphead"><h3 id="f2">Page 2 · Mid-sem topics</h3><a href="../">Open the Mid-sem guide →</a></div>
+<ul class="fl">
+<li><span>Power law</span><span><math><mrow><mi>P</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mi>γ</mi></mrow></msup></mrow></math>, with <math><mrow><mi>C</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msubsup><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></msubsup></mrow></math></span></li>
+<li><span>Its averages</span><span><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mfrac><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>γ</mi><mo>−</mo><mn>2</mn></mrow></mfrac><msub><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow></msub></mrow></math> (needs <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>2</mn></mrow></math>), <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mfrac><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>γ</mi><mo>−</mo><mn>3</mn></mrow></mfrac><msubsup><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow><mn>2</mn></msubsup></mrow></math> (needs <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>3</mn></mrow></math>)</span></li>
+<li><span>On log-log axes</span><span><math><mrow><mrow><mi>log</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>P</mi><mo>=</mo><mrow><mi>log</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>C</mi><mo>−</mo><mi>γ</mi><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>k</mi></mrow></math>, a straight line of slope <math><mrow><mo form="prefix" stretchy="false">−</mo><mi>γ</mi></mrow></math></span></li>
+<li><span>Average path length</span><span>Star <math><mfrac><mrow><mn>2</mn><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow><mi>N</mi></mfrac></math>, chain <math><mfrac><mrow><mi>N</mi><mo>+</mo><mn>1</mn></mrow><mn>3</mn></mfrac></math>, ring <math><mrow><mo>≈</mo><mfrac><mi>N</mi><mn>4</mn></mfrac></mrow></math>, ring with degree <math><mi>k</mi></math> <math><mrow><mo>≈</mo><mfrac><mi>N</mi><mrow><mn>2</mn><mi>k</mi></mrow></mfrac></mrow></math></span></li>
+<li><span>Random (ER) graph</span><span><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mi>p</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, Poisson <math><mrow><mi>P</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow></mrow></msup><mfrac><msup><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>k</mi></msup><mrow><mi>k</mi><mo form="postfix" stretchy="false" lspace="0em" rspace="0em">!</mo></mrow></mfrac></mrow></math>, variance = ⟨k⟩</span></li>
+<li><span>Giant component</span><span><math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow></msup></mrow></math>. Exists if <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>&gt;</mo><mn>1</mn></mrow></math>. Near it <math><mrow><mi>S</mi><mo>≈</mo><mn>2</mn><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Fully connected</span><span>when <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>&gt;</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>N</mi></mrow></math></span></li>
+<li><span>ER distances, clustering</span><span><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>l</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>≈</mo><mfrac><mrow><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>N</mi></mrow><mrow><mrow><mi>ln</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow></mrow></mfrac></mrow></math>, and <math><mrow><mi>C</mi><mo>=</mo><mi>p</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>/</mi><mi>N</mi></mrow></math></span></li>
+<li><span>Friendship paradox</span><span><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><msub><mi>k</mi><mrow><mi>n</mi><mi>n</mi></mrow></msub><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow></mrow></math>. For ER it's <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>+</mo><mn>1</mn></mrow></math></span></li>
+<li><span>1-D stability</span><span>Fixed point <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>0</mn></mrow></math>. Stable if <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>&lt;</mo><mn>0</mn></mrow></math></span></li>
+<li><span>The four bifurcations</span><span>Saddle-node <math><mrow><mi>r</mi><mo>−</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math>, transcritical <math><mrow><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math>, pitchfork <math><mrow><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, subcritical <math><mrow><mi>r</mi><mi>x</mi><mo>+</mo><msup><mi>x</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math></span></li>
+<li><span>SIS</span><span><math><mrow><mover><mi>I</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>I</mi><mo>−</mo><mi>β</mi><msup><mi>I</mi><mn class="tml-med-pad">2</mn></msup></mrow></math>, endemic level <math><mrow><msup><mi>I</mi><mo form="prefix" stretchy="false" class="tml-med-pad">∗</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mi>/</mi><mi>β</mi></mrow></math>, dies out if <math><mrow><mi>β</mi><mo>&lt;</mo><mi>γ</mi></mrow></math></span></li>
+<li><span>Laplacian</span><span><math><mrow><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></mrow></math>. Number of zero eigenvalues = number of components</span></li>
+<li><span>On a network</span><span>Diffusion <math><mrow><mover><mi>𝐱</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mi>C</mi><mi>L</mi><mi>𝐱</mi></mrow></math> ends at the average. SIS spreads if <math><mrow><mi>β</mi><mi>/</mi><mi>γ</mi><mo>&gt;</mo><mn>1</mn><mi>/</mi><msub><mi>κ</mi><mn>1</mn></msub></mrow></math></span></li>
+</ul>
+
+<div class="grouphead"><h3 id="f3">Page 3 · After mid-sem (classes 13 to 18)</h3><a href="../after-midsem/">Open the After mid-sem guide →</a></div>
+<ul class="fl">
+<li><span>2-D linear system</span><span><math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>−</mo><mi>τ</mi><mi>λ</mi><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>0</mn></mrow></math>, where <math><mrow><mi>τ</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>d</mi></mrow></math>, <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mi>a</mi><mi>d</mi><mo>−</mo><mi>b</mi><mi>c</mi></mrow></math></span></li>
+<li><span>Classify it</span><span><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&lt;</mo><mn>0</mn></mrow></math> saddle. Otherwise <math><mrow><mi>τ</mi><mo>&lt;</mo><mn>0</mn></mrow></math> stable, and <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&gt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> node, <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&lt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> spiral, <math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math> center</span></li>
+<li><span>Jacobian</span><span><math><mrow><msub><mi>J</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>∂</mi><msub><mi>f</mi><mi>i</mi></msub><mi>/</mi><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></math> at the fixed point. Stable if every eigenvalue has negative real part</span></li>
+<li><span>Rabbits vs sheep</span><span>Coexistence point <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1,1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a saddle, so one species wins</span></li>
+<li><span>Predator–prey</span><span>Center at <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mi>/</mi><mi>c</mi><mo separator="true">,</mo><mtext> </mtext><mi>a</mi><mi>/</mi><mi>b</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>i</mi><msqrt><mrow><mi>a</mi><mi>d</mi></mrow></msqrt></mrow></math>, so populations cycle</span></li>
+<li><span>Hopf, polar form</span><span><math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> gives <math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math>. Cycle of radius <math><msqrt><mi>μ</mi></msqrt></math></span></li>
+<li><span>Map stability</span><span><math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, stable if <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math></span></li>
+<li><span>Logistic map</span><span><math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>r</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math> stable for <math><mrow><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></mrow></math>. Doubling at 3, 3.449, 3.544. Chaos from 3.57</span></li>
+<li><span>Lorenz</span><span>Origin stable iff <math><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. Other points <math><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mo form="prefix" stretchy="false">±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mo>±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></math></span></li>
+<li><span>Two oscillators</span><span><math><mrow><mover><mi>ϕ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>ω</mi><mo>−</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ϕ</mi></mrow></math>. Lock iff <math><mrow><mi>|</mi><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>ω</mi><mi>|</mi><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math>. <math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mrow></math></span></li>
+<li><span>Kuramoto</span><span><math><mrow><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>ψ</mi></mrow></msup><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><msub><mi>θ</mi><mi>j</mi></msub></mrow></msup></mrow></math>, critical coupling <math><mrow><msub><mi>K</mi><mi>c</mi></msub><mo>=</mo><mfrac><mn>2</mn><mrow><mi>π</mi><mi>g</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></mfrac></mrow></math></span></li>
+<li><span>May's criterion</span><span>A large random system is stable if <math><mrow><msqrt><mrow><mi>S</mi><mi>C</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt><mo>&lt;</mo><mi>d</mi></mrow></math></span></li>
+<li><span>Double pendulum</span><span>Equal masses: <math><mrow><mi>ω</mi><mo>=</mo><msqrt><mrow><mi>g</mi><mi>/</mi><mi>L</mi></mrow></msqrt><mspace width="0.1667em"></mspace><msqrt><mrow><mn>2</mn><mo>±</mo><msqrt><mn>2</mn></msqrt></mrow></msqrt></mrow></math></span></li>
+</ul>
+</section>
+
+
+<section>
+<h2 id="ideas">The two questions behind most answers</h2>
+<p class="about">That's a lot of formulas. The good news is that most exam questions after class 4 ask one of just two things. Once you see this, many of the formulas above stop being separate facts.</p>
+
+<h3>Question 1 · Is it stable?</h3>
+<p>Nudge the system a little. If it comes back, it's stable. If it runs away, it's unstable. The test is always "look at the slope at the fixed point". Only the kind of slope changes.</p>
+<table class="tbl">
+<tr><th>Kind of system</th><th>Stable when</th></tr>
+<tr><td>1-D flow <math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></td><td><math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>&lt;</mo><mn>0</mn></mrow></math></td></tr>
+<tr><td>2-D or 3-D flow</td><td>Every eigenvalue of the Jacobian has negative real part (in 2-D, <math><mrow><mi>τ</mi><mo>&lt;</mo><mn>0</mn></mrow></math> and <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>)</td></tr>
+<tr><td>Map <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></td><td><math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math></td></tr>
+<tr><td>Large random system</td><td><math><mrow><msqrt><mrow><mi>S</mi><mi>C</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt><mo>&lt;</mo><mi>d</mi></mrow></math> (May)</td></tr>
+</table>
+<p>Why is a map different? A flow adds a little bit each instant, so the sign of the slope matters. A map multiplies the error by <math><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup></math> every step, so its size matters. Multiply by 0.5 over and over and you shrink to nothing. Multiply by 2 and you blow up.</p>
+
+<h3>Question 2 · Where is the threshold?</h3>
+<p>Most "critical values" in the course come from one ratio reaching 1. Below it, nothing happens. Above it, something takes off.</p>
+<table class="tbl">
+<tr><th>What happens</th><th>Threshold</th></tr>
+<tr><td>A giant component appears</td><td><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mn>1</mn></mrow></math></td></tr>
+<tr><td>A disease (SIS) spreads</td><td><math><mrow><mi>β</mi><mi>/</mi><mi>γ</mi><mo>=</mo><mn>1</mn></mrow></math></td></tr>
+<tr><td>A disease spreads on a network</td><td><math><mrow><mi>β</mi><msub><mi>κ</mi><mn>1</mn></msub><mi>/</mi><mi>γ</mi><mo>=</mo><mn>1</mn></mrow></math></td></tr>
+<tr><td>A map's fixed point stops being stable</td><td><math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>=</mo><mn>1</mn></mrow></math> (logistic map, <math><mrow><mi>r</mi><mo>=</mo><mn>3</mn></mrow></math>)</td></tr>
+<tr><td>The Lorenz origin stops being stable</td><td><math><mrow><mi>ρ</mi><mo>=</mo><mn>1</mn></mrow></math></td></tr>
+<tr><td>Two oscillators lock together</td><td><math><mrow><mi>|</mi><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>ω</mi><mi>|</mi><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>1</mn></mrow></math>, because <math><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ϕ</mi></mrow></math> can't go past 1</td></tr>
+<tr><td>A large system stops being stable</td><td><math><mrow><msqrt><mrow><mi>S</mi><mi>C</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt><mi>/</mi><mi>d</mi><mo>=</mo><mn>1</mn></mrow></math></td></tr>
+</table>
+<p>For flows the threshold is a slope reaching 0 instead: the Hopf bifurcation happens at <math><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math>, and every 1-D bifurcation happens where <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>0</mn></mrow></math>. The power-law exponents 2 and 3 are the odd ones out. They're where ⟨k⟩ and ⟨k²⟩ stop being finite.</p>
+</section>
+
+<section>
+<h2 id="recipe">One recipe for stability</h2>
+<p class="about">This one recipe answers the SIS question, every bifurcation question, rabbits vs sheep, predator–prey, Lorenz, the Hopf question and the two-oscillator question. Learn it once and you've learnt half the paper.</p>
+<ol class="steps">
+<li><strong>Find the fixed points.</strong> Set every rate to zero and solve.</li>
+<li><strong>Take the slope.</strong> In 1-D that's <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. In 2-D or 3-D it's the Jacobian <math><mi>J</mi></math>.</li>
+<li><strong>Put each fixed point in.</strong> In 1-D read the sign. In 2-D work out <math><mi>τ</mi></math> and <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math>.</li>
+<li><strong>Say what it means.</strong> "Stable, so the disease settles at <math><mrow><mn>1</mn><mo>−</mo><mi>γ</mi><mi>/</mi><mi>β</mi></mrow></math>", or "saddle, so the species can't coexist".</li>
+</ol>
+<p>For a map, step 3 checks <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math> instead. Even the two-oscillator question is a 1-D problem in disguise, because the phase difference <math><mi>ϕ</mi></math> obeys a single equation.</p>
+</section>
+
+<section>
+<h2 id="derive">Six derivations, the short way</h2>
+<p class="about">Past papers ask for these most often. Each one is written as a chain of short lines, with the reason after "∵". Cover the page, write the chain from memory, then check. The full versions are in the guides.</p>
+
+<h3>1 · SIS model</h3>
+<ul class="chain">
+<li><math><mrow><mover><mi>I</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>β</mi><mi>S</mi><mi>I</mi><mo>−</mo><mi>γ</mi><mi>I</mi></mrow></math><span class="why">infections minus recoveries</span></li>
+<li><math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>I</mi></mrow></math><span class="why">everyone is either S or I</span></li>
+<li><math><mrow><mover><mi>I</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>I</mi><mo>−</mo><mi>β</mi><msup><mi>I</mi><mn class="tml-med-pad">2</mn></msup></mrow></math></li>
+<li><math><mrow><mi>I</mi><mo>=</mo><mn>0</mn></mrow></math> or <math><mrow><msup><mi>I</mi><mo form="prefix" stretchy="false" class="tml-med-pad">∗</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mi>/</mi><mi>β</mi></mrow></math><span class="why">set <math><mrow><mover><mi>I</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mn>0</mn></mrow></math></span></li>
+<li><math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>β</mi><mo>−</mo><mi>γ</mi></mrow></math><span class="why">slope at <math><mrow><mi>I</mi><mo>=</mo><mn>0</mn></mrow></math></span></li>
+<li>If <math><mrow><mi>β</mi><mo>&lt;</mo><mi>γ</mi></mrow></math>, <math><mrow><mi>I</mi><mo>=</mo><mn>0</mn></mrow></math> is stable, so the disease dies out. If <math><mrow><mi>β</mi><mo>&gt;</mo><mi>γ</mi></mrow></math> it settles at <math><msup><mi>I</mi><mo form="prefix" stretchy="false" class="tml-med-pad">∗</mo></msup></math>.</li>
+</ul>
+<p class="small">Full version with the solution <math><mrow><mi>I</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>t</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>: <a href="../#epi">Mid-sem guide §11</a></p>
+
+<h3>2 · Power-law constant and average</h3>
+<ul class="chain">
+<li><math><mrow><msubsup><mo movablelimits="false">∫</mo><msub><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow></msub><mi>∞</mi></msubsup><mi>C</mi><msup><mi>k</mi><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mi>γ</mi></mrow></msup><mspace width="0.1667em"></mspace><mi>d</mi><mi>k</mi><mo>=</mo><mn>1</mn></mrow></math><span class="why">probabilities add up to 1</span></li>
+<li><math><mrow><mi>C</mi><mspace width="0.1667em"></mspace><mstyle displaystyle="true" scriptlevel="0"><mfrac><msubsup><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></msubsup><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></mfrac></mstyle><mo>=</mo><mn>1</mn></mrow></math><span class="why"><math><mrow><msup><mi>k</mi><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow></msup><mo>→</mo><mn>0</mn></mrow></math> at infinity only if <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>1</mn></mrow></math></span></li>
+<li><math><mrow><mi>C</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msubsup><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></msubsup></mrow></math></li>
+<li><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mo movablelimits="false">∫</mo><mi>k</mi><mo>⋅</mo><mi>C</mi><msup><mi>k</mi><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mi>γ</mi></mrow></msup><mspace width="0.1667em"></mspace><mi>d</mi><mi>k</mi><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>γ</mi><mo>−</mo><mn>2</mn></mrow></mfrac></mstyle><msub><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow></msub></mrow></math><span class="why">same integral with one more <math><mi>k</mi></math>, needs <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>2</mn></mrow></math></span></li>
+<li><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>γ</mi><mo>−</mo><mn>3</mn></mrow></mfrac></mstyle><msubsup><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow><mn>2</mn></msubsup></mrow></math><span class="why">one more <math><mi>k</mi></math> again, needs <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>3</mn></mrow></math></span></li>
+</ul>
+<p>Spot the pattern? Each extra power of <math><mi>k</mi></math> knocks 1 off the bottom. Real networks have <math><mrow><mn>2</mn><mo>&lt;</mo><mi>γ</mi><mo>&lt;</mo><mn>3</mn></mrow></math>, so ⟨k⟩ is finite but ⟨k²⟩ blows up.</p>
+<p class="small">Full version: <a href="../#moments">Mid-sem guide §1</a></p>
+
+<h3>3 · Giant component</h3>
+<ul class="chain">
+<li><math><mrow><mi>u</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>S</mi></mrow></math><span class="why"><math><mi>u</mi></math> = chance a node is outside the giant component</span></li>
+<li><math><mrow><mi>u</mi><mo>=</mo><msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>+</mo><mi>p</mi><mi>u</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow></math><span class="why">every other node is either not linked to it, or linked but also outside</span></li>
+<li><math><mrow><mi>u</mi><mo>=</mo><msup><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo fence="true" form="postfix" stretchy="true">)</mo></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>→</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow></msup></mrow></math><span class="why"><math><mrow><mi>p</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> and <math><mrow><msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mi>/</mi><mi>n</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>n</mi></msup><mo>→</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mi>x</mi></mrow></msup></mrow></math></span></li>
+<li><math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow></msup></mrow></math></li>
+<li>The right side has slope ⟨k⟩ at <math><mrow><mi>S</mi><mo>=</mo><mn>0</mn></mrow></math>, so it crosses the line <math><mrow><mi>y</mi><mo>=</mo><mi>S</mi></mrow></math> again only if <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>&gt;</mo><mn>1</mn></mrow></math>.</li>
+</ul>
+<p class="small">Full version: <a href="../#gcc">Mid-sem guide §5</a></p>
+
+<h3>4 · Stability of a map</h3>
+<ul class="chain">
+<li><math><mrow><msub><mi>x</mi><mi>n</mi></msub><mo>=</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>+</mo><msub><mi>ε</mi><mi>n</mi></msub></mrow></math><span class="why">a small error</span></li>
+<li><math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>+</mo><msub><mi>ε</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>≈</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>+</mo><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msub><mi>ε</mi><mi>n</mi></msub></mrow></math><span class="why">value plus slope times change</span></li>
+<li><math><mrow><msub><mi>ε</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mspace width="0.1667em"></mspace><msub><mi>ε</mi><mi>n</mi></msub></mrow></math><span class="why"><math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> cancels</span></li>
+<li><math><mrow><msub><mi>ε</mi><mi>n</mi></msub><mo>=</mo><msup><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mi>n</mi></msup><msub><mi>ε</mi><mn>0</mn></msub></mrow></math>, which shrinks only if <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math></li>
+<li>Logistic map: <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></mrow></math>, so it's stable for <math><mrow><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></mrow></math></li>
+</ul>
+<p class="small">Full version: <a href="../after-midsem/#mapstab">After mid-sem guide §12</a></p>
+
+<h3>5 · Limit cycle and Hopf bifurcation</h3>
+<ul class="chain">
+<li><math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math>, with <math><mrow><mi>z</mi><mo>=</mo><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>θ</mi></mrow></msup></mrow></math></li>
+<li><math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>+</mo><mi>i</mi><mi>r</mi><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>θ</mi></mrow></msup></mrow></math><span class="why">product rule</span></li>
+<li><math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>+</mo><mi>i</mi><mi>r</mi><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>r</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mi>r</mi></mrow></math><span class="why">cancel <math><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>θ</mi></mrow></msup></math></span></li>
+<li><math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math><span class="why">match real and imaginary parts</span></li>
+<li>For <math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math>: <math><mrow><mi>r</mi><mo>=</mo><mn>0</mn></mrow></math> unstable (slope <math><mi>μ</mi></math>), <math><mrow><mi>r</mi><mo>=</mo><msqrt><mi>μ</mi></msqrt></mrow></math> stable (slope <math><mrow><mo form="prefix" stretchy="false">−</mo><mn>2</mn><mi>μ</mi></mrow></math>). That circle is the limit cycle.</li>
+</ul>
+<p class="small">Full version: <a href="../after-midsem/#cycle">After mid-sem guide §9</a></p>
+
+<h3>6 · Two coupled oscillators</h3>
+<ul class="chain">
+<li><math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>2</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></li>
+<li><math><mrow><mover><mi>ϕ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ϕ</mi></mrow></math><span class="why"><math><mrow><mi>ϕ</mi><mo>=</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub></mrow></math>, subtract</span></li>
+<li><math><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>ϕ</mi><mo form="prefix" stretchy="false">∗</mo></msup><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mstyle></mrow></math><span class="why">locked means <math><mi>ϕ</mi></math> stops changing</span></li>
+<li><math><mrow><mi>|</mi><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mi>|</mi><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math><span class="why">a sine can't go past 1</span></li>
+<li><math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mstyle></mrow></math><span class="why">multiply the equations by <math><msub><mi>k</mi><mn>2</mn></msub></math> and <math><msub><mi>k</mi><mn>1</mn></msub></math>, add, and <math><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>ϕ</mi><mo form="prefix" stretchy="false">∗</mo></msup></mrow></math> cancels</span></li>
+</ul>
+<p class="small">Full version: <a href="../after-midsem/#twoosc">After mid-sem guide §15</a></p>
+</section>
+
+
+<section>
+<h2 id="cards">Flashcards</h2>
+<p class="about">Answer in your head (or on paper) first, then tap "Show answer" and be honest with yourself. A card you didn't know goes back into the pile, so it comes up again before the round ends.</p>
+
+<div class="drill" id="drill" hidden>
+  <div class="filters" id="drill-filters" role="group" aria-label="Which cards">
+    <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="1" aria-pressed="false">Page 1</button>
+    <button type="button" data-f="2" aria-pressed="false">Page 2</button>
+    <button type="button" data-f="3" aria-pressed="false">Page 3</button>
+  </div>
+  <div class="meta"><span id="drill-tag"></span><span id="drill-count"></span></div>
+  <div class="bar"><i id="drill-bar"></i></div>
+  <div class="dq" id="drill-q"></div>
+  <div class="da" id="drill-a" hidden></div>
+  <div class="btns" id="drill-btns"></div>
+</div>
+
+<p class="small" id="drill-listnote">All the cards are also listed below, if you'd rather scroll.</p>
+<div id="cardlist">
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>What does the handshaking lemma say?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msub><mo movablelimits="false">∑</mo><mi>i</mi></msub><msub><mi>k</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi></mrow></math>. Every link has two ends, so it adds 2 to the total degree. That's why <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mn>2</mn><mi>L</mi><mi>/</mi><mi>N</mi></mrow></math>.</p><p class="small"><a href="../quiz1/#degree">Quiz 1 guide §3</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>What does <math><msub><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>A</mi><mi class="tml-lrg-pad">n</mi></msup><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub></math> count?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The number of walks of length <math><mi>n</mi></math> from <math><mi>i</mi></math> to <math><mi>j</mi></math>. So <math><mrow><msub><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>A</mi><mn class="tml-lrg-pad">2</mn></msup><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>=</mo><msub><mi>k</mi><mi>i</mi></msub></mrow></math>, and the number of triangles is <math><mrow><mfrac><mn>1</mn><mn>6</mn></mfrac><mi>tr</mi><mo>⁡</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>A</mi><mn class="tml-lrg-pad">3</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</p><p class="small"><a href="../quiz1/#walks">Quiz 1 guide §4</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Why divide <math><mrow><mi>tr</mi><mo>⁡</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>A</mi><mn class="tml-lrg-pad">3</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> by 6 to count triangles?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Each triangle shows up as a closed walk from each of its 3 corners, in 2 directions. <math><mrow><mn>3</mn><mo>×</mo><mn>2</mn><mo>=</mo><mn>6</mn></mrow></math>.</p><p class="small"><a href="../quiz1/#walks">Quiz 1 guide §4</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>When does a connected graph have an Euler circuit? An Euler trail?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Circuit if every node has even degree. Trail (start and end differ) if exactly 2 nodes have odd degree, and it runs between them. More than 2 odd nodes means neither.</p><p class="small"><a href="../quiz1/#euler">Quiz 1 guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Formula for the clustering coefficient of node <math><mi>i</mi></math>?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msub><mi>C</mi><mi>i</mi></msub><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mn>2</mn><msub><mi>L</mi><mi>i</mi></msub></mrow><mrow><msub><mi>k</mi><mi>i</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></mfrac></mstyle></mrow></math>, the links among its neighbours divided by the most there could be. A complete graph has <math><mrow><mi>C</mi><mo>=</mo><mn>1</mn></mrow></math>. A tree has <math><mrow><mi>C</mi><mo>=</mo><mn>0</mn></mrow></math>.</p><p class="small"><a href="../quiz1/#cluster">Quiz 1 guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Name the four centralities and what each measures.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Degree (how many links), closeness (<math><mrow><mn>1</mn><mi>/</mi><mo movablelimits="false">∑</mo><mi>d</mi></mrow></math>, how near everyone is), betweenness (how many shortest paths pass through you), eigenvector (<math><mrow><mi>A</mi><mi>𝐱</mi><mo>=</mo><msub><mi>λ</mi><mrow><mi>max</mi><mo>⁡</mo></mrow></msub><mi>𝐱</mi></mrow></math>, linked to important nodes).</p><p class="small"><a href="../quiz1/#cent">Quiz 1 guide §8</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>How many links does a tree on <math><mi>N</mi></math> nodes have? A complete graph?</span><span class="chev">›</span></summary>
+<div class="ans"><p>A tree has <math><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></math>. A complete graph has <math><mrow><mi>N</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>/</mi><mn>2</mn></mrow></math>.</p><p class="small"><a href="../quiz1/#special">Quiz 1 guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Write one step of Euler's method. Which derivative formula is more accurate, forward or central?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msub><mi>y</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>y</mi><mi>n</mi></msub><mo>+</mo><mi>h</mi><mspace width="0.1667em"></mspace><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>y</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. Central is more accurate, with error <math><mrow><mi>O</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>h</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> against <math><mrow><mi>O</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>h</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> for forward.</p><p class="small"><a href="../quiz1/#numeric">Quiz 1 guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>For <math><mrow><mi>P</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>C</mi><msup><mi>k</mi><mrow><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mi>γ</mi></mrow></msup></mrow></math>, what is <math><mi>C</mi></math>?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mi>C</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msubsup><mi>k</mi><mrow><mi>min</mi><mo>⁡</mo></mrow><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></msubsup></mrow></math>, from making the probabilities add up to 1.</p><p class="small"><a href="../#moments">Mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>For a power law, when are ⟨k⟩ and ⟨k²⟩ finite? Where do real networks sit?</span><span class="chev">›</span></summary>
+<div class="ans"><p>⟨k⟩ needs <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>2</mn></mrow></math>. ⟨k²⟩ needs <math><mrow><mi>γ</mi><mo>&gt;</mo><mn>3</mn></mrow></math>. Real networks usually have <math><mrow><mn>2</mn><mo>&lt;</mo><mi>γ</mi><mo>&lt;</mo><mn>3</mn></mrow></math>, so the average is finite but ⟨k²⟩ blows up.</p><p class="small"><a href="../#moments">Mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Why use log binning for a power law?</span><span class="chev">›</span></summary>
+<div class="ans"><p>With equal-width bins, the tail bins hold 0 or 1 node, so the plot is noisy and zeros can't go on a log axis. Log bins grow by a fixed factor, so the wide tail bins collect enough nodes. Divide each count by <math><mi>N</mi></math> times the bin width.</p><p class="small"><a href="../#binning">Mid-sem guide §2</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Average path length of a star, an open chain and a ring?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Star <math><mrow><mn>2</mn><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>/</mi><mi>N</mi></mrow></math> (about 2). Chain <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>/</mi><mn>3</mn></mrow></math>. Ring about <math><mrow><mi>N</mi><mi>/</mi><mn>4</mn></mrow></math>. Ring where each node has degree <math><mi>k</mi></math>: about <math><mrow><mi>N</mi><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>2</mn><mi>k</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</p><p class="small"><a href="../#simple">Mid-sem guide §3</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>In an ER graph, how are <math><mi>p</mi></math>, ⟨k⟩ and <math><mi>N</mi></math> related? What is the degree distribution?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mi>p</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. Binomial, which becomes Poisson <math><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow></mrow></msup><msup><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>k</mi></msup><mi>/</mi><mi>k</mi><mo form="postfix" stretchy="false">!</mo></mrow></math> for large <math><mi>N</mi></math> and small <math><mi>p</mi></math>. Its variance equals ⟨k⟩.</p><p class="small"><a href="../#er">Mid-sem guide §4</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Equation for the giant component, and when does it exist?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>S</mi></mrow></msup></mrow></math>. It exists only when <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>&gt;</mo><mn>1</mn></mrow></math>. Just above that, <math><mrow><mi>S</mi><mo>≈</mo><mn>2</mn><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, so the exponent <math><mrow><mi>β</mi><mo>=</mo><mn>1</mn></mrow></math>.</p><p class="small"><a href="../#gcc">Mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>When is an ER graph fully connected?</span><span class="chev">›</span></summary>
+<div class="ans"><p>When <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>&gt;</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>N</mi></mrow></math>.</p><p class="small"><a href="../#gcc">Mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>ER graph: average path length and clustering? How do real networks compare?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>l</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>≈</mo><mrow><mi>ln</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>N</mi><mi>/</mi><mrow><mspace width="0.1667em"></mspace><mi>ln</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow></mrow></math> and <math><mrow><mi>C</mi><mo>=</mo><mi>p</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>/</mi><mi>N</mi></mrow></math>. Real networks also have short paths, but much higher clustering.</p><p class="small"><a href="../#erlc">Mid-sem guide §6</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Is ⟨k<sub>nn</sub>⟩ equal to ⟨k⟩?</span><span class="chev">›</span></summary>
+<div class="ans"><p>No. <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><msub><mi>k</mi><mrow><mi>n</mi><mi>n</mi></mrow></msub><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><msup><mi>k</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>≥</mo><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow></mrow></math>, because popular nodes show up on many friend lists. For ER it's <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">⟨</mo><mi>k</mi><mo fence="true" form="postfix" stretchy="false">⟩</mo></mrow><mo>+</mo><mn>1</mn></mrow></math>.</p><p class="small"><a href="../#knn">Mid-sem guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>How do you test whether a fixed point of <math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> is stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Stable if <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>&lt;</mo><mn>0</mn></mrow></math>, unstable if <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>.</p><p class="small"><a href="../#fixed">Mid-sem guide §8</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Give the normal form of each of the four 1-D bifurcations.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Saddle-node <math><mrow><mi>r</mi><mo>−</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> (two points meet and vanish). Transcritical <math><mrow><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> (two points swap stability). Supercritical pitchfork <math><mrow><mi>r</mi><mi>x</mi><mo>−</mo><msup><mi>x</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math> (one point splits into three). Subcritical pitchfork <math><mrow><mi>r</mi><mi>x</mi><mo>+</mo><msup><mi>x</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>.</p><p class="small"><a href="../#bif">Mid-sem guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>What is hysteresis?</span><span class="chev">›</span></summary>
+<div class="ans"><p>With two stable states (stable, unstable, stable), the system jumps at one value of the parameter going up and at a different value coming down. Turning the knob back doesn't undo the jump. The jumps happen at folds, where <math><mrow><mi>f</mi><mo>=</mo><mn>0</mn></mrow></math> and <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>0</mn></mrow></math>.</p><p class="small"><a href="../#budworm">Mid-sem guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>SIS: endemic level, and when does the disease die out?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msup><mi>I</mi><mo form="prefix" stretchy="false" class="tml-med-pad">∗</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mi>γ</mi><mi>/</mi><mi>β</mi></mrow></math>. It dies out when <math><mrow><mi>β</mi><mo>&lt;</mo><mi>γ</mi></mrow></math>, because then <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>β</mi><mo>−</mo><mi>γ</mi><mo>&lt;</mo><mn>0</mn></mrow></math>.</p><p class="small"><a href="../#epi">Mid-sem guide §11</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Define the Laplacian. What do its zero eigenvalues tell you?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mi>L</mi><mo>=</mo><mi>D</mi><mo>−</mo><mi>A</mi></mrow></math>. The number of zero eigenvalues equals the number of connected components. All eigenvalues are <math><mrow><mo>≥</mo><mn>0</mn></mrow></math>.</p><p class="small"><a href="../#lap">Mid-sem guide §12</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>On a network, when does SIS spread?</span><span class="chev">›</span></summary>
+<div class="ans"><p>When <math><mrow><mi>β</mi><mi>/</mi><mi>γ</mi><mo>&gt;</mo><mn>1</mn><mi>/</mi><msub><mi>κ</mi><mn>1</mn></msub></mrow></math>, where <math><msub><mi>κ</mi><mn>1</mn></msub></math> is the largest eigenvalue of <math><mi>A</mi></math>. Early on the infection grows like <math><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>β</mi><msub><mi>κ</mi><mn>1</mn></msub><mo>−</mo><mi>γ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>t</mi></mrow></msup><msub><mi>𝐯</mi><mn>1</mn></msub></mrow></math>.</p><p class="small"><a href="../#netdyn">Mid-sem guide §13</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>For <math><mrow><mover><mi>𝐱</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>A</mi><mi>𝐱</mi></mrow></math>, what equation gives the eigenvalues?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>−</mo><mi>τ</mi><mi>λ</mi><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>0</mn></mrow></math>, with <math><mrow><mi>τ</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>d</mi></mrow></math> (trace) and <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mi>a</mi><mi>d</mi><mo>−</mo><mi>b</mi><mi>c</mi></mrow></math> (determinant).</p><p class="small"><a href="../after-midsem/#eigen">After mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Classify a 2-D fixed point from <math><mi>τ</mi></math> and <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math>.</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&lt;</mo><mn>0</mn></mrow></math>: saddle. Otherwise the sign of <math><mi>τ</mi></math> gives stability (negative is stable), and <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&gt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> gives a node, <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&lt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> a spiral. <math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math> with <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math> is a center.</p><p class="small"><a href="../after-midsem/#classify">After mid-sem guide §2</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What is the Jacobian, and how does it decide stability?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msub><mi>J</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>∂</mi><msub><mi>f</mi><mi>i</mi></msub><mi>/</mi><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></math>, evaluated at the fixed point. If every eigenvalue has negative real part, it's stable.</p><p class="small"><a href="../after-midsem/#jacobian">After mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Rabbits vs sheep: what kind of point is coexistence, and what does it mean?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1,1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a saddle (<math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>1</mn><mo>±</mo><msqrt><mn>2</mn></msqrt></mrow></math>). The stable states are "rabbits only" and "sheep only", so one species always wins. This is competitive exclusion.</p><p class="small"><a href="../after-midsem/#rabbits">After mid-sem guide §6</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Predator–prey (Lotka–Volterra): fixed points and their types?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a saddle. <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mi>/</mi><mi>c</mi><mo separator="true">,</mo><mtext> </mtext><mi>a</mi><mi>/</mi><mi>b</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a center with <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>i</mi><msqrt><mrow><mi>a</mi><mi>d</mi></mrow></msqrt></mrow></math>, so the populations cycle around it.</p><p class="small"><a href="../after-midsem/#lv">After mid-sem guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Write <math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> in polar form. What happens at <math><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math>?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math>. For <math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math> a stable limit cycle of radius <math><msqrt><mi>μ</mi></msqrt></math> appears and the origin turns unstable. That's a supercritical Hopf bifurcation.</p><p class="small"><a href="../after-midsem/#cycle">After mid-sem guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What does the Poincaré–Bendixson theorem say?</span><span class="chev">›</span></summary>
+<div class="ans"><p>In 2-D, if paths are trapped in a region that has no fixed point, there must be a closed orbit in it. It only works in 2-D, which is why chaos needs at least 3 dimensions.</p><p class="small"><a href="../after-midsem/#vdp">After mid-sem guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>How does Euler's method with <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow></math> turn a logistic equation into the logistic map?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mi>K</mi><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> becomes <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>x</mi><mi>n</mi></msub><mo>+</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msub><mi>x</mi><mi>n</mi></msub><mo>−</mo><mi>K</mi><msubsup><mi>x</mi><mi>n</mi><mn class="tml-sml-pad">2</mn></msubsup><mo>=</mo><mi>K</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</p><p class="small"><a href="../after-midsem/#euler">After mid-sem guide §11</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>When is a fixed point of a map stable? Apply it to the logistic map.</span><span class="chev">›</span></summary>
+<div class="ans"><p>When <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. For <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>r</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, the point <math><mrow><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math> has <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></mrow></math>, so it's stable for <math><mrow><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></mrow></math>.</p><p class="small"><a href="../after-midsem/#mapstab">After mid-sem guide §12</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Logistic map: where does the period double, and where does chaos start?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Period 2 at <math><mrow><mi>r</mi><mo>=</mo><mn>3</mn></mrow></math>, period 4 at 3.449, period 8 at 3.544. Chaos from about 3.57.</p><p class="small"><a href="../after-midsem/#doubling">After mid-sem guide §13</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Lorenz system: the fixed points, and when is the origin stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, stable iff <math><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. For <math><mrow><mi>ρ</mi><mo>&gt;</mo><mn>1</mn></mrow></math> also <math><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mo form="prefix" stretchy="false">±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mo>±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></math>. Chaos above about <math><mrow><mi>ρ</mi><mo>=</mo><mn>24.74</mn></mrow></math> (with the usual <math><mrow><mi>σ</mi><mo>=</mo><mn>10</mn></mrow></math>, <math><mrow><mi>β</mi><mo>=</mo><mn>8</mn><mi>/</mi><mn>3</mn></mrow></math>).</p><p class="small"><a href="../after-midsem/#lorenz">After mid-sem guide §14</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Two coupled oscillators: when do they lock, and at what frequency?</span><span class="chev">›</span></summary>
+<div class="ans"><p>They lock when <math><mrow><mi>|</mi><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mi>|</mi><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math>. The common frequency is <math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mrow></math>, the plain average if <math><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>=</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math>.</p><p class="small"><a href="../after-midsem/#twoosc">After mid-sem guide §15</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What is the Kuramoto order parameter, and what is <math><msub><mi>K</mi><mi>c</mi></msub></math>?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>ψ</mi></mrow></msup><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><msub><mi>θ</mi><mi>j</mi></msub></mrow></msup></mrow></math>. <math><mi>r</mi></math> near 0 means out of sync, near 1 means in sync. Sync starts at <math><mrow><msub><mi>K</mi><mi>c</mi></msub><mo>=</mo><mn>2</mn><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>π</mi><mi>g</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, which is <math><mrow><mn>2</mn><mi>γ</mi></mrow></math> for a Lorentzian.</p><p class="small"><a href="../after-midsem/#kuramoto">After mid-sem guide §16</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>State May's stability criterion.</span><span class="chev">›</span></summary>
+<div class="ans"><p>A large random system with <math><mi>S</mi></math> species, connectance <math><mi>C</mi></math>, interaction spread <math><mi>σ</mi></math> and self-damping <math><mi>d</mi></math> is stable if <math><mrow><msqrt><mrow><mi>S</mi><mi>C</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt><mo>&lt;</mo><mi>d</mi></mrow></math>. Bigger or more connected systems are less stable.</p><p class="small"><a href="../after-midsem/#may">After mid-sem guide §17</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Double pendulum with equal masses: the two normal-mode frequencies?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mi>ω</mi><mo>=</mo><msqrt><mrow><mi>g</mi><mi>/</mi><mi>L</mi></mrow></msqrt><mspace width="0.1667em"></mspace><msqrt><mrow><mn>2</mn><mo>±</mo><msqrt><mn>2</mn></msqrt></mrow></msqrt></mrow></math>.</p><p class="small"><a href="../after-midsem/#pendulum">After mid-sem guide §18</a></p></div></details>
+
+</div>
+</section>
+
+<script>
+/* Flashcard drill: builds one card at a time from the details.fc list.
+   "Didn't know" puts the card back a few places later in the round. */
+(function(){
+  var box=document.getElementById('drill'); if(!box) return;
+  var all=[].slice.call(document.querySelectorAll('#cardlist details.fc')).map(function(d){
+    var s=d.querySelector('summary').children;
+    return {pg:d.getAttribute('data-pg'), tag:s[0].textContent, q:s[1].innerHTML, a:d.querySelector('.ans').innerHTML};
+  });
+  var qEl=document.getElementById('drill-q'), aEl=document.getElementById('drill-a'), btns=document.getElementById('drill-btns'),
+      tagEl=document.getElementById('drill-tag'), countEl=document.getElementById('drill-count'), bar=document.getElementById('drill-bar');
+  var deck=[], done=0, total=0, filter='all', touched=false;
+  box.addEventListener('click',function(){ touched=true; });
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function button(label,cls,fn){ var b=document.createElement('button'); b.type='button'; b.textContent=label; if(cls) b.className=cls; b.addEventListener('click',fn); btns.appendChild(b); return b; }
+  function start(){
+    deck=shuffle(all.filter(function(c){ return filter==='all'||c.pg===filter; }).slice());
+    total=deck.length; done=0; show();
+  }
+  function progress(){ countEl.textContent=done+' of '+total+' known'; bar.style.width=(total?100*done/total:0)+'%'; }
+  function show(){
+    btns.innerHTML=''; aEl.hidden=true; progress();
+    if(!deck.length){
+      tagEl.textContent='Round finished';
+      qEl.textContent='You got through all '+total+' cards. Come back tomorrow and do it again, that\'s when it really sticks.';
+      button('Start again','go',start); return;
+    }
+    var c=deck[0]; tagEl.textContent=c.tag; qEl.innerHTML=c.q;
+    var b0=button('Show answer','go',function(){
+      aEl.innerHTML=c.a; aEl.hidden=false; btns.innerHTML='';
+      button('Knew it','yes',function(){ deck.shift(); done++; show(); }).focus({preventScroll:true});
+      button('Didn\'t know','',function(){ deck.shift(); deck.splice(Math.min(3,deck.length),0,c); show(); });
+    }); if(touched) b0.focus({preventScroll:true});
+  }
+  document.querySelectorAll('#drill-filters button').forEach(function(b){
+    b.addEventListener('click',function(){
+      filter=b.getAttribute('data-f');
+      document.querySelectorAll('#drill-filters button').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+      start();
+    });
+  });
+  box.hidden=false; start();
+})();
+</script>
+
+</main>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('themebtn');
+  var ico=btn.querySelector('.ico'), lbl=btn.querySelector('.lbl');
+  var ICONS={auto:'◐',light:'☀',dark:'☾'}, ORDER=['auto','light','dark'];
+  function apply(mode){
+    if(mode==='light'||mode==='dark') document.documentElement.setAttribute('data-theme',mode);
+    else { document.documentElement.removeAttribute('data-theme'); mode='auto'; }
+    if(ico) ico.textContent=ICONS[mode];
+    if(lbl) lbl.textContent=mode.charAt(0).toUpperCase()+mode.slice(1);
+    return mode;
+  }
+  var saved='auto'; try{ saved=localStorage.getItem('dpcn-theme')||'auto'; }catch(e){}
+  var current=apply(saved);
+  btn.addEventListener('click',function(){
+    current=apply(ORDER[(ORDER.indexOf(current)+1)%ORDER.length]);
+    try{ current==='auto' ? localStorage.removeItem('dpcn-theme') : localStorage.setItem('dpcn-theme',current); }catch(e){}
+  });
+  var links=[].slice.call(document.querySelectorAll('#tocnav a'));
+  var map={}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active');});
+        var a=map[en.target.id]; if(a){a.classList.add('active'); a.scrollIntoView({block:'nearest'});}
+      }});
+    },{rootMargin:'-8% 0px -80% 0px',threshold:0});
+    document.querySelectorAll('main [id]').forEach(function(el){ if(map[el.id]) obs.observe(el); });
+  }
+  // Reveal correct MCQ options only when the answer is opened (fallback for browsers without :has())
+  document.querySelectorAll('.qitem .ansd').forEach(function(d){
+    d.addEventListener('toggle',function(){
+      var qi=d.closest('.qitem'); if(qi) qi.classList.toggle('revealed', d.open);
+    });
+  });
+})();
+</script>
+<script>
+/* Graph illustration engine: renders every <svg class="gr" data-spec='{...}'>.
+   spec = { nodes:{A:[x,y],...}, edges:[ ["A","B"] | ["A","B",curve] | {u,v,c,w,d} ],
+            directed:bool, hi:["X",...], dim:["Y",...], r:number, labels:{A:"..."} } */
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function C(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function E(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function ensureArrow(svg,color){
+    var id="arrow-"+Math.random().toString(36).slice(2,7);
+    var defs=E("defs",{});
+    var m=E("marker",{id:id,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"});
+    m.appendChild(E("path",{d:"M0,0 L10,5 L0,10 z",fill:color}));
+    defs.appendChild(m); svg.appendChild(defs); return id;
+  }
+  function draw(svg){
+    var spec; try{ spec=JSON.parse(svg.getAttribute("data-spec")); }catch(e){ return; }
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    var edgeCol=C("--edge"), nodeFill=C("--node"), nodeStroke=C("--node-stroke"),
+        fg=C("--fg"), brand=C("--brand"), brandFg=C("--brand-fg"), mutedFg=C("--muted-fg");
+    var r = spec.r || 15;
+    var arrowId = spec.directed ? ensureArrow(svg, edgeCol) : null;
+    var N = spec.nodes;
+    function pt(k){ return N[k]; }
+    // shorten a line by radius at both ends so it meets circle edges
+    function trim(x1,y1,x2,y2,pad1,pad2){
+      var dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy)||1;
+      return [x1+dx/L*pad1, y1+dy/L*pad1, x2-dx/L*pad2, y2-dy/L*pad2];
+    }
+    (spec.edges||[]).forEach(function(ed){
+      var u,v,curve=0,w=null,dir=spec.directed;
+      if(Array.isArray(ed)){ u=ed[0]; v=ed[1]; curve=ed[2]||0; }
+      else { u=ed.u; v=ed.v; curve=ed.c||0; w=ed.w; if(ed.d!==undefined) dir=ed.d; }
+      var a=pt(u), b=pt(v); if(!a||!b) return;
+      var col = ed.col? C(ed.col) : edgeCol;
+      if(curve){
+        // quadratic curve; control point offset perpendicular to the chord
+        var mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy)||1;
+        var cx=mx - dy/L*curve, cy=my + dx/L*curve;
+        // trim endpoints toward control point
+        var s=trim(a[0],a[1],cx,cy,r,0), e2=trim(cx,cy,b[0],b[1],0,r);
+        var p=E("path",{d:"M"+s[0]+","+s[1]+" Q"+cx+","+cy+" "+e2[2]+","+e2[3],
+          fill:"none",stroke:col,"stroke-width":2});
+        if(dir&&arrowId) p.setAttribute("marker-end","url(#"+arrowId+")");
+        svg.appendChild(p);
+        if(w!=null){ var t=E("text",{x:cx,y:cy-4,"text-anchor":"middle","font-size":12,fill:mutedFg,"font-family":"STIX Two Text, serif","font-style":"italic"}); t.textContent=w; svg.appendChild(t); }
+      } else {
+        var c=trim(a[0],a[1],b[0],b[1],dir?r:0,r);
+        var ln=E("line",{x1:c[0],y1:c[1],x2:c[2],y2:c[3],stroke:col,"stroke-width":2});
+        if(dir&&arrowId) ln.setAttribute("marker-end","url(#"+arrowId+")");
+        svg.appendChild(ln);
+        if(w!=null){ var mx2=(a[0]+b[0])/2,my2=(a[1]+b[1])/2; var t2=E("text",{x:mx2,y:my2-5,"text-anchor":"middle","font-size":12,fill:mutedFg,"font-family":"STIX Two Text, serif","font-style":"italic"}); t2.textContent=w; svg.appendChild(t2); }
+      }
+    });
+    var hi=spec.hi||[], dim=spec.dim||[], labels=spec.labels||{};
+    Object.keys(N).forEach(function(k){
+      var p=N[k], on=hi.indexOf(k)>=0, faded=dim.indexOf(k)>=0;
+      var fill = on? brand : nodeFill;
+      var stroke = on? brand : nodeStroke;
+      var g=E("circle",{cx:p[0],cy:p[1],r:r,fill:fill,stroke:stroke,"stroke-width":on?2:1.6});
+      if(faded) g.setAttribute("opacity",".45");
+      svg.appendChild(g);
+      var lab = (k in labels)? labels[k] : k;
+      if(lab!==""){
+        var tx=E("text",{x:p[0],y:p[1],"text-anchor":"middle","dominant-baseline":"central",
+          "font-size":Math.round(r*0.95),fill:on?brandFg:fg,"font-family":"STIX Two Text, serif","font-style":"italic"});
+        if(faded) tx.setAttribute("opacity",".55");
+        tx.textContent=lab; svg.appendChild(tx);
+      }
+    });
+  }
+  function drawAll(){ document.querySelectorAll("svg.gr").forEach(draw); }
+  if(document.readyState!=="loading") drawAll(); else document.addEventListener("DOMContentLoaded",drawAll);
+  window.__redrawGraphs=drawAll;
+  var mo=new MutationObserver(drawAll);
+  mo.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",drawAll); }catch(e){} }
+})();
+</script>
+<script>
+/* Phone menu: close it after a link is tapped, or on Escape */
+(function(){
+  var m=document.getElementById('mtoc'); if(!m) return;
+  m.addEventListener('click',function(e){ if(e.target.closest('a')) m.open=false; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') m.open=false; });
+})();
+</script>
+
+</body>
+</html>

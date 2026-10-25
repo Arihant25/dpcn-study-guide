@@ -12,6 +12,7 @@ const PAGES = [
   { src: 'src', out: 'index.html', root: '' },                       // Mid-sem guide
   { src: 'src-after', out: 'after-midsem/index.html', root: '../' }, // After mid-sem guide
   { src: 'src-quiz1', out: 'quiz1/index.html', root: '../' },        // Quiz 1 guide
+  { src: 'src-remember', out: 'remember/index.html', root: '../' },  // Memory sheet
 ];
 
 /* ---------------- plotting helpers (static SVG, colours from CSS tokens) ---------------- */

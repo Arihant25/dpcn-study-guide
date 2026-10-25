@@ -1,0 +1,138 @@
+
+<section>
+<h2 id="cards">Flashcards</h2>
+<p class="about">Answer in your head (or on paper) first, then tap "Show answer" and be honest with yourself. A card you didn't know goes back into the pile, so it comes up again before the round ends.</p>
+
+<div class="drill" id="drill" hidden>
+  <div class="filters" id="drill-filters" role="group" aria-label="Which cards">
+    <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="1" aria-pressed="false">Page 1</button>
+    <button type="button" data-f="2" aria-pressed="false">Page 2</button>
+    <button type="button" data-f="3" aria-pressed="false">Page 3</button>
+  </div>
+  <div class="meta"><span id="drill-tag"></span><span id="drill-count"></span></div>
+  <div class="bar"><i id="drill-bar"></i></div>
+  <div class="dq" id="drill-q"></div>
+  <div class="da" id="drill-a" hidden></div>
+  <div class="btns" id="drill-btns"></div>
+</div>
+
+<p class="small" id="drill-listnote">All the cards are also listed below, if you'd rather scroll.</p>
+<div id="cardlist">
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>What does the handshaking lemma say?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\sum_i k_i = 2L\). Every link has two ends, so it adds 2 to the total degree. That's why \(\langle k\rangle = 2L/N\).</p><p class="small"><a href="{{ROOT}}quiz1/#degree">Quiz 1 guide §3</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>What does \([A^n]_{ij}\) count?</span><span class="chev">›</span></summary>
+<div class="ans"><p>The number of walks of length \(n\) from \(i\) to \(j\). So \([A^2]_{ii} = k_i\), and the number of triangles is \(\frac16\operatorname{tr}(A^3)\).</p><p class="small"><a href="{{ROOT}}quiz1/#walks">Quiz 1 guide §4</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Why divide \(\operatorname{tr}(A^3)\) by 6 to count triangles?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Each triangle shows up as a closed walk from each of its 3 corners, in 2 directions. \(3\times2 = 6\).</p><p class="small"><a href="{{ROOT}}quiz1/#walks">Quiz 1 guide §4</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>When does a connected graph have an Euler circuit? An Euler trail?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Circuit if every node has even degree. Trail (start and end differ) if exactly 2 nodes have odd degree, and it runs between them. More than 2 odd nodes means neither.</p><p class="small"><a href="{{ROOT}}quiz1/#euler">Quiz 1 guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Formula for the clustering coefficient of node \(i\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(C_i = \dfrac{2L_i}{k_i(k_i-1)}\), the links among its neighbours divided by the most there could be. A complete graph has \(C = 1\). A tree has \(C = 0\).</p><p class="small"><a href="{{ROOT}}quiz1/#cluster">Quiz 1 guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Name the four centralities and what each measures.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Degree (how many links), closeness (\(1/\sum d\), how near everyone is), betweenness (how many shortest paths pass through you), eigenvector (\(A\mathbf x = \lambda_{\max}\mathbf x\), linked to important nodes).</p><p class="small"><a href="{{ROOT}}quiz1/#cent">Quiz 1 guide §8</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>How many links does a tree on \(N\) nodes have? A complete graph?</span><span class="chev">›</span></summary>
+<div class="ans"><p>A tree has \(N - 1\). A complete graph has \(N(N-1)/2\).</p><p class="small"><a href="{{ROOT}}quiz1/#special">Quiz 1 guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>Write one step of Euler's method. Which derivative formula is more accurate, forward or central?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(y_{n+1} = y_n + h\,f(y_n)\). Central is more accurate, with error \(O(h^2)\) against \(O(h)\) for forward.</p><p class="small"><a href="{{ROOT}}quiz1/#numeric">Quiz 1 guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>For \(P(k) = Ck^{-\gamma}\), what is \(C\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(C = (\gamma-1)k_{\min}^{\gamma-1}\), from making the probabilities add up to 1.</p><p class="small"><a href="{{ROOT}}#moments">Mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>For a power law, when are ⟨k⟩ and ⟨k²⟩ finite? Where do real networks sit?</span><span class="chev">›</span></summary>
+<div class="ans"><p>⟨k⟩ needs \(\gamma>2\). ⟨k²⟩ needs \(\gamma>3\). Real networks usually have \(2<\gamma<3\), so the average is finite but ⟨k²⟩ blows up.</p><p class="small"><a href="{{ROOT}}#moments">Mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Why use log binning for a power law?</span><span class="chev">›</span></summary>
+<div class="ans"><p>With equal-width bins, the tail bins hold 0 or 1 node, so the plot is noisy and zeros can't go on a log axis. Log bins grow by a fixed factor, so the wide tail bins collect enough nodes. Divide each count by \(N\) times the bin width.</p><p class="small"><a href="{{ROOT}}#binning">Mid-sem guide §2</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Average path length of a star, an open chain and a ring?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Star \(2(N-1)/N\) (about 2). Chain \((N+1)/3\). Ring about \(N/4\). Ring where each node has degree \(k\): about \(N/(2k)\).</p><p class="small"><a href="{{ROOT}}#simple">Mid-sem guide §3</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>In an ER graph, how are \(p\), ⟨k⟩ and \(N\) related? What is the degree distribution?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle k\rangle = p(N-1)\). Binomial, which becomes Poisson \(e^{-\langle k\rangle}\langle k\rangle^k/k!\) for large \(N\) and small \(p\). Its variance equals ⟨k⟩.</p><p class="small"><a href="{{ROOT}}#er">Mid-sem guide §4</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Equation for the giant component, and when does it exist?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(S = 1 - e^{-\langle k\rangle S}\). It exists only when \(\langle k\rangle>1\). Just above that, \(S\approx2(\langle k\rangle-1)\), so the exponent \(\beta = 1\).</p><p class="small"><a href="{{ROOT}}#gcc">Mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>When is an ER graph fully connected?</span><span class="chev">›</span></summary>
+<div class="ans"><p>When \(\langle k\rangle > \ln N\).</p><p class="small"><a href="{{ROOT}}#gcc">Mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>ER graph: average path length and clustering? How do real networks compare?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\langle l\rangle\approx\ln N/\ln\langle k\rangle\) and \(C = p = \langle k\rangle/N\). Real networks also have short paths, but much higher clustering.</p><p class="small"><a href="{{ROOT}}#erlc">Mid-sem guide §6</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Is ⟨k<sub>nn</sub>⟩ equal to ⟨k⟩?</span><span class="chev">›</span></summary>
+<div class="ans"><p>No. \(\langle k_{nn}\rangle = \langle k^2\rangle/\langle k\rangle \ge \langle k\rangle\), because popular nodes show up on many friend lists. For ER it's \(\langle k\rangle + 1\).</p><p class="small"><a href="{{ROOT}}#knn">Mid-sem guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>How do you test whether a fixed point of \(\dot x = f(x)\) is stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Stable if \(f'(x^*)<0\), unstable if \(f'(x^*)>0\).</p><p class="small"><a href="{{ROOT}}#fixed">Mid-sem guide §8</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Give the normal form of each of the four 1-D bifurcations.</span><span class="chev">›</span></summary>
+<div class="ans"><p>Saddle-node \(r - x^2\) (two points meet and vanish). Transcritical \(rx - x^2\) (two points swap stability). Supercritical pitchfork \(rx - x^3\) (one point splits into three). Subcritical pitchfork \(rx + x^3\).</p><p class="small"><a href="{{ROOT}}#bif">Mid-sem guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>What is hysteresis?</span><span class="chev">›</span></summary>
+<div class="ans"><p>With two stable states (stable, unstable, stable), the system jumps at one value of the parameter going up and at a different value coming down. Turning the knob back doesn't undo the jump. The jumps happen at folds, where \(f = 0\) and \(f' = 0\).</p><p class="small"><a href="{{ROOT}}#budworm">Mid-sem guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>SIS: endemic level, and when does the disease die out?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(I^* = 1 - \gamma/\beta\). It dies out when \(\beta<\gamma\), because then \(f'(0) = \beta - \gamma < 0\).</p><p class="small"><a href="{{ROOT}}#epi">Mid-sem guide §11</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>Define the Laplacian. What do its zero eigenvalues tell you?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(L = D - A\). The number of zero eigenvalues equals the number of connected components. All eigenvalues are \(\ge 0\).</p><p class="small"><a href="{{ROOT}}#lap">Mid-sem guide §12</a></p></div></details>
+
+<details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>On a network, when does SIS spread?</span><span class="chev">›</span></summary>
+<div class="ans"><p>When \(\beta/\gamma > 1/\kappa_1\), where \(\kappa_1\) is the largest eigenvalue of \(A\). Early on the infection grows like \(e^{(\beta\kappa_1-\gamma)t}\mathbf v_1\).</p><p class="small"><a href="{{ROOT}}#netdyn">Mid-sem guide §13</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>For \(\dot{\mathbf x} = A\mathbf x\), what equation gives the eigenvalues?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\lambda^2 - \tau\lambda + \Delta = 0\), with \(\tau = a + d\) (trace) and \(\Delta = ad - bc\) (determinant).</p><p class="small"><a href="{{ROOT}}after-midsem/#eigen">After mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Classify a 2-D fixed point from \(\tau\) and \(\Delta\).</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\Delta<0\): saddle. Otherwise the sign of \(\tau\) gives stability (negative is stable), and \(\tau^2 > 4\Delta\) gives a node, \(\tau^2<4\Delta\) a spiral. \(\tau = 0\) with \(\Delta>0\) is a center.</p><p class="small"><a href="{{ROOT}}after-midsem/#classify">After mid-sem guide §2</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What is the Jacobian, and how does it decide stability?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(J_{ij} = \partial f_i/\partial x_j\), evaluated at the fixed point. If every eigenvalue has negative real part, it's stable.</p><p class="small"><a href="{{ROOT}}after-midsem/#jacobian">After mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Rabbits vs sheep: what kind of point is coexistence, and what does it mean?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\((1,1)\) is a saddle (\(\lambda = -1\pm\sqrt2\)). The stable states are "rabbits only" and "sheep only", so one species always wins. This is competitive exclusion.</p><p class="small"><a href="{{ROOT}}after-midsem/#rabbits">After mid-sem guide §6</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Predator–prey (Lotka–Volterra): fixed points and their types?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\((0,0)\) is a saddle. \((d/c,\ a/b)\) is a center with \(\lambda = \pm i\sqrt{ad}\), so the populations cycle around it.</p><p class="small"><a href="{{ROOT}}after-midsem/#lv">After mid-sem guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Write \(\dot z = (\mu + i\omega - |z|^2)z\) in polar form. What happens at \(\mu = 0\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\dot r = \mu r - r^3\), \(\dot\theta = \omega\). For \(\mu>0\) a stable limit cycle of radius \(\sqrt\mu\) appears and the origin turns unstable. That's a supercritical Hopf bifurcation.</p><p class="small"><a href="{{ROOT}}after-midsem/#cycle">After mid-sem guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What does the Poincaré–Bendixson theorem say?</span><span class="chev">›</span></summary>
+<div class="ans"><p>In 2-D, if paths are trapped in a region that has no fixed point, there must be a closed orbit in it. It only works in 2-D, which is why chaos needs at least 3 dimensions.</p><p class="small"><a href="{{ROOT}}after-midsem/#vdp">After mid-sem guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>How does Euler's method with \(\Delta t = 1\) turn a logistic equation into the logistic map?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\dot x = x(K-1) - Kx^2\) becomes \(x_{n+1} = x_n + (K-1)x_n - Kx_n^2 = Kx_n(1-x_n)\).</p><p class="small"><a href="{{ROOT}}after-midsem/#euler">After mid-sem guide §11</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>When is a fixed point of a map stable? Apply it to the logistic map.</span><span class="chev">›</span></summary>
+<div class="ans"><p>When \(|f'(x^*)|<1\). For \(x_{n+1} = rx_n(1-x_n)\), the point \(1 - 1/r\) has \(f' = 2 - r\), so it's stable for \(1<r<3\).</p><p class="small"><a href="{{ROOT}}after-midsem/#mapstab">After mid-sem guide §12</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Logistic map: where does the period double, and where does chaos start?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Period 2 at \(r = 3\), period 4 at 3.449, period 8 at 3.544. Chaos from about 3.57.</p><p class="small"><a href="{{ROOT}}after-midsem/#doubling">After mid-sem guide §13</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Lorenz system: the fixed points, and when is the origin stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\((0,0,0)\), stable iff \(\rho<1\). For \(\rho>1\) also \(\left(\pm\sqrt{\beta(\rho-1)},\ \pm\sqrt{\beta(\rho-1)},\ \rho-1\right)\). Chaos above about \(\rho = 24.74\) (with the usual \(\sigma = 10\), \(\beta = 8/3\)).</p><p class="small"><a href="{{ROOT}}after-midsem/#lorenz">After mid-sem guide §14</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Two coupled oscillators: when do they lock, and at what frequency?</span><span class="chev">›</span></summary>
+<div class="ans"><p>They lock when \(|\omega_2 - \omega_1| \le k_1 + k_2\). The common frequency is \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1+k_2}\), the plain average if \(k_1 = k_2\).</p><p class="small"><a href="{{ROOT}}after-midsem/#twoosc">After mid-sem guide §15</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What is the Kuramoto order parameter, and what is \(K_c\)?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(re^{i\psi} = \frac1N\sum_j e^{i\theta_j}\). \(r\) near 0 means out of sync, near 1 means in sync. Sync starts at \(K_c = 2/(\pi g(0))\), which is \(2\gamma\) for a Lorentzian.</p><p class="small"><a href="{{ROOT}}after-midsem/#kuramoto">After mid-sem guide §16</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>State May's stability criterion.</span><span class="chev">›</span></summary>
+<div class="ans"><p>A large random system with \(S\) species, connectance \(C\), interaction spread \(\sigma\) and self-damping \(d\) is stable if \(\sqrt{SC\sigma^2} < d\). Bigger or more connected systems are less stable.</p><p class="small"><a href="{{ROOT}}after-midsem/#may">After mid-sem guide §17</a></p></div></details>
+
+<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Double pendulum with equal masses: the two normal-mode frequencies?</span><span class="chev">›</span></summary>
+<div class="ans"><p>\(\omega = \sqrt{g/L}\,\sqrt{2\pm\sqrt2}\).</p><p class="small"><a href="{{ROOT}}after-midsem/#pendulum">After mid-sem guide §18</a></p></div></details>
+
+</div>
+</section>

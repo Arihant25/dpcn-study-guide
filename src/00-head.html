@@ -199,14 +199,14 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
 }
 @media print{.toc,.themebtn,.tocwrap-mobile{display:none} details{open:true}}
 </style>
+<!--include:shared/nav-style.html-->
 </head>
-<body>
+<body data-pg="mid">
 <button class="themebtn" id="themebtn" aria-label="Switch colour theme (auto, light, dark)"><span class="ico" aria-hidden="true">◐</span> <span class="lbl">Auto</span></button>
 <div class="wrap">
 <aside class="toc" aria-label="Contents">
   <div class="brand">DPCN study notes<small>Page 2 of 3 · Mid-sem syllabus</small></div>
-  <a class="other" href="quiz1/">← Previous page: Quiz 1 guide</a>
-  <a class="other" href="after-midsem/">Next page: After mid-sem guide →</a>
+  <!--include:shared/pages.html-->
   <nav id="tocnav">
     <a href="#start">Start here · the syllabus</a>
     <a href="#basics">0 · Network words, recapped</a>
@@ -237,9 +237,14 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
   <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Page 2 of 3</div>
   <h1>DPCN Mid-sem Guide</h1>
   <p class="lead">This page carries on from the Quiz 1 guide and covers what the mid-sem examined. It starts with degree distributions and random graphs from classes 6 to 9, then returns to classes 5 and 6 for fixed points, bifurcations, epidemic models and spreading on networks. The last section is the 2026 mid-sem paper, solved, with the TAs' marking scheme.</p>
+  <p class="small">Can't hold it all in your head? The <a href="{{ROOT}}remember/">Memory sheet</a> puts the whole course on one page, with flashcards.</p>
 </header>
 <div class="tocwrap-mobile">
-  <details class="mtoc"><summary>Jump to a section</summary>
+  <details class="mtoc" id="mtoc"><summary><span class="here">Page 2 of 3 · Mid-sem guide</span><span class="mbtn">Pages · Sections</span></summary>
+  <div class="mpanel">
+    <div class="mgrp">Pages</div>
+    <!--include:shared/pages.html-->
+    <div class="mgrp">Sections on this page</div>
     <a href="#start">Start here · the syllabus</a>
     <a href="#basics">0 · Network words, recapped</a>
     <a href="#moments">1 · ⟨k⟩, ⟨k²⟩ and the power law</a>
@@ -257,5 +262,6 @@ details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-deco
     <a href="#netdyn">13 · Diffusion and SI on a network</a>
     <a href="#pyq">14 · Past papers (2026 and 2024)</a>
     <a href="#sheet">15 · Formula sheet</a>
+  </div>
   </details>
 </div>

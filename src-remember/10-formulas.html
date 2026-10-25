@@ -1,0 +1,56 @@
+
+<section>
+<h2 id="formulas">Formulas to remember</h2>
+<p class="about">Every formula the past papers have needed, grouped by the guide that teaches it. Tap a group's link if a line makes no sense.</p>
+
+<div class="grouphead"><h3 id="f1">Page 1 · Network basics (classes 1 to 6)</h3><a href="{{ROOT}}quiz1/">Open the Quiz 1 guide →</a></div>
+<ul class="fl">
+<li><span>Degree of node \(i\)</span><span>\(k_i = \sum_j A_{ij}\) (the row sum of the adjacency matrix)</span></li>
+<li><span>Handshaking lemma</span><span>\(\sum_i k_i = 2L\), so \(\langle k\rangle = 2L/N\)</span></li>
+<li><span>Walks</span><span>\([A^n]_{ij}\) = number of walks of length \(n\) from \(i\) to \(j\)</span></li>
+<li><span>Triangles</span><span>\(\frac16\operatorname{tr}(A^3)\)</span></li>
+<li><span>Euler paths</span><span>0 odd-degree nodes gives a circuit, 2 gives a trail, more gives none</span></li>
+<li><span>Clustering of node \(i\)</span><span>\(C_i = \dfrac{2L_i}{k_i(k_i-1)}\), where \(L_i\) = links among \(i\)'s neighbours</span></li>
+<li><span>Closeness</span><span>\(1/\sum_j d_{ij}\)</span></li>
+<li><span>Betweenness</span><span>\(\sum_{s,t}\sigma_{st}(v)/\sigma_{st}\) (share of shortest paths through \(v\))</span></li>
+<li><span>Eigenvector centrality</span><span>\(A\mathbf x = \lambda_{\max}\mathbf x\)</span></li>
+<li><span>Complete graph, tree</span><span>\(N(N-1)/2\) links, and \(N-1\) links</span></li>
+<li><span>Euler's method</span><span>\(y_{n+1} = y_n + h\,f(y_n)\)</span></li>
+<li><span>Derivative errors</span><span>Forward difference \(O(h)\), central difference \(O(h^2)\)</span></li>
+</ul>
+
+<div class="grouphead"><h3 id="f2">Page 2 · Mid-sem topics</h3><a href="{{ROOT}}">Open the Mid-sem guide →</a></div>
+<ul class="fl">
+<li><span>Power law</span><span>\(P(k) = Ck^{-\gamma}\), with \(C = (\gamma-1)k_{\min}^{\gamma-1}\)</span></li>
+<li><span>Its averages</span><span>\(\langle k\rangle = \frac{\gamma-1}{\gamma-2}k_{\min}\) (needs \(\gamma>2\)), \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\) (needs \(\gamma>3\))</span></li>
+<li><span>On log-log axes</span><span>\(\log P = \log C - \gamma\log k\), a straight line of slope \(-\gamma\)</span></li>
+<li><span>Average path length</span><span>Star \(\frac{2(N-1)}{N}\), chain \(\frac{N+1}{3}\), ring \(\approx\frac N4\), ring with degree \(k\) \(\approx\frac{N}{2k}\)</span></li>
+<li><span>Random (ER) graph</span><span>\(\langle k\rangle = p(N-1)\), Poisson \(P(k) = e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}\), variance = ⟨k⟩</span></li>
+<li><span>Giant component</span><span>\(S = 1 - e^{-\langle k\rangle S}\). Exists if \(\langle k\rangle>1\). Near it \(S\approx2(\langle k\rangle-1)\)</span></li>
+<li><span>Fully connected</span><span>when \(\langle k\rangle > \ln N\)</span></li>
+<li><span>ER distances, clustering</span><span>\(\langle l\rangle\approx\frac{\ln N}{\ln\langle k\rangle}\), and \(C = p = \langle k\rangle/N\)</span></li>
+<li><span>Friendship paradox</span><span>\(\langle k_{nn}\rangle = \langle k^2\rangle/\langle k\rangle\). For ER it's \(\langle k\rangle + 1\)</span></li>
+<li><span>1-D stability</span><span>Fixed point \(f(x^*) = 0\). Stable if \(f'(x^*)<0\)</span></li>
+<li><span>The four bifurcations</span><span>Saddle-node \(r - x^2\), transcritical \(rx - x^2\), pitchfork \(rx - x^3\), subcritical \(rx + x^3\)</span></li>
+<li><span>SIS</span><span>\(\dot I = (\beta-\gamma)I - \beta I^2\), endemic level \(I^* = 1 - \gamma/\beta\), dies out if \(\beta<\gamma\)</span></li>
+<li><span>Laplacian</span><span>\(L = D - A\). Number of zero eigenvalues = number of components</span></li>
+<li><span>On a network</span><span>Diffusion \(\dot{\mathbf x} = -CL\mathbf x\) ends at the average. SIS spreads if \(\beta/\gamma > 1/\kappa_1\)</span></li>
+</ul>
+
+<div class="grouphead"><h3 id="f3">Page 3 · After mid-sem (classes 13 to 18)</h3><a href="{{ROOT}}after-midsem/">Open the After mid-sem guide →</a></div>
+<ul class="fl">
+<li><span>2-D linear system</span><span>\(\lambda^2 - \tau\lambda + \Delta = 0\), where \(\tau = a + d\), \(\Delta = ad - bc\)</span></li>
+<li><span>Classify it</span><span>\(\Delta<0\) saddle. Otherwise \(\tau<0\) stable, and \(\tau^2>4\Delta\) node, \(\tau^2<4\Delta\) spiral, \(\tau = 0\) center</span></li>
+<li><span>Jacobian</span><span>\(J_{ij} = \partial f_i/\partial x_j\) at the fixed point. Stable if every eigenvalue has negative real part</span></li>
+<li><span>Rabbits vs sheep</span><span>Coexistence point \((1,1)\) is a saddle, so one species wins</span></li>
+<li><span>Predator–prey</span><span>Center at \((d/c,\ a/b)\), \(\lambda = \pm i\sqrt{ad}\), so populations cycle</span></li>
+<li><span>Hopf, polar form</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\) gives \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\). Cycle of radius \(\sqrt\mu\)</span></li>
+<li><span>Map stability</span><span>\(x^* = f(x^*)\), stable if \(|f'(x^*)|<1\)</span></li>
+<li><span>Logistic map</span><span>\(x_{n+1} = rx_n(1-x_n)\). \(x^* = 1 - 1/r\) stable for \(1<r<3\). Doubling at 3, 3.449, 3.544. Chaos from 3.57</span></li>
+<li><span>Lorenz</span><span>Origin stable iff \(\rho<1\). Other points \(\left(\pm\sqrt{\beta(\rho-1)},\ \pm\sqrt{\beta(\rho-1)},\ \rho-1\right)\)</span></li>
+<li><span>Two oscillators</span><span>\(\dot\phi = \Delta\omega - (k_1+k_2)\sin\phi\). Lock iff \(|\Delta\omega|\le k_1+k_2\). \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1+k_2}\)</span></li>
+<li><span>Kuramoto</span><span>\(re^{i\psi} = \frac1N\sum_j e^{i\theta_j}\), critical coupling \(K_c = \frac{2}{\pi g(0)}\)</span></li>
+<li><span>May's criterion</span><span>A large random system is stable if \(\sqrt{SC\sigma^2} < d\)</span></li>
+<li><span>Double pendulum</span><span>Equal masses: \(\omega = \sqrt{g/L}\,\sqrt{2\pm\sqrt2}\)</span></li>
+</ul>
+</section>

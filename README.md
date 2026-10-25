@@ -6,6 +6,8 @@ Study notes for **Dynamical Processes of Complex Networks (SC1.440)** at IIIT Hy
 2. **Page 2, Mid-sem guide** (mid-sem syllabus, with the 2026 paper and marking scheme): https://arihant25.github.io/dpcn-study-guide/
 3. **Page 3, After mid-sem guide** (classes 13 to 18): https://arihant25.github.io/dpcn-study-guide/after-midsem/
 
+There is also a **Memory sheet** with the whole course on one page, short derivations and flashcards: https://arihant25.github.io/dpcn-study-guide/remember/
+
 Quiz 2 and the end-sem cover the whole course. Page 1 opens with a map of which page teaches each class and a ranked list of derivations to learn (`shared/course-map.html`).
 
 ## Mid-sem guide covers
@@ -31,11 +33,11 @@ Quiz 2 and the end-sem cover the whole course. Page 1 opens with a map of which 
 
 ## Editing
 
-The pages are generated. Edit the parts in `src/` (Mid-sem guide), `src-after/` (After mid-sem guide) or `src-quiz1/` (Quiz 1 guide), in file-name order, then run:
+The pages are generated. Edit the parts in `src/` (Mid-sem guide), `src-after/` (After mid-sem guide), `src-quiz1/` (Quiz 1 guide) or `src-remember/` (Memory sheet), in file-name order, then run:
 
 ```
 npm install
 node build.mjs
 ```
 
-`build.mjs` joins each folder's parts, renders `\( … \)` and `\[ … \]` TeX to MathML with temml, draws the plots as static SVG that follow the light/dark theme, and writes self-contained `index.html`, `after-midsem/index.html` and `quiz1/index.html`. `{{ROOT}}` in a part becomes the path back to the site root, and `<!--include:shared/…-->` pulls in a shared part. The two folders each carry their own copy of the head (CSS) and foot (scripts). `snap.mjs` takes screenshots of the figures (needs Chrome) for checking.
+`build.mjs` joins each folder's parts, renders `\( … \)` and `\[ … \]` TeX to MathML with temml, draws the plots as static SVG that follow the light/dark theme, and writes self-contained `index.html`, `after-midsem/index.html`, `quiz1/index.html` and `remember/index.html`. `{{ROOT}}` in a part becomes the path back to the site root, and `<!--include:shared/…-->` pulls in a shared part. The page switcher in the sidebar and the phone menu comes from `shared/pages.html`, `shared/nav-style.html` and `shared/nav-script.html`. The folders each carry their own copy of the head (CSS) and foot (scripts). `snap.mjs` takes screenshots of the figures (needs Chrome) for checking.
