@@ -1,11 +1,13 @@
 
 <section>
 <h2 id="cards">Flashcards</h2>
-<p class="about">Answer in your head (or on paper) first, then tap "Show answer" and be honest with yourself. A card you didn't know goes back into the pile, so it comes up again before the round ends.</p>
+<p class="about">"Facts" asks for a formula or a definition. "Proofs" asks you to prove a result, so write the proof (or at least its idea and main steps) before you tap "Show answer". A card you didn't know goes back into the pile and comes up again before the round ends.</p>
 
 <div class="drill" id="drill" hidden>
   <div class="filters" id="drill-filters" role="group" aria-label="Which cards">
     <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="fact" aria-pressed="false">Facts</button>
+    <button type="button" data-f="proof" aria-pressed="false">Proofs</button>
     <button type="button" data-f="1" aria-pressed="false">Page 1</button>
     <button type="button" data-f="2" aria-pressed="false">Page 2</button>
     <button type="button" data-f="3" aria-pressed="false">Page 3</button>
@@ -17,7 +19,7 @@
   <div class="btns" id="drill-btns"></div>
 </div>
 
-<p class="small" id="drill-listnote">All the cards are also listed below, if you'd rather scroll.</p>
+<p class="small" id="drill-listnote">The fact cards are also listed below, if you'd rather scroll.</p>
 <div id="cardlist">
 
 <details class="q fc" data-pg="1"><summary><span class="qt">Page 1</span><span>What does the handshaking lemma say?</span><span class="chev">›</span></summary>

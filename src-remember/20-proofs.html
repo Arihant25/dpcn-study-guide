@@ -1,0 +1,555 @@
+
+<section>
+<h2 id="proofs">Every proof, the short way</h2>
+<p class="about">Every result in the course, as a proof you can write from memory. Each one starts with the idea in one line (remember that and you can usually rebuild the rest), then the steps, each with its reason after "∵". Learn the idea first, then the steps.</p>
+
+<div class="grouphead"><h3 id="p1">Page 1 · Network basics</h3><a href="{{ROOT}}quiz1/">Quiz 1 guide →</a></div>
+
+<div class="pf" data-pg="1">
+<h4>Show that \(\sum_i k_i = 2L\) (the handshaking lemma), and that the number of odd-degree nodes is even.</h4>
+<p class="idea">Count the link-ends two ways.</p>
+<ul class="chain">
+<li>Total link-ends \(= 2L\)<span class="why">every link has exactly two ends</span></li>
+<li>Total link-ends \(= \sum_i k_i\)<span class="why">node \(i\) holds \(k_i\) of them</span></li>
+<li>So \(\sum_i k_i = 2L\)<span class="why">same thing counted twice</span></li>
+<li>\(2L\) is even, so an even number of the \(k_i\) are odd<span class="why">a sum is even only if it has an even number of odd terms</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#degree">Full proof: Quiz 1 guide §3</a></p>
+</div>
+
+<div class="pf" data-pg="1">
+<h4>Show that \([A^n]_{ij}\) is the number of walks of length \(n\) from \(i\) to \(j\).</h4>
+<p class="idea">Matrix multiplication sums over the middle node, and \(A_{ik}A_{kj} = 1\) only when \(i\to k\to j\) is a real walk.</p>
+<ul class="chain">
+<li>\([A^2]_{ij} = \sum_k A_{ik}A_{kj}\)<span class="why">rule for multiplying matrices</span></li>
+<li>\(A_{ik}A_{kj} = 1\) exactly when \(i\to k\to j\) is a walk, else 0<span class="why">both links must exist</span></li>
+<li>So \([A^2]_{ij}\) counts 2-step walks<span class="why">summing over every middle node \(k\)</span></li>
+<li>\([A^n]_{ij} = \sum_k [A^{n-1}]_{ik}A_{kj}\)<span class="why">\((n-1)\)-step walks to \(k\), then one last step. Repeat (induction).</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#walks">Full proof: Quiz 1 guide §4</a></p>
+</div>
+
+<div class="pf" data-pg="1">
+<h4>Show that the number of triangles is \(\frac16\operatorname{tr}(A^3)\).</h4>
+<p class="idea">A triangle is a closed walk of length 3, and each triangle gets counted 6 times.</p>
+<ul class="chain">
+<li>\([A^3]_{ii}\) = closed 3-step walks from \(i\)<span class="why">walk-counting result above</span></li>
+<li>A closed 3-walk \(i\to a\to b\to i\) is a triangle<span class="why">no self-loops, so the three nodes are different and all linked</span></li>
+<li>\(\operatorname{tr}(A^3) = \sum_i [A^3]_{ii}\) = all closed 3-walks</li>
+<li>Each triangle gives \(3\times2 = 6\) of them<span class="why">3 starting corners, 2 directions</span></li>
+<li>Triangles \(= \frac16\operatorname{tr}(A^3)\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#walks">Full proof: Quiz 1 guide §4</a></p>
+</div>
+
+<div class="pf" data-pg="1">
+<h4>Show that an Euler circuit needs every degree even, and an Euler trail needs exactly 2 odd nodes.</h4>
+<p class="idea">Every time the trail walks into a node, it walks out on a new link, so links get used in pairs.</p>
+<ul class="chain">
+<li>At a middle node, links are used in (in, out) pairs<span class="why">arrive on one link, leave on another unused one</span></li>
+<li>\(k_v = 2\times\) (number of visits), which is even<span class="why">every link is used exactly once</span></li>
+<li>Start node: one extra "out". End node: one extra "in". Both odd.</li>
+<li>Closed trail: start = end, the extras pair up, so all even</li>
+<li>So circuit means 0 odd nodes, open trail means exactly 2 (its ends), more than 2 means neither</li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#euler">Full proof: Quiz 1 guide §5</a></p>
+</div>
+
+<div class="pf" data-pg="1">
+<h4>On a path of \(N\) nodes, show that the node at position \(i\) has betweenness \((i-1)(N-i)\).</h4>
+<p class="idea">There's only one route between any two nodes, and it goes through you exactly when they're on opposite sides of you.</p>
+<ul class="chain">
+<li>Every pair has exactly one shortest path<span class="why">a path graph has no loops</span></li>
+<li>It passes through node \(i\) iff one end is left of \(i\) and the other is right</li>
+<li>\(i-1\) nodes on the left, \(N-i\) on the right</li>
+<li>Betweenness \(= (i-1)(N-i)\)<span class="why">each such pair adds \(1/1 = 1\)</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#cent">Full method: Quiz 1 guide §8</a></p>
+</div>
+
+<div class="pf" data-pg="1">
+<h4>Show that the forward difference has error \(O(h)\) and the central difference \(O(h^2)\).</h4>
+<p class="idea">Taylor-expand. In the central difference, stepping forward and back makes the \(h^2\) terms cancel.</p>
+<ul class="chain">
+<li>\(f(x_0\pm h) = f(x_0) \pm hf' + \frac{h^2}{2}f'' \pm \frac{h^3}{6}f''' + \dots\)<span class="why">Taylor series</span></li>
+<li>\(\frac{f(x_0+h) - f(x_0)}{h} = f' + \frac h2 f'' + \dots\), so error \(O(h)\)</li>
+<li>\(f(x_0+h) - f(x_0-h) = 2hf' + \frac{h^3}{3}f''' + \dots\)<span class="why">subtract. \(f\) and \(f''\) terms cancel.</span></li>
+<li>\(\frac{f(x_0+h) - f(x_0-h)}{2h} = f' + \frac{h^2}{6}f''' + \dots\), so error \(O(h^2)\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#numeric">Full proof: Quiz 1 guide §10</a></p>
+</div>
+
+<div class="pf" data-pg="1">
+<h4>Solve \(\dot u = a - bu\) (this is also the charging capacitor).</h4>
+<p class="idea">Separate the variables and integrate. The answer slides exponentially to the fixed point \(a/b\).</p>
+<ul class="chain">
+<li>\(u^* = a/b\), stable<span class="why">\(a - bu^* = 0\), and slope \(-b < 0\)</span></li>
+<li>\(\frac{du}{a - bu} = dt\)<span class="why">separate</span></li>
+<li>\(-\frac1b\ln\frac{a - bu(t)}{a - bu(0)} = t\)<span class="why">integrate from 0 to \(t\)</span></li>
+<li>\(u(t) = \frac ab + \left(u(0) - \frac ab\right)e^{-bt}\)</li>
+<li>Capacitor: \(V_0 = q/C + R\dot q\) gives \(a = V_0/R\), \(b = 1/RC\), so \(q(t) = CV_0(1 - e^{-t/RC})\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}quiz1/#numeric">Full proof: Quiz 1 guide §10</a></p>
+</div>
+
+<div class="grouphead"><h3 id="p2">Page 2 · Mid-sem topics</h3><a href="{{ROOT}}">Mid-sem guide →</a></div>
+
+<div class="pf" data-pg="2">
+<h4>For \(P(k) = Ck^{-\gamma}\), find \(C\), and say when it is finite.</h4>
+<p class="idea">Probabilities add up to 1. Treat \(k\) as continuous and integrate.</p>
+<ul class="chain">
+<li>\(\int_{k_{\min}}^\infty Ck^{-\gamma}\,dk = 1\)<span class="why">total probability is 1</span></li>
+<li>\(C\left[\frac{k^{1-\gamma}}{1-\gamma}\right]_{k_{\min}}^\infty = 1\)</li>
+<li>\(C\,\frac{k_{\min}^{1-\gamma}}{\gamma-1} = 1\)<span class="why">\(k^{1-\gamma}\to0\) at infinity only if \(\gamma>1\)</span></li>
+<li>\(C = (\gamma-1)k_{\min}^{\gamma-1}\), finite only for \(\gamma>1\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#moments">Full proof: Mid-sem guide §1</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Find ⟨k⟩ and ⟨k²⟩ for a power law, and show that ⟨k²⟩ diverges for \(\gamma\le3\).</h4>
+<p class="idea">Same integral with one more \(k\) each time. Each extra \(k\) raises the \(\gamma\) you need by 1.</p>
+<ul class="chain">
+<li>\(\langle k\rangle = C\int_{k_{\min}}^\infty k^{1-\gamma}dk = \frac{\gamma-1}{\gamma-2}k_{\min}\)<span class="why">finite only if \(\gamma>2\)</span></li>
+<li>\(\langle k^2\rangle = C\int_{k_{\min}}^\infty k^{2-\gamma}dk\)</li>
+<li>\(\gamma<3\): \(\frac{k^{3-\gamma}}{3-\gamma}\to\infty\)<span class="why">the power \(3-\gamma\) is positive</span></li>
+<li>\(\gamma = 3\): \(\int\frac{dk}{k} = [\ln k]\to\infty\)<span class="why">do this case separately, the power rule would divide by 0</span></li>
+<li>\(\gamma>3\): \(\langle k^2\rangle = \frac{\gamma-1}{\gamma-3}k_{\min}^2\)</li>
+<li>Real networks have \(2<\gamma<3\): finite ⟨k⟩, infinite ⟨k²⟩</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#moments">Full proof: Mid-sem guide §1</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Explain why linear bins give a noisy tail on a log-log plot, and why log bins fix it.</h4>
+<p class="idea">The tail has very few nodes, so equal-width bins there hold 0 or 1 node. Make the bins wider as \(k\) grows.</p>
+<ul class="chain">
+<li>\(\log P = \log C - \gamma\log k\), a straight line of slope \(-\gamma\)<span class="why">take logs of \(Ck^{-\gamma}\)</span></li>
+<li>Linear bins: tail bins get 0 or 1 node<span class="why">\(P(k)\) is tiny for large \(k\)</span></li>
+<li>So the tail is noisy, flattens into a floor, and zeros can't be plotted<span class="why">\(\log 0\) is undefined</span></li>
+<li>Log bins grow by a fixed factor (1, 2, 4, 8, …), so wide tail bins collect enough nodes</li>
+<li>Divide each count by \(N\times\) bin width, and plot at the bin centre</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#binning">Full answer: Mid-sem guide §2</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Star with \(N\) nodes: show that \(\langle l\rangle = 2(N-1)/N\) and that every clustering coefficient is 0.</h4>
+<p class="idea">Only two kinds of pair, hub–leaf (distance 1) and leaf–leaf (distance 2). No two leaves are linked, so no triangles.</p>
+<ul class="chain">
+<li>\(N-1\) hub–leaf pairs at distance 1<span class="why">directly linked</span></li>
+<li>\(\frac{(N-1)(N-2)}{2}\) leaf–leaf pairs at distance 2<span class="why">only route is through the hub</span></li>
+<li>Total distance \(= (N-1) + (N-1)(N-2) = (N-1)^2\)</li>
+<li>\(\langle l\rangle = \frac{(N-1)^2}{N(N-1)/2} = \frac{2(N-1)}{N}\to2\)<span class="why">divide by the number of pairs</span></li>
+<li>\(C_{\text{hub}} = 0\), \(C_{\text{leaf}} = 0\), so \(\langle C\rangle = 0\)<span class="why">no two leaves linked, and a leaf has one neighbour. It's a tree.</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}#simple">Full proof: Mid-sem guide §3</a>. The 2026 key gave 0 marks for the formula without this.</p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Open chain of \(N\) nodes: show that \(\langle l\rangle = (N+1)/3\).</h4>
+<p class="idea">There are \(N-j\) pairs at distance \(j\). Add up and divide by the number of pairs.</p>
+<ul class="chain">
+<li>\(N-j\) pairs at distance \(j\), for \(j = 1,\dots,N-1\)<span class="why">slide a gap of length \(j\) along the chain</span></li>
+<li>\(\sum_j j(N-j) = N\cdot\frac{N(N-1)}{2} - \frac{(N-1)N(2N-1)}{6}\)<span class="why">\(\sum j\) and \(\sum j^2\) up to \(N-1\)</span></li>
+<li>\(= \frac{N(N-1)(N+1)}{6}\)</li>
+<li>\(\langle l\rangle = \frac{N(N-1)(N+1)/6}{N(N-1)/2} = \frac{N+1}{3}\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#simple">Full proof: Mid-sem guide §3</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Ring of \(N\) nodes: show that \(\langle l\rangle\approx N/4\), and \(\approx N/(2k)\) when each node has degree \(k\).</h4>
+<p class="idea">From any node, the distances run 1, 2, …, up to about \(N/2\), two nodes at each. Their average is about \(N/4\).</p>
+<ul class="chain">
+<li>From one node: 2 nodes at each distance \(1, 2, \dots, N/2\)<span class="why">go either way round</span></li>
+<li>Average of \(1,\dots,N/2\) \(\approx\frac{N}{4}\)<span class="why">half the largest value</span></li>
+<li>Every node looks the same, so \(\langle l\rangle\approx N/4\)</li>
+<li>Degree \(k\): each step covers \(k/2\) places, so \(\langle l\rangle\approx\frac{N/4}{k/2} = \frac{N}{2k}\)<span class="why">\(k = 2\) gives back \(N/4\)</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}#simple">Full proof: Mid-sem guide §3</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that the ER degree distribution becomes Poisson for large \(N\) and small \(p\). Find ⟨k⟩ and ⟨k²⟩.</h4>
+<p class="idea">Start from the binomial, keep ⟨k⟩ fixed, and approximate each of its three factors.</p>
+<ul class="chain">
+<li>\(P(k) = \binom{N-1}{k}p^k(1-p)^{N-1-k}\)<span class="why">choose which \(k\) of the \(N-1\) links exist, each with probability \(p\)</span></li>
+<li>\(\binom{N-1}{k}\approx\frac{(N-1)^k}{k!}\)<span class="why">\(k\ll N\)</span></li>
+<li>\(p^k = \frac{\langle k\rangle^k}{(N-1)^k}\)<span class="why">\(p = \langle k\rangle/(N-1)\)</span></li>
+<li>\((1-p)^{N-1-k}\approx e^{-\langle k\rangle}\)<span class="why">\((1 - x/n)^n\to e^{-x}\)</span></li>
+<li>\(P(k) = e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}\)<span class="why">multiply. \((N-1)^k\) cancels.</span></li>
+<li>⟨k⟩ \(= p(N-1)\), variance \(=\) ⟨k⟩, so \(\langle k^2\rangle = \langle k\rangle + \langle k\rangle^2\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#er">Full proof: Mid-sem guide §4</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Derive the giant-component equation \(S = 1 - e^{-\langle k\rangle S}\).</h4>
+<p class="idea">A node is outside the giant component if each other node is either not linked to it, or linked but outside too.</p>
+<ul class="chain">
+<li>\(u = 1 - S\)<span class="why">chance a node is outside</span></li>
+<li>Per other node: \(1 - p + pu\)<span class="why">no link, or a link to an outside node</span></li>
+<li>\(u = (1 - p + pu)^{N-1} = \left[1 - \frac{\langle k\rangle(1-u)}{N-1}\right]^{N-1}\)<span class="why">independent, and \(p = \langle k\rangle/(N-1)\)</span></li>
+<li>\(u = e^{-\langle k\rangle(1-u)}\)<span class="why">\((1 - x/n)^n\to e^{-x}\)</span></li>
+<li>\(S = 1 - e^{-\langle k\rangle S}\)<span class="why">put \(u = 1 - S\)</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}#gcc">Full proof: Mid-sem guide §5</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that a giant component exists if and only if \(\langle k\rangle>1\), and that \(\beta = 1\).</h4>
+<p class="idea">Draw \(y = S\) and \(y = 1 - e^{-\langle k\rangle S}\). The curve starts with slope ⟨k⟩ and bends down, so it can rise above the line only if ⟨k⟩ > 1.</p>
+<ul class="chain">
+<li>\(S = 0\) is always a solution<span class="why">\(1 - e^0 = 0\)</span></li>
+<li>Slope of the curve at 0 is ⟨k⟩, and it's concave<span class="why">\(y_2' = \langle k\rangle e^{-\langle k\rangle S}\), \(y_2'' < 0\)</span></li>
+<li>⟨k⟩ ≤ 1: curve starts no steeper and only flattens, so it stays below \(y = S\). No positive root.</li>
+<li>⟨k⟩ > 1: curve starts above the line but is below it at \(S = 1\), so they cross once in between<span class="why">\(1 - e^{-\langle k\rangle} < 1\)</span></li>
+<li>Near threshold: \(S\approx\langle k\rangle S - \frac{\langle k\rangle^2S^2}{2}\), so \(S\approx\frac{2(\langle k\rangle-1)}{\langle k\rangle^2}\sim(\langle k\rangle-1)^1\), \(\beta = 1\)<span class="why">expand \(e^{-x}\) to \(x^2\), divide by \(S\)</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}#gcc">Full proof: Mid-sem guide §5</a>. The key wanted the case argument, not only the tangency condition.</p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that an ER graph has \(\langle l\rangle\approx\ln N/\ln\langle k\rangle\).</h4>
+<p class="idea">You reach ⟨k⟩ nodes in one step, ⟨k⟩² in two, ⟨k⟩<sup>d</sup> in \(d\). That explodes, so very few steps reach everyone.</p>
+<ul class="chain">
+<li>About \(\langle k\rangle^r\) nodes at distance \(r\)<span class="why">the neighbourhood is tree-like (no nearby loops)</span></li>
+<li>\(N\sim1 + \langle k\rangle + \dots + \langle k\rangle^d\approx\langle k\rangle^d\)<span class="why">the last term dominates</span></li>
+<li>\(\ln N\approx d\ln\langle k\rangle\)<span class="why">take logs</span></li>
+<li>\(\langle l\rangle\approx d\approx\frac{\ln N}{\ln\langle k\rangle}\), which grows slowly (concave in \(N\))</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#erlc">Full proof: Mid-sem guide §6</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that in an ER graph \(C_i = p\) for every degree, and sketch \(\bar C\) against \(N\).</h4>
+<p class="idea">Whether two of your friends are linked is just another coin flip with probability \(p\).</p>
+<ul class="chain">
+<li>\(C_i = e_i\big/\binom{k_i}{2}\)<span class="why">linked neighbour pairs over all neighbour pairs</span></li>
+<li>\(E[e_i] = p\binom{k_i}{2}\)<span class="why">each pair is linked independently with probability \(p\)</span></li>
+<li>\(E[C_i] = p\), and \(k_i\) cancels</li>
+<li>\(\bar C = p\approx\langle k\rangle/N\)<span class="why">\(\langle k\rangle\approx Np\)</span></li>
+<li>So \(\bar C\to0\) like \(1/N\) (slope −1 on log-log), but real networks keep \(\bar C\) high whatever \(N\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#erlc">Full proof: Mid-sem guide §6</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that \(\langle k_{nn}\rangle = \frac{\langle k^2\rangle}{\langle k\rangle} = \langle k\rangle + \frac{\operatorname{Var}(k)}{\langle k\rangle}\ge\langle k\rangle\) (friendship paradox).</h4>
+<p class="idea">Following a link lands on a node with probability proportional to its degree, so hubs get over-counted.</p>
+<ul class="chain">
+<li>\(q_k = \frac{kP(k)}{\langle k\rangle}\)<span class="why">a degree-\(k\) node has \(k\) links pointing to it</span></li>
+<li>\(\langle k_{nn}\rangle = \sum_k kq_k = \frac{\langle k^2\rangle}{\langle k\rangle}\)</li>
+<li>\(= \frac{\langle k\rangle^2 + \operatorname{Var}(k)}{\langle k\rangle} = \langle k\rangle + \frac{\operatorname{Var}(k)}{\langle k\rangle}\)<span class="why">\(\langle k^2\rangle = \langle k\rangle^2 + \operatorname{Var}\)</span></li>
+<li>\(\ge\langle k\rangle\), equal only if all degrees are equal<span class="why">a variance is never negative</span></li>
+<li>ER: \(\operatorname{Var} = \langle k\rangle\), so \(\langle k_{nn}\rangle = \langle k\rangle + 1\)</li>
+</ul>
+<p>The same ratio \(\operatorname{Var}(k)/\langle k\rangle\) tests for ER. About 1 means Poisson (ER). Much bigger than 1 means hubs, so a power law (scale-free).</p>
+<p class="small"><a href="{{ROOT}}#knn">Full proof: Mid-sem guide §7</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that a fixed point of \(\dot x = f(x)\) is stable when \(f'(x^*)<0\).</h4>
+<p class="idea">Push it a little. The push grows or shrinks like \(e^{f'(x^*)t}\).</p>
+<ul class="chain">
+<li>\(x = x^* + \varepsilon\), so \(\dot\varepsilon = f(x^* + \varepsilon)\)<span class="why">\(x^*\) is constant</span></li>
+<li>\(\dot\varepsilon\approx f(x^*) + f'(x^*)\varepsilon = f'(x^*)\varepsilon\)<span class="why">Taylor, and \(f(x^*) = 0\)</span></li>
+<li>\(\varepsilon(t) = \varepsilon_0e^{f'(x^*)t}\)</li>
+<li>Shrinks if \(f'(x^*)<0\) (stable), grows if \(f'(x^*)>0\) (unstable)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#fixed">Full proof: Mid-sem guide §8</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>For \(\dot x = rx - x^2\), describe the role of \(r\) and name the bifurcation.</h4>
+<p class="idea">Two fixed points, 0 and \(r\), pass through each other at \(r = 0\) and swap stability.</p>
+<ul class="chain">
+<li>\(x^* = 0\) or \(x^* = r\)<span class="why">\(x(r - x) = 0\)</span></li>
+<li>\(f'(x) = r - 2x\), so \(f'(0) = r\), \(f'(r) = -r\)</li>
+<li>\(r<0\): 0 stable, \(r\) unstable. \(r>0\): 0 unstable, \(r\) stable.</li>
+<li>They swap stability at \(r = 0\): transcritical bifurcation</li>
+</ul>
+<p>Same recipe for the others. \(\dot x = 1 + rx + x^2\) has \(x^* = \frac{-r\pm\sqrt{r^2-4}}{2}\), real only for \(|r|\ge2\), with \(f' = \pm\sqrt{r^2-4}\). So a stable and an unstable point appear together at \(r = \pm2\): two saddle-node bifurcations.</p>
+<p class="small"><a href="{{ROOT}}#bif">Full analysis: Mid-sem guide §9</a> and the 2024 mid-sem in §14</p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Solve the SIS model \(\dot I = \beta SI - \gamma I\), \(S + I = 1\). Find \(I^*\) and when the disease dies out.</h4>
+<p class="idea">With \(S = 1 - I\) it's the logistic equation, so it rises in an S-curve to \(1 - \gamma/\beta\).</p>
+<ul class="chain">
+<li>\(\dot I = (\beta-\gamma)I - \beta I^2 = aI\left(1 - \frac IK\right)\)<span class="why">\(S = 1 - I\). \(a = \beta - \gamma\), \(K = 1 - \gamma/\beta\)</span></li>
+<li>\(\frac{dI}{I(1 - I/K)} = a\,dt\), and \(\frac{1}{I(1-I/K)} = \frac1I + \frac{1}{K - I}\)<span class="why">separate, partial fractions</span></li>
+<li>\(\ln\frac{I}{K - I} = at + \ln\frac{I_0}{K - I_0}\)<span class="why">integrate, use \(I(0) = I_0\)</span></li>
+<li>\(I(t) = \dfrac{K}{1 + \frac{K - I_0}{I_0}e^{-(\beta-\gamma)t}}\)</li>
+<li>\(t\to\infty\): \(I^* = 1 - \gamma/\beta\) when \(\beta>\gamma\)</li>
+<li>\(\beta<\gamma\): \(f'(0) = \beta - \gamma < 0\), so \(I = 0\) is stable and the disease dies out</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#epi">Full proof: Mid-sem guide §11</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>SIS with ⟨k⟩ contacts, infection rate β, recovery δ, \(\lambda = \beta/\delta\). Write the equation and find the threshold \(\lambda_c\).</h4>
+<p class="idea">Gains minus losses. Gains need a healthy person (\(1-i\)) meeting infected contacts (\(\langle k\rangle i\)) at rate β.</p>
+<ul class="chain">
+<li>Loss: \(-\delta i\)<span class="why">each infected person recovers at rate δ</span></li>
+<li>Gain: \(+\beta\langle k\rangle i(1-i)\)<span class="why">susceptible fraction × infected contacts × rate</span></li>
+<li>\(\frac{di}{dt} = \beta\langle k\rangle i(1-i) - \delta i\)</li>
+<li>\(i = 0\) or \(i^* = 1 - \frac{1}{\lambda\langle k\rangle}\)<span class="why">set \(di/dt = 0\)</span></li>
+<li>\(i^*>0\) needs \(\lambda\langle k\rangle>1\), so \(\lambda_c = 1/\langle k\rangle\)<span class="why">a fraction can't be negative</span></li>
+<li>More contacts means a lower threshold. \(R_0 = \lambda\langle k\rangle\) is how many each case infects.</li>
+</ul>
+<p class="small">This was 2026 mid-sem Q10. <a href="{{ROOT}}#pyq">Worked answer: Mid-sem guide §14</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that the Laplacian \(L = D - A\) has eigenvalues \(\ge0\), and as many zero eigenvalues as components.</h4>
+<p class="idea">\(\mathbf x^TL\mathbf x\) is a sum of squares over the links.</p>
+<ul class="chain">
+<li>\(L\mathbf 1 = 0\)<span class="why">each row sums to \(k_i - k_i = 0\)</span></li>
+<li>\(\mathbf x^TL\mathbf x = \sum_{\text{links }(i,j)}(x_i - x_j)^2\ge0\)</li>
+<li>For a unit eigenvector, \(\mathbf x^TL\mathbf x = \lambda\), so \(\lambda\ge0\)</li>
+<li>\(\lambda = 0\) needs \(x_i = x_j\) on every link, so \(\mathbf x\) is constant on each component</li>
+<li>One such vector per component, so the zero count = the number of components</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#lap">Full proof: Mid-sem guide §12</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>Show that diffusion \(\dot x_i = C\sum_jA_{ij}(x_j - x_i)\) ends with every node at the average.</h4>
+<p class="idea">Write it with the Laplacian, split into eigenvectors, and every part except the constant one dies away.</p>
+<ul class="chain">
+<li>\(\dot{\mathbf x} = -CL\mathbf x\)<span class="why">\(\sum_jA_{ij}(x_j - x_i) = -\sum_jL_{ij}x_j\)</span></li>
+<li>\(\mathbf x(t) = \sum_r a_r(t)\mathbf v_r\)<span class="why">eigenvectors of \(L\)</span></li>
+<li>\(\dot a_r = -C\lambda_ra_r\), so \(a_r(t) = a_r(0)e^{-C\lambda_rt}\)<span class="why">\(L\mathbf v_r = \lambda_r\mathbf v_r\)</span></li>
+<li>\(\lambda_1 = 0\) part stays. All others decay (connected network).</li>
+<li>That part is the constant vector, so every node ends at the average. Speed set by \(\lambda_2\).</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#netdyn">Full proof: Mid-sem guide §13</a></p>
+</div>
+
+<div class="pf" data-pg="2">
+<h4>SIS on a network, \(\dot i_k = -\gamma i_k + \beta(1 - i_k)\sum_jA_{kj}i_j\). How does the network affect the early stage, and when does the disease not spread?</h4>
+<p class="idea">Early on everything is small, so drop the product term. Then the largest eigenvalue of \(A\) sets the growth.</p>
+<ul class="chain">
+<li>\(\dot{\mathbf i} = (\beta A - \gamma I)\mathbf i\)<span class="why">\(t\approx0\), drop \(i_ki_j\)</span></li>
+<li>Each eigenvector part grows like \(e^{(\beta\kappa_r - \gamma)t}\)<span class="why">\(A\mathbf v_r = \kappa_r\mathbf v_r\)</span></li>
+<li>\(\mathbf i(t)\sim e^{(\beta\kappa_1 - \gamma)t}\mathbf v_1\)<span class="why">the largest \(\kappa_1\) wins</span></li>
+<li>So \(\kappa_1\) sets the speed and \(\mathbf v_1\) says which nodes get hit first</li>
+<li>No spread if \(\beta\kappa_1 - \gamma<0\), that is \(\beta/\gamma<1/\kappa_1\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}#netdyn">Full proof: Mid-sem guide §13</a></p>
+</div>
+
+<div class="grouphead"><h3 id="p3">Page 3 · After mid-sem</h3><a href="{{ROOT}}after-midsem/">After mid-sem guide →</a></div>
+
+<div class="pf" data-pg="3">
+<h4>Solve \(\dot{\mathbf x} = A\mathbf x\) in 2-D, and get the eigenvalue equation \(\lambda^2 - \tau\lambda + \Delta = 0\).</h4>
+<p class="idea">Guess \(e^{\lambda t}\mathbf v\). It works exactly when \(\mathbf v\) is an eigenvector.</p>
+<ul class="chain">
+<li>Try \(\mathbf x = e^{\lambda t}\mathbf v\): \(\lambda e^{\lambda t}\mathbf v = e^{\lambda t}A\mathbf v\)</li>
+<li>\(A\mathbf v = \lambda\mathbf v\)<span class="why">cancel \(e^{\lambda t}\neq0\)</span></li>
+<li>\(\det(A - \lambda I) = (a-\lambda)(d-\lambda) - bc = 0\)<span class="why">\(\mathbf v\neq0\)</span></li>
+<li>\(\lambda^2 - \tau\lambda + \Delta = 0\), \(\tau = a + d\), \(\Delta = ad - bc\), so \(\lambda = \frac{\tau\pm\sqrt{\tau^2 - 4\Delta}}{2}\)</li>
+<li>\(\mathbf x(t) = c_1e^{\lambda_1t}\mathbf v_1 + c_2e^{\lambda_2t}\mathbf v_2\)<span class="why">linear, so solutions add. \(c_1, c_2\) from \(\mathbf x(0)\).</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#eigen">Full proof: After mid-sem guide §1</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Classify a 2-D fixed point using \(\tau\) and \(\Delta\).</h4>
+<p class="idea">Read it off \(\lambda = \frac{\tau\pm\sqrt{\tau^2-4\Delta}}{2}\). \(\Delta = \lambda_1\lambda_2\) and \(\tau = \lambda_1 + \lambda_2\).</p>
+<ul class="chain">
+<li>\(\Delta<0\): eigenvalues real with opposite signs, so a saddle<span class="why">\(\lambda_1\lambda_2 = \Delta\)</span></li>
+<li>\(\Delta>0\), \(\tau^2>4\Delta\): real, same sign, so a node</li>
+<li>\(\Delta>0\), \(\tau^2<4\Delta\): complex, so a spiral</li>
+<li>Stable if \(\tau<0\), unstable if \(\tau>0\)<span class="why">\(\tau\) is the sum (or twice the real part)</span></li>
+<li>\(\tau = 0\), \(\Delta>0\): \(\lambda = \pm i\sqrt\Delta\), a center</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#classify">Full proof: After mid-sem guide §2</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Show that near a fixed point, a nonlinear system behaves like \(\dot{\boldsymbol\delta} = J\boldsymbol\delta\).</h4>
+<p class="idea">Same as 1-D: push it a little and Taylor-expand, now with partial derivatives.</p>
+<ul class="chain">
+<li>\(x_i = x_i^* + \delta x_i\)<span class="why">small push</span></li>
+<li>\(\delta\dot x_1 = f_1(\mathbf x^*) + \frac{\partial f_1}{\partial x_1}\delta x_1 + \frac{\partial f_1}{\partial x_2}\delta x_2 + \dots\)<span class="why">Taylor</span></li>
+<li>\(f_1(\mathbf x^*) = 0\), drop products of small terms</li>
+<li>\(\dot{\boldsymbol\delta} = J\boldsymbol\delta\), \(J_{ij} = \partial f_i/\partial x_j\) at \(\mathbf x^*\)</li>
+<li>Stable if every eigenvalue of \(J\) has negative real part. Classify with \(\tau\), \(\Delta\) of \(J\).</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#jacobian">Full proof: After mid-sem guide §5</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Rabbits vs sheep, \(\dot x = x(3 - x - 2y)\), \(\dot y = y(2 - x - y)\): find and classify the fixed points.</h4>
+<p class="idea">Four fixed points. The coexistence one is a saddle, so one species always wins.</p>
+<ul class="chain">
+<li>\((0,0)\), \((0,2)\), \((3,0)\), \((1,1)\)<span class="why">one zero factor from each equation</span></li>
+<li>\(J = \begin{pmatrix}3 - 2x - 2y & -2x\\ -y & 2 - x - 2y\end{pmatrix}\)</li>
+<li>\((0,0)\): \(\lambda = 3, 2\), unstable node</li>
+<li>\((3,0)\): \(\lambda = -3, -1\), and \((0,2)\): \(\lambda = -1, -2\). Both stable nodes.<span class="why">triangular matrices, read the diagonal</span></li>
+<li>\((1,1)\): \(\Delta = 1 - 2 = -1<0\), saddle, \(\lambda = -1\pm\sqrt2\)</li>
+<li>Only "rabbits only" or "sheep only" survive: competitive exclusion</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#rabbits">Full proof: After mid-sem guide §6</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Predator–prey, \(\dot N = N(a - bP)\), \(\dot P = P(cN - d)\): show the populations cycle.</h4>
+<p class="idea">The inside fixed point has \(\tau = 0\) and \(\Delta>0\), which is a center.</p>
+<ul class="chain">
+<li>\((0,0)\) and \((d/c,\ a/b)\)</li>
+<li>\(J = \begin{pmatrix}a - bP & -bN\\ cP & cN - d\end{pmatrix}\)</li>
+<li>\((0,0)\): \(\lambda = a, -d\), a saddle<span class="why">prey alone grow, predators alone die</span></li>
+<li>\((d/c, a/b)\): \(J = \begin{pmatrix}0 & -bd/c\\ ac/b & 0\end{pmatrix}\), \(\tau = 0\), \(\Delta = ad\)</li>
+<li>\(\lambda = \pm i\sqrt{ad}\), a center, so the populations go round in cycles</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#lv">Full proof: After mid-sem guide §7</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Show that \(\dot x_i = f(x_i) + \sum_jA_{ij}[g(x_i) - g(x_j)]\) is stable near a uniform state iff \(\alpha<0\) and \(\alpha + \beta\lambda_r<0\) for every Laplacian eigenvalue.</h4>
+<p class="idea">Linearise every node. The coupling term turns into the Laplacian.</p>
+<ul class="chain">
+<li>\(\dot\epsilon_i = \alpha\epsilon_i + \beta\sum_j A_{ij}(\epsilon_i - \epsilon_j)\)<span class="why">\(\alpha = f'(x^*)\), \(\beta = g'(x^*)\)</span></li>
+<li>\(\dot{\boldsymbol\epsilon} = (\alpha I + \beta L)\boldsymbol\epsilon\)<span class="why">\(\sum_jA_{ij}(\epsilon_i - \epsilon_j) = \sum_jL_{ij}\epsilon_j\)</span></li>
+<li>Eigenvalues \(\alpha + \beta\lambda_r\)<span class="why">same eigenvectors as \(L\)</span></li>
+<li>\(\lambda_1 = 0\) gives \(\alpha<0\)</li>
+<li>If \(\beta>0\) the worst case is \(\lambda_n\): \(\alpha + \beta\lambda_n<0\), i.e. \(1/\lambda_n > -\beta/\alpha\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#netstab">Full proof: After mid-sem guide §8</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Write \(\dot z = (\mu + i\omega - |z|^2)z\) in polar form, and find when there is a stable limit cycle.</h4>
+<p class="idea">Put \(z = re^{i\theta}\), match real and imaginary parts, and you get a 1-D equation for \(r\).</p>
+<ul class="chain">
+<li>\(\dot z = (\dot r + ir\dot\theta)e^{i\theta}\)<span class="why">product rule</span></li>
+<li>\(\dot r + ir\dot\theta = (\mu - r^2)r + i\omega r\)<span class="why">cancel \(e^{i\theta}\)</span></li>
+<li>\(\dot r = \mu r - r^3\), \(\dot\theta = \omega\)<span class="why">match real and imaginary parts</span></li>
+<li>\(r^* = 0\), and \(r^* = \sqrt\mu\) if \(\mu>0\)</li>
+<li>\(f'(0) = \mu\), \(f'(\sqrt\mu) = -2\mu\)<span class="why">\(f'(r) = \mu - 3r^2\)</span></li>
+<li>\(\mu>0\): origin unstable, circle \(r = \sqrt\mu\) stable. Supercritical Hopf at \(\mu = 0\).</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#cycle">Full proof: After mid-sem guide §9</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Show that Euler's method with \(\Delta t = 1\) turns \(\dot x = x(K-1) - Kx^2\) into the logistic map.</h4>
+<p class="idea">Just do one Euler step and simplify.</p>
+<ul class="chain">
+<li>\(x_{n+1} = x_n + \Delta t\,[(K-1)x_n - Kx_n^2]\)<span class="why">Euler step</span></li>
+<li>\(\Delta t = 1\): \(x_{n+1} = Kx_n - Kx_n^2 = Kx_n(1 - x_n)\)</li>
+<li>Same nonzero fixed point \(1 - 1/K\) as the equation</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#euler">Full proof: After mid-sem guide §11</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Show that a fixed point of \(x_{n+1} = f(x_n)\) is stable iff \(|f'(x^*)|<1\). Apply it to the logistic map.</h4>
+<p class="idea">Each step multiplies the error by \(f'(x^*)\). Repeated multiplication shrinks only if the number is smaller than 1 in size.</p>
+<ul class="chain">
+<li>\(x_n = x^* + \varepsilon_n\)<span class="why">small error</span></li>
+<li>\(\varepsilon_{n+1} = f'(x^*)\varepsilon_n\)<span class="why">Taylor, and \(x^* = f(x^*)\) cancels</span></li>
+<li>\(\varepsilon_n = [f'(x^*)]^n\varepsilon_0\to0\) iff \(|f'(x^*)|<1\)</li>
+<li>Logistic: \(x^* = 0\) (\(f' = r\)) and \(x^* = 1 - 1/r\) (\(f' = 2 - r\))<span class="why">\(f'(x) = r(1 - 2x)\)</span></li>
+<li>So 0 is stable for \(r<1\), and \(1 - 1/r\) for \(1<r<3\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#mapstab">Full proof: After mid-sem guide §12</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Show that the logistic map gets a 2-cycle at \(r = 3\).</h4>
+<p class="idea">A 2-cycle is a fixed point of the map applied twice. Remove the ordinary fixed points and a quadratic is left.</p>
+<ul class="chain">
+<li>\(f(x_1) = x_2\), \(f(x_2) = x_1\), so \(f(f(x)) = x\)</li>
+<li>Degree 4. Divide out the roots 0 and \(1 - 1/r\).<span class="why">ordinary fixed points also solve it</span></li>
+<li>\(x_\pm = \frac{(r+1)\pm\sqrt{(r-3)(r+1)}}{2r}\)</li>
+<li>Real only if \(r\ge3\)<span class="why">the square root needs \((r-3)(r+1)\ge0\)</span></li>
+<li>Born at \(r = 3\), exactly where \(f' = 2 - r\) hits \(-1\): period doubling</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#doubling">Full proof: After mid-sem guide §13</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Lorenz system: find the fixed points and show that the origin is stable iff \(\rho<1\).</h4>
+<p class="idea">Solve the three equations from the easy ones first. At the origin the \(z\) part separates, leaving a 2×2 block.</p>
+<ul class="chain">
+<li>\(y = x\)<span class="why">\(\sigma(y - x) = 0\)</span></li>
+<li>\(z = x^2/\beta\)<span class="why">\(xy - \beta z = 0\)</span></li>
+<li>\(x(\rho - 1 - z) = 0\), so \(P_0 = (0,0,0)\) or \(z = \rho - 1\), \(x = y = \pm\sqrt{\beta(\rho-1)}\)<span class="why">real only for \(\rho>1\)</span></li>
+<li>\(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}\)</li>
+<li>At \(P_0\): \(\lambda = -\beta\), and \(\lambda^2 + (\sigma+1)\lambda + \sigma(1-\rho) = 0\)</li>
+<li>Both roots negative iff \(\sigma(1-\rho)>0\), i.e. \(\rho<1\)<span class="why">trace already negative, need positive determinant</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#lorenz">Full proof: After mid-sem guide §14</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Two coupled oscillators: find when they lock and the common frequency \(\Omega\).</h4>
+<p class="idea">Subtract to get one equation for the phase difference. Locking means that difference stops changing, and a sine can't exceed 1.</p>
+<ul class="chain">
+<li>\(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2 - \theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1 - \theta_2)\)</li>
+<li>\(\dot\phi = (\omega_2 - \omega_1) - (k_1 + k_2)\sin\phi\)<span class="why">\(\phi = \theta_2 - \theta_1\), subtract</span></li>
+<li>\(\sin\phi^* = \frac{\omega_2 - \omega_1}{k_1 + k_2}\)<span class="why">locked means \(\dot\phi = 0\)</span></li>
+<li>Lock iff \(|\omega_2 - \omega_1|\le k_1 + k_2\)<span class="why">\(|\sin|\le1\)</span></li>
+<li>Stable root has \(\cos\phi^*>0\)<span class="why">slope \(-(k_1+k_2)\cos\phi\) must be negative</span></li>
+<li>\(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\)<span class="why">\(\Omega = \omega_1 + k_1\sin\phi^* = \omega_2 - k_2\sin\phi^*\). Weight and add.</span></li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#twoosc">Full proof: After mid-sem guide §15</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Rewrite the Kuramoto model with the order parameter, and say which oscillators lock.</h4>
+<p class="idea">Each oscillator only feels the average. The more in sync the crowd, the harder the pull.</p>
+<ul class="chain">
+<li>\(re^{i\psi} = \frac1N\sum_je^{i\theta_j}\)<span class="why">definition</span></li>
+<li>\(r\sin(\psi - \theta_i) = \frac1N\sum_j\sin(\theta_j - \theta_i)\)<span class="why">multiply by \(e^{-i\theta_i}\), take imaginary parts</span></li>
+<li>\(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\)<span class="why">substitute into the coupling sum</span></li>
+<li>Set \(\psi = 0\): oscillator \(i\) stops if \(\sin\theta_i = \omega_i/(Kr)\)</li>
+<li>Locks iff \(|\omega_i|\le Kr\). The rest keep drifting. Sync starts at \(K_c = 2/(\pi g(0))\).</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#kuramoto">Full proof: After mid-sem guide §16</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Show that the generalised Lotka–Volterra community matrix is \(M = D(\mathbf x^*)A\).</h4>
+<p class="idea">Take the Jacobian. At a coexistence point the growth bracket is zero, which kills the extra diagonal term.</p>
+<ul class="chain">
+<li>\(\dot x_i = x_i\left(r_i + \sum_ja_{ij}x_j\right)\)</li>
+<li>\(j\neq i\): \(\partial f_i/\partial x_j = a_{ij}x_i\)</li>
+<li>\(j = i\): \(\left(r_i + \sum_ja_{ij}x_j\right) + a_{ii}x_i\)<span class="why">product rule</span></li>
+<li>At equilibrium the bracket is 0<span class="why">\(\dot x_i = 0\) with \(x_i\neq0\)</span></li>
+<li>\(M_{ij} = x_i^*a_{ij}\), so \(M = D(\mathbf x^*)A\)</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#may">Full proof: After mid-sem guide §17</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Derive May's criterion \(\sqrt{SC\sigma^2}<d\).</h4>
+<p class="idea">Random interactions spread the eigenvalues over a disc. Self-damping slides the disc left. Stable if the whole disc ends up left of 0.</p>
+<ul class="chain">
+<li>Off-diagonal entries: mean 0, variance \(C\sigma^2\)<span class="why">nonzero with probability \(C\)</span></li>
+<li>Eigenvalues fill a disc of radius \(\sqrt{S}\sqrt{C\sigma^2}\)<span class="why">circular law</span></li>
+<li>Diagonal \(-d\) shifts the disc to centre \(-d\)</li>
+<li>Rightmost eigenvalue \(\approx -d + \sqrt{SC\sigma^2}\)</li>
+<li>Stable iff \(\sqrt{SC\sigma^2}<d\). Bigger or more connected systems are less stable.</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#may">Full proof: After mid-sem guide §17</a></p>
+</div>
+
+<div class="pf" data-pg="3">
+<h4>Find the normal-mode frequencies of a double pendulum (equal lengths, small swings).</h4>
+<p class="idea">Small angles make the equations linear. Try an oscillation and set a determinant to zero.</p>
+<ul class="chain">
+<li>\(M\ddot{\boldsymbol\phi} = -K\boldsymbol\phi\)<span class="why">\(\cos(\phi_1 - \phi_2)\approx1\), \(\cos\phi\approx1 - \phi^2/2\)</span></li>
+<li>Try \(\boldsymbol\phi = \mathbf He^{i\omega t}\): \((K - \omega^2M)\mathbf H = 0\)</li>
+<li>\(\det(K - \omega^2M) = 0\). With \(\lambda = \omega^2L/g\), \(\mu = m_2/m_1\): \((1+\mu)(1-\lambda)^2 = \mu\lambda^2\)</li>
+<li>\(\omega^2 = \frac gL\left[1 + \mu\pm\sqrt{\mu(1+\mu)}\right]\)</li>
+<li>Equal masses: \(\omega = \sqrt{g/L}\,\sqrt{2\pm\sqrt2}\). Fast mode swings opposite, slow mode together.</li>
+</ul>
+<p class="small"><a href="{{ROOT}}after-midsem/#pendulum">Full proof: After mid-sem guide §18</a></p>
+</div>
+</section>

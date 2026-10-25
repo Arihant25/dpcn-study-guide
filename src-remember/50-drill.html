@@ -5,8 +5,11 @@
   var box=document.getElementById('drill'); if(!box) return;
   var all=[].slice.call(document.querySelectorAll('#cardlist details.fc')).map(function(d){
     var s=d.querySelector('summary').children;
-    return {pg:d.getAttribute('data-pg'), tag:s[0].textContent, q:s[1].innerHTML, a:d.querySelector('.ans').innerHTML};
-  });
+    return {pg:d.getAttribute('data-pg'), kind:'fact', tag:s[0].textContent+' · fact', q:s[1].innerHTML, a:d.querySelector('.ans').innerHTML};
+  }).concat([].slice.call(document.querySelectorAll('.pf')).map(function(p){
+    var a=[].slice.call(p.children).filter(function(e){ return e.tagName!=='H4'; }).map(function(e){ return e.outerHTML; }).join('');
+    return {pg:p.getAttribute('data-pg'), kind:'proof', tag:'Page '+p.getAttribute('data-pg')+' · proof', q:p.querySelector('h4').innerHTML, a:a};
+  }));
   var qEl=document.getElementById('drill-q'), aEl=document.getElementById('drill-a'), btns=document.getElementById('drill-btns'),
       tagEl=document.getElementById('drill-tag'), countEl=document.getElementById('drill-count'), bar=document.getElementById('drill-bar');
   var deck=[], done=0, total=0, filter='all', touched=false;
@@ -14,7 +17,7 @@
   function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
   function button(label,cls,fn){ var b=document.createElement('button'); b.type='button'; b.textContent=label; if(cls) b.className=cls; b.addEventListener('click',fn); btns.appendChild(b); return b; }
   function start(){
-    deck=shuffle(all.filter(function(c){ return filter==='all'||c.pg===filter; }).slice());
+    deck=shuffle(all.filter(function(c){ return filter==='all'||c.pg===filter||c.kind===filter; }).slice());
     total=deck.length; done=0; show();
   }
   function progress(){ countEl.textContent=done+' of '+total+' known'; bar.style.width=(total?100*done/total:0)+'%'; }

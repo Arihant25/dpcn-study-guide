@@ -1,0 +1,43 @@
+
+<section>
+<h2 id="ideas">The two questions behind most proofs</h2>
+<p class="about">Nearly every proof after class 4 is answering one of two questions. Spot which one, and you already know how the proof goes.</p>
+
+<h3>Question 1 · Is it stable?</h3>
+<p>Nudge the system a little. If it comes back, it's stable. If it runs away, it's unstable. The test is always "look at the slope at the fixed point". Only the kind of slope changes.</p>
+<table class="tbl">
+<tr><th>Kind of system</th><th>Stable when</th></tr>
+<tr><td>1-D flow \(\dot x = f(x)\)</td><td>\(f'(x^*) < 0\)</td></tr>
+<tr><td>2-D or 3-D flow</td><td>Every eigenvalue of the Jacobian has negative real part (in 2-D, \(\tau<0\) and \(\Delta>0\))</td></tr>
+<tr><td>Map \(x_{n+1} = f(x_n)\)</td><td>\(|f'(x^*)| < 1\)</td></tr>
+<tr><td>Large random system</td><td>\(\sqrt{SC\sigma^2} < d\) (May)</td></tr>
+</table>
+<p>Why is a map different? A flow adds a little bit each instant, so the sign of the slope matters. A map multiplies the error by \(f'\) every step, so its size matters. Multiply by 0.5 over and over and you shrink to nothing. Multiply by 2 and you blow up.</p>
+
+<h3>Question 2 · Where is the threshold?</h3>
+<p>Most "critical values" in the course come from one ratio reaching 1. Below it, nothing happens. Above it, something takes off.</p>
+<table class="tbl">
+<tr><th>What happens</th><th>Threshold</th></tr>
+<tr><td>A giant component appears</td><td>\(\langle k\rangle = 1\)</td></tr>
+<tr><td>A disease (SIS) spreads</td><td>\(\beta/\gamma = 1\)</td></tr>
+<tr><td>A disease spreads on a network</td><td>\(\beta\kappa_1/\gamma = 1\)</td></tr>
+<tr><td>A map's fixed point stops being stable</td><td>\(|f'(x^*)| = 1\) (logistic map, \(r = 3\))</td></tr>
+<tr><td>The Lorenz origin stops being stable</td><td>\(\rho = 1\)</td></tr>
+<tr><td>Two oscillators lock together</td><td>\(|\Delta\omega|/(k_1+k_2) = 1\), because \(\sin\phi\) can't go past 1</td></tr>
+<tr><td>A large system stops being stable</td><td>\(\sqrt{SC\sigma^2}/d = 1\)</td></tr>
+</table>
+<p>For flows the threshold is a slope reaching 0 instead: the Hopf bifurcation happens at \(\mu = 0\), and every 1-D bifurcation happens where \(f' = 0\). The power-law exponents 2 and 3 are the odd ones out. They're where ⟨k⟩ and ⟨k²⟩ stop being finite.</p>
+</section>
+
+<section>
+<h2 id="recipe">One recipe for stability</h2>
+<p class="about">This one recipe is the skeleton of the SIS proof, every bifurcation question, rabbits vs sheep, predator–prey, Lorenz, the Hopf question and the two-oscillator question. Learn it once and you have the outline of half the paper.</p>
+<ol class="steps">
+<li><strong>Find the fixed points.</strong> Set every rate to zero and solve.</li>
+<li><strong>Take the slope.</strong> In 1-D that's \(f'(x)\). In 2-D or 3-D it's the Jacobian \(J\).</li>
+<li><strong>Put each fixed point in.</strong> In 1-D read the sign. In 2-D work out \(\tau\) and \(\Delta\).</li>
+<li><strong>Say what it means.</strong> "Stable, so the disease settles at \(1-\gamma/\beta\)", or "saddle, so the species can't coexist".</li>
+</ol>
+<p>For a map, step 3 checks \(|f'| < 1\) instead. Even the two-oscillator question is a 1-D problem in disguise, because the phase difference \(\phi\) obeys a single equation.</p>
+</section>
+
