@@ -91,49 +91,49 @@
 <details class="q fc" data-pg="2"><summary><span class="qt">Page 2</span><span>On a network, when does SIS spread?</span><span class="chev">›</span></summary>
 <div class="ans"><p>When \(\beta/\gamma > 1/\kappa_1\), where \(\kappa_1\) is the largest eigenvalue of \(A\). Early on the infection grows like \(e^{(\beta\kappa_1-\gamma)t}\mathbf v_1\).</p><p class="small"><a href="{{ROOT}}#netdyn">Mid-sem guide §13</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>For \(\dot{\mathbf x} = A\mathbf x\), what equation gives the eigenvalues?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-eigen"><summary><span class="qt">Page 3</span><span>For \(\dot{\mathbf x} = A\mathbf x\), what equation gives the eigenvalues?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(\lambda^2 - \tau\lambda + \Delta = 0\), with \(\tau = a + d\) (trace) and \(\Delta = ad - bc\) (determinant).</p><p class="small"><a href="{{ROOT}}after-midsem/#eigen">After mid-sem guide §1</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Classify a 2-D fixed point from \(\tau\) and \(\Delta\).</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-classify"><summary><span class="qt">Page 3</span><span>Classify a 2-D fixed point from \(\tau\) and \(\Delta\).</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(\Delta<0\): saddle. Otherwise the sign of \(\tau\) gives stability (negative is stable), and \(\tau^2 > 4\Delta\) gives a node, \(\tau^2<4\Delta\) a spiral. \(\tau = 0\) with \(\Delta>0\) is a center.</p><p class="small"><a href="{{ROOT}}after-midsem/#classify">After mid-sem guide §2</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What is the Jacobian, and how does it decide stability?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-jacobian"><summary><span class="qt">Page 3</span><span>What is the Jacobian, and how does it decide stability?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(J_{ij} = \partial f_i/\partial x_j\), evaluated at the fixed point. If every eigenvalue has negative real part, it's stable.</p><p class="small"><a href="{{ROOT}}after-midsem/#jacobian">After mid-sem guide §5</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Rabbits vs sheep: what kind of point is coexistence, and what does it mean?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-rabbits"><summary><span class="qt">Page 3</span><span>Rabbits vs sheep: what kind of point is coexistence, and what does it mean?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\((1,1)\) is a saddle (\(\lambda = -1\pm\sqrt2\)). The stable states are "rabbits only" and "sheep only", so one species always wins. This is competitive exclusion.</p><p class="small"><a href="{{ROOT}}after-midsem/#rabbits">After mid-sem guide §6</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Predator–prey (Lotka–Volterra): fixed points and their types?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-lv"><summary><span class="qt">Page 3</span><span>Predator–prey (Lotka–Volterra): fixed points and their types?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\((0,0)\) is a saddle. \((d/c,\ a/b)\) is a center with \(\lambda = \pm i\sqrt{ad}\), so the populations cycle around it.</p><p class="small"><a href="{{ROOT}}after-midsem/#lv">After mid-sem guide §7</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Write \(\dot z = (\mu + i\omega - |z|^2)z\) in polar form. What happens at \(\mu = 0\)?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-hopf"><summary><span class="qt">Page 3</span><span>Write \(\dot z = (\mu + i\omega - |z|^2)z\) in polar form. What happens at \(\mu = 0\)?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(\dot r = \mu r - r^3\), \(\dot\theta = \omega\). For \(\mu>0\) a stable limit cycle of radius \(\sqrt\mu\) appears and the origin turns unstable. That's a supercritical Hopf bifurcation.</p><p class="small"><a href="{{ROOT}}after-midsem/#cycle">After mid-sem guide §9</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What does the Poincaré–Bendixson theorem say?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-pb"><summary><span class="qt">Page 3</span><span>What does the Poincaré–Bendixson theorem say?</span><span class="chev">›</span></summary>
 <div class="ans"><p>In 2-D, if paths are trapped in a region that has no fixed point, there must be a closed orbit in it. It only works in 2-D, which is why chaos needs at least 3 dimensions.</p><p class="small"><a href="{{ROOT}}after-midsem/#vdp">After mid-sem guide §10</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>How does Euler's method with \(\Delta t = 1\) turn a logistic equation into the logistic map?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-euler"><summary><span class="qt">Page 3</span><span>How does Euler's method with \(\Delta t = 1\) turn a logistic equation into the logistic map?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(\dot x = x(K-1) - Kx^2\) becomes \(x_{n+1} = x_n + (K-1)x_n - Kx_n^2 = Kx_n(1-x_n)\).</p><p class="small"><a href="{{ROOT}}after-midsem/#euler">After mid-sem guide §11</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>When is a fixed point of a map stable? Apply it to the logistic map.</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-mapstab"><summary><span class="qt">Page 3</span><span>When is a fixed point of a map stable? Apply it to the logistic map.</span><span class="chev">›</span></summary>
 <div class="ans"><p>When \(|f'(x^*)|<1\). For \(x_{n+1} = rx_n(1-x_n)\), the point \(1 - 1/r\) has \(f' = 2 - r\), so it's stable for \(1<r<3\).</p><p class="small"><a href="{{ROOT}}after-midsem/#mapstab">After mid-sem guide §12</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Logistic map: where does the period double, and where does chaos start?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-doubling"><summary><span class="qt">Page 3</span><span>Logistic map: where does the period double, and where does chaos start?</span><span class="chev">›</span></summary>
 <div class="ans"><p>Period 2 at \(r = 3\), period 4 at 3.449, period 8 at 3.544. Chaos from about 3.57.</p><p class="small"><a href="{{ROOT}}after-midsem/#doubling">After mid-sem guide §13</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Lorenz system: the fixed points, and when is the origin stable?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-lorenz"><summary><span class="qt">Page 3</span><span>Lorenz system: the fixed points, and when is the origin stable?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\((0,0,0)\), stable iff \(\rho<1\). For \(\rho>1\) also \(\left(\pm\sqrt{\beta(\rho-1)},\ \pm\sqrt{\beta(\rho-1)},\ \rho-1\right)\). Chaos above about \(\rho = 24.74\) (with the usual \(\sigma = 10\), \(\beta = 8/3\)).</p><p class="small"><a href="{{ROOT}}after-midsem/#lorenz">After mid-sem guide §14</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Two coupled oscillators: when do they lock, and at what frequency?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-twoosc"><summary><span class="qt">Page 3</span><span>Two coupled oscillators: when do they lock, and at what frequency?</span><span class="chev">›</span></summary>
 <div class="ans"><p>They lock when \(|\omega_2 - \omega_1| \le k_1 + k_2\). The common frequency is \(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1+k_2}\), the plain average if \(k_1 = k_2\).</p><p class="small"><a href="{{ROOT}}after-midsem/#twoosc">After mid-sem guide §15</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>What is the Kuramoto order parameter, and what is \(K_c\)?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-kuramoto"><summary><span class="qt">Page 3</span><span>What is the Kuramoto order parameter, and what is \(K_c\)?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(re^{i\psi} = \frac1N\sum_j e^{i\theta_j}\). \(r\) near 0 means out of sync, near 1 means in sync. Sync starts at \(K_c = 2/(\pi g(0))\), which is \(2\gamma\) for a Lorentzian.</p><p class="small"><a href="{{ROOT}}after-midsem/#kuramoto">After mid-sem guide §16</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>State May's stability criterion.</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-may"><summary><span class="qt">Page 3</span><span>State May's stability criterion.</span><span class="chev">›</span></summary>
 <div class="ans"><p>A large random system with \(S\) species, connectance \(C\), interaction spread \(\sigma\) and self-damping \(d\) is stable if \(\sqrt{SC\sigma^2} < d\). Bigger or more connected systems are less stable.</p><p class="small"><a href="{{ROOT}}after-midsem/#may">After mid-sem guide §17</a></p></div></details>
 
-<details class="q fc" data-pg="3"><summary><span class="qt">Page 3</span><span>Double pendulum with equal masses: the two normal-mode frequencies?</span><span class="chev">›</span></summary>
+<details class="q fc" data-pg="3" id="fc-pendulum"><summary><span class="qt">Page 3</span><span>Double pendulum with equal masses: the two normal-mode frequencies?</span><span class="chev">›</span></summary>
 <div class="ans"><p>\(\omega = \sqrt{g/L}\,\sqrt{2\pm\sqrt2}\).</p><p class="small"><a href="{{ROOT}}after-midsem/#pendulum">After mid-sem guide §18</a></p></div></details>
 
 </div>

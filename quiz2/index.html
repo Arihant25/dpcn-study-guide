@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DPCN Quiz 2 Sheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Everything for DPCN Quiz 2: 2-D nonlinear stability and limit cycles, maps, the Lorenz system and synchronisation, as formulas, short proofs, past questions and flashcards.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#ffffff; --card:#ffffff; --muted:#f4f4f5; --muted-2:#fafafa;
+  --fg:#09090b; --muted-fg:#6b6b75; --border:#e4e4e7; --border-2:#d4d4d8;
+  --primary:#18181b; --primary-fg:#fafafa;
+  --brand:#0f766e; --brand-fg:#ffffff; --brand-soft:#effaf8;
+  --stable:#0f766e; --unstable:#c2410c; --destructive:#dc2626; --destructive-soft:#fef2f2;
+  --amber-soft:#fffbeb; --amber:#b45309;
+  --c1:#0f766e; --c2:#c2410c; --c3:#4f46e5; --c4:#a21caf;
+  --grid:#efeff1; --axis:#a1a1aa;
+  --node:#f4f4f5; --node-stroke:#3f3f46; --edge:#a1a1aa;
+  --radius:0.7rem;
+  --shadow-sm:0 1px 2px 0 rgb(9 9 11 / .05);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0b0b0d; --card:#121215; --muted:#1c1c20; --muted-2:#16161a;
+  --fg:#f4f4f5; --muted-fg:#a1a1aa; --border:#27272a; --border-2:#3f3f46;
+  --primary:#f4f4f5; --primary-fg:#18181b;
+  --brand:#2dd4bf; --brand-fg:#09090b;
+  --brand-soft:#112926;
+  --stable:#2dd4bf; --unstable:#fb923c; --destructive:#f87171; --destructive-soft:#2a1414;
+  --amber-soft:#2a2110; --amber:#fbbf24;
+  --c1:#2dd4bf; --c2:#fb923c; --c3:#a5b4fc; --c4:#f0abfc;
+  --grid:#1f1f24; --axis:#52525b;
+  --node:#1c1c20; --node-stroke:#a1a1aa; --edge:#5b5b63;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / .4);
+}}
+:root[data-theme="dark"]{
+  --bg:#0b0b0d; --card:#121215; --muted:#1c1c20; --muted-2:#16161a;
+  --fg:#f4f4f5; --muted-fg:#a1a1aa; --border:#27272a; --border-2:#3f3f46;
+  --primary:#f4f4f5; --primary-fg:#18181b;
+  --brand:#2dd4bf; --brand-fg:#09090b; --brand-soft:#112926;
+  --stable:#2dd4bf; --unstable:#fb923c; --destructive:#f87171; --destructive-soft:#2a1414;
+  --amber-soft:#2a2110; --amber:#fbbf24;
+  --c1:#2dd4bf; --c2:#fb923c; --c3:#a5b4fc; --c4:#f0abfc;
+  --grid:#1f1f24; --axis:#52525b;
+  --node:#1c1c20; --node-stroke:#a1a1aa; --edge:#5b5b63;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / .4);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--bg); color:var(--fg);
+  font-family:"Hanken Grotesk",system-ui,-apple-system,sans-serif;
+  font-size:16.5px; line-height:1.68; -webkit-font-smoothing:antialiased}
+.wrap{display:grid; grid-template-columns:minmax(0,1fr)}
+@media(min-width:1060px){.wrap{grid-template-columns:280px minmax(0,1fr); align-items:start}}
+
+/* sidebar */
+.toc{position:sticky; top:0; align-self:start; max-height:100vh; overflow-y:auto; padding:26px 18px 48px;
+  border-right:1px solid var(--border); background:var(--card); display:none; scrollbar-width:thin; scrollbar-color:var(--border-2) transparent}
+@media(min-width:1060px){.toc{display:block}}
+.toc .brand{font-weight:700; font-size:1.02rem; letter-spacing:-.02em}
+.toc .brand small{display:block; font-weight:500; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-fg); margin-top:6px}
+.toc nav{margin-top:20px; font-size:.86rem}
+.toc .grp{text-transform:uppercase; letter-spacing:.11em; font-size:.64rem; color:var(--muted-fg); font-weight:700; margin:20px 0 6px; padding:0 10px}
+.toc a{display:block; color:var(--muted-fg); text-decoration:none; padding:5px 10px; border-radius:7px; line-height:1.35; margin:1px 0}
+.toc a:hover{color:var(--fg); background:var(--muted)}
+.toc a.other{margin:12px 0 0; padding:7px 10px; border:1px solid var(--border); border-radius:8px; color:var(--brand); font-size:.84rem; font-weight:600}
+.toc a.other:hover{background:var(--muted)}
+.toc a.active{color:var(--fg); background:var(--muted); font-weight:600}
+
+main{padding:0 clamp(18px,5vw,72px) 128px; max-width:900px}
+.hero{padding:clamp(44px,8vw,84px) 0 30px; border-bottom:1px solid var(--border)}
+.kicker{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-fg); font-weight:600}
+h1{font-weight:700; font-size:clamp(2.1rem,6vw,3.2rem); line-height:1.05; letter-spacing:-.035em; margin:.34em 0 .3em; text-wrap:balance}
+.hero .lead{font-size:1.12rem; color:var(--muted-fg); max-width:62ch; line-height:1.6}
+.part{margin:4.2em 0 0; padding:14px 0 0; border-top:2px solid var(--fg); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700}
+.part span{color:var(--muted-fg); font-weight:600; margin-left:.6em}
+h2{font-weight:700; font-size:clamp(1.55rem,3.4vw,2rem); letter-spacing:-.03em; margin:2.4em 0 .2em; padding-top:.3em; text-wrap:balance; scroll-margin-top:14px}
+.part+section h2{margin-top:.9em}
+h2 .num{color:var(--muted-fg); font-size:.56em; font-weight:600; margin-right:.55em; font-variant-numeric:tabular-nums}
+h3{font-weight:650; font-size:1.25rem; margin:2em 0 .35em; letter-spacing:-.02em; scroll-margin-top:14px}
+h4{font-weight:700; font-size:1.02rem; margin:1.5em 0 .3em}
+.oneline{font-size:1.1rem; line-height:1.55; max-width:64ch; margin:.6em 0 1em}
+p{max-width:70ch}
+a{color:var(--brand); text-underline-offset:2px}
+em.t{font-style:normal; font-weight:650; border-bottom:2px solid var(--brand)}
+ul,ol{max-width:68ch; padding-left:1.35em}
+li{margin:.35em 0}
+li::marker{color:var(--muted-fg)}
+.small{font-size:.87rem; color:var(--muted-fg)}
+.board{font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--amber); background:var(--amber-soft);
+  border:1px solid color-mix(in srgb,var(--amber) 35%,var(--border)); border-radius:6px; padding:3px 9px; display:inline-block; margin-top:6px}
+
+/* math */
+math{font-family:"Cambria Math","STIX Two Math","Latin Modern Math",math,serif; font-style:normal}
+p math, li math, td math, summary math, figcaption math{font-size:1.07em}
+.eq{display:block; margin:18px 0; text-align:center; overflow-x:auto; overflow-y:hidden; padding:6px 2px}
+.eq math{font-size:1.36em}
+.eq.boxed{background:var(--muted-2); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px}
+.eq .label{display:block; margin-top:6px; font-size:.8rem; color:var(--muted-fg)}
+math .tml-box, math menclose{border:1px solid var(--border-2); padding:3px}
+
+/* cards */
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 22px; margin:20px 0; box-shadow:var(--shadow-sm)}
+.card>*:first-child{margin-top:0} .card>*:last-child{margin-bottom:0}
+.card.ex{background:var(--muted-2)}
+.card.watch{border-color:color-mix(in srgb,var(--destructive) 40%,var(--border)); background:var(--destructive-soft)}
+.card.goal{border-left:4px solid var(--brand)}
+.card.exam{border:1.5px solid var(--fg)}
+.card.remember{background:var(--brand-soft); border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.remember .tag{background:var(--brand); color:var(--brand-fg); border-color:var(--brand)}
+.about{font-size:1.08rem; line-height:1.6; max-width:66ch; margin:.6em 0 1em}
+.idea{background:var(--brand-soft); border:1px solid color-mix(in srgb,var(--brand) 30%,var(--border)); border-radius:8px; padding:10px 14px; max-width:none}
+.sym{font-size:.93rem; color:var(--muted-fg); border-left:3px solid var(--border-2); padding:2px 0 2px 12px; margin:10px 0}
+.tag{display:inline-flex; font-size:.66rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:3px 9px; border-radius:6px;
+  border:1px solid var(--border); background:var(--muted); color:var(--muted-fg); margin-bottom:10px}
+.goal .tag{background:var(--brand-soft); color:var(--brand); border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.exam .tag{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.watch .tag{background:transparent; color:var(--destructive); border-color:color-mix(in srgb,var(--destructive) 45%,var(--border))}
+.card h4:first-of-type{margin-top:.1em}
+.goal ul{margin:.2em 0}
+
+.steps{counter-reset:s; list-style:none; padding-left:0; max-width:72ch}
+.steps>li{counter-increment:s; position:relative; padding-left:42px; margin:.95em 0}
+.steps>li::before{content:counter(s); position:absolute; left:0; top:0; width:27px; height:27px; border-radius:8px;
+  background:var(--primary); color:var(--primary-fg); font-size:.8rem; font-weight:700; display:grid; place-items:center}
+
+/* tables */
+.tbl{width:100%; border-collapse:collapse; margin:16px 0; font-size:.92rem; display:block; overflow-x:auto}
+.tbl th,.tbl td{border:1px solid var(--border); padding:9px 12px; text-align:left; vertical-align:top}
+.tbl th{background:var(--muted); font-weight:650; font-size:.82rem}
+.tbl tr:nth-child(even) td{background:var(--muted-2)}
+.tbl td.c, .tbl th.c{text-align:center}
+
+/* figures */
+figure.fig{margin:20px 0; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm)}
+figure.fig svg{width:100%; height:auto; display:block; margin:0 auto}
+figure.fig svg.gr{max-width:460px}
+figure.fig svg.plot{max-width:620px}
+figure.fig figcaption{font-size:.86rem; color:var(--muted-fg); margin-top:10px; line-height:1.5; max-width:70ch}
+.figrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:20px 0}
+.figrow figure.fig{margin:0}
+svg.plot text{font-family:"Hanken Grotesk",sans-serif}
+svg.plot .tk{font-size:11px; fill:var(--muted-fg)}
+svg.plot .al{font-size:12.5px; fill:var(--muted-fg)}
+svg.plot .lb{font-size:12px; font-weight:600}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.82rem; color:var(--muted-fg); margin:4px 0 10px}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.sw{width:24px; height:0; border-top:3px solid; display:inline-block}
+
+/* collapsibles */
+details.opt{border:1px dashed var(--border-2); border-radius:var(--radius); background:var(--muted-2); margin:16px 0; overflow:hidden}
+details.opt>summary{cursor:pointer; list-style:none; padding:10px 16px; font-weight:600; font-size:.92rem; color:var(--brand)}
+details.opt>summary::-webkit-details-marker{display:none}
+details.opt>summary::before{content:"▸  "; font-size:.8em}
+details.opt[open]>summary::before{content:"▾  "}
+details.opt[open]>summary{border-bottom:1px solid var(--border)}
+details.opt .body{padding:2px 16px 14px}
+.checkrow{display:flex; align-items:center; gap:12px; margin:34px 0 10px; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-fg)}
+.checkrow::before,.checkrow::after{content:""; flex:1; height:1px; background:var(--border)}
+details.q{border:1px solid var(--border); border-radius:var(--radius); margin:12px 0; background:var(--card); overflow:hidden}
+details.q>summary{cursor:pointer; list-style:none; padding:13px 16px; display:flex; gap:11px; align-items:flex-start; font-weight:550}
+details.q>summary::-webkit-details-marker{display:none}
+details.q>summary:hover{background:var(--muted)}
+details.q>summary>span:not(.qt):not(.chev){min-width:0; overflow-wrap:anywhere}
+.qt{flex:none; font-size:.6rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:4px 8px; border-radius:6px; margin-top:2px;
+  background:var(--muted); color:var(--muted-fg); border:1px solid var(--border)}
+.qt.pyq{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.chev{margin-left:auto; flex:none; color:var(--muted-fg); transition:transform .2s}
+details.q[open] .chev{transform:rotate(90deg)}
+details.q .ans{padding:2px 18px 16px; border-top:1px solid var(--border); background:var(--muted-2)}
+details.q .ans>*:first-child{margin-top:12px}
+
+/* theme toggle */
+.themebtn{position:fixed; top:14px; right:14px; z-index:20; background:var(--card); border:1px solid var(--border); color:var(--fg);
+  border-radius:8px; padding:7px 12px; font:inherit; font-size:.8rem; font-weight:500; cursor:pointer; box-shadow:var(--shadow-sm)}
+.themebtn:hover{background:var(--muted)}
+:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:4px}
+.tocwrap-mobile{display:block; padding:18px clamp(16px,5vw,72px) 0}
+@media(min-width:1060px){.tocwrap-mobile{display:none}}
+details.mtoc{border:1px solid var(--border); border-radius:var(--radius); background:var(--card); padding:2px 6px}
+details.mtoc>summary{padding:11px; font-weight:600; cursor:pointer}
+details.mtoc a{display:block; padding:6px 12px; color:var(--muted-fg); text-decoration:none}
+
+@media (max-width:700px){
+  html,body{overflow-x:hidden}
+  body{font-size:16px}
+  main{padding:0 16px 96px}
+  .themebtn{top:auto; bottom:14px}
+  .card{padding:15px 15px}
+  .steps>li{padding-left:34px}
+  .steps>li::before{width:23px; height:23px; font-size:.72rem}
+  .eq math{font-size:1.15em}
+  .tbl{font-size:.85rem}
+  .tbl th,.tbl td{padding:7px 9px}
+  figure.fig{padding:10px}
+}
+@media print{.toc,.themebtn,.tocwrap-mobile{display:none} details{open:true}}
+
+/* memory sheet */
+.fl{list-style:none; padding:0; max-width:none; margin:10px 0 0}
+.fl>li{display:grid; grid-template-columns:minmax(0,15em) minmax(0,1fr); gap:4px 18px; padding:10px 2px; margin:0; border-bottom:1px solid var(--border); align-items:baseline}
+.fl>li>span:first-child{color:var(--muted-fg); font-size:.93rem}
+.fl>li>span:last-child{overflow-x:auto; overflow-y:hidden}
+@media(max-width:700px){.fl>li{grid-template-columns:minmax(0,1fr)}}
+.grouphead{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin:2em 0 0}
+.grouphead h3{margin:0}
+.grouphead a{font-size:.85rem}
+.pf{border-top:1px solid var(--border); padding-top:4px; margin-top:26px}
+.pf h4{font-size:1.05rem; line-height:1.45; margin:.7em 0 .5em}
+.pf .idea, .drill .idea{margin:8px 0}
+.drill .chain{margin:8px 0}
+.chain{list-style:none; padding:0; margin:12px 0; max-width:none}
+.chain>li{padding:6px 0; margin:0; border-bottom:1px dashed var(--border)}
+.chain>li:last-child{border-bottom:0}
+.chain .why{margin-left:12px; color:var(--muted-fg); font-size:.88rem}
+.chain .why::before{content:"∵ "}
+.drill{border:1.5px solid var(--fg); border-radius:var(--radius); padding:18px 20px; margin:18px 0; background:var(--card)}
+.drill .meta{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:.8rem; color:var(--muted-fg); font-weight:600}
+.drill .dq{font-size:1.12rem; font-weight:600; margin:14px 0 10px; min-height:2.4em}
+.drill .da{background:var(--muted-2); border:1px solid var(--border); border-radius:8px; padding:4px 14px; margin:8px 0 12px}
+.drill .btns{display:flex; gap:8px; flex-wrap:wrap}
+.drill button, .filters button{font:inherit; font-size:.88rem; font-weight:600; border-radius:8px; padding:9px 16px; cursor:pointer; border:1px solid var(--border-2); background:var(--card); color:var(--fg)}
+.drill button.go{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.drill button.yes{background:var(--brand); color:var(--brand-fg); border-color:var(--brand)}
+.filters{display:flex; gap:6px; flex-wrap:wrap; margin:10px 0}
+.filters button[aria-pressed="true"]{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+.bar{height:6px; border-radius:3px; background:var(--muted); overflow:hidden; margin-top:8px}
+.bar>i{display:block; height:100%; width:0; background:var(--brand); transition:width .2s}
+</style>
+<style>
+/* page switcher, shared by the sidebar and the phone menu */
+.pages{display:grid; gap:4px; margin-top:16px}
+.pages a{display:flex; gap:10px; align-items:flex-start; padding:7px 10px; border:1px solid var(--border); border-radius:8px; color:var(--fg); text-decoration:none; line-height:1.3; font-weight:600; font-size:.86rem}
+.pages a:hover{background:var(--muted)}
+.pages b{flex:none; width:22px; height:22px; border-radius:6px; display:grid; place-items:center; font-size:.74rem; background:var(--muted); color:var(--muted-fg)}
+.pages small{display:block; font-weight:400; font-size:.74rem; color:var(--muted-fg); margin-top:2px}
+body[data-pg="quiz2"] .pages a[data-pg="quiz2"], body[data-pg="remember"] .pages a[data-pg="remember"], body[data-pg="quiz1"] .pages a[data-pg="quiz1"],
+body[data-pg="mid"] .pages a[data-pg="mid"], body[data-pg="after"] .pages a[data-pg="after"]{border-color:var(--brand); background:var(--brand-soft)}
+body[data-pg="quiz2"] .pages a[data-pg="quiz2"] b, body[data-pg="remember"] .pages a[data-pg="remember"] b, body[data-pg="quiz1"] .pages a[data-pg="quiz1"] b,
+body[data-pg="mid"] .pages a[data-pg="mid"] b, body[data-pg="after"] .pages a[data-pg="after"] b{background:var(--brand); color:var(--brand-fg)}
+.toc .pages a{padding:6px 9px}
+
+/* phone and tablet: a sticky bar that opens a menu of pages and sections */
+@media(max-width:1059px){
+  .themebtn{top:auto; bottom:14px}
+  .tocwrap-mobile{position:sticky; top:0; z-index:15; background:var(--bg); border-bottom:1px solid var(--border);
+    margin:0 calc(-1 * clamp(18px,5vw,72px)); padding:8px clamp(18px,5vw,72px)}
+  details.mtoc{border:0; padding:0; background:transparent}
+  details.mtoc>summary{list-style:none; display:flex; align-items:center; gap:10px; padding:4px 0; font-size:.9rem}
+  details.mtoc>summary::-webkit-details-marker{display:none}
+  details.mtoc .here{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted-fg); font-weight:500}
+  details.mtoc .mbtn{flex:none; border:1px solid var(--border-2); border-radius:8px; padding:6px 12px; font-weight:600; background:var(--card); color:var(--fg)}
+  details.mtoc[open] .mbtn{background:var(--primary); color:var(--primary-fg); border-color:var(--primary)}
+  .mpanel{max-height:calc(100vh - 70px); max-height:calc(100dvh - 70px); overflow-y:auto; padding:6px 0 14px; overscroll-behavior:contain}
+  .mpanel .pages{margin-top:4px}
+  .mpanel .pages a{padding:10px 12px; font-size:.95rem}
+  .mgrp{text-transform:uppercase; letter-spacing:.11em; font-size:.66rem; color:var(--muted-fg); font-weight:700; margin:14px 0 4px}
+  details.mtoc .mpanel>a{display:block; padding:8px 4px; color:var(--fg); text-decoration:none; border-bottom:1px solid var(--border); font-size:.95rem}
+}
+@media(max-width:700px){
+  html,body{overflow-x:clip}
+  .tocwrap-mobile{margin:0 -16px; padding:8px 16px}
+}
+</style>
+
+</head>
+<body data-pg="quiz2">
+<button class="themebtn" id="themebtn" aria-label="Switch colour theme (auto, light, dark)"><span class="ico" aria-hidden="true">◐</span> <span class="lbl">Auto</span></button>
+<div class="wrap">
+
+<aside class="toc" aria-label="Contents">
+  <div class="brand">DPCN study notes<small>Quiz 2 sheet · Thursday</small></div>
+  <div class="pages">
+  <a href="../quiz2/" data-pg="quiz2"><b>Q2</b><span>Quiz 2 sheet<small>Thursday's syllabus only</small></span></a>
+  <a href="../remember/" data-pg="remember"><b>★</b><span>Memory sheet<small>Whole course: formulas and proofs</small></span></a>
+  <a href="../quiz1/" data-pg="quiz1"><b>1</b><span>Quiz 1 guide<small>Classes 1 to 6, network basics</small></span></a>
+  <a href=".././" data-pg="mid"><b>2</b><span>Mid-sem guide<small>Power laws, random graphs, bifurcations</small></span></a>
+  <a href="../after-midsem/" data-pg="after"><b>3</b><span>After mid-sem guide<small>Classes 13 to 18, 2-D systems to chaos</small></span></a>
+</div>
+
+  <nav id="tocnav">
+    <a href="#syllabus">The syllabus</a>
+    <a href="#asked">What they've asked before</a>
+    <a href="#plan">A plan for the three days</a>
+    <a href="#formulas">Formulas to remember</a>
+    <div class="grp">Proofs</div>
+    <a href="#q-2d">1 · 2-D stability and limit cycles</a>
+    <a href="#q-maps">2 · Maps</a>
+    <a href="#q-lorenz">3 · Lorenz</a>
+    <a href="#q-sync">4 · Synchronisation</a>
+    <div class="grp">Practice</div>
+    <a href="#cards">Flashcards</a>
+  </nav>
+</aside>
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Quiz 2</div>
+  <h1>DPCN Quiz 2 Sheet</h1>
+  <p class="lead">Only what's on Thursday's quiz. That's the formulas, a short proof for each result, the past questions on these topics, and flashcards. Everything else in the course can wait until the end-sem.</p>
+</header>
+<div class="tocwrap-mobile">
+  <details class="mtoc" id="mtoc"><summary><span class="here">Quiz 2 sheet · Thursday</span><span class="mbtn">Pages · Sections</span></summary>
+  <div class="mpanel">
+    <div class="mgrp">Pages</div>
+    <div class="pages">
+  <a href="../quiz2/" data-pg="quiz2"><b>Q2</b><span>Quiz 2 sheet<small>Thursday's syllabus only</small></span></a>
+  <a href="../remember/" data-pg="remember"><b>★</b><span>Memory sheet<small>Whole course: formulas and proofs</small></span></a>
+  <a href="../quiz1/" data-pg="quiz1"><b>1</b><span>Quiz 1 guide<small>Classes 1 to 6, network basics</small></span></a>
+  <a href=".././" data-pg="mid"><b>2</b><span>Mid-sem guide<small>Power laws, random graphs, bifurcations</small></span></a>
+  <a href="../after-midsem/" data-pg="after"><b>3</b><span>After mid-sem guide<small>Classes 13 to 18, 2-D systems to chaos</small></span></a>
+</div>
+
+    <div class="mgrp">Sections on this page</div>
+    <a href="#syllabus">The syllabus</a>
+    <a href="#asked">What they've asked before</a>
+    <a href="#plan">A plan for the three days</a>
+    <a href="#formulas">Formulas to remember</a>
+    <a href="#q-2d">Proofs · 2-D stability and limit cycles</a>
+    <a href="#q-maps">Proofs · Maps</a>
+    <a href="#q-lorenz">Proofs · Lorenz</a>
+    <a href="#q-sync">Proofs · Synchronisation</a>
+    <a href="#cards">Flashcards</a>
+  </div>
+  </details>
+</div>
+
+<section>
+<h2 id="syllabus">The syllabus</h2>
+<p class="about">This is what was written on the board, with where each item is on this page.</p>
+<table class="tbl">
+<tr><th>On the board</th><th>What it means</th><th>Here</th></tr>
+<tr><td>2-D nonlinear stability (limit cycle, …)</td><td>Fixed points of two equations, the Jacobian, classifying with <math><mi>τ</mi></math> and <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math>. Then limit cycles, the Hopf bifurcation and Poincaré–Bendixson.</td><td><a href="#q-2d">Part 1</a></td></tr>
+<tr><td>Maps</td><td><math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>: fixed points, the <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math> rule, the logistic map, period doubling</td><td><a href="#q-maps">Part 2</a></td></tr>
+<tr><td>Lorenz</td><td>The three Lorenz equations: fixed points, Jacobians, when the origin is stable</td><td><a href="#q-lorenz">Part 3</a></td></tr>
+<tr><td><math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>1</mn></msub><mo separator="true">,</mo><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>2</mn></msub></mrow></math> → synchronisation</td><td>Two coupled phase oscillators: when they lock and at what frequency. Then Kuramoto.</td><td><a href="#q-sync">Part 4</a></td></tr>
+</table>
+<p class="small">Not on the board, so left out here: power laws, random graphs, SIS, May's criterion and the double pendulum. Stability of dynamics on a network (<math><mrow><mi>α</mi><mi>I</mi><mo>+</mo><mi>β</mi><mi>L</mi></mrow></math>) wasn't named either. If you have time left over, its proof is in <a href="../remember/#pf-netstab">the Memory sheet</a>.</p>
+</section>
+
+<section>
+<h2 id="asked">What they've asked before</h2>
+<p class="about">Every past question on these four topics. They're all derivations, and the same ones come back, so these are your best guess at Thursday's paper.</p>
+<table class="tbl">
+<tr><th>Paper</th><th>Question</th><th>Marks</th><th>Proof</th></tr>
+<tr><td>2024 Quiz 2</td><td>Derive the condition for a stable fixed point of a map. Fixed points and stability of <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> and <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi></mrow></math>.</td><td>2 + 3</td><td><a href="#pf-mapstab">Map rule</a>, <a href="#pf-mapex">examples</a></td></tr>
+<tr><td>2024 Quiz 2</td><td>Same condition, then fixed points and stability of the logistic map <math><mrow><mi>r</mi><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</td><td>2 + 3</td><td><a href="#pf-mapstab">Map rule</a></td></tr>
+<tr><td>2024 Quiz 2</td><td>Fixed points of the Lorenz system, and their Jacobians.</td><td>4</td><td><a href="#pf-lorenz">Lorenz</a></td></tr>
+<tr><td>2024 mid-sem</td><td>Two coupled oscillators: critical coupling, the common frequency, and can they lock at <math><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow></math>, <math><mrow><msub><mi>ω</mi><mn>1</mn></msub><mo>=</mo><mn>2</mn></mrow></math>, <math><mrow><msub><mi>ω</mi><mn>2</mn></msub><mo>=</mo><mn>10</mn></mrow></math>? (No, since <math><mrow><mn>8</mn><mo>&gt;</mo><mn>4</mn></mrow></math>.)</td><td>3 + 4</td><td><a href="#pf-twoosc">Two oscillators</a></td></tr>
+<tr><td>2024 mid-sem</td><td>Put <math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> in polar form, and find when there's a stable limit cycle.</td><td>3 + 4</td><td><a href="#pf-hopf">Hopf</a></td></tr>
+</table>
+<p class="small">Worked answers with the full reasoning are in <a href="../after-midsem/#pyq">the After mid-sem guide, §19</a>, along with a practice competition question in the same style.</p>
+</section>
+
+<section>
+<h2 id="plan">A plan for the three days</h2>
+<p class="about">There are 15 proofs here. That's five a day, which is doable.</p>
+<ol>
+<li><strong>Monday.</strong> Learn the formulas for all four parts. Then the Part 1 proofs (2-D stability and limit cycles), because the other parts reuse its Jacobian method.</li>
+<li><strong>Tuesday.</strong> Parts 2 and 3 (maps and Lorenz). Then write Monday's proofs again from memory.</li>
+<li><strong>Wednesday.</strong> Part 4 (synchronisation). Then do the five past questions above with the page closed, and check each against its proof.</li>
+<li><strong>Thursday morning.</strong> One round of flashcards, and read the formulas once more.</li>
+</ol>
+<p>For every proof, learn the shaded one-line idea first, then the steps. Cover the page and write it out, because writing is what makes it stick. The 2026 mid-sem gave 0 for a formula with no derivation, so always write the steps, even when you remember the answer.</p>
+</section>
+
+
+<section>
+<h2 id="formulas">Formulas to remember</h2>
+<p class="about">Know these by heart. They're where each proof starts and what it boxes at the end. Every one is proved further down.</p>
+
+<h3>1 · 2-D stability and limit cycles</h3>
+<ul class="fl">
+<li><span>Eigenvalue equation</span><span><math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>−</mo><mi>τ</mi><mi>λ</mi><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>0</mn></mrow></math>, with <math><mrow><mi>τ</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>d</mi></mrow></math>, <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mi>a</mi><mi>d</mi><mo>−</mo><mi>b</mi><mi>c</mi></mrow></math>, so <math><mrow><mi>λ</mi><mo>=</mo><mfrac><mrow><mi>τ</mi><mo>±</mo><msqrt><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></msqrt></mrow><mn>2</mn></mfrac></mrow></math></span></li>
+<li><span>Classify</span><span><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&lt;</mo><mn>0</mn></mrow></math> saddle. Otherwise <math><mrow><mi>τ</mi><mo>&lt;</mo><mn>0</mn></mrow></math> stable, and <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&gt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> node, <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&lt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> spiral, <math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math> center</span></li>
+<li><span>Jacobian</span><span><math><mrow><msub><mi>J</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>∂</mi><msub><mi>f</mi><mi>i</mi></msub><mi>/</mi><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></math> at the fixed point. Stable if every eigenvalue has negative real part</span></li>
+<li><span>Rabbits vs sheep</span><span><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>3</mn><mo>−</mo><mi>x</mi><mo>−</mo><mn>2</mn><mi>y</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><mover><mi>y</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>y</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>2</mn><mo>−</mo><mi>x</mi><mo>−</mo><mi>y</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1,1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a saddle, so one species wins</span></li>
+<li><span>Predator–prey</span><span><math><mrow><mover><mi>N</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>N</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>a</mi><mo>−</mo><mi>b</mi><mi>P</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><mover><mi>P</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>P</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>c</mi><mi>N</mi><mo>−</mo><mi>d</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. Center at <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mi>/</mi><mi>c</mi><mo separator="true">,</mo><mtext> </mtext><mi>a</mi><mi>/</mi><mi>b</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>i</mi><msqrt><mrow><mi>a</mi><mi>d</mi></mrow></msqrt></mrow></math></span></li>
+<li><span>Hopf normal form</span><span><math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> gives <math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math></span></li>
+<li><span>Limit cycle</span><span>Radius <math><msqrt><mi>μ</mi></msqrt></math>, stable for <math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math>. Origin eigenvalues <math><mrow><mi>μ</mi><mo>±</mo><mi>i</mi><mi>ω</mi></mrow></math>. Supercritical Hopf at <math><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math></span></li>
+<li><span>Van der Pol</span><span><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">¨</mo></mover><mo>+</mo><mi>μ</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>+</mo><mi>x</mi><mo>=</mo><mn>0</mn></mrow></math>. Pushes small swings out, damps big ones, so there's a cycle in between</span></li>
+<li><span>Poincaré–Bendixson</span><span>A trapping region with no fixed point holds a closed orbit. 2-D only, so no chaos in 2-D</span></li>
+</ul>
+
+<h3>2 · Maps</h3>
+<ul class="fl">
+<li><span>Fixed point</span><span><math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Stability</span><span>Stable iff <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math>, because <math><mrow><msub><mi>ε</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msub><mi>ε</mi><mi>n</mi></msub></mrow></math></span></li>
+<li><span>Euler with <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow></math></span><span><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mi>K</mi><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> becomes <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>K</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Logistic map</span><span><math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>r</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>r</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>2</mn><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>0</mn></mrow></math> stable for <math><mrow><mi>r</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math> has <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></mrow></math>, stable for <math><mrow><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></mrow></math></span></li>
+<li><span>2-cycle</span><span><math><mrow><msub><mi>x</mi><mo form="prefix" stretchy="false">±</mo></msub><mo>=</mo><mfrac><mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>±</mo><msqrt><mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>−</mo><mn>3</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt></mrow><mrow><mn>2</mn><mi>r</mi></mrow></mfrac></mrow></math>, born at <math><mrow><mi>r</mi><mo>=</mo><mn>3</mn></mrow></math></span></li>
+<li><span>Route to chaos</span><span>Period doubles at 3, 3.449, 3.544. Chaos from about 3.57</span></li>
+<li><span>Examples</span><span><math><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></math>: 0 stable, 1 unstable. <math><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi></mrow></math>: <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>≈</mo><mn>0.739</mn></mrow></math>, stable</span></li>
+</ul>
+
+<h3>3 · Lorenz</h3>
+<ul class="fl">
+<li><span>Equations</span><span><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>σ</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>y</mi><mo>−</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><mover><mi>y</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ρ</mi><mi>x</mi><mo>−</mo><mi>y</mi><mo>−</mo><mi>x</mi><mi>z</mi></mrow></math>, <math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mi>y</mi><mo>−</mo><mi>β</mi><mi>z</mi></mrow></math></span></li>
+<li><span>Fixed points</span><span><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, and for <math><mrow><mi>ρ</mi><mo>&gt;</mo><mn>1</mn></mrow></math>: <math><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mo form="prefix" stretchy="false">±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mo>±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></math></span></li>
+<li><span>Jacobian</span><span><math><mrow><mi>J</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>σ</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mi>σ</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mn>0</mn></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mi>ρ</mi><mo>−</mo><mi>z</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mn>1</mn></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>x</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mi>y</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mi>x</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>β</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math></span></li>
+<li><span>Origin</span><span>Stable iff <math><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow></math></span></li>
+<li><span>Chaos</span><span>Above <math><mrow><mi>ρ</mi><mo>≈</mo><mn>24.74</mn></mrow></math> (for <math><mrow><mi>σ</mi><mo>=</mo><mn>10</mn></mrow></math>, <math><mrow><mi>β</mi><mo>=</mo><mn>8</mn><mi>/</mi><mn>3</mn></mrow></math>)</span></li>
+</ul>
+
+<h3>4 · Synchronisation</h3>
+<ul class="fl">
+<li><span>Two oscillators</span><span><math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>2</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Phase difference</span><span><math><mrow><mover><mi>ϕ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ϕ</mi></mrow></math></span></li>
+<li><span>Locking</span><span>Iff <math><mrow><mi>|</mi><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mi>|</mi><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math>. Equal couplings: <math><mrow><msub><mi>k</mi><mi>c</mi></msub><mo>=</mo><mi>|</mi><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mi>|</mi><mi>/</mi><mn>2</mn></mrow></math></span></li>
+<li><span>Common frequency</span><span><math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mrow></math></span></li>
+<li><span>Kuramoto</span><span><math><mrow><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>ψ</mi></mrow></msup><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><msub><mi>θ</mi><mi>j</mi></msub></mrow></msup></mrow></math>, <math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mi>i</mi></msub><mo>=</mo><msub><mi>ω</mi><mi>i</mi></msub><mo>+</mo><mi>K</mi><mi>r</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ψ</mi><mo>−</mo><msub><mi>θ</mi><mi>i</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li><span>Critical coupling</span><span><math><mrow><msub><mi>K</mi><mi>c</mi></msub><mo>=</mo><mfrac><mn>2</mn><mrow><mi>π</mi><mi>g</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></mfrac></mrow></math>. Lorentzian: <math><mrow><msub><mi>K</mi><mi>c</mi></msub><mo>=</mo><mn>2</mn><mi>γ</mi></mrow></math>, <math><mrow><mi>r</mi><mo>=</mo><msqrt><mrow><mn>1</mn><mo>−</mo><msub><mi>K</mi><mi>c</mi></msub><mi>/</mi><mi>K</mi></mrow></msqrt></mrow></math></span></li>
+</ul>
+</section>
+
+<section>
+<h2 id="proofs">Proofs</h2>
+<p class="about">The same short proofs as the Memory sheet, just the ones for this quiz. Learn the shaded idea first, then the steps.</p>
+
+<h3 id="q-2d">Part 1 · 2-D stability and limit cycles</h3>
+<div class="pf" data-pg="3" id="pf-eigen">
+<h4>Solve <math><mrow><mover><mi>𝐱</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>A</mi><mi>𝐱</mi></mrow></math> in 2-D, and get the eigenvalue equation <math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>−</mo><mi>τ</mi><mi>λ</mi><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>0</mn></mrow></math>.</h4>
+<p class="idea">Guess <math><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>λ</mi><mi>t</mi></mrow></msup><mi>𝐯</mi></mrow></math>. It works exactly when <math><mi>𝐯</mi></math> is an eigenvector.</p>
+<ul class="chain">
+<li>Try <math><mrow><mi>𝐱</mi><mo>=</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>λ</mi><mi>t</mi></mrow></msup><mi>𝐯</mi></mrow></math>: <math><mrow><mi>λ</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>λ</mi><mi>t</mi></mrow></msup><mi>𝐯</mi><mo>=</mo><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>λ</mi><mi>t</mi></mrow></msup><mi>A</mi><mi>𝐯</mi></mrow></math></li>
+<li><math><mrow><mi>A</mi><mi>𝐯</mi><mo>=</mo><mi>λ</mi><mi>𝐯</mi></mrow></math><span class="why">cancel <math><mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>λ</mi><mi>t</mi></mrow></msup><mo>≠</mo><mn>0</mn></mrow></math></span></li>
+<li><math><mrow><mrow><mi>det</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>A</mi><mo>−</mo><mi>λ</mi><mi>I</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>a</mi><mo>−</mo><mi>λ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mo>−</mo><mi>λ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mi>b</mi><mi>c</mi><mo>=</mo><mn>0</mn></mrow></math><span class="why"><math><mrow><mi>𝐯</mi><mo>≠</mo><mn>0</mn></mrow></math></span></li>
+<li><math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>−</mo><mi>τ</mi><mi>λ</mi><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>0</mn></mrow></math>, <math><mrow><mi>τ</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>d</mi></mrow></math>, <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mi>a</mi><mi>d</mi><mo>−</mo><mi>b</mi><mi>c</mi></mrow></math>, so <math><mrow><mi>λ</mi><mo>=</mo><mfrac><mrow><mi>τ</mi><mo>±</mo><msqrt><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></msqrt></mrow><mn>2</mn></mfrac></mrow></math></li>
+<li><math><mrow><mi>𝐱</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>t</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><msub><mi>c</mi><mn>1</mn></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><msub><mi>λ</mi><mn>1</mn></msub><mi>t</mi></mrow></msup><msub><mi>𝐯</mi><mn>1</mn></msub><mo>+</mo><msub><mi>c</mi><mn>2</mn></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><msub><mi>λ</mi><mn>2</mn></msub><mi>t</mi></mrow></msup><msub><mi>𝐯</mi><mn>2</mn></msub></mrow></math><span class="why">linear, so solutions add. <math><mrow><msub><mi>c</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>c</mi><mn>2</mn></msub></mrow></math> from <math><mrow><mi>𝐱</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</span></li>
+</ul>
+<p class="small"><a href="../after-midsem/#eigen">Full proof: After mid-sem guide §1</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-classify">
+<h4>Classify a 2-D fixed point using <math><mi>τ</mi></math> and <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math>.</h4>
+<p class="idea">Read it off <math><mrow><mi>λ</mi><mo>=</mo><mfrac><mrow><mi>τ</mi><mo>±</mo><msqrt><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></msqrt></mrow><mn>2</mn></mfrac></mrow></math>. <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><msub><mi>λ</mi><mn>1</mn></msub><msub><mi>λ</mi><mn>2</mn></msub></mrow></math> and <math><mrow><mi>τ</mi><mo>=</mo><msub><mi>λ</mi><mn>1</mn></msub><mo>+</mo><msub><mi>λ</mi><mn>2</mn></msub></mrow></math>.</p>
+<ul class="chain">
+<li><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&lt;</mo><mn>0</mn></mrow></math>: eigenvalues real with opposite signs, so a saddle<span class="why"><math><mrow><msub><mi>λ</mi><mn>1</mn></msub><msub><mi>λ</mi><mn>2</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math></span></li>
+<li><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>, <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&gt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math>: real, same sign, so a node</li>
+<li><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>, <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&lt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math>: complex, so a spiral</li>
+<li>Stable if <math><mrow><mi>τ</mi><mo>&lt;</mo><mn>0</mn></mrow></math>, unstable if <math><mrow><mi>τ</mi><mo>&gt;</mo><mn>0</mn></mrow></math><span class="why"><math><mi>τ</mi></math> is the sum (or twice the real part)</span></li>
+<li><math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math>, <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>: <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>i</mi><msqrt><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></msqrt></mrow></math>, a center</li>
+</ul>
+<p class="small"><a href="../after-midsem/#classify">Full proof: After mid-sem guide §2</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-jacobian">
+<h4>Show that near a fixed point, a nonlinear system behaves like <math><mrow><mover><mi>𝜹</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>J</mi><mi>𝜹</mi></mrow></math>.</h4>
+<p class="idea">Same as 1-D: push it a little and Taylor-expand, now with partial derivatives.</p>
+<ul class="chain">
+<li><math><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>=</mo><msubsup><mi>x</mi><mi>i</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msubsup><mo>+</mo><mi>δ</mi><msub><mi>x</mi><mi>i</mi></msub></mrow></math><span class="why">small push</span></li>
+<li><math><mrow><mi>δ</mi><msub><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>f</mi><mn>1</mn></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>𝐱</mi><mo form="prefix" stretchy="false">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>+</mo><mfrac><mrow><mi>∂</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mn>1</mn></msub></mrow></mfrac><mi>δ</mi><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><mfrac><mrow><mi>∂</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mn>2</mn></msub></mrow></mfrac><mi>δ</mi><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mo>…</mo></mrow></math><span class="why">Taylor</span></li>
+<li><math><mrow><msub><mi>f</mi><mn>1</mn></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>𝐱</mi><mo form="prefix" stretchy="false">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>0</mn></mrow></math>, drop products of small terms</li>
+<li><math><mrow><mover><mi>𝜹</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>J</mi><mi>𝜹</mi></mrow></math>, <math><mrow><msub><mi>J</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>∂</mi><msub><mi>f</mi><mi>i</mi></msub><mi>/</mi><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></math> at <math><msup><mi>𝐱</mi><mo form="prefix" stretchy="false">∗</mo></msup></math></li>
+<li>Stable if every eigenvalue of <math><mi>J</mi></math> has negative real part. Classify with <math><mi>τ</mi></math>, <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math> of <math><mi>J</mi></math>.</li>
+</ul>
+<p class="small"><a href="../after-midsem/#jacobian">Full proof: After mid-sem guide §5</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-rabbits">
+<h4>Rabbits vs sheep, <math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>3</mn><mo>−</mo><mi>x</mi><mo>−</mo><mn>2</mn><mi>y</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><mover><mi>y</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>y</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>2</mn><mo>−</mo><mi>x</mi><mo>−</mo><mi>y</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>: find and classify the fixed points.</h4>
+<p class="idea">Four fixed points. The coexistence one is a saddle, so one species always wins.</p>
+<ul class="chain">
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,2</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>3,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1,1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math><span class="why">one zero factor from each equation</span></li>
+<li><math><mrow><mi>J</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mn>3</mn><mo>−</mo><mn>2</mn><mi>x</mi><mo>−</mo><mn>2</mn><mi>y</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mn>2</mn><mi>x</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>y</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mn>2</mn><mo>−</mo><mi>x</mi><mo>−</mo><mn>2</mn><mi>y</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math></li>
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>: <math><mrow><mi>λ</mi><mo>=</mo><mn>3</mn><mo separator="true">,</mo><mn>2</mn></mrow></math>, unstable node</li>
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>3,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>: <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>3</mn><mo separator="true">,</mo><mo form="prefix" stretchy="false">−</mo><mn>1</mn></mrow></math>, and <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,2</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>: <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>1</mn><mo separator="true">,</mo><mo form="prefix" stretchy="false">−</mo><mn>2</mn></mrow></math>. Both stable nodes.<span class="why">triangular matrices, read the diagonal</span></li>
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1,1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>: <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mn>2</mn><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>1</mn><mo>&lt;</mo><mn>0</mn></mrow></math>, saddle, <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>1</mn><mo>±</mo><msqrt><mn>2</mn></msqrt></mrow></math></li>
+<li>Only "rabbits only" or "sheep only" survive: competitive exclusion</li>
+</ul>
+<p class="small"><a href="../after-midsem/#rabbits">Full proof: After mid-sem guide §6</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-lv">
+<h4>Predator–prey, <math><mrow><mover><mi>N</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>N</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>a</mi><mo>−</mo><mi>b</mi><mi>P</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><mover><mi>P</mi><mo stretchy="false" class="chr-med wbk-med-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>P</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>c</mi><mi>N</mi><mo>−</mo><mi>d</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>: show the populations cycle.</h4>
+<p class="idea">The inside fixed point has <math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math> and <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>, which is a center.</p>
+<ul class="chain">
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> and <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mi>/</mi><mi>c</mi><mo separator="true">,</mo><mtext> </mtext><mi>a</mi><mi>/</mi><mi>b</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math></li>
+<li><math><mrow><mi>J</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mi>a</mi><mo>−</mo><mi>b</mi><mi>P</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>b</mi><mi>N</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mi>c</mi><mi>P</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mi>c</mi><mi>N</mi><mo>−</mo><mi>d</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math></li>
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>: <math><mrow><mi>λ</mi><mo>=</mo><mi>a</mi><mo separator="true">,</mo><mo form="prefix" stretchy="false">−</mo><mi>d</mi></mrow></math>, a saddle<span class="why">prey alone grow, predators alone die</span></li>
+<li><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mi>/</mi><mi>c</mi><mo separator="true">,</mo><mi>a</mi><mi>/</mi><mi>b</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>: <math><mrow><mi>J</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mn>0</mn></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>b</mi><mi>d</mi><mi>/</mi><mi>c</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mi>a</mi><mi>c</mi><mi>/</mi><mi>b</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mn>0</mn></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math>, <math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math>, <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mi>a</mi><mi>d</mi></mrow></math></li>
+<li><math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>i</mi><msqrt><mrow><mi>a</mi><mi>d</mi></mrow></msqrt></mrow></math>, a center, so the populations go round in cycles</li>
+</ul>
+<p class="small"><a href="../after-midsem/#lv">Full proof: After mid-sem guide §7</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-hopf">
+<h4>Write <math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> in polar form, and find when there is a stable limit cycle.</h4>
+<p class="idea">Put <math><mrow><mi>z</mi><mo>=</mo><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>θ</mi></mrow></msup></mrow></math>, match real and imaginary parts, and you get a 1-D equation for <math><mi>r</mi></math>.</p>
+<ul class="chain">
+<li><math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>+</mo><mi>i</mi><mi>r</mi><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>θ</mi></mrow></msup></mrow></math><span class="why">product rule</span></li>
+<li><math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>+</mo><mi>i</mi><mi>r</mi><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>r</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mi>r</mi></mrow></math><span class="why">cancel <math><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>θ</mi></mrow></msup></math></span></li>
+<li><math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math><span class="why">match real and imaginary parts</span></li>
+<li><math><mrow><msup><mi>r</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>0</mn></mrow></math>, and <math><mrow><msup><mi>r</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><msqrt><mi>μ</mi></msqrt></mrow></math> if <math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math></li>
+<li><math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>μ</mi></mrow></math>, <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msqrt><mi>μ</mi></msqrt><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>2</mn><mi>μ</mi></mrow></math><span class="why"><math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>μ</mi><mo>−</mo><mn>3</mn><msup><mi>r</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math></span></li>
+<li><math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math>: origin unstable, circle <math><mrow><mi>r</mi><mo>=</mo><msqrt><mi>μ</mi></msqrt></mrow></math> stable. Supercritical Hopf at <math><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math>.</li>
+</ul>
+<p class="small"><a href="../after-midsem/#cycle">Full proof: After mid-sem guide §9</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-hopfj">
+<h4>Using the Jacobian, show that the origin of <math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> has eigenvalues <math><mrow><mi>μ</mi><mo>±</mo><mi>i</mi><mi>ω</mi></mrow></math>.</h4>
+<p class="idea">Write it in <math><mi>x</mi></math> and <math><mi>y</mi></math>, take the Jacobian at the origin, and read off <math><mi>τ</mi></math> and <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math>.</p>
+<ul class="chain">
+<li><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>x</mi><mo>−</mo><mi>ω</mi><mi>y</mi><mo>−</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup><mo>+</mo><msup><mi>y</mi><mn class="tml-sml-pad">2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><mover><mi>y</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi><mi>x</mi><mo>+</mo><mi>μ</mi><mi>y</mi><mo>−</mo><mi>y</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup><mo>+</mo><msup><mi>y</mi><mn class="tml-sml-pad">2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math><span class="why"><math><mrow><mi>z</mi><mo>=</mo><mi>x</mi><mo>+</mo><mi>i</mi><mi>y</mi></mrow></math>, split real and imaginary parts</span></li>
+<li><math><mrow><mi>J</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mi>μ</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>ω</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mi>ω</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mi>μ</mi></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math><span class="why">the cubic terms have zero slope at the origin</span></li>
+<li><math><mrow><mi>τ</mi><mo>=</mo><mn>2</mn><mi>μ</mi></mrow></math>, <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><msup><mi>μ</mi><mn>2</mn></msup><mo>+</mo><msup><mi>ω</mi><mn>2</mn></msup></mrow></math>, so <math><mrow><mi>λ</mi><mo>=</mo><mi>μ</mi><mo>±</mo><mi>i</mi><mi>ω</mi></mrow></math></li>
+<li><math><mrow><mi>μ</mi><mo>&lt;</mo><mn>0</mn></mrow></math>: stable spiral. <math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math>: unstable spiral. The pair crosses the imaginary axis at <math><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math>, which is the Hopf bifurcation.</li>
+</ul>
+<p class="small"><a href="../after-midsem/#cycle">Full proof: After mid-sem guide §9</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-pb">
+<h4>Use the Poincaré–Bendixson theorem to show that <math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math> has a closed orbit.</h4>
+<p class="idea">Find a ring where the flow points inwards on both edges and that holds no fixed point. A path trapped there must approach a closed orbit.</p>
+<ul class="chain">
+<li>Take the ring <math><mrow><mn>0.5</mn><mo>≤</mo><mi>r</mi><mo>≤</mo><mn>2</mn></mrow></math></li>
+<li>Inner edge: <math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mn>0.5</mn><mo>−</mo><mn>0.125</mn><mo>=</mo><mn>0.375</mn><mo>&gt;</mo><mn>0</mn></mrow></math>, the flow points into the ring</li>
+<li>Outer edge: <math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mn>2</mn><mo>−</mo><mn>8</mn><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>6</mn><mo>&lt;</mo><mn>0</mn></mrow></math>, the flow points into the ring</li>
+<li>The only fixed point is the origin, which is outside the ring<span class="why"><math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi><mo>≠</mo><mn>0</mn></mrow></math>, so nothing stops inside</span></li>
+<li>So a closed orbit lies in the ring (here it's <math><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow></math>)<span class="why">Poincaré–Bendixson, valid in 2-D only</span></li>
+</ul>
+<p>The theorem is also why a 2-D system can't be chaotic. Chaos needs at least three dimensions, like Lorenz, or a map.</p>
+<p class="small"><a href="../after-midsem/#vdp">Full proof: After mid-sem guide §10</a></p>
+</div>
+
+<h3 id="q-maps">Part 2 · Maps</h3>
+<div class="pf" data-pg="3" id="pf-euler">
+<h4>Show that Euler's method with <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow></math> turns <math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mi>K</mi><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> into the logistic map.</h4>
+<p class="idea">Just do one Euler step and simplify.</p>
+<ul class="chain">
+<li><math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>x</mi><mi>n</mi></msub><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>t</mi><mspace width="0.1667em"></mspace><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msub><mi>x</mi><mi>n</mi></msub><mo>−</mo><mi>K</mi><msubsup><mi>x</mi><mi>n</mi><mn class="tml-sml-pad">2</mn></msubsup><mo fence="true" form="postfix" stretchy="false">]</mo></mrow></mrow></math><span class="why">Euler step</span></li>
+<li><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow></math>: <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>K</mi><msub><mi>x</mi><mi>n</mi></msub><mo>−</mo><mi>K</mi><msubsup><mi>x</mi><mi>n</mi><mn class="tml-sml-pad">2</mn></msubsup><mo>=</mo><mi>K</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></li>
+<li>Same nonzero fixed point <math><mrow><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>K</mi></mrow></math> as the equation</li>
+</ul>
+<p class="small"><a href="../after-midsem/#euler">Full proof: After mid-sem guide §11</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-mapstab">
+<h4>Show that a fixed point of <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> is stable iff <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. Apply it to the logistic map.</h4>
+<p class="idea">Each step multiplies the error by <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>. Repeated multiplication shrinks only if the number is smaller than 1 in size.</p>
+<ul class="chain">
+<li><math><mrow><msub><mi>x</mi><mi>n</mi></msub><mo>=</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>+</mo><msub><mi>ε</mi><mi>n</mi></msub></mrow></math><span class="why">small error</span></li>
+<li><math><mrow><msub><mi>ε</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msub><mi>ε</mi><mi>n</mi></msub></mrow></math><span class="why">Taylor, and <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> cancels</span></li>
+<li><math><mrow><msub><mi>ε</mi><mi>n</mi></msub><mo>=</mo><msup><mrow><mo fence="true" form="prefix" stretchy="false">[</mo><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo fence="true" form="postfix" stretchy="false">]</mo></mrow><mi>n</mi></msup><msub><mi>ε</mi><mn>0</mn></msub><mo>→</mo><mn>0</mn></mrow></math> iff <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math></li>
+<li>Logistic: <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>0</mn></mrow></math> (<math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mi>r</mi></mrow></math>) and <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math> (<math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></mrow></math>)<span class="why"><math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>r</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>2</mn><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></span></li>
+<li>So 0 is stable for <math><mrow><mi>r</mi><mo>&lt;</mo><mn>1</mn></mrow></math>, and <math><mrow><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math> for <math><mrow><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></mrow></math></li>
+</ul>
+<p class="small"><a href="../after-midsem/#mapstab">Full proof: After mid-sem guide §12</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-mapex">
+<h4>Find the fixed points and their stability for the maps <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> and <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi></mrow></math>.</h4>
+<p class="idea">Solve <math><mrow><mi>x</mi><mo>=</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, then check <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math> at each point. This was 2024 Quiz 2, Set 1, Q3.</p>
+<ul class="chain">
+<li><math><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></math>: <math><mrow><mi>x</mi><mo>=</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> gives <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mn>0</mn></mrow></math> or 1, and <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>2</mn><mi>x</mi></mrow></math></li>
+<li><math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>=</mo><mn>0</mn><mo>&lt;</mo><mn>1</mn></mrow></math>, stable. <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>=</mo><mn>2</mn><mo>&gt;</mo><mn>1</mn></mrow></math>, unstable.<span class="why">from 0.9: 0.81, 0.66, 0.43 → 0. From 1.1: 1.21, 1.46 → ∞</span></li>
+<li><math><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi></mrow></math>: <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>=</mo><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup></mrow></math>. Iterate from 1: 0.540, 0.858, 0.654, 0.794, … → <math><mrow><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo>≈</mo><mn>0.739</mn></mrow></math></li>
+<li><math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>x</mi></mrow></math>, <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0.739</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>=</mo><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mn>0.739</mn><mo>≈</mo><mn>0.674</mn><mo>&lt;</mo><mn>1</mn></mrow></math>, stable<span class="why">negative slope, so the iterates zigzag in</span></li>
+</ul>
+<p class="small"><a href="../after-midsem/#pyq">Worked answer: After mid-sem guide §19</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-2cycle">
+<h4>Show that the logistic map gets a 2-cycle at <math><mrow><mi>r</mi><mo>=</mo><mn>3</mn></mrow></math>.</h4>
+<p class="idea">A 2-cycle is a fixed point of the map applied twice. Remove the ordinary fixed points and a quadratic is left.</p>
+<ul class="chain">
+<li><math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><msub><mi>x</mi><mn>2</mn></msub></mrow></math>, <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><msub><mi>x</mi><mn>1</mn></msub></mrow></math>, so <math><mrow><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>f</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mi>x</mi></mrow></math></li>
+<li>Degree 4. Divide out the roots 0 and <math><mrow><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math>.<span class="why">ordinary fixed points also solve it</span></li>
+<li><math><mrow><msub><mi>x</mi><mo form="prefix" stretchy="false">±</mo></msub><mo>=</mo><mfrac><mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>±</mo><msqrt><mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>−</mo><mn>3</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt></mrow><mrow><mn>2</mn><mi>r</mi></mrow></mfrac></mrow></math></li>
+<li>Real only if <math><mrow><mi>r</mi><mo>≥</mo><mn>3</mn></mrow></math><span class="why">the square root needs <math><mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>−</mo><mn>3</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>≥</mo><mn>0</mn></mrow></math></span></li>
+<li>Born at <math><mrow><mi>r</mi><mo>=</mo><mn>3</mn></mrow></math>, exactly where <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></mrow></math> hits <math><mrow><mo form="prefix" stretchy="false">−</mo><mn>1</mn></mrow></math>: period doubling</li>
+</ul>
+<p class="small"><a href="../after-midsem/#doubling">Full proof: After mid-sem guide §13</a></p>
+</div>
+
+<h3 id="q-lorenz">Part 3 · Lorenz</h3>
+<div class="pf" data-pg="3" id="pf-lorenz">
+<h4>Lorenz system: find the fixed points and show that the origin is stable iff <math><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow></math>.</h4>
+<p class="idea">Solve the three equations from the easy ones first. At the origin the <math><mi>z</mi></math> part separates, leaving a 2×2 block.</p>
+<ul class="chain">
+<li><math><mrow><mi>y</mi><mo>=</mo><mi>x</mi></mrow></math><span class="why"><math><mrow><mi>σ</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>y</mi><mo>−</mo><mi>x</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>0</mn></mrow></math></span></li>
+<li><math><mrow><mi>z</mi><mo>=</mo><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup><mi>/</mi><mi>β</mi></mrow></math><span class="why"><math><mrow><mi>x</mi><mi>y</mi><mo>−</mo><mi>β</mi><mi>z</mi><mo>=</mo><mn>0</mn></mrow></math></span></li>
+<li><math><mrow><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo>−</mo><mi>z</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>0</mn></mrow></math>, so <math><mrow><msub><mi>P</mi><mn>0</mn></msub><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math> or <math><mrow><mi>z</mi><mo>=</mo><mi>ρ</mi><mo>−</mo><mn>1</mn></mrow></math>, <math><mrow><mi>x</mi><mo>=</mo><mi>y</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt></mrow></math><span class="why">real only for <math><mrow><mi>ρ</mi><mo>&gt;</mo><mn>1</mn></mrow></math></span></li>
+<li><math><mrow><mi>J</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>σ</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mi>σ</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mn>0</mn></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mi>ρ</mi><mo>−</mo><mi>z</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mn>1</mn></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>x</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mi>y</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mi>x</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>β</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math></li>
+<li>At <math><msub><mi>P</mi><mn>0</mn></msub></math>: <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mi>β</mi></mrow></math>, and <math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>+</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>σ</mi><mo>+</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>λ</mi><mo>+</mo><mi>σ</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>ρ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mn>0</mn></mrow></math></li>
+<li>Both roots negative iff <math><mrow><mi>σ</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>ρ</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>&gt;</mo><mn>0</mn></mrow></math>, i.e. <math><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow></math><span class="why">trace already negative, need positive determinant</span></li>
+<li>At <math><msub><mi>P</mi><mn>1,2</mn></msub></math>, with <math><mrow><mi>c</mi><mo>=</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt></mrow></math>: <math><mrow><mi>J</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mtable><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>σ</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mi>σ</mi></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mn>0</mn></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mn>1</mn></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">−</mo><mn>1</mn></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">∓</mo><mi>c</mi></mrow></mtd></mtr><mtr><mtd style="padding-left:0em;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">±</mo><mi>c</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:5.9776pt;"><mrow><mo form="prefix" stretchy="false">±</mo><mi>c</mi></mrow></mtd><mtd style="padding-left:5.9776pt;padding-right:0em;"><mrow><mo form="prefix" stretchy="false">−</mo><mi>β</mi></mrow></mtd></mtr></mtable><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></mrow></math><span class="why">put <math><mrow><mi>x</mi><mo>=</mo><mi>y</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>c</mi></mrow></math>, <math><mrow><mi>z</mi><mo>=</mo><mi>ρ</mi><mo>−</mo><mn>1</mn></mrow></math>, so <math><mrow><mi>ρ</mi><mo>−</mo><mi>z</mi><mo>=</mo><mn>1</mn></mrow></math></span></li>
+</ul>
+<p class="small"><a href="../after-midsem/#lorenz">Full proof: After mid-sem guide §14</a></p>
+</div>
+
+<h3 id="q-sync">Part 4 · Synchronisation</h3>
+<div class="pf" data-pg="3" id="pf-twoosc">
+<h4>Two coupled oscillators: find when they lock and the common frequency <math><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow></math>.</h4>
+<p class="idea">Subtract to get one equation for the phase difference. Locking means that difference stops changing, and a sine can't exceed 1.</p>
+<ul class="chain">
+<li><math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>1</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, <math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mn>2</mn></msub><mo>=</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></li>
+<li><math><mrow><mover><mi>ϕ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ϕ</mi></mrow></math><span class="why"><math><mrow><mi>ϕ</mi><mo>=</mo><msub><mi>θ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>θ</mi><mn>1</mn></msub></mrow></math>, subtract</span></li>
+<li><math><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>ϕ</mi><mo form="prefix" stretchy="false">∗</mo></msup><mo>=</mo><mfrac><mrow><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mrow></math><span class="why">locked means <math><mrow><mover><mi>ϕ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mn>0</mn></mrow></math></span></li>
+<li>Lock iff <math><mrow><mi>|</mi><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mi>|</mi><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math><span class="why"><math><mrow><mi>|</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo></mrow><mi>|</mi><mo>≤</mo><mn>1</mn></mrow></math></span></li>
+<li>Stable root has <math><mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>ϕ</mi><mo form="prefix" stretchy="false">∗</mo></msup><mo>&gt;</mo><mn>0</mn></mrow></math><span class="why">slope <math><mrow><mo form="prefix" stretchy="false">−</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mrow><mi>cos</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><mi>ϕ</mi></mrow></math> must be negative</span></li>
+<li><math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mrow></math><span class="why"><math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>ϕ</mi><mo form="prefix" stretchy="false">∗</mo></msup><mo>=</mo><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>k</mi><mn>2</mn></msub><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msup><mi>ϕ</mi><mo form="prefix" stretchy="false">∗</mo></msup></mrow></math>. Weight and add.</span></li>
+</ul>
+<p class="small"><a href="../after-midsem/#twoosc">Full proof: After mid-sem guide §15</a></p>
+</div>
+
+<div class="pf" data-pg="3" id="pf-kuramoto">
+<h4>Rewrite the Kuramoto model with the order parameter, and say which oscillators lock.</h4>
+<p class="idea">Each oscillator only feels the average. The more in sync the crowd, the harder the pull.</p>
+<ul class="chain">
+<li><math><mrow><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>ψ</mi></mrow></msup><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><msub><mi>θ</mi><mi>j</mi></msub></mrow></msup></mrow></math><span class="why">definition</span></li>
+<li><math><mrow><mi>r</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ψ</mi><mo>−</mo><msub><mi>θ</mi><mi>i</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><mrow><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>θ</mi><mi>j</mi></msub><mo>−</mo><msub><mi>θ</mi><mi>i</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math><span class="why">multiply by <math><msup><mi>e</mi><mrow class="tml-sml-pad"><mo form="prefix" stretchy="false" lspace="0em" rspace="0em">−</mo><mi>i</mi><msub><mi>θ</mi><mi>i</mi></msub></mrow></msup></math>, take imaginary parts</span></li>
+<li><math><mrow><msub><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mi>i</mi></msub><mo>=</mo><msub><mi>ω</mi><mi>i</mi></msub><mo>+</mo><mi>K</mi><mi>r</mi><mrow><mspace width="0.1667em"></mspace><mi>sin</mi><mo>⁡</mo></mrow><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ψ</mi><mo>−</mo><msub><mi>θ</mi><mi>i</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math><span class="why">substitute into the coupling sum</span></li>
+<li>Set <math><mrow><mi>ψ</mi><mo>=</mo><mn>0</mn></mrow></math>: oscillator <math><mi>i</mi></math> stops if <math><mrow><mrow><mi>sin</mi><mo>⁡</mo><mspace width="0.1667em"></mspace></mrow><msub><mi>θ</mi><mi>i</mi></msub><mo>=</mo><msub><mi>ω</mi><mi>i</mi></msub><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mi>r</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math></li>
+<li>Locks iff <math><mrow><mi>|</mi><msub><mi>ω</mi><mi>i</mi></msub><mi>|</mi><mo>≤</mo><mi>K</mi><mi>r</mi></mrow></math>. The rest keep drifting. Sync starts at <math><mrow><msub><mi>K</mi><mi>c</mi></msub><mo>=</mo><mn>2</mn><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>π</mi><mi>g</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</li>
+</ul>
+<p class="small"><a href="../after-midsem/#kuramoto">Full proof: After mid-sem guide §16</a></p>
+</div>
+</section>
+
+<section>
+<h2 id="cards">Flashcards</h2>
+<p class="about">"Facts" asks for a formula or a definition. "Proofs" asks you to prove a result, so write the proof (or at least its idea and main steps) before you tap "Show answer". A card you didn't know goes back into the pile and comes up again before the round ends.</p>
+
+<div class="drill" id="drill" hidden>
+  <div class="filters" id="drill-filters" role="group" aria-label="Which cards">
+    <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="fact" aria-pressed="false">Facts</button>
+    <button type="button" data-f="proof" aria-pressed="false">Proofs</button>
+  </div>
+  <div class="meta"><span id="drill-tag"></span><span id="drill-count"></span></div>
+  <div class="bar"><i id="drill-bar"></i></div>
+  <div class="dq" id="drill-q"></div>
+  <div class="da" id="drill-a" hidden></div>
+  <div class="btns" id="drill-btns"></div>
+</div>
+
+<p class="small">The fact cards are also listed below, if you'd rather scroll.</p>
+<div id="cardlist">
+<details class="q fc" data-pg="3" id="fc-eigen"><summary><span class="qt">Page 3</span><span>For <math><mrow><mover><mi>𝐱</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>A</mi><mi>𝐱</mi></mrow></math>, what equation gives the eigenvalues?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msup><mi>λ</mi><mn>2</mn></msup><mo>−</mo><mi>τ</mi><mi>λ</mi><mo>+</mo><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mn>0</mn></mrow></math>, with <math><mrow><mi>τ</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>d</mi></mrow></math> (trace) and <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>=</mo><mi>a</mi><mi>d</mi><mo>−</mo><mi>b</mi><mi>c</mi></mrow></math> (determinant).</p><p class="small"><a href="../after-midsem/#eigen">After mid-sem guide §1</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-classify"><summary><span class="qt">Page 3</span><span>Classify a 2-D fixed point from <math><mi>τ</mi></math> and <math><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></math>.</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&lt;</mo><mn>0</mn></mrow></math>: saddle. Otherwise the sign of <math><mi>τ</mi></math> gives stability (negative is stable), and <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&gt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> gives a node, <math><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>&lt;</mo><mn>4</mn><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow></mrow></math> a spiral. <math><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow></math> with <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mo>&gt;</mo><mn>0</mn></mrow></math> is a center.</p><p class="small"><a href="../after-midsem/#classify">After mid-sem guide §2</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-jacobian"><summary><span class="qt">Page 3</span><span>What is the Jacobian, and how does it decide stability?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><msub><mi>J</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>∂</mi><msub><mi>f</mi><mi>i</mi></msub><mi>/</mi><mi>∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow></math>, evaluated at the fixed point. If every eigenvalue has negative real part, it's stable.</p><p class="small"><a href="../after-midsem/#jacobian">After mid-sem guide §5</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-rabbits"><summary><span class="qt">Page 3</span><span>Rabbits vs sheep: what kind of point is coexistence, and what does it mean?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1,1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a saddle (<math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">−</mo><mn>1</mn><mo>±</mo><msqrt><mn>2</mn></msqrt></mrow></math>). The stable states are "rabbits only" and "sheep only", so one species always wins. This is competitive exclusion.</p><p class="small"><a href="../after-midsem/#rabbits">After mid-sem guide §6</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-lv"><summary><span class="qt">Page 3</span><span>Predator–prey (Lotka–Volterra): fixed points and their types?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a saddle. <math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>d</mi><mi>/</mi><mi>c</mi><mo separator="true">,</mo><mtext> </mtext><mi>a</mi><mi>/</mi><mi>b</mi><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math> is a center with <math><mrow><mi>λ</mi><mo>=</mo><mo form="prefix" stretchy="false">±</mo><mi>i</mi><msqrt><mrow><mi>a</mi><mi>d</mi></mrow></msqrt></mrow></math>, so the populations cycle around it.</p><p class="small"><a href="../after-midsem/#lv">After mid-sem guide §7</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-hopf"><summary><span class="qt">Page 3</span><span>Write <math><mrow><mover><mi>z</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>μ</mi><mo>+</mo><mi>i</mi><mi>ω</mi><mo>−</mo><mi>|</mi><mi>z</mi><msup><mi>|</mi><mn>2</mn></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>z</mi></mrow></math> in polar form. What happens at <math><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math>?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mover><mi>r</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>μ</mi><mi>r</mi><mo>−</mo><msup><mi>r</mi><mn class="tml-sml-pad">3</mn></msup></mrow></math>, <math><mrow><mover><mi>θ</mi><mo stretchy="false" class="wbk-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>ω</mi></mrow></math>. For <math><mrow><mi>μ</mi><mo>&gt;</mo><mn>0</mn></mrow></math> a stable limit cycle of radius <math><msqrt><mi>μ</mi></msqrt></math> appears and the origin turns unstable. That's a supercritical Hopf bifurcation.</p><p class="small"><a href="../after-midsem/#cycle">After mid-sem guide §9</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-pb"><summary><span class="qt">Page 3</span><span>What does the Poincaré–Bendixson theorem say?</span><span class="chev">›</span></summary>
+<div class="ans"><p>In 2-D, if paths are trapped in a region that has no fixed point, there must be a closed orbit in it. It only works in 2-D, which is why chaos needs at least 3 dimensions.</p><p class="small"><a href="../after-midsem/#vdp">After mid-sem guide §10</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-euler"><summary><span class="qt">Page 3</span><span>How does Euler's method with <math><mrow><mrow><mi mathvariant="normal">Δ</mi><mspace></mspace></mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow></math> turn a logistic equation into the logistic map?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mover><mi>x</mi><mo stretchy="false" class="chr-sml wbk-sml-acc" style="math-depth:0;">˙</mo></mover><mo>=</mo><mi>x</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo>−</mo><mi>K</mi><msup><mi>x</mi><mn class="tml-sml-pad">2</mn></msup></mrow></math> becomes <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>x</mi><mi>n</mi></msub><mo>+</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>K</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><msub><mi>x</mi><mi>n</mi></msub><mo>−</mo><mi>K</mi><msubsup><mi>x</mi><mi>n</mi><mn class="tml-sml-pad">2</mn></msubsup><mo>=</mo><mi>K</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</p><p class="small"><a href="../after-midsem/#euler">After mid-sem guide §11</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-mapstab"><summary><span class="qt">Page 3</span><span>When is a fixed point of a map stable? Apply it to the logistic map.</span><span class="chev">›</span></summary>
+<div class="ans"><p>When <math><mrow><mi>|</mi><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msup><mi>x</mi><mo form="prefix" stretchy="false" class="tml-sml-pad">∗</mo></msup><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>|</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. For <math><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>r</mi><msub><mi>x</mi><mi>n</mi></msub><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mi>n</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, the point <math><mrow><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><mi>r</mi></mrow></math> has <math><mrow><msup><mi>f</mi><mo lspace="0em" rspace="0em" class="tml-prime tml-lrg-pad">′</mo></msup><mo>=</mo><mn>2</mn><mo>−</mo><mi>r</mi></mrow></math>, so it's stable for <math><mrow><mn>1</mn><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mn>3</mn></mrow></math>.</p><p class="small"><a href="../after-midsem/#mapstab">After mid-sem guide §12</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-doubling"><summary><span class="qt">Page 3</span><span>Logistic map: where does the period double, and where does chaos start?</span><span class="chev">›</span></summary>
+<div class="ans"><p>Period 2 at <math><mrow><mi>r</mi><mo>=</mo><mn>3</mn></mrow></math>, period 4 at 3.449, period 8 at 3.544. Chaos from about 3.57.</p><p class="small"><a href="../after-midsem/#doubling">After mid-sem guide §13</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-lorenz"><summary><span class="qt">Page 3</span><span>Lorenz system: the fixed points, and when is the origin stable?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0,0,0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></math>, stable iff <math><mrow><mi>ρ</mi><mo>&lt;</mo><mn>1</mn></mrow></math>. For <math><mrow><mi>ρ</mi><mo>&gt;</mo><mn>1</mn></mrow></math> also <math><mrow><mo fence="true" form="prefix" stretchy="true">(</mo><mo form="prefix" stretchy="false">±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mo>±</mo><msqrt><mrow><mi>β</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></msqrt><mo separator="true">,</mo><mtext> </mtext><mi>ρ</mi><mo>−</mo><mn>1</mn><mo fence="true" form="postfix" stretchy="true">)</mo></mrow></math>. Chaos above about <math><mrow><mi>ρ</mi><mo>=</mo><mn>24.74</mn></mrow></math> (with the usual <math><mrow><mi>σ</mi><mo>=</mo><mn>10</mn></mrow></math>, <math><mrow><mi>β</mi><mo>=</mo><mn>8</mn><mi>/</mi><mn>3</mn></mrow></math>).</p><p class="small"><a href="../after-midsem/#lorenz">After mid-sem guide §14</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-twoosc"><summary><span class="qt">Page 3</span><span>Two coupled oscillators: when do they lock, and at what frequency?</span><span class="chev">›</span></summary>
+<div class="ans"><p>They lock when <math><mrow><mi>|</mi><msub><mi>ω</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ω</mi><mn>1</mn></msub><mi>|</mi><mo>≤</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math>. The common frequency is <math><mrow><mrow><mi mathvariant="normal">Ω</mi><mspace></mspace></mrow><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mn>2</mn></msub><msub><mi>ω</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>ω</mi><mn>2</mn></msub></mrow><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></mfrac></mrow></math>, the plain average if <math><mrow><msub><mi>k</mi><mn>1</mn></msub><mo>=</mo><msub><mi>k</mi><mn>2</mn></msub></mrow></math>.</p><p class="small"><a href="../after-midsem/#twoosc">After mid-sem guide §15</a></p></div></details>
+
+<details class="q fc" data-pg="3" id="fc-kuramoto"><summary><span class="qt">Page 3</span><span>What is the Kuramoto order parameter, and what is <math><msub><mi>K</mi><mi>c</mi></msub></math>?</span><span class="chev">›</span></summary>
+<div class="ans"><p><math><mrow><mi>r</mi><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><mi>ψ</mi></mrow></msup><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><msub><mo movablelimits="false">∑</mo><mi>j</mi></msub><msup><mi>e</mi><mrow class="tml-sml-pad"><mi>i</mi><msub><mi>θ</mi><mi>j</mi></msub></mrow></msup></mrow></math>. <math><mi>r</mi></math> near 0 means out of sync, near 1 means in sync. Sync starts at <math><mrow><msub><mi>K</mi><mi>c</mi></msub><mo>=</mo><mn>2</mn><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mi>π</mi><mi>g</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>0</mn><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>, which is <math><mrow><mn>2</mn><mi>γ</mi></mrow></math> for a Lorentzian.</p><p class="small"><a href="../after-midsem/#kuramoto">After mid-sem guide §16</a></p></div></details>
+</div>
+</section>
+<script>
+/* Flashcard drill: builds one card at a time from the details.fc list.
+   "Didn't know" puts the card back a few places later in the round. */
+(function(){
+  var box=document.getElementById('drill'); if(!box) return;
+  var all=[].slice.call(document.querySelectorAll('#cardlist details.fc')).map(function(d){
+    var s=d.querySelector('summary').children;
+    return {pg:d.getAttribute('data-pg'), kind:'fact', tag:s[0].textContent+' · fact', q:s[1].innerHTML, a:d.querySelector('.ans').innerHTML};
+  }).concat([].slice.call(document.querySelectorAll('.pf')).map(function(p){
+    var a=[].slice.call(p.children).filter(function(e){ return e.tagName!=='H4'; }).map(function(e){ return e.outerHTML; }).join('');
+    return {pg:p.getAttribute('data-pg'), kind:'proof', tag:'Page '+p.getAttribute('data-pg')+' · proof', q:p.querySelector('h4').innerHTML, a:a};
+  }));
+  var qEl=document.getElementById('drill-q'), aEl=document.getElementById('drill-a'), btns=document.getElementById('drill-btns'),
+      tagEl=document.getElementById('drill-tag'), countEl=document.getElementById('drill-count'), bar=document.getElementById('drill-bar');
+  var deck=[], done=0, total=0, filter='all', touched=false;
+  box.addEventListener('click',function(){ touched=true; });
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function button(label,cls,fn){ var b=document.createElement('button'); b.type='button'; b.textContent=label; if(cls) b.className=cls; b.addEventListener('click',fn); btns.appendChild(b); return b; }
+  function start(){
+    deck=shuffle(all.filter(function(c){ return filter==='all'||c.pg===filter||c.kind===filter; }).slice());
+    total=deck.length; done=0; show();
+  }
+  function progress(){ countEl.textContent=done+' of '+total+' known'; bar.style.width=(total?100*done/total:0)+'%'; }
+  function show(){
+    btns.innerHTML=''; aEl.hidden=true; progress();
+    if(!deck.length){
+      tagEl.textContent='Round finished';
+      qEl.textContent='You got through all '+total+' cards. Come back tomorrow and do it again, that\'s when it really sticks.';
+      button('Start again','go',start); return;
+    }
+    var c=deck[0]; tagEl.textContent=c.tag; qEl.innerHTML=c.q;
+    var b0=button('Show answer','go',function(){
+      aEl.innerHTML=c.a; aEl.hidden=false; btns.innerHTML='';
+      button('Knew it','yes',function(){ deck.shift(); done++; show(); }).focus({preventScroll:true});
+      button('Didn\'t know','',function(){ deck.shift(); deck.splice(Math.min(3,deck.length),0,c); show(); });
+    }); if(touched) b0.focus({preventScroll:true});
+  }
+  document.querySelectorAll('#drill-filters button').forEach(function(b){
+    b.addEventListener('click',function(){
+      filter=b.getAttribute('data-f');
+      document.querySelectorAll('#drill-filters button').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+      start();
+    });
+  });
+  box.hidden=false; start();
+})();
+</script>
+
+
+</main>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('themebtn');
+  var ico=btn.querySelector('.ico'), lbl=btn.querySelector('.lbl');
+  var ICONS={auto:'◐',light:'☀',dark:'☾'}, ORDER=['auto','light','dark'];
+  function apply(mode){
+    if(mode==='light'||mode==='dark') document.documentElement.setAttribute('data-theme',mode);
+    else { document.documentElement.removeAttribute('data-theme'); mode='auto'; }
+    if(ico) ico.textContent=ICONS[mode];
+    if(lbl) lbl.textContent=mode.charAt(0).toUpperCase()+mode.slice(1);
+    return mode;
+  }
+  var saved='auto'; try{ saved=localStorage.getItem('dpcn-theme')||'auto'; }catch(e){}
+  var current=apply(saved);
+  btn.addEventListener('click',function(){
+    current=apply(ORDER[(ORDER.indexOf(current)+1)%ORDER.length]);
+    try{ current==='auto' ? localStorage.removeItem('dpcn-theme') : localStorage.setItem('dpcn-theme',current); }catch(e){}
+  });
+  var links=[].slice.call(document.querySelectorAll('#tocnav a'));
+  var map={}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active');});
+        var a=map[en.target.id]; if(a){a.classList.add('active'); a.scrollIntoView({block:'nearest'});}
+      }});
+    },{rootMargin:'-8% 0px -80% 0px',threshold:0});
+    document.querySelectorAll('main [id]').forEach(function(el){ if(map[el.id]) obs.observe(el); });
+  }
+  // Reveal correct MCQ options only when the answer is opened (fallback for browsers without :has())
+  document.querySelectorAll('.qitem .ansd').forEach(function(d){
+    d.addEventListener('toggle',function(){
+      var qi=d.closest('.qitem'); if(qi) qi.classList.toggle('revealed', d.open);
+    });
+  });
+})();
+</script>
+<script>
+/* Graph illustration engine: renders every <svg class="gr" data-spec='{...}'>.
+   spec = { nodes:{A:[x,y],...}, edges:[ ["A","B"] | ["A","B",curve] | {u,v,c,w,d} ],
+            directed:bool, hi:["X",...], dim:["Y",...], r:number, labels:{A:"..."} } */
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function C(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function E(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function ensureArrow(svg,color){
+    var id="arrow-"+Math.random().toString(36).slice(2,7);
+    var defs=E("defs",{});
+    var m=E("marker",{id:id,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"});
+    m.appendChild(E("path",{d:"M0,0 L10,5 L0,10 z",fill:color}));
+    defs.appendChild(m); svg.appendChild(defs); return id;
+  }
+  function draw(svg){
+    var spec; try{ spec=JSON.parse(svg.getAttribute("data-spec")); }catch(e){ return; }
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    var edgeCol=C("--edge"), nodeFill=C("--node"), nodeStroke=C("--node-stroke"),
+        fg=C("--fg"), brand=C("--brand"), brandFg=C("--brand-fg"), mutedFg=C("--muted-fg");
+    var r = spec.r || 15;
+    var arrowId = spec.directed ? ensureArrow(svg, edgeCol) : null;
+    var N = spec.nodes;
+    function pt(k){ return N[k]; }
+    // shorten a line by radius at both ends so it meets circle edges
+    function trim(x1,y1,x2,y2,pad1,pad2){
+      var dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy)||1;
+      return [x1+dx/L*pad1, y1+dy/L*pad1, x2-dx/L*pad2, y2-dy/L*pad2];
+    }
+    (spec.edges||[]).forEach(function(ed){
+      var u,v,curve=0,w=null,dir=spec.directed;
+      if(Array.isArray(ed)){ u=ed[0]; v=ed[1]; curve=ed[2]||0; }
+      else { u=ed.u; v=ed.v; curve=ed.c||0; w=ed.w; if(ed.d!==undefined) dir=ed.d; }
+      var a=pt(u), b=pt(v); if(!a||!b) return;
+      var col = ed.col? C(ed.col) : edgeCol;
+      if(curve){
+        // quadratic curve; control point offset perpendicular to the chord
+        var mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy)||1;
+        var cx=mx - dy/L*curve, cy=my + dx/L*curve;
+        // trim endpoints toward control point
+        var s=trim(a[0],a[1],cx,cy,r,0), e2=trim(cx,cy,b[0],b[1],0,r);
+        var p=E("path",{d:"M"+s[0]+","+s[1]+" Q"+cx+","+cy+" "+e2[2]+","+e2[3],
+          fill:"none",stroke:col,"stroke-width":2});
+        if(dir&&arrowId) p.setAttribute("marker-end","url(#"+arrowId+")");
+        svg.appendChild(p);
+        if(w!=null){ var t=E("text",{x:cx,y:cy-4,"text-anchor":"middle","font-size":12,fill:mutedFg,"font-family":"STIX Two Text, serif","font-style":"italic"}); t.textContent=w; svg.appendChild(t); }
+      } else {
+        var c=trim(a[0],a[1],b[0],b[1],dir?r:0,r);
+        var ln=E("line",{x1:c[0],y1:c[1],x2:c[2],y2:c[3],stroke:col,"stroke-width":2});
+        if(dir&&arrowId) ln.setAttribute("marker-end","url(#"+arrowId+")");
+        svg.appendChild(ln);
+        if(w!=null){ var mx2=(a[0]+b[0])/2,my2=(a[1]+b[1])/2; var t2=E("text",{x:mx2,y:my2-5,"text-anchor":"middle","font-size":12,fill:mutedFg,"font-family":"STIX Two Text, serif","font-style":"italic"}); t2.textContent=w; svg.appendChild(t2); }
+      }
+    });
+    var hi=spec.hi||[], dim=spec.dim||[], labels=spec.labels||{};
+    Object.keys(N).forEach(function(k){
+      var p=N[k], on=hi.indexOf(k)>=0, faded=dim.indexOf(k)>=0;
+      var fill = on? brand : nodeFill;
+      var stroke = on? brand : nodeStroke;
+      var g=E("circle",{cx:p[0],cy:p[1],r:r,fill:fill,stroke:stroke,"stroke-width":on?2:1.6});
+      if(faded) g.setAttribute("opacity",".45");
+      svg.appendChild(g);
+      var lab = (k in labels)? labels[k] : k;
+      if(lab!==""){
+        var tx=E("text",{x:p[0],y:p[1],"text-anchor":"middle","dominant-baseline":"central",
+          "font-size":Math.round(r*0.95),fill:on?brandFg:fg,"font-family":"STIX Two Text, serif","font-style":"italic"});
+        if(faded) tx.setAttribute("opacity",".55");
+        tx.textContent=lab; svg.appendChild(tx);
+      }
+    });
+  }
+  function drawAll(){ document.querySelectorAll("svg.gr").forEach(draw); }
+  if(document.readyState!=="loading") drawAll(); else document.addEventListener("DOMContentLoaded",drawAll);
+  window.__redrawGraphs=drawAll;
+  var mo=new MutationObserver(drawAll);
+  mo.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",drawAll); }catch(e){} }
+})();
+</script>
+<script>
+/* Phone menu: close it after a link is tapped, or on Escape */
+(function(){
+  var m=document.getElementById('mtoc'); if(!m) return;
+  m.addEventListener('click',function(e){ if(e.target.closest('a')) m.open=false; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') m.open=false; });
+})();
+</script>
+
+</body>
+</html>

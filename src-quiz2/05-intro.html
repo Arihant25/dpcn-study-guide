@@ -1,0 +1,80 @@
+<aside class="toc" aria-label="Contents">
+  <div class="brand">DPCN study notes<small>Quiz 2 sheet · Thursday</small></div>
+  <!--include:shared/pages.html-->
+  <nav id="tocnav">
+    <a href="#syllabus">The syllabus</a>
+    <a href="#asked">What they've asked before</a>
+    <a href="#plan">A plan for the three days</a>
+    <a href="#formulas">Formulas to remember</a>
+    <div class="grp">Proofs</div>
+    <a href="#q-2d">1 · 2-D stability and limit cycles</a>
+    <a href="#q-maps">2 · Maps</a>
+    <a href="#q-lorenz">3 · Lorenz</a>
+    <a href="#q-sync">4 · Synchronisation</a>
+    <div class="grp">Practice</div>
+    <a href="#cards">Flashcards</a>
+  </nav>
+</aside>
+<main>
+<header class="hero">
+  <div class="kicker">Dynamical Processes in Complex Networks · SC1.440 · Quiz 2</div>
+  <h1>DPCN Quiz 2 Sheet</h1>
+  <p class="lead">Only what's on Thursday's quiz. That's the formulas, a short proof for each result, the past questions on these topics, and flashcards. Everything else in the course can wait until the end-sem.</p>
+</header>
+<div class="tocwrap-mobile">
+  <details class="mtoc" id="mtoc"><summary><span class="here">Quiz 2 sheet · Thursday</span><span class="mbtn">Pages · Sections</span></summary>
+  <div class="mpanel">
+    <div class="mgrp">Pages</div>
+    <!--include:shared/pages.html-->
+    <div class="mgrp">Sections on this page</div>
+    <a href="#syllabus">The syllabus</a>
+    <a href="#asked">What they've asked before</a>
+    <a href="#plan">A plan for the three days</a>
+    <a href="#formulas">Formulas to remember</a>
+    <a href="#q-2d">Proofs · 2-D stability and limit cycles</a>
+    <a href="#q-maps">Proofs · Maps</a>
+    <a href="#q-lorenz">Proofs · Lorenz</a>
+    <a href="#q-sync">Proofs · Synchronisation</a>
+    <a href="#cards">Flashcards</a>
+  </div>
+  </details>
+</div>
+
+<section>
+<h2 id="syllabus">The syllabus</h2>
+<p class="about">This is what was written on the board, with where each item is on this page.</p>
+<table class="tbl">
+<tr><th>On the board</th><th>What it means</th><th>Here</th></tr>
+<tr><td>2-D nonlinear stability (limit cycle, …)</td><td>Fixed points of two equations, the Jacobian, classifying with \(\tau\) and \(\Delta\). Then limit cycles, the Hopf bifurcation and Poincaré–Bendixson.</td><td><a href="#q-2d">Part 1</a></td></tr>
+<tr><td>Maps</td><td>\(x_{n+1} = f(x_n)\): fixed points, the \(|f'|<1\) rule, the logistic map, period doubling</td><td><a href="#q-maps">Part 2</a></td></tr>
+<tr><td>Lorenz</td><td>The three Lorenz equations: fixed points, Jacobians, when the origin is stable</td><td><a href="#q-lorenz">Part 3</a></td></tr>
+<tr><td>\(\dot\theta_1, \dot\theta_2\) → synchronisation</td><td>Two coupled phase oscillators: when they lock and at what frequency. Then Kuramoto.</td><td><a href="#q-sync">Part 4</a></td></tr>
+</table>
+<p class="small">Not on the board, so left out here: power laws, random graphs, SIS, May's criterion and the double pendulum. Stability of dynamics on a network (\(\alpha I + \beta L\)) wasn't named either. If you have time left over, its proof is in <a href="{{ROOT}}remember/#pf-netstab">the Memory sheet</a>.</p>
+</section>
+
+<section>
+<h2 id="asked">What they've asked before</h2>
+<p class="about">Every past question on these four topics. They're all derivations, and the same ones come back, so these are your best guess at Thursday's paper.</p>
+<table class="tbl">
+<tr><th>Paper</th><th>Question</th><th>Marks</th><th>Proof</th></tr>
+<tr><td>2024 Quiz 2</td><td>Derive the condition for a stable fixed point of a map. Fixed points and stability of \(f(x) = x^2\) and \(f(x) = \cos x\).</td><td>2 + 3</td><td><a href="#pf-mapstab">Map rule</a>, <a href="#pf-mapex">examples</a></td></tr>
+<tr><td>2024 Quiz 2</td><td>Same condition, then fixed points and stability of the logistic map \(rx(1-x)\).</td><td>2 + 3</td><td><a href="#pf-mapstab">Map rule</a></td></tr>
+<tr><td>2024 Quiz 2</td><td>Fixed points of the Lorenz system, and their Jacobians.</td><td>4</td><td><a href="#pf-lorenz">Lorenz</a></td></tr>
+<tr><td>2024 mid-sem</td><td>Two coupled oscillators: critical coupling, the common frequency, and can they lock at \(k = 2\), \(\omega_1 = 2\), \(\omega_2 = 10\)? (No, since \(8 > 4\).)</td><td>3 + 4</td><td><a href="#pf-twoosc">Two oscillators</a></td></tr>
+<tr><td>2024 mid-sem</td><td>Put \(\dot z = (\mu + i\omega - |z|^2)z\) in polar form, and find when there's a stable limit cycle.</td><td>3 + 4</td><td><a href="#pf-hopf">Hopf</a></td></tr>
+</table>
+<p class="small">Worked answers with the full reasoning are in <a href="{{ROOT}}after-midsem/#pyq">the After mid-sem guide, §19</a>, along with a practice competition question in the same style.</p>
+</section>
+
+<section>
+<h2 id="plan">A plan for the three days</h2>
+<p class="about">There are 15 proofs here. That's five a day, which is doable.</p>
+<ol>
+<li><strong>Monday.</strong> Learn the formulas for all four parts. Then the Part 1 proofs (2-D stability and limit cycles), because the other parts reuse its Jacobian method.</li>
+<li><strong>Tuesday.</strong> Parts 2 and 3 (maps and Lorenz). Then write Monday's proofs again from memory.</li>
+<li><strong>Wednesday.</strong> Part 4 (synchronisation). Then do the five past questions above with the page closed, and check each against its proof.</li>
+<li><strong>Thursday morning.</strong> One round of flashcards, and read the formulas once more.</li>
+</ol>
+<p>For every proof, learn the shaded one-line idea first, then the steps. Cover the page and write it out, because writing is what makes it stick. The 2026 mid-sem gave 0 for a formula with no derivation, so always write the steps, even when you remember the answer.</p>
+</section>

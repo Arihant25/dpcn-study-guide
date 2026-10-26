@@ -13,6 +13,7 @@ const PAGES = [
   { src: 'src-after', out: 'after-midsem/index.html', root: '../' }, // After mid-sem guide
   { src: 'src-quiz1', out: 'quiz1/index.html', root: '../' },        // Quiz 1 guide
   { src: 'src-remember', out: 'remember/index.html', root: '../' },  // Memory sheet
+  { src: 'src-quiz2', out: 'quiz2/index.html', root: '../' },        // Quiz 2 sheet
 ];
 
 /* ---------------- plotting helpers (static SVG, colours from CSS tokens) ---------------- */
@@ -396,6 +397,16 @@ for (const page of PAGES) {
   const files = fs.readdirSync(page.src).filter(f => f.endsWith('.html')).sort();
   let html = files.map(f => fs.readFileSync(path.join(page.src, f), 'utf8')).join('\n');
   html = html.replace(/<!--include:([\w\/.-]+)-->/g, (m, f) => fs.readFileSync(f, 'utf8'));
+  // <!--pick:file#id1,id2--> copies the elements with those ids (proof blocks, flashcards) from another part.
+  html = html.replace(/<!--pick:([\w\/.-]+)#([\w,-]+)-->/g, (m, f, ids) => {
+    const src = fs.readFileSync(f, 'utf8');
+    return ids.split(',').map(id => {
+      const at = src.indexOf(`id="${id}"`);
+      if (at < 0) throw new Error('pick: no ' + id + ' in ' + f);
+      const start = src.lastIndexOf('<', at), tag = src.slice(start + 1).match(/^\w+/)[0];
+      return src.slice(start, src.indexOf(`</${tag}>`, at) + tag.length + 3);
+    }).join('\n\n');
+  });
   html = html.replace(/\{\{ROOT\}\}/g, page.root);
   html = html.replace(/<!--plot:([\w-]+)-->/g, (m, name) => {
     if (!plots[name]) throw new Error('unknown plot ' + name);
