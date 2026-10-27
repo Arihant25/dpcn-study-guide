@@ -1,53 +1,5 @@
 
 <section>
-<h2 id="formulas">Formulas to remember</h2>
-<p class="about">Know these by heart. They're where each proof starts and what it boxes at the end. Every one is proved further down.</p>
-
-<h3>1 · 2-D stability and limit cycles</h3>
-<ul class="fl">
-<li><span>Eigenvalue equation</span><span>\(\lambda^2 - \tau\lambda + \Delta = 0\), with \(\tau = a + d\), \(\Delta = ad - bc\), so \(\lambda = \frac{\tau\pm\sqrt{\tau^2 - 4\Delta}}{2}\)</span></li>
-<li><span>Classify</span><span>\(\Delta<0\) saddle. Otherwise \(\tau<0\) stable, and \(\tau^2>4\Delta\) node, \(\tau^2<4\Delta\) spiral, \(\tau = 0\) center</span></li>
-<li><span>Jacobian</span><span>\(J_{ij} = \partial f_i/\partial x_j\) at the fixed point. Stable if every eigenvalue has negative real part</span></li>
-<li><span>Rabbits vs sheep</span><span>\(\dot x = x(3 - x - 2y)\), \(\dot y = y(2 - x - y)\). \((1,1)\) is a saddle, so one species wins</span></li>
-<li><span>Predator–prey</span><span>\(\dot N = N(a - bP)\), \(\dot P = P(cN - d)\). Center at \((d/c,\ a/b)\), \(\lambda = \pm i\sqrt{ad}\)</span></li>
-<li><span>Hopf normal form</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\) gives \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\)</span></li>
-<li><span>Limit cycle</span><span>Radius \(\sqrt\mu\), stable for \(\mu>0\). Origin eigenvalues \(\mu\pm i\omega\). Supercritical Hopf at \(\mu = 0\)</span></li>
-<li><span>Van der Pol</span><span>\(\ddot x + \mu(x^2 - 1)\dot x + x = 0\). Pushes small swings out, damps big ones, so there's a cycle in between</span></li>
-<li><span>Poincaré–Bendixson</span><span>A trapping region with no fixed point holds a closed orbit. 2-D only, so no chaos in 2-D</span></li>
-</ul>
-
-<h3>2 · Maps</h3>
-<ul class="fl">
-<li><span>Fixed point</span><span>\(x^* = f(x^*)\)</span></li>
-<li><span>Stability</span><span>Stable iff \(|f'(x^*)|<1\), because \(\varepsilon_{n+1} = f'(x^*)\varepsilon_n\)</span></li>
-<li><span>Euler with \(\Delta t = 1\)</span><span>\(\dot x = x(K-1) - Kx^2\) becomes \(x_{n+1} = Kx_n(1 - x_n)\)</span></li>
-<li><span>Logistic map</span><span>\(x_{n+1} = rx_n(1 - x_n)\), \(f'(x) = r(1 - 2x)\). \(x^* = 0\) stable for \(r<1\). \(x^* = 1 - 1/r\) has \(f' = 2 - r\), stable for \(1<r<3\)</span></li>
-<li><span>2-cycle</span><span>\(x_\pm = \frac{(r+1)\pm\sqrt{(r-3)(r+1)}}{2r}\), born at \(r = 3\)</span></li>
-<li><span>Route to chaos</span><span>Period doubles at 3, 3.449, 3.544. Chaos from about 3.57</span></li>
-<li><span>Examples</span><span>\(x^2\): 0 stable, 1 unstable. \(\cos x\): \(x^*\approx0.739\), stable</span></li>
-</ul>
-
-<h3>3 · Lorenz</h3>
-<ul class="fl">
-<li><span>Equations</span><span>\(\dot x = \sigma(y - x)\), \(\dot y = \rho x - y - xz\), \(\dot z = xy - \beta z\)</span></li>
-<li><span>Fixed points</span><span>\((0,0,0)\), and for \(\rho>1\): \(\left(\pm\sqrt{\beta(\rho-1)},\ \pm\sqrt{\beta(\rho-1)},\ \rho - 1\right)\)</span></li>
-<li><span>Jacobian</span><span>\(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}\)</span></li>
-<li><span>Origin</span><span>Stable iff \(\rho<1\)</span></li>
-<li><span>Chaos</span><span>Above \(\rho\approx24.74\) (for \(\sigma = 10\), \(\beta = 8/3\))</span></li>
-</ul>
-
-<h3>4 · Synchronisation</h3>
-<ul class="fl">
-<li><span>Two oscillators</span><span>\(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2 - \theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1 - \theta_2)\)</span></li>
-<li><span>Phase difference</span><span>\(\dot\phi = (\omega_2 - \omega_1) - (k_1 + k_2)\sin\phi\)</span></li>
-<li><span>Locking</span><span>Iff \(|\omega_2 - \omega_1|\le k_1 + k_2\). Equal couplings: \(k_c = |\omega_2 - \omega_1|/2\)</span></li>
-<li><span>Common frequency</span><span>\(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\)</span></li>
-<li><span>Kuramoto</span><span>\(re^{i\psi} = \frac1N\sum_j e^{i\theta_j}\), \(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\)</span></li>
-<li><span>Critical coupling</span><span>\(K_c = \frac{2}{\pi g(0)}\). Lorentzian: \(K_c = 2\gamma\), \(r = \sqrt{1 - K_c/K}\)</span></li>
-</ul>
-</section>
-
-<section>
 <h2 id="proofs">Proofs</h2>
 <p class="about">The same short proofs as the Memory sheet, just the ones for this quiz. Learn the shaded idea first, then the steps.</p>
 

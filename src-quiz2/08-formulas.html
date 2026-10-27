@@ -1,0 +1,49 @@
+
+<section>
+<h2 id="formulas">Formulas to remember</h2>
+<p class="about">Know these by heart. They're where each proof starts and what it boxes at the end. Under each formula, "where" says what every letter in it means. Every one is proved further down.</p>
+<!--include:shared/notation.html-->
+
+<h3>1 · 2-D stability and limit cycles</h3>
+<ul class="fl">
+<li><span>Eigenvalue equation</span><span>\(\lambda^2 - \tau\lambda + \Delta = 0\), so \(\lambda = \frac{\tau\pm\sqrt{\tau^2 - 4\Delta}}{2}\)<span class="w">where the system is \(\dot x = ax + by\), \(\dot y = cx + dy\), so its matrix is \(A = \begin{pmatrix}a & b\\ c & d\end{pmatrix}\). \(\tau\) (tau) \(= a + d\) is the trace. \(\Delta\) (delta) \(= ad - bc\) is the determinant. \(\lambda\) are the two eigenvalues of \(A\).</span></span></li>
+<li><span>Classify</span><span>\(\Delta<0\) saddle. Otherwise \(\tau<0\) stable, and \(\tau^2>4\Delta\) node, \(\tau^2<4\Delta\) spiral, \(\tau = 0\) center<span class="w">where \(\tau\) and \(\Delta\) are as above (of \(J\) for a nonlinear system). Saddle: paths come in one way and leave another. Node: paths go straight in or out. Spiral: they wind in or out. Center: closed loops forever.</span></span></li>
+<li><span>Jacobian</span><span>\(J = \begin{pmatrix}\partial f_1/\partial x_1 & \partial f_1/\partial x_2\\ \partial f_2/\partial x_1 & \partial f_2/\partial x_2\end{pmatrix}\) at the fixed point. Stable if every eigenvalue has negative real part<span class="w">where the system is \(\dot x_1 = f_1(x_1, x_2)\), \(\dot x_2 = f_2(x_1, x_2)\). Entry \(J_{ij}\) is how much rate \(f_i\) changes when \(x_j\) changes. Work out \(J\) in general, then put in each fixed point.</span></span></li>
+<li><span>Rabbits vs sheep</span><span>\(\dot x = x(3 - x - 2y)\), \(\dot y = y(2 - x - y)\). \((1,1)\) is a saddle, so one species wins<span class="w">where \(x\) = rabbits, \(y\) = sheep. 3 and 2 are their growth rates alone. \(-x\) and \(-y\) are crowding by their own kind. \(-2y\) and \(-x\) are competition from the other.</span></span></li>
+<li><span>Predator–prey</span><span>\(\dot N = N(a - bP)\), \(\dot P = P(cN - d)\). Center at \((d/c,\ a/b)\), \(\lambda = \pm i\sqrt{ad}\)<span class="w">where \(N\) = prey, \(P\) = predators. \(a\) = prey growth rate, \(b\) = how fast predators eat prey, \(c\) = how fast predators grow from eating, \(d\) = predator death rate. All positive.</span></span></li>
+<li><span>Hopf normal form</span><span>\(\dot z = (\mu + i\omega - |z|^2)z\) gives \(\dot r = \mu r - r^3\), \(\dot\theta = \omega\)<span class="w">where \(z = x + iy = re^{i\theta}\) is a point in the plane. \(r = |z|\) is its distance from the origin and \(\theta\) (theta) its angle. \(\mu\) (mu) is the control knob. \(\omega\) (omega) is how fast it turns.</span></span></li>
+<li><span>Limit cycle</span><span>Radius \(\sqrt\mu\), stable for \(\mu>0\). Origin eigenvalues \(\mu\pm i\omega\). Supercritical Hopf at \(\mu = 0\)<span class="w">where a limit cycle is a closed loop that nearby paths spiral onto. A Hopf bifurcation is where a stable point turns unstable and a cycle appears around it.</span></span></li>
+<li><span>Van der Pol</span><span>\(\ddot x + \mu(x^2 - 1)\dot x + x = 0\)<span class="w">where \(x\) is the position, \(\dot x\) the velocity, \(\ddot x\) the acceleration, and \(\mu>0\) the strength of the "friction" \(\mu(x^2 - 1)\dot x\). That friction is negative for \(|x|<1\) (pushes swings out) and positive for \(|x|>1\) (damps them), so a cycle forms in between.</span></span></li>
+<li><span>Poincaré–Bendixson</span><span>A trapping region with no fixed point holds a closed orbit. 2-D only, so no chaos in 2-D<span class="w">where a trapping region is an area (usually a ring) that paths can enter but never leave, and a closed orbit is a path that loops back on itself.</span></span></li>
+</ul>
+
+<h3>2 · Maps</h3>
+<ul class="fl">
+<li><span>Fixed point</span><span>\(x^* = f(x^*)\)<span class="w">where the map is \(x_{n+1} = f(x_n)\). \(x_n\) is the value at step \(n\) and \(f\) is the rule that gives the next value. \(x^*\) is a value the rule leaves unchanged.</span></span></li>
+<li><span>Stability</span><span>Stable iff \(|f'(x^*)|<1\), because \(\varepsilon_{n+1} = f'(x^*)\varepsilon_n\)<span class="w">where \(\varepsilon_n\) (epsilon) \(= x_n - x^*\) is the small distance from the fixed point at step \(n\), and \(f'(x^*)\) is the slope of \(f\) there.</span></span></li>
+<li><span>Euler with \(\Delta t = 1\)</span><span>\(\dot x = x(K-1) - Kx^2\) becomes \(x_{n+1} = Kx_n(1 - x_n)\)<span class="w">where \(\Delta t\) is the time step, \(x_n\) is \(x\) after \(n\) steps, and \(K\) is the growth parameter (it becomes \(r\) in the logistic map).</span></span></li>
+<li><span>Logistic map</span><span>\(x_{n+1} = rx_n(1 - x_n)\), \(f'(x) = r(1 - 2x)\). \(x^* = 0\) stable for \(r<1\). \(x^* = 1 - 1/r\) has \(f' = 2 - r\), stable for \(1<r<3\)<span class="w">where \(x_n\) is the population at generation \(n\), as a fraction of the maximum (between 0 and 1), and \(r\) is the growth rate (between 0 and 4).</span></span></li>
+<li><span>2-cycle</span><span>\(x_\pm = \frac{(r+1)\pm\sqrt{(r-3)(r+1)}}{2r}\), born at \(r = 3\)<span class="w">where \(x_+\) and \(x_-\) are the two values the map jumps between, so \(f(x_+) = x_-\) and \(f(x_-) = x_+\).</span></span></li>
+<li><span>Route to chaos</span><span>Period doubles at 3, 3.449, 3.544. Chaos from about 3.57<span class="w">where these numbers are values of \(r\). The period is how many steps the map takes to repeat (1, 2, 4, 8, …).</span></span></li>
+<li><span>Examples</span><span>\(x^2\): 0 stable, 1 unstable. \(\cos x\): \(x^*\approx0.739\), stable<span class="w">where these are the maps \(x_{n+1} = x_n^2\) and \(x_{n+1} = \cos x_n\).</span></span></li>
+</ul>
+
+<h3>3 · Lorenz</h3>
+<ul class="fl">
+<li><span>Equations</span><span>\(\dot x = \sigma(y - x)\), \(\dot y = \rho x - y - xz\), \(\dot z = xy - \beta z\)<span class="w">where \(x, y, z\) are the three changing quantities (from a model of air rising when heated). \(\sigma\) (sigma), \(\rho\) (rho) and \(\beta\) (beta) are positive constants. \(\rho\) is the one usually varied. The standard values are \(\sigma = 10\), \(\beta = 8/3\).</span></span></li>
+<li><span>Fixed points</span><span>\((0,0,0)\), and for \(\rho>1\): \(\left(\pm\sqrt{\beta(\rho-1)},\ \pm\sqrt{\beta(\rho-1)},\ \rho - 1\right)\)<span class="w">where the \(\pm\) signs go together, giving two points \(P_1\) (both +) and \(P_2\) (both −). They exist only for \(\rho>1\) because the square root needs \(\rho - 1>0\).</span></span></li>
+<li><span>Jacobian</span><span>\(J = \begin{pmatrix}-\sigma & \sigma & 0\\ \rho - z & -1 & -x\\ y & x & -\beta\end{pmatrix}\)<span class="w">where row 1 is \(\dot x\), row 2 is \(\dot y\), row 3 is \(\dot z\), and the columns are the slopes with respect to \(x\), \(y\), \(z\). Put in each fixed point.</span></span></li>
+<li><span>Origin</span><span>Stable iff \(\rho<1\)</span></li>
+<li><span>Chaos</span><span>Above \(\rho\approx24.74\) (for \(\sigma = 10\), \(\beta = 8/3\))</span></li>
+</ul>
+
+<h3>4 · Synchronisation</h3>
+<ul class="fl">
+<li><span>Two oscillators</span><span>\(\dot\theta_1 = \omega_1 + k_1\sin(\theta_2 - \theta_1)\), \(\dot\theta_2 = \omega_2 + k_2\sin(\theta_1 - \theta_2)\)<span class="w">where \(\theta_1, \theta_2\) (theta) are the phases, meaning where each oscillator is in its cycle, as an angle. \(\omega_1, \omega_2\) (omega) are their natural frequencies, how fast each would turn alone. \(k_1, k_2\) are the coupling strengths, how hard each is pulled towards the other.</span></span></li>
+<li><span>Phase difference</span><span>\(\dot\phi = (\omega_2 - \omega_1) - (k_1 + k_2)\sin\phi\)<span class="w">where \(\phi\) (phi) \(= \theta_2 - \theta_1\) is how far apart the two are. Locked (synchronised) means \(\phi\) stops changing.</span></span></li>
+<li><span>Locking</span><span>Iff \(|\omega_2 - \omega_1|\le k_1 + k_2\). Equal couplings: \(k_c = |\omega_2 - \omega_1|/2\)<span class="w">where \(k_c\) is the critical coupling, the smallest \(k\) that makes them lock when \(k_1 = k_2 = k\).</span></span></li>
+<li><span>Common frequency</span><span>\(\Omega = \frac{k_2\omega_1 + k_1\omega_2}{k_1 + k_2}\)<span class="w">where \(\Omega\) (capital omega) is the shared speed once they're locked.</span></span></li>
+<li><span>Kuramoto</span><span>\(re^{i\psi} = \frac1N\sum_j e^{i\theta_j}\), \(\dot\theta_i = \omega_i + Kr\sin(\psi - \theta_i)\)<span class="w">where there are \(N\) oscillators and \(K\) is the coupling strength. \(r\) is the order parameter: 0 means out of sync, 1 means fully in sync. \(\psi\) (psi) is the average phase.</span></span></li>
+<li><span>Critical coupling</span><span>\(K_c = \frac{2}{\pi g(0)}\). Lorentzian: \(K_c = 2\gamma\), \(r = \sqrt{1 - K_c/K}\)<span class="w">where \(g(\omega)\) is the spread of natural frequencies (how many oscillators have each frequency), centred on 0, so \(g(0)\) is its height at the centre. \(\gamma\) (gamma) is the width of a Lorentzian spread. Sync starts once \(K>K_c\).</span></span></li>
+</ul>
+</section>
